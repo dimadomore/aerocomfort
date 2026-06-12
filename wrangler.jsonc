@@ -1,0 +1,16 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "aerocomfort",
+	"compatibility_date": "2026-06-12",
+	// Static site: serve the Astro build output as Worker assets
+	"assets": {
+		"directory": "./dist"
+	},
+	// Production domain (temporary, until switching to aerocomfort.es)
+	"routes": [
+		{
+			"pattern": "aero.dimadomore.com",
+			"custom_domain": true
+		}
+	]
+}
