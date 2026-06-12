@@ -6,11 +6,10 @@
 	"assets": {
 		"directory": "./dist"
 	},
-	// Production domain (temporary, until switching to aerocomfort.es)
-	"routes": [
-		{
-			"pattern": "aero.dimadomore.com",
-			"custom_domain": true
-		}
-	]
+	// Production domain: aero.dimadomore.com (temporary, until switching to aerocomfort.es).
+	// The custom domain is attached at the account level via the Workers Domains API,
+	// not declared here — the CI token has no zone-level Workers Routes permission.
+	"workers_dev": false,
+	// Preview URLs for `wrangler versions upload` (dev branch deploys)
+	"preview_urls": true
 }
