@@ -10,8 +10,14 @@ Website for Aerocomfort — HVAC / air conditioning services in Costa Blanca, Al
 📋 Planning phase (scaffold deployed). All project documentation lives in [`docs/`](docs/):
 
 - [docs/00-brief.md](docs/00-brief.md) — project brief and current-site audit
-- [docs/01-interview.md](docs/01-interview.md) — open questions / discovery interview
+- [docs/01-interview.md](docs/01-interview.md) — discovery interview + answers
 - [docs/02-questions-for-john.md](docs/02-questions-for-john.md) — questionnaire for the owner
+- [docs/03-master-plan.md](docs/03-master-plan.md) — vision, principles, roadmap, risks, metrics
+- [docs/04-design-system.md](docs/04-design-system.md) — colors, type, components, tone, a11y
+- [docs/05-information-architecture.md](docs/05-information-architecture.md) — sitemap, URLs/i18n, page blocks
+- [docs/06-seo-aeo.md](docs/06-seo-aeo.md) — SEO, AEO/GEO, structured data, analytics
+- [docs/07-migration.md](docs/07-migration.md) — zero-regression cutover from Tilda
+- [docs/08-content-and-assets.md](docs/08-content-and-assets.md) — content approach + asset/photo/animation specs
 
 ## Stack & deploy
 
