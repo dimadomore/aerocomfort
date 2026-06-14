@@ -1,0 +1,43 @@
+---
+import { type Locale } from '../../config';
+import { business } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+const contactHref = localizedPath('/contact', locale);
+---
+<section class="py-16 lg:py-24">
+  <Container>
+    <div class="relative overflow-hidden rounded-xl bg-brand-700 px-6 py-12 text-center text-white sm:px-12 lg:py-16">
+      <svg class="pointer-events-none absolute inset-0 h-full w-full text-white/10" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M-50 90 C 320 30, 560 160, 920 90 S 1300 40, 1300 90" />
+        <path d="M-50 210 C 300 150, 600 270, 950 200 S 1300 150, 1300 210" />
+      </svg>
+      <div class="relative">
+        <h2 class="text-h1 text-white">{es ? '¿Listo para un aire fiable?' : 'Ready for reliable cooling?'}</h2>
+        <p class="mx-auto mt-4 max-w-xl text-body-lg text-white/85">
+          {es ? 'Pide presupuesto gratis hoy — respondemos rápido.' : 'Get a free quote today — we reply fast.'}
+        </p>
+        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <Button href={contactHref} variant="primary" size="lg">
+            {t('cta.quote')}
+            <Icon name="arrow-right" size={20} />
+          </Button>
+          <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
+            <Icon name="whatsapp" size={20} />
+            {t('cta.whatsapp')}
+          </Button>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

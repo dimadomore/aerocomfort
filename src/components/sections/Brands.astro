@@ -1,0 +1,24 @@
+---
+import { type Locale } from '../../config';
+import Container from '../ui/Container.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const es = locale === 'es';
+// Brand wordmarks (real SVG logos to replace these once usage rights confirmed — D2).
+const brands = ['Daikin', 'Mitsubishi Electric', 'LG', 'Panasonic', 'Giatsu'];
+---
+<section class="py-14 lg:py-16">
+  <Container>
+    <p class="text-center text-small font-semibold text-ink-400">
+      {es ? 'Instalamos y reparamos todas las marcas principales' : 'We install & service all major brands'}
+    </p>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+      {brands.map((b) => (
+        <span class="font-display text-h3 font-extrabold text-ink-400">{b}</span>
+      ))}
+    </div>
+  </Container>
+</section>

@@ -76,5 +76,20 @@
   "thankyou.whileWait": "Prefer to talk now?",
   "thankyou.home": "Back to home",
 
-  "breadcrumb.home": "Home"
+  "breadcrumb.home": "Home",
+
+  "cta.reviewGoogle": "Review us on Google",
+  "cta.allFaqs": "See all FAQs",
+  "cta.allAreas": "See all areas",
+  "cta.allBrands": "View all brands",
+
+  "chat.greeting": "Hi! Need a quote? Chat with us.",
+  "chat.title": "How can we help?",
+  "chat.subtitle": "We usually reply within the hour during working hours.",
+  "chat.leaveNumber": "Request a callback",
+  "chat.open": "Open contact options",
+  "chat.close": "Close",
+
+  "notfound.title": "This page took a holiday",
+  "notfound.body": "The page you're looking for doesn't exist or has moved. Let's get you back on track."
 }

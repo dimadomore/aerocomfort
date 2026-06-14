@@ -1,0 +1,48 @@
+---
+import { type Locale } from '../../config';
+import { business } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+const extra = Math.max(business.areasCount - business.areasLead.length, 0);
+---
+<section class="border-t border-line bg-brand-900 py-16 text-white lg:py-24">
+  <Container>
+    <SectionHeading
+      light
+      eyebrow={es ? 'Zonas de servicio' : 'Service areas'}
+      title={es ? 'En toda la Costa Blanca' : 'Across the Costa Blanca'}
+      intro={es
+        ? 'Cubrimos Torrevieja, Orihuela Costa, Alicante y más de 30 localidades. ¿No sabes si llegamos a tu zona? Pregúntanos.'
+        : 'We cover Torrevieja, Orihuela Costa, Alicante and 30+ towns. Not sure if we reach you? Just ask.'}
+    />
+    <div class="mt-8 flex flex-wrap gap-3">
+      {business.areasLead.map((a) => (
+        <span class="inline-flex items-center gap-2 rounded-pill bg-white/10 px-4 py-2 text-small font-semibold ring-1 ring-white/15">
+          <Icon name="map-pin" size={16} class="text-sky-300" />
+          {a}
+        </span>
+      ))}
+      <span class="inline-flex items-center rounded-pill bg-white/5 px-4 py-2 text-small text-white/70">
+        +{extra} {es ? 'zonas más' : 'more areas'}
+      </span>
+    </div>
+    <div class="mt-8">
+      <a
+        class="inline-flex items-center gap-2 text-small font-bold text-sky-300 transition-all hover:gap-3"
+        href={localizedPath('/areas', locale)}
+      >
+        {t('cta.allAreas')}
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+  </Container>
+</section>

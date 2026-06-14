@@ -1,0 +1,39 @@
+---
+import { type Locale } from '../../config';
+import { offers } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import OfferCard from '../ui/OfferCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+const top = offers.items.slice(0, 3);
+---
+<section class="border-y border-line bg-surface-cool py-16 lg:py-24">
+  <Container>
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading
+        eyebrow={es ? 'Ofertas de temporada' : 'Seasonal offers'}
+        title={es ? 'Equipos A+++ en oferta' : 'A+++ units on offer'}
+        intro={offers.season.label[locale]}
+      />
+      <a
+        class="hidden items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3 sm:inline-flex"
+        href={localizedPath('/offers', locale)}
+      >
+        {t('cta.offers')}
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {top.map((o) => <OfferCard offer={o} locale={locale} />)}
+    </div>
+  </Container>
+</section>

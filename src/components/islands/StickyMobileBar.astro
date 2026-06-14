@@ -1,0 +1,93 @@
+---
+import { type Locale } from '../../config';
+import { useTranslations } from '../../i18n/utils';
+import { business } from '../../data';
+import Icon from '../ui/Icon.astro';
+
+/**
+ * Mobile-only bottom action bar (docs/04 §6). Slides in after the hero scrolls
+ * past so Call + WhatsApp are always one tap away. Hidden on lg+.
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+---
+<div class="stickybar lg:hidden" data-sticky-bar aria-hidden="true">
+  <a class="stickybar__btn stickybar__btn--call" href={telHref}>
+    <Icon name="phone" size={20} />
+    {t('cta.callShort')}
+  </a>
+  <a class="stickybar__btn stickybar__btn--wa" href={waHref} target="_blank" rel="noopener">
+    <Icon name="whatsapp" size={20} />
+    WhatsApp
+  </a>
+</div>
+
+<style>
+  .stickybar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 24px rgba(20, 38, 74, 0.08);
+    transform: translateY(110%);
+    transition: transform 0.25s ease-out;
+  }
+  .stickybar.is-visible {
+    transform: translateY(0);
+  }
+  .stickybar__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 52px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-small);
+  }
+  .stickybar__btn--call {
+    color: var(--blue-600);
+    border: 1.5px solid var(--blue-300);
+    background: #fff;
+  }
+  .stickybar__btn--wa {
+    color: #fff;
+    background: var(--wa-500);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stickybar {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-sticky-bar]');
+  if (bar) {
+    let shown = false;
+    const update = () => {
+      const past = window.scrollY > 520;
+      if (past !== shown) {
+        shown = past;
+        bar.classList.toggle('is-visible', past);
+        bar.setAttribute('aria-hidden', String(!past));
+      }
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+</script>

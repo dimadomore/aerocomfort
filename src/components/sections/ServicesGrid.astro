@@ -1,0 +1,52 @@
+---
+import { type Locale } from '../../config';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import { SERVICES } from '../../data/services';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+---
+<section class="py-16 lg:py-24">
+  <Container>
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading
+        eyebrow={es ? 'Qué hacemos' : 'What we do'}
+        title={es ? 'Servicios de aire acondicionado' : 'Air conditioning services'}
+        intro={es ? 'Todo lo que tu aire acondicionado necesita, de principio a fin.' : 'Everything your air conditioning needs, start to finish.'}
+      />
+      <a
+        class="hidden items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3 sm:inline-flex"
+        href={localizedPath('/services', locale)}
+      >
+        {t('cta.services')}
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {SERVICES.map((s) => (
+        <a
+          href={localizedPath(`/services/${s.slug}`, locale)}
+          class="group rounded-xl border border-line bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
+        >
+          <span class="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-100 text-brand-700">
+            <Icon name={s.icon} size={26} />
+          </span>
+          <h3 class="mt-5 text-h3">{s[locale].title}</h3>
+          <p class="mt-2 text-small text-ink-500">{s[locale].blurb}</p>
+          <span class="mt-4 inline-flex items-center gap-1.5 text-small font-bold text-brand-700">
+            {es ? 'Saber más' : 'Learn more'}
+            <Icon name="arrow-right" size={16} />
+          </span>
+        </a>
+      ))}
+    </div>
+  </Container>
+</section>

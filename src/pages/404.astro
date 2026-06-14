@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Container from '../components/ui/Container.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import { useTranslations, localizedPath } from '../i18n/utils';
+
+// Single EN 404 (served for unknown routes). ES visitors see EN copy — acceptable
+// for now; can be localized via middleware later.
+const locale = 'en' as const;
+const t = useTranslations(locale);
+---
+<Base locale={locale} path="/" title="Page not found — Aerocomfort" description="Page not found." noindex>
+  <Container class="py-24 text-center lg:py-32">
+    <p class="font-display text-display font-extrabold text-brand-700">404</p>
+    <h1 class="mt-2 text-h1">{t('notfound.title')}</h1>
+    <p class="mx-auto mt-4 max-w-md text-body-lg text-ink-500">{t('notfound.body')}</p>
+    <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+      <Button href={localizedPath('/', locale)} variant="primary" size="lg">{t('thankyou.home')}</Button>
+      <Button href={localizedPath('/services', locale)} variant="secondary" size="lg">
+        {t('cta.services')}
+        <Icon name="arrow-right" size={18} />
+      </Button>
+    </div>
+  </Container>
+</Base>

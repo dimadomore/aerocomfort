@@ -52,6 +52,6 @@ const ogLocale = locale === 'es' ? 'es_ES' : 'en_GB';
 
 {
   jsonLd.map((block) => (
-    <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(block)} />
   ))
 }

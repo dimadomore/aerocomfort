@@ -1,0 +1,46 @@
+---
+import { type Locale } from '../../config';
+import Container from '../ui/Container.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const es = locale === 'es';
+
+const steps = [
+  {
+    n: '01',
+    t: es ? 'Cuéntanos qué necesitas' : 'Tell us what you need',
+    d: es ? 'Por formulario, WhatsApp o llamada — lo que te resulte más fácil.' : 'By form, WhatsApp or call — whatever is easiest for you.',
+  },
+  {
+    n: '02',
+    t: es ? 'Visitamos y presupuestamos' : 'We visit and quote',
+    d: es ? 'Valoramos tu espacio y te damos un presupuesto claro y gratis.' : 'We assess your space and give you a clear, free quote.',
+  },
+  {
+    n: '03',
+    t: es ? 'Hacemos el trabajo' : 'We do the job',
+    d: es ? 'Trabajo limpio y profesional — con garantía.' : 'Clean, professional work — guaranteed.',
+  },
+];
+---
+<section class="py-16 lg:py-24">
+  <Container>
+    <SectionHeading
+      eyebrow={es ? 'Cómo trabajamos' : 'How it works'}
+      title={es ? 'Tres pasos sencillos' : 'Three simple steps'}
+    />
+    <ol class="mt-12 grid gap-8 md:grid-cols-3">
+      {steps.map((s) => (
+        <li class="relative">
+          <span class="font-display text-display font-extrabold text-sky-200">{s.n}</span>
+          <h3 class="mt-2 text-h3">{s.t}</h3>
+          <p class="mt-2 text-body text-ink-500">{s.d}</p>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>

@@ -1,0 +1,245 @@
+---
+import { type Locale } from '../../config';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import { business } from '../../data';
+import Icon from '../ui/Icon.astro';
+
+/**
+ * Floating contact launcher (docs/04 §6, docs/05 §2). Not a live chat — a quick
+ * actions panel (WhatsApp / call / callback) so contact is one tap from anywhere.
+ * A greeting tooltip nudges once, then remembers via localStorage.
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+const contactHref = localizedPath('/contact', locale);
+---
+<div class="chat" data-chat>
+  <div class="chat__tip" data-chat-tip hidden>
+    <button class="chat__tip-x" data-chat-tip-close type="button" aria-label={t('chat.close')}>
+      <Icon name="close" size={14} />
+    </button>
+    <p>{t('chat.greeting')}</p>
+  </div>
+
+  <div class="chat__panel" data-chat-panel role="dialog" aria-label={t('chat.title')} hidden>
+    <div class="chat__head">
+      <div>
+        <p class="font-display text-h3 font-bold">{t('chat.title')}</p>
+        <p class="mt-1 text-small text-white/85">{t('chat.subtitle')}</p>
+      </div>
+      <button class="chat__head-x" data-chat-close type="button" aria-label={t('chat.close')}>
+        <Icon name="close" size={20} />
+      </button>
+    </div>
+    <div class="chat__actions">
+      <a class="chat__action chat__action--wa" href={waHref} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={22} />
+        <span>{t('cta.whatsapp')}</span>
+      </a>
+      <a class="chat__action chat__action--call" href={telHref}>
+        <Icon name="phone" size={20} />
+        <span>{business.phone}</span>
+      </a>
+      <a class="chat__action chat__action--form" href={contactHref}>
+        <Icon name="mail" size={20} />
+        <span>{t('chat.leaveNumber')}</span>
+      </a>
+    </div>
+  </div>
+
+  <button class="chat__fab" data-chat-toggle type="button" aria-haspopup="dialog" aria-expanded="false" aria-label={t('chat.open')}>
+    <span data-chat-icon-open><Icon name="message" size={26} /></span>
+    <span data-chat-icon-close hidden><Icon name="close" size={26} /></span>
+  </button>
+</div>
+
+<style>
+  .chat {
+    position: fixed;
+    right: 1rem;
+    bottom: 5.25rem; /* clears the mobile sticky bar */
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+  }
+  @media (min-width: 1024px) {
+    .chat {
+      bottom: 1.5rem;
+      right: 1.5rem;
+    }
+  }
+
+  .chat__fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-pill);
+    background: var(--brand-700);
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .chat__fab:hover {
+    background: var(--brand-800);
+    transform: translateY(-2px);
+  }
+
+  .chat__tip {
+    position: relative;
+    max-width: 16rem;
+    padding: 0.75rem 2rem 0.75rem 0.9rem;
+    background: #fff;
+    color: var(--ink-900);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    font-size: var(--text-small);
+    font-weight: 600;
+    animation: chat-pop 0.25s ease-out;
+  }
+  .chat__tip-x {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    display: flex;
+    padding: 0.2rem;
+    color: var(--ink-400);
+  }
+
+  .chat__panel {
+    width: min(20rem, calc(100vw - 2rem));
+    background: #fff;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: chat-pop 0.2s ease-out;
+  }
+  .chat__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1.1rem 1.1rem 1rem;
+    background: var(--brand-700);
+    color: #fff;
+  }
+  .chat__head-x {
+    display: flex;
+    padding: 0.25rem;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .chat__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1rem;
+  }
+  .chat__action {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 52px;
+    padding: 0 1rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: var(--text-small);
+    border: 1.5px solid var(--line);
+    color: var(--ink-900);
+    transition: background-color 0.15s ease, transform 0.15s ease;
+  }
+  .chat__action:hover {
+    transform: translateY(-1px);
+  }
+  .chat__action--wa {
+    background: var(--wa-500);
+    color: #fff;
+    border-color: transparent;
+  }
+  .chat__action--call {
+    color: var(--blue-600);
+    border-color: var(--blue-300);
+  }
+
+  @keyframes chat-pop {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .chat__tip,
+    .chat__panel {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-chat]');
+  if (root) {
+    const fab = root.querySelector<HTMLButtonElement>('[data-chat-toggle]');
+    const panel = root.querySelector<HTMLElement>('[data-chat-panel]');
+    const tip = root.querySelector<HTMLElement>('[data-chat-tip]');
+    const tipClose = root.querySelector<HTMLButtonElement>('[data-chat-tip-close]');
+    const closeBtns = root.querySelectorAll<HTMLButtonElement>('[data-chat-close]');
+    const iconOpen = root.querySelector<HTMLElement>('[data-chat-icon-open]');
+    const iconClose = root.querySelector<HTMLElement>('[data-chat-icon-close]');
+    const TIP_KEY = 'aero-chat-tip-seen';
+
+    const hideTip = (remember: boolean) => {
+      if (tip) tip.hidden = true;
+      if (remember) {
+        try {
+          localStorage.setItem(TIP_KEY, '1');
+        } catch {
+          /* ignore */
+        }
+      }
+    };
+
+    const setOpen = (open: boolean) => {
+      if (!panel || !fab) return;
+      panel.hidden = !open;
+      fab.setAttribute('aria-expanded', String(open));
+      if (iconOpen) iconOpen.hidden = open;
+      if (iconClose) iconClose.hidden = !open;
+      if (open) hideTip(true);
+    };
+
+    fab?.addEventListener('click', () => setOpen(fab.getAttribute('aria-expanded') !== 'true'));
+    closeBtns.forEach((b) => b.addEventListener('click', () => setOpen(false)));
+    tipClose?.addEventListener('click', () => hideTip(true));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && panel && !panel.hidden) setOpen(false);
+    });
+    document.addEventListener('click', (e) => {
+      if (panel && !panel.hidden && !root.contains(e.target as Node)) setOpen(false);
+    });
+
+    let seen = false;
+    try {
+      seen = localStorage.getItem(TIP_KEY) === '1';
+    } catch {
+      /* ignore */
+    }
+    if (!seen && tip) {
+      setTimeout(() => {
+        if (panel?.hidden) tip.hidden = false;
+      }, 2600);
+    }
+  }
+</script>

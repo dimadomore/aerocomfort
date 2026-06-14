@@ -1,0 +1,58 @@
+---
+import { type Locale } from '../../config';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const es = locale === 'es';
+
+// Claims kept to what's verifiable today (rating, locality, pricing, guarantee).
+// Certifications/insurance copy added once confirmed by the owner (C2/C5).
+const items: { icon: 'star' | 'wind' | 'check' | 'shield-check'; t: string; d: string }[] = [
+  {
+    icon: 'star',
+    t: es ? '5,0★ en Google' : '5.0★ on Google',
+    d: es ? '160 clientes satisfechos en la Costa Blanca.' : '160 happy customers across the Costa Blanca.',
+  },
+  {
+    icon: 'wind',
+    t: es ? 'Local y rápido' : 'Local & fast',
+    d: es ? 'En la Costa Blanca, con salidas rápidas a más de 30 zonas.' : 'On the Costa Blanca, with quick callouts to 30+ areas.',
+  },
+  {
+    icon: 'check',
+    t: es ? 'Precios claros' : 'Clear, upfront pricing',
+    d: es ? 'Presupuestos gratis y precios honestos — sin sorpresas.' : 'Free quotes and honest prices — no surprises.',
+  },
+  {
+    icon: 'shield-check',
+    t: es ? 'Trabajo garantizado' : 'Tidy, guaranteed work',
+    d: es ? 'Instalaciones limpias, bien hechas y con garantía.' : 'Clean installations done right, backed by a guarantee.',
+  },
+];
+---
+<section class="border-y border-line bg-surface-cool py-16 lg:py-24">
+  <Container>
+    <SectionHeading
+      align="center"
+      eyebrow={es ? 'Por qué Aerocomfort' : 'Why Aerocomfort'}
+      title={es ? 'Aire fiable, bien hecho' : 'Reliable cooling, done right'}
+      intro={es ? 'Un mismo profesional de principio a fin, con la valoración que lo respalda.' : 'One trusted specialist from start to finish, with the rating to back it up.'}
+    />
+    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((it) => (
+        <div class="text-center">
+          <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white text-brand-700 shadow-sm">
+            <Icon name={it.icon} size={28} />
+          </span>
+          <h3 class="mt-5 text-h3">{it.t}</h3>
+          <p class="mt-2 text-small text-ink-500">{it.d}</p>
+        </div>
+      ))}
+    </div>
+  </Container>
+</section>

@@ -2,14 +2,40 @@
 import Base from '../layouts/Base.astro';
 import Hero from '../components/sections/Hero.astro';
 import TrustBar from '../components/sections/TrustBar.astro';
-import { hvacBusinessLd } from '../lib/schema';
+import ServicesGrid from '../components/sections/ServicesGrid.astro';
+import WhyUs from '../components/sections/WhyUs.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import OffersPreview from '../components/sections/OffersPreview.astro';
+import Brands from '../components/sections/Brands.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import Areas from '../components/sections/Areas.astro';
+import FaqPreview from '../components/sections/FaqPreview.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+import { hvacBusinessLd, faqLd } from '../lib/schema';
+import { FAQ } from '../data/faq';
 
 const locale = 'en' as const;
 const title = 'Air Conditioning in Costa Blanca | Install, Repair & Service — Aerocomfort';
 const description =
   'Trusted AC installation, repair & maintenance across Torrevieja, Orihuela Costa & 30+ areas. 5.0★ on Google. Free quote — call or WhatsApp.';
+const faq = faqLd(FAQ[locale].map((f) => ({ question: f.q, answer: f.a })));
 ---
-<Base locale={locale} path="/" title={title} description={description} jsonLd={[hvacBusinessLd()]}>
+<Base
+  locale={locale}
+  path="/"
+  title={title}
+  description={description}
+  jsonLd={[hvacBusinessLd(), faq]}
+>
   <Hero locale={locale} />
   <TrustBar locale={locale} />
+  <ServicesGrid locale={locale} />
+  <WhyUs locale={locale} />
+  <HowItWorks locale={locale} />
+  <OffersPreview locale={locale} />
+  <Brands locale={locale} />
+  <Reviews locale={locale} />
+  <Areas locale={locale} />
+  <FaqPreview locale={locale} />
+  <FinalCta locale={locale} />
 </Base>
