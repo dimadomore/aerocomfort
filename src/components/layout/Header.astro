@@ -36,7 +36,10 @@ const contactHref = localizedPath('/contact', locale);
         {
           nav.map((item) =>
             item.highlight ? (
-              <a href={item.href} class="offer-pill"><span>{item.label}</span></a>
+              <a href={item.href} class="offers-nav">
+                <span class="salut" aria-hidden="true" />
+                <span class="offers-nav__text">{item.label}</span>
+              </a>
             ) : (
               <a
                 href={item.href}
@@ -69,8 +72,9 @@ const contactHref = localizedPath('/contact', locale);
         <!-- Mobile cluster: Offers + one-tap contact straight from the header (docs/05 §2) -->
         <div class="flex items-center gap-1.5 lg:hidden">
           {offersItem && (
-            <a href={offersItem.href} class="offer-pill offer-pill--touch mr-0.5" aria-label={offersItem.label}>
-              <span>{offersItem.label}</span>
+            <a href={offersItem.href} class="offers-nav mr-1" aria-label={offersItem.label}>
+              <span class="salut" aria-hidden="true" />
+              <span class="offers-nav__text">{offersItem.label}</span>
             </a>
           )}
           <a
