@@ -79,5 +79,9 @@ export function getNav(locale: Locale) {
     { key: 'nav.faq', en: '/faq' },
     { key: 'nav.contact', en: '/contact' },
   ];
-  return items.map((i) => ({ label: t(i.key), href: localizedPath(i.en, locale) }));
+  return items.map((i) => ({
+    label: t(i.key),
+    href: localizedPath(i.en, locale),
+    highlight: i.key === 'nav.offers',
+  }));
 }

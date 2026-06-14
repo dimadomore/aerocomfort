@@ -14,6 +14,7 @@ interface Props {
 const { locale, path } = Astro.props;
 const t = useTranslations(locale);
 const nav = getNav(locale);
+const offersItem = nav.find((n) => n.highlight);
 
 const homeHref = localizedPath('/', locale);
 const enHref = localizedPath(path, 'en');
@@ -33,14 +34,18 @@ const contactHref = localizedPath('/contact', locale);
 
       <nav class="hidden items-center gap-7 lg:flex" aria-label="Primary">
         {
-          nav.map((item) => (
-            <a
-              href={item.href}
-              class="text-small font-semibold text-ink-700 transition-colors hover:text-brand-700"
-            >
-              {item.label}
-            </a>
-          ))
+          nav.map((item) =>
+            item.highlight ? (
+              <a href={item.href} class="offer-pill"><span>{item.label}</span></a>
+            ) : (
+              <a
+                href={item.href}
+                class="text-small font-semibold text-ink-700 transition-colors hover:text-brand-700"
+              >
+                {item.label}
+              </a>
+            ),
+          )
         }
       </nav>
 
@@ -56,13 +61,18 @@ const contactHref = localizedPath('/contact', locale);
             <Icon name="phone" size={18} />
             {business.phone}
           </Button>
-          <Button href={contactHref} variant="primary" size="md">
+          <Button href={contactHref} variant="primary" size="md" class="cta-attention">
             {t('cta.quote')}
           </Button>
         </div>
 
-        <!-- Mobile cluster: one-tap contact straight from the header (docs/05 §2) -->
-        <div class="flex items-center gap-1 lg:hidden">
+        <!-- Mobile cluster: Offers + one-tap contact straight from the header (docs/05 §2) -->
+        <div class="flex items-center gap-1.5 lg:hidden">
+          {offersItem && (
+            <a href={offersItem.href} class="offer-pill offer-pill--touch mr-0.5" aria-label={offersItem.label}>
+              <span>{offersItem.label}</span>
+            </a>
+          )}
           <a
             href={waHref}
             class="flex min-h-11 min-w-11 items-center justify-center rounded-full text-wa-600"
@@ -108,7 +118,7 @@ const contactHref = localizedPath('/contact', locale);
           ))
         }
         <div class="flex flex-col gap-3 pt-5 pb-3">
-          <Button href={contactHref} variant="primary" size="lg">{t('cta.quote')}</Button>
+          <Button href={contactHref} variant="primary" size="lg" class="cta-attention">{t('cta.quote')}</Button>
           <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
             <Icon name="whatsapp" size={20} />
             {t('cta.whatsapp')}

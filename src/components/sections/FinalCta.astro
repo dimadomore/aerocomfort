@@ -28,7 +28,7 @@ const contactHref = localizedPath('/contact', locale);
           {es ? 'Pide presupuesto gratis hoy — respondemos rápido.' : 'Get a free quote today — we reply fast.'}
         </p>
         <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Button href={contactHref} variant="primary" size="lg">
+          <Button href={contactHref} variant="primary" size="lg" class="cta-attention">
             {t('cta.quote')}
             <Icon name="arrow-right" size={20} />
           </Button>

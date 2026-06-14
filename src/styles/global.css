@@ -244,4 +244,61 @@
     color: var(--ink-900);
     font-weight: 700;
   }
+
+  /* "Offers" header pill — gradient border (brand blue → accent red), inner fill
+     reveals the gradient on hover/focus (adapted from ui-buttons btn-55). */
+  .offer-pill {
+    display: inline-flex;
+    padding: 2px; /* gradient border thickness */
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg, var(--brand-600), var(--accent-600));
+  }
+  .offer-pill > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    background: var(--ink-900);
+    color: #fff;
+    font-weight: 700;
+    font-size: var(--text-small);
+    padding: 0.5rem 1.15rem;
+    transition: background 0.3s ease;
+  }
+  .offer-pill:hover > span,
+  .offer-pill:focus-visible > span {
+    background: transparent;
+  }
+  .offer-pill--touch > span {
+    min-height: 44px;
+    padding-block: 0.55rem;
+  }
+
+  /* Attention pulse for primary CTAs — expanding ring (adapted from btn-77).
+     Ring lives on ::after so it never fights the button's own shadow/hover. */
+  .cta-attention {
+    position: relative;
+  }
+  .cta-attention::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    animation: cta-pulse 2s ease-out infinite;
+  }
+}
+
+@keyframes cta-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(209, 47, 47, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 1.5em rgba(209, 47, 47, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-attention::after {
+    animation: none;
+  }
 }
