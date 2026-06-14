@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import AboutBody from '../../components/sections/AboutBody.astro';
+import { hvacBusinessLd, breadcrumbLd } from '../../lib/schema';
+import { localizedPath } from '../../i18n/utils';
+
+const locale = 'es' as const;
+const title = 'Sobre Aerocomfort | Especialistas en Aire Acondicionado Costa Blanca';
+const description =
+  'Conoce al especialista de confianza detrás de Aerocomfort — instalación, reparación y mantenimiento de aire acondicionado en la Costa Blanca. 5,0★ en Google.';
+const crumbs = [
+  { name: 'Inicio', url: localizedPath('/', locale) },
+  { name: 'Nosotros', url: localizedPath('/about', locale) },
+];
+---
+<Base locale={locale} path="/about" title={title} description={description} jsonLd={[hvacBusinessLd(), breadcrumbLd(crumbs)]}>
+  <AboutBody locale={locale} />
+</Base>

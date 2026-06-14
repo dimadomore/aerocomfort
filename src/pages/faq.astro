@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import FaqFull from '../components/sections/FaqFull.astro';
+import { FAQ_GROUPS } from '../data/faq';
+import { hvacBusinessLd, breadcrumbLd, faqLd } from '../lib/schema';
+import { localizedPath } from '../i18n/utils';
+
+const locale = 'en' as const;
+const title = 'Air Conditioning FAQ — Costa Blanca | Aerocomfort';
+const description =
+  'Common questions about AC installation, repair, maintenance, pricing and guarantee on the Costa Blanca. Answered by Aerocomfort.';
+const crumbs = [
+  { name: 'Home', url: localizedPath('/', locale) },
+  { name: 'FAQ', url: localizedPath('/faq', locale) },
+];
+const allFaq = FAQ_GROUPS[locale].flatMap((g) => g.items).map((f) => ({ question: f.q, answer: f.a }));
+---
+<Base locale={locale} path="/faq" title={title} description={description} jsonLd={[hvacBusinessLd(), breadcrumbLd(crumbs), faqLd(allFaq)]}>
+  <FaqFull locale={locale} />
+</Base>

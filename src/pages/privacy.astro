@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import LegalBody from '../components/sections/LegalBody.astro';
+import { breadcrumbLd } from '../lib/schema';
+import { localizedPath } from '../i18n/utils';
+
+const locale = 'en' as const;
+const path = '/privacy';
+const navLabel = 'Privacy';
+const updatedLabel = `Last updated: ${new Date().toISOString().slice(0, 10)}`;
+const crumbs = [
+  { name: 'Home', url: localizedPath('/', locale) },
+  { name: navLabel, url: localizedPath(path, locale) },
+];
+---
+<Base locale={locale} path={path} title="Privacy Policy — Aerocomfort" description="How Aerocomfort handles your personal data." jsonLd={[breadcrumbLd(crumbs)]}>
+  <LegalBody locale={locale} doc="privacy" navLabel={navLabel} updatedLabel={updatedLabel} />
+</Base>

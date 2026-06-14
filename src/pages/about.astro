@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import AboutBody from '../components/sections/AboutBody.astro';
+import { hvacBusinessLd, breadcrumbLd } from '../lib/schema';
+import { localizedPath } from '../i18n/utils';
+
+const locale = 'en' as const;
+const title = 'About Aerocomfort | AC Specialists on the Costa Blanca';
+const description =
+  'Meet the trusted specialist behind Aerocomfort — air conditioning installation, repair and maintenance across the Costa Blanca. 5.0★ on Google.';
+const crumbs = [
+  { name: 'Home', url: localizedPath('/', locale) },
+  { name: 'About', url: localizedPath('/about', locale) },
+];
+---
+<Base locale={locale} path="/about" title={title} description={description} jsonLd={[hvacBusinessLd(), breadcrumbLd(crumbs)]}>
+  <AboutBody locale={locale} />
+</Base>

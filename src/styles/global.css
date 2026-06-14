@@ -197,4 +197,46 @@
     font-size: var(--text-small);
     color: var(--accent-700);
   }
+
+  /* Long-form text (legal pages, articles) */
+  .prose {
+    max-width: 70ch;
+    color: var(--ink-700);
+    font-size: var(--text-body);
+    line-height: 1.7;
+  }
+  .prose h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    color: var(--ink-900);
+  }
+  .prose h3 {
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    color: var(--ink-900);
+  }
+  .prose p {
+    margin-bottom: 1rem;
+  }
+  .prose ul {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .prose li {
+    margin-bottom: 0.4rem;
+  }
+  .prose a {
+    color: var(--blue-600);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+  .prose strong {
+    color: var(--ink-900);
+    font-weight: 700;
+  }
 }

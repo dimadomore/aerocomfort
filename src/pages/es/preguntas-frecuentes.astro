@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import FaqFull from '../../components/sections/FaqFull.astro';
+import { FAQ_GROUPS } from '../../data/faq';
+import { hvacBusinessLd, breadcrumbLd, faqLd } from '../../lib/schema';
+import { localizedPath } from '../../i18n/utils';
+
+const locale = 'es' as const;
+const title = 'Preguntas Frecuentes — Aire Acondicionado Costa Blanca | Aerocomfort';
+const description =
+  'Preguntas habituales sobre instalación, reparación, mantenimiento, precios y garantía de aire acondicionado en la Costa Blanca. Te responde Aerocomfort.';
+const crumbs = [
+  { name: 'Inicio', url: localizedPath('/', locale) },
+  { name: 'Preguntas', url: localizedPath('/faq', locale) },
+];
+const allFaq = FAQ_GROUPS[locale].flatMap((g) => g.items).map((f) => ({ question: f.q, answer: f.a }));
+---
+<Base locale={locale} path="/faq" title={title} description={description} jsonLd={[hvacBusinessLd(), breadcrumbLd(crumbs), faqLd(allFaq)]}>
+  <FaqFull locale={locale} />
+</Base>

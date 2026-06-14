@@ -1,0 +1,42 @@
+---
+import { type Locale } from '../../config';
+import { LEGAL, type LegalKey } from '../../data/legal';
+import { business } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import PageHero from './PageHero.astro';
+import Container from '../ui/Container.astro';
+import Prose from '../ui/Prose.astro';
+
+interface Props {
+  locale: Locale;
+  doc: LegalKey;
+  navLabel: string;
+  updatedLabel: string;
+}
+const { locale, doc, navLabel, updatedLabel } = Astro.props;
+const t = useTranslations(locale);
+const d = LEGAL[doc][locale];
+
+const emailLink = `<a href="mailto:${business.email}">${business.email}</a>`;
+const sub = (s: string) => s.replaceAll('{EMAIL}', emailLink).replaceAll('{NAME}', business.name);
+
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: navLabel },
+];
+---
+<PageHero crumbs={crumbs} title={d.title} intro={d.intro} />
+<section class="py-14 lg:py-20">
+  <Container>
+    <p class="text-caption text-ink-400">{updatedLabel}</p>
+    <Prose class="mt-6">
+      {d.sections.map((sec) => (
+        <Fragment>
+          {sec.h && <h2>{sec.h}</h2>}
+          {sec.p?.map((p) => <p set:html={sub(p)} />)}
+          {sec.ul && <ul>{sec.ul.map((li) => <li set:html={sub(li)} />)}</ul>}
+        </Fragment>
+      ))}
+    </Prose>
+  </Container>
+</section>

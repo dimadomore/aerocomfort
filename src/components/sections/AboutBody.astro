@@ -1,0 +1,89 @@
+---
+import { type Locale } from '../../config';
+import { business } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import Prose from '../ui/Prose.astro';
+import PageHero from './PageHero.astro';
+import WhyUs from './WhyUs.astro';
+import FinalCta from './FinalCta.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+const contactHref = localizedPath('/contact', locale);
+
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: t('nav.about') },
+];
+
+// Trust facts — ‹N› placeholders await the owner (C1); rating/areas are real.
+const stats = [
+  { value: '‹N›+', label: es ? 'años de experiencia' : 'years experience', pending: true },
+  { value: '‹N›+', label: es ? 'instalaciones' : 'installations', pending: true },
+  { value: `${business.rating.value}★`, label: es ? `${business.rating.count} reseñas` : `${business.rating.count} reviews`, pending: false },
+  { value: `${business.areasCount}+`, label: es ? 'zonas' : 'areas', pending: false },
+];
+---
+<PageHero
+  crumbs={crumbs}
+  eyebrow={es ? 'Nosotros' : 'About'}
+  title={es ? 'Sobre Aerocomfort' : 'About Aerocomfort'}
+  intro={es
+    ? 'Un mismo profesional de confianza detrás de cada trabajo — con la valoración de los clientes que lo respalda.'
+    : 'One trusted specialist behind every job — with the customer rating to back it up.'}
+/>
+
+<section class="py-16 lg:py-24">
+  <Container>
+    <div class="grid gap-10 lg:grid-cols-3 lg:gap-12">
+      <div class="lg:col-span-2">
+        <Prose>
+          {es ? (
+            <Fragment>
+              <p>Aerocomfort es el trabajo de un mismo especialista de confianza — ‹John›, la persona detrás de cada instalación, reparación y mantenimiento. Con ‹N› años trabajando con el aire acondicionado en la Costa Blanca, ‹ha› conseguido una valoración de 5,0★ en Google de 160 clientes.</p>
+              <p>Cada trabajo se hace en persona — sin subcontratas ni centralitas. Tratas directamente con el especialista que realiza el trabajo, desde el primer presupuesto hasta la última prueba.</p>
+              <p>‹Certificaciones / licencia — por confirmar.› El trabajo se realiza de forma limpia y con garantía, y te asesoramos con honestidad sobre el equipo adecuado para tu espacio y tu presupuesto.</p>
+              <p>Trabajamos en español e inglés, en Torrevieja, Orihuela Costa, Alicante y más de 30 localidades de la Costa Blanca.</p>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <p>Aerocomfort is the work of one trusted specialist — ‹John›, the person behind every installation, repair and service. With ‹N› years working with air conditioning across the Costa Blanca, ‹he› has earned a 5.0★ rating on Google from 160 customers.</p>
+              <p>Every job is done personally — no subcontractors, no call centre. You deal directly with the specialist who does the work, from the first quote to the final test.</p>
+              <p>‹Certifications / licence — to confirm.› Work is carried out cleanly and backed by a guarantee, and we're happy to advise honestly on the right unit for your space and budget.</p>
+              <p>We work in English and Spanish, across Torrevieja, Orihuela Costa, Alicante and 30+ towns on the Costa Blanca.</p>
+            </Fragment>
+          )}
+        </Prose>
+      </div>
+
+      <aside class="lg:col-span-1">
+        <div class="rounded-xl bg-surface-cool p-6 ring-1 ring-line sm:p-8">
+          <dl class="grid grid-cols-2 gap-6">
+            {stats.map((s) => (
+              <div>
+                <dt class:list={['font-display text-h2 font-extrabold tabular-nums', s.pending ? 'text-ink-400' : 'text-brand-700']}>{s.value}</dt>
+                <dd class="mt-1 text-small text-ink-500">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
+          <div class="mt-7">
+            <Button href={contactHref} variant="primary" size="lg" class="w-full">
+              {t('cta.quote')}
+              <Icon name="arrow-right" size={20} />
+            </Button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </Container>
+</section>
+
+<WhyUs locale={locale} />
+<FinalCta locale={locale} />
