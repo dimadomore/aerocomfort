@@ -1,0 +1,130 @@
+---
+import { type Locale, MAP_EMBED_URL } from '../../config';
+import { business } from '../../data';
+import { useTranslations } from '../../i18n/utils';
+import Icon from '../ui/Icon.astro';
+
+/**
+ * Service-area map. Click-to-load Google Maps embed (privacy-friendly: no Google
+ * request until the user clicks; zero CLS via reserved aspect-ratio). Set
+ * MAP_EMBED_URL in config to enable the inline map; until then the button opens
+ * the Google Business Profile (which already carries the Aerocomfort marker).
+ */
+interface Props {
+  locale: Locale;
+  class?: string;
+}
+const { locale, class: cls = '' } = Astro.props;
+const t = useTranslations(locale);
+const gbp = business.social.google;
+const hasEmbed = Boolean(MAP_EMBED_URL);
+---
+<div class:list={['aero-map', cls]} data-map data-embed={MAP_EMBED_URL}>
+  <svg class="aero-map__bg" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true" fill="none" stroke="#fff" stroke-opacity="0.1" stroke-width="2">
+    <path d="M-20 110 C 220 50, 420 170, 620 110 S 860 60, 860 110" />
+    <path d="M-20 250 C 200 190, 460 320, 660 250 S 860 200, 860 250" />
+    <path d="M-20 370 C 240 310, 440 430, 680 360 S 860 320, 860 360" />
+  </svg>
+  <div class="aero-map__facade" data-map-facade>
+    <span class="aero-map__pin"><Icon name="map-pin" size={30} /></span>
+    <p class="aero-map__label">Aerocomfort · {t('site.region')}</p>
+    {
+      hasEmbed ? (
+        <button type="button" class="aero-map__btn" data-map-load>{t('map.load')}</button>
+      ) : (
+        <a class="aero-map__btn" href={gbp} target="_blank" rel="noopener">
+          {t('map.open')}
+          <Icon name="arrow-up-right" size={16} />
+        </a>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .aero-map {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--brand-700), var(--brand-900));
+    box-shadow: var(--shadow-md);
+  }
+  @media (max-width: 640px) {
+    .aero-map {
+      aspect-ratio: 4 / 3;
+    }
+  }
+  .aero-map__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .aero-map :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .aero-map__facade {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    color: #fff;
+  }
+  .aero-map__pin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.06);
+  }
+  .aero-map__label {
+    font-weight: 700;
+  }
+  .aero-map__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0 1.4rem;
+    border-radius: var(--radius-pill);
+    background: #fff;
+    color: var(--brand-700);
+    font-family: var(--font-display);
+    font-weight: 700;
+    transition: transform 0.2s ease;
+  }
+  .aero-map__btn:hover {
+    transform: translateY(-2px);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((map) => {
+    const btn = map.querySelector<HTMLButtonElement>('[data-map-load]');
+    btn?.addEventListener('click', () => {
+      const src = map.getAttribute('data-embed');
+      if (!src) return;
+      const f = document.createElement('iframe');
+      f.src = src;
+      f.loading = 'lazy';
+      f.title = 'Aerocomfort — service area map';
+      f.referrerPolicy = 'no-referrer-when-downgrade';
+      f.allowFullscreen = true;
+      map.querySelector('[data-map-facade]')?.remove();
+      map.appendChild(f);
+    });
+  });
+</script>

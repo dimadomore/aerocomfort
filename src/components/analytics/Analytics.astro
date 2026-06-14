@@ -1,0 +1,33 @@
+---
+import { ANALYTICS } from '../../config';
+
+/**
+ * Consent Mode v2 + analytics bootstrap (docs/06 §5, docs/09 §8). Emits nothing
+ * until an id is set in src/config.ts, so staging stays clean. Consent defaults to
+ * DENIED; CookieConsent flips it on accept. Cloudflare Web Analytics is cookieless
+ * → runs without consent. Conversion events (form/WhatsApp/call) fire via lib later.
+ */
+const { gaId, adsId, cfBeacon } = ANALYTICS;
+const tagId = gaId || adsId;
+
+const consentScript = `
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
+try{if(localStorage.getItem('aero-consent')==='granted'){gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'})}}catch(e){}
+gtag('js',new Date());
+${gaId ? `gtag('config','${gaId}',{anonymize_ip:true});` : ''}
+${adsId ? `gtag('config','${adsId}');` : ''}
+`.trim();
+---
+{tagId && <script is:inline set:html={consentScript} />}
+{tagId && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${tagId}`} />}
+{
+  cfBeacon && (
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={`{"token":"${cfBeacon}"}`}
+    />
+  )
+}

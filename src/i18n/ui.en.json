@@ -91,5 +91,13 @@
   "chat.close": "Close",
 
   "notfound.title": "This page took a holiday",
-  "notfound.body": "The page you're looking for doesn't exist or has moved. Let's get you back on track."
+  "notfound.body": "The page you're looking for doesn't exist or has moved. Let's get you back on track.",
+
+  "consent.text": "We use cookies to improve the site and measure our ads.",
+  "consent.accept": "Accept",
+  "consent.reject": "Reject",
+  "consent.manage": "Cookie policy",
+
+  "map.load": "Show map",
+  "map.open": "Open in Google Maps"
 }

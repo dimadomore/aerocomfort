@@ -6,6 +6,7 @@ import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
 import PageHero from './PageHero.astro';
+import AreaMap from './AreaMap.astro';
 import FinalCta from './FinalCta.astro';
 
 interface Props {
@@ -30,6 +31,7 @@ const crumbs = [
 
 <section class="py-16 lg:py-24">
   <Container>
+    <AreaMap locale={locale} class="mb-12" />
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {AREAS.map((a) => (
         <a

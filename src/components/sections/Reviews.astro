@@ -1,5 +1,5 @@
 ---
-import { type Locale } from '../../config';
+import { type Locale, ELFSIGHT_ID } from '../../config';
 import { business } from '../../data';
 import { useTranslations } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
@@ -27,8 +27,15 @@ const gbp = business.social.google;
       {es ? 'reseñas de clientes reales en la Costa Blanca.' : 'reviews from real customers across the Costa Blanca.'}
     </p>
 
-    {/* Elfsight Google reviews widget mounts here (lazy) once the app id is set — docs/04 §6 */}
-    <div class="mt-8" data-elfsight-reviews aria-hidden="true"></div>
+    {
+      ELFSIGHT_ID && (
+        <div
+          class="mx-auto mt-8 max-w-4xl"
+          data-elfsight-id={ELFSIGHT_ID}
+          style="min-height:320px"
+        />
+      )
+    }
 
     <div class="mt-8">
       <Button href={gbp} variant="secondary" size="lg" target="_blank" rel="noopener">
@@ -38,3 +45,29 @@ const gbp = business.social.google;
     </div>
   </Container>
 </section>
+
+<script>
+  // Lazy-mount the Elfsight Google-reviews widget on viewport (keeps Lighthouse green).
+  const host = document.querySelector<HTMLElement>('[data-elfsight-id]');
+  if (host) {
+    const id = host.getAttribute('data-elfsight-id');
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        if (!document.querySelector('script[data-elfsight-platform]')) {
+          const s = document.createElement('script');
+          s.src = 'https://static.elfsight.com/platform/platform.js';
+          s.async = true;
+          s.setAttribute('data-elfsight-platform', '');
+          document.body.appendChild(s);
+        }
+        const w = document.createElement('div');
+        if (id) w.className = id;
+        w.setAttribute('data-elfsight-app-lazy', '');
+        host.appendChild(w);
+        obs.disconnect();
+      });
+    }, { rootMargin: '200px' });
+    io.observe(host);
+  }
+</script>

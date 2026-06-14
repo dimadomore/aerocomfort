@@ -91,5 +91,13 @@
   "chat.close": "Cerrar",
 
   "notfound.title": "Esta página se fue de vacaciones",
-  "notfound.body": "La página que buscas no existe o se ha movido. Te ayudamos a volver al camino."
+  "notfound.body": "La página que buscas no existe o se ha movido. Te ayudamos a volver al camino.",
+
+  "consent.text": "Usamos cookies para mejorar el sitio y medir nuestros anuncios.",
+  "consent.accept": "Aceptar",
+  "consent.reject": "Rechazar",
+  "consent.manage": "Política de cookies",
+
+  "map.load": "Ver mapa",
+  "map.open": "Abrir en Google Maps"
 }

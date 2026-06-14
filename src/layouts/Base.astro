@@ -5,10 +5,12 @@ import '../styles/global.css';
 import { type Locale } from '../config';
 import { useTranslations } from '../i18n/utils';
 import Seo from '../components/seo/Seo.astro';
+import Analytics from '../components/analytics/Analytics.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import ChatLauncher from '../components/islands/ChatLauncher.astro';
 import StickyMobileBar from '../components/islands/StickyMobileBar.astro';
+import CookieConsent from '../components/islands/CookieConsent.astro';
 
 interface Props {
   locale: Locale;
@@ -43,6 +45,7 @@ const t = useTranslations(locale);
       noindex={noindex}
       jsonLd={jsonLd}
     />
+    <Analytics />
   </head>
   <body class="flex min-h-screen flex-col bg-surface">
     <a
@@ -58,5 +61,6 @@ const t = useTranslations(locale);
     <Footer locale={locale} />
     <ChatLauncher locale={locale} />
     <StickyMobileBar locale={locale} />
+    <CookieConsent locale={locale} />
   </body>
 </html>

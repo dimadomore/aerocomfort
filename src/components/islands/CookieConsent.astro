@@ -1,0 +1,127 @@
+---
+import { type Locale, ANALYTICS, ELFSIGHT_ID } from '../../config';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+
+/**
+ * GDPR cookie banner. Only renders when something actually needs consent
+ * (analytics or a third-party widget configured) — otherwise nothing shows.
+ * Accept/Reject updates Consent Mode v2 via window.gtag and remembers the choice.
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const needsConsent = Boolean(ANALYTICS.gaId || ANALYTICS.adsId || ELFSIGHT_ID);
+const cookiesHref = localizedPath('/cookies', locale);
+---
+{
+  needsConsent && (
+    <div class="consent" data-consent role="dialog" aria-label="Cookies" hidden>
+      <p class="consent__text">
+        {t('consent.text')} <a href={cookiesHref}>{t('consent.manage')}</a>
+      </p>
+      <div class="consent__actions">
+        <button type="button" class="consent__btn consent__btn--ghost" data-consent-reject>{t('consent.reject')}</button>
+        <button type="button" class="consent__btn consent__btn--accept" data-consent-accept>{t('consent.accept')}</button>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .consent {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-width: 30rem;
+    padding: 1.1rem 1.25rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+  @media (min-width: 640px) {
+    .consent {
+      right: auto;
+    }
+  }
+  .consent__text {
+    font-size: var(--text-small);
+    color: var(--ink-700);
+  }
+  .consent__text a {
+    color: var(--blue-600);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+  .consent__actions {
+    display: flex;
+    gap: 0.6rem;
+  }
+  .consent__btn {
+    flex: 1;
+    min-height: 44px;
+    padding: 0 1rem;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-small);
+    transition: background-color 0.15s ease;
+  }
+  .consent__btn--ghost {
+    color: var(--ink-700);
+    border: 1.5px solid var(--line);
+    background: #fff;
+  }
+  .consent__btn--ghost:hover {
+    background: var(--sky-100);
+  }
+  .consent__btn--accept {
+    color: #fff;
+    background: var(--accent-600);
+  }
+  .consent__btn--accept:hover {
+    background: var(--accent-700);
+  }
+</style>
+
+<script>
+  const KEY = 'aero-consent';
+  const el = document.querySelector<HTMLElement>('[data-consent]');
+  if (el) {
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem(KEY);
+    } catch {
+      /* ignore */
+    }
+    if (!stored) el.hidden = false;
+
+    const apply = (value: 'granted' | 'denied') => {
+      try {
+        localStorage.setItem(KEY, value);
+      } catch {
+        /* ignore */
+      }
+      const w = window as unknown as { gtag?: (...a: unknown[]) => void };
+      if (typeof w.gtag === 'function') {
+        w.gtag('consent', 'update', {
+          ad_storage: value,
+          ad_user_data: value,
+          ad_personalization: value,
+          analytics_storage: value,
+        });
+      }
+      el.hidden = true;
+    };
+
+    el.querySelector('[data-consent-accept]')?.addEventListener('click', () => apply('granted'));
+    el.querySelector('[data-consent-reject]')?.addEventListener('click', () => apply('denied'));
+  }
+</script>
