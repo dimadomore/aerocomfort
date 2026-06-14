@@ -18,6 +18,11 @@ Website for Aerocomfort — HVAC / air conditioning services in Costa Blanca, Al
 - [docs/06-seo-aeo.md](docs/06-seo-aeo.md) — SEO, AEO/GEO, structured data, analytics
 - [docs/07-migration.md](docs/07-migration.md) — zero-regression cutover from Tilda
 - [docs/08-content-and-assets.md](docs/08-content-and-assets.md) — content approach + asset/photo/animation specs
+- [docs/09-tech-architecture.md](docs/09-tech-architecture.md) — stack, repo structure, forms, analytics, performance
+- [docs/10-copy-deck.md](docs/10-copy-deck.md) — voice, messaging, draft EN/ES copy + microcopy
+- [docs/11-seo-keywords.md](docs/11-seo-keywords.md) — topic clusters, meta templates, schema examples
+- [docs/12-care-and-maintenance.md](docs/12-care-and-maintenance.md) — upkeep guide + Telegram→blog automation
+- [docs/13-build-checklist.md](docs/13-build-checklist.md) — Phase 0/1 tasks, Definition of Done, QA
 
 ## Stack & deploy
 
