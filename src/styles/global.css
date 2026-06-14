@@ -283,10 +283,10 @@
   /* salut: a tiny multi-colour firework that pops above the word periodically */
   .offers-nav .salut {
     position: absolute;
-    top: 0.5rem;
+    top: 50%;
     left: 50%;
-    width: 4px;
-    height: 4px;
+    width: 5px;
+    height: 5px;
     pointer-events: none;
   }
   .offers-nav .salut::before {
@@ -297,14 +297,25 @@
     transform: scale(0);
     opacity: 0;
     box-shadow:
-      0 -15px 0 -1px var(--warning),
-      11px -11px 0 -1px var(--accent-600),
-      15px 0 0 -1px var(--brand-600),
-      11px 11px 0 -1px var(--accent-500),
-      0 15px 0 -1px var(--warning),
-      -11px 11px 0 -1px var(--brand-600),
-      -15px 0 0 -1px var(--accent-600),
-      -11px -11px 0 -1px var(--warning);
+      -50px -20px 0 -1px var(--warning),
+      -56px 6px 0 -1px var(--accent-600),
+      -48px 28px 0 -1px var(--brand-600),
+      -34px 45px 0 -1px var(--accent-500),
+      -18px 55px 0 -1px var(--cyan-400),
+      0 58px 0 -1px var(--warning),
+      18px 52px 0 -1px var(--accent-600),
+      35px 44px 0 -1px var(--brand-600),
+      48px 28px 0 -1px var(--accent-500),
+      56px 6px 0 -1px var(--cyan-400),
+      50px -18px 0 -1px var(--warning),
+      38px -32px 0 -1px var(--accent-600),
+      20px -44px 0 -1px var(--brand-600),
+      0 -48px 0 -1px var(--accent-500),
+      -22px -40px 0 -1px var(--cyan-400),
+      -30px 18px 0 -1px var(--warning),
+      28px 20px 0 -1px var(--accent-600),
+      6px 34px 0 -1px var(--brand-600),
+      -12px -22px 0 -1px var(--accent-500);
     animation: salut 4.5s ease-out infinite;
   }
 
