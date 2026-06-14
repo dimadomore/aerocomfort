@@ -7,7 +7,9 @@ Website for Aerocomfort — HVAC / air conditioning services in Costa Blanca, Al
 
 ## Status
 
-📋 Planning phase (scaffold deployed). All project documentation lives in [`docs/`](docs/):
+🛠️ In build — Phases 0–2 + a polish pass are done on the `dev` branch (bilingual site, 55 pages). **Current status, what's left, and how to resume: [docs/14-build-status.md](docs/14-build-status.md).**
+
+All project documentation lives in [`docs/`](docs/):
 
 - [docs/00-brief.md](docs/00-brief.md) — project brief and current-site audit
 - [docs/01-interview.md](docs/01-interview.md) — discovery interview + answers
@@ -23,6 +25,7 @@ Website for Aerocomfort — HVAC / air conditioning services in Costa Blanca, Al
 - [docs/11-seo-keywords.md](docs/11-seo-keywords.md) — topic clusters, meta templates, schema examples
 - [docs/12-care-and-maintenance.md](docs/12-care-and-maintenance.md) — upkeep guide + Telegram→blog automation
 - [docs/13-build-checklist.md](docs/13-build-checklist.md) — Phase 0/1 tasks, Definition of Done, QA
+- [docs/14-build-status.md](docs/14-build-status.md) — **build status & handover: what's done, what's left, how to resume**
 
 ## Stack & deploy
 
