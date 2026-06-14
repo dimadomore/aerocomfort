@@ -155,3 +155,46 @@
     }
   }
 }
+
+/* Form controls — shared so lead forms stay consistent and clean */
+@layer components {
+  .lead-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    font-size: var(--text-small);
+    color: var(--ink-700);
+  }
+  .lead-control {
+    width: 100%;
+    min-height: 52px;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-md);
+    background: #fff;
+    font: inherit;
+    font-size: var(--text-body);
+    color: var(--ink-900);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .lead-control::placeholder {
+    color: var(--ink-400);
+  }
+  .lead-control:focus {
+    outline: none;
+    border-color: var(--brand-600);
+    box-shadow: 0 0 0 3px var(--blue-100);
+  }
+  .lead-control[aria-invalid='true'] {
+    border-color: var(--accent-600);
+  }
+  textarea.lead-control {
+    min-height: auto;
+    resize: vertical;
+  }
+  .lead-error {
+    margin-top: 0.4rem;
+    font-size: var(--text-small);
+    color: var(--accent-700);
+  }
+}

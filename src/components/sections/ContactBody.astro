@@ -1,0 +1,94 @@
+---
+import { type Locale } from '../../config';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import { business, isPlaceholder } from '../../data';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+import LeadForm from '../islands/LeadForm.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+const mailHref = `mailto:${business.email}`;
+const hasHours = !isPlaceholder(business.hours);
+const areaWord = locale === 'es' ? 'zonas' : 'areas';
+
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: t('nav.contact') },
+];
+---
+<Container class="py-12 lg:py-16">
+  <Breadcrumbs items={crumbs} />
+
+  <div class="mt-6 max-w-2xl">
+    <h1 class="text-h1">{t('contact.title')}</h1>
+    <p class="mt-4 text-body-lg text-ink-500">{t('contact.intro')}</p>
+  </div>
+
+  <div class="mt-10 grid gap-8 lg:mt-12 lg:grid-cols-12 lg:gap-10">
+    <div class="lg:col-span-7">
+      <div class="rounded-xl border border-line bg-white p-6 shadow-md sm:p-8">
+        <h2 class="text-h3">{t('contact.formTitle')}</h2>
+        <div class="mt-6">
+          <LeadForm locale={locale} />
+        </div>
+      </div>
+    </div>
+
+    <aside class="lg:col-span-5">
+      <div class="rounded-xl bg-surface-cool p-6 ring-1 ring-line sm:p-8">
+        <h2 class="text-h3">{t('contact.channelsTitle')}</h2>
+        <div class="mt-5 flex flex-col gap-3">
+          <Button href={waHref} variant="whatsapp" size="lg" class="w-full" target="_blank" rel="noopener">
+            <Icon name="whatsapp" size={20} />
+            {t('cta.whatsapp')}
+          </Button>
+          <Button href={telHref} variant="secondary" size="lg" class="w-full">
+            <Icon name="phone" size={18} />
+            {business.phone}
+          </Button>
+        </div>
+
+        <dl class="mt-7 space-y-4 text-small">
+          <div class="flex items-start gap-3">
+            <Icon name="mail" size={18} class="mt-0.5 text-brand-700" />
+            <div>
+              <dt class="sr-only">Email</dt>
+              <dd><a class="text-ink-700 transition-colors hover:text-brand-700" href={mailHref}>{business.email}</a></dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <Icon name="map-pin" size={18} class="mt-0.5 text-brand-700" />
+            <div>
+              <dt class="font-semibold text-ink-700">{t('contact.areasLabel')}</dt>
+              <dd class="text-ink-500">{t('site.region')} · {business.areasCount}+ {areaWord}</dd>
+            </div>
+          </div>
+          {hasHours && (
+            <div class="flex items-start gap-3">
+              <Icon name="clock" size={18} class="mt-0.5 text-brand-700" />
+              <div>
+                <dt class="font-semibold text-ink-700">{t('common.openingHours')}</dt>
+                <dd class="text-ink-500">{business.hours}</dd>
+              </div>
+            </div>
+          )}
+        </dl>
+
+        <div class="mt-7 flex items-center gap-2 border-t border-line pt-5">
+          <Icon name="star" size={18} class="text-warning" />
+          <span class="text-small font-bold text-ink-700">{business.rating.value} on Google</span>
+          <span class="text-small text-ink-400">· {business.rating.count} reviews</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</Container>

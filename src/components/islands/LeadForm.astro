@@ -1,0 +1,174 @@
+---
+import { type Locale } from '../../config';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Button from '../ui/Button.astro';
+import PhoneInput from './PhoneInput.astro';
+
+/**
+ * Lead form. Posts to the /api/lead Worker (worker/index.ts). Works without JS
+ * (native POST → 303 to /thank-you); with JS it validates inline, shows states
+ * and redirects. Honeypot + optional Turnstile guard against spam (docs/03 §4).
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const privacyHref = localizedPath('/privacy', locale);
+const thankYouHref = localizedPath('/thank-you', locale);
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] as const;
+---
+<form
+  class="lead-form"
+  data-lead-form
+  method="post"
+  action="/api/lead"
+  data-redirect={thankYouHref}
+  data-sending={t('form.sending')}
+  data-error={t('form.error')}
+  novalidate
+>
+  <input type="hidden" name="locale" value={locale} />
+  <div class="lead-hp" aria-hidden="true">
+    <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <div class="lead-form__grid">
+    <div>
+      <label class="lead-label" for="lead-name">{t('form.name')}</label>
+      <input class="lead-control" type="text" id="lead-name" name="name" autocomplete="name" required placeholder={t('form.namePh')} />
+    </div>
+
+    <PhoneInput locale={locale} />
+
+    <div>
+      <label class="lead-label" for="lead-service">{t('form.service')}</label>
+      <select class="lead-control" id="lead-service" name="service">
+        <option value="" selected disabled>{t('form.servicePick')}</option>
+        {services.map((s) => <option value={s}>{t(`service.${s}` as 'service.installation')}</option>)}
+      </select>
+    </div>
+
+    <div>
+      <label class="lead-label" for="lead-message">{t('form.message')}</label>
+      <textarea class="lead-control" id="lead-message" name="message" rows="3" placeholder={t('form.messagePh')}></textarea>
+    </div>
+
+    <label class="lead-check">
+      <input type="checkbox" name="has_whatsapp" value="yes" checked />
+      <span>{t('form.hasWhatsapp')}</span>
+    </label>
+
+    <label class="lead-check">
+      <input type="checkbox" name="consent" value="yes" required />
+      <span>{t('form.consentPre')} <a href={privacyHref}>{t('form.consentLink')}</a>.</span>
+    </label>
+
+    {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="light"></div>}
+
+    <p class="lead-status" data-status role="status" aria-live="polite" hidden></p>
+
+    <Button type="submit" variant="primary" size="lg" class="w-full" data-submit>
+      <span data-submit-label>{t('form.submit')}</span>
+    </Button>
+  </div>
+</form>
+
+{turnstileKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+<style>
+  .lead-form__grid {
+    display: grid;
+    gap: 1.1rem;
+  }
+  .lead-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .lead-check {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    font-size: var(--text-small);
+    color: var(--ink-700);
+    cursor: pointer;
+  }
+  .lead-check input {
+    margin-top: 0.15rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    accent-color: var(--brand-700);
+  }
+  .lead-status {
+    font-size: var(--text-small);
+  }
+  .lead-status[data-state='error'] {
+    color: var(--accent-700);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
+    const phoneRoot = form.querySelector<HTMLElement>('[data-phone-input]');
+    const phoneInput = phoneRoot?.querySelector<HTMLInputElement>('[data-phone]');
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const label = form.querySelector<HTMLElement>('[data-submit-label]');
+    const status = form.querySelector<HTMLElement>('[data-status]');
+    const labelDefault = label?.textContent ?? '';
+    const sendingText = form.dataset.sending ?? labelDefault;
+    const errorText = form.dataset.error ?? '';
+    const redirect = form.dataset.redirect ?? '/thank-you';
+
+    const setStatus = (msg: string, state = '') => {
+      if (!status) return;
+      status.textContent = msg;
+      status.hidden = !msg;
+      if (state) status.dataset.state = state;
+      else delete status.dataset.state;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const hp = form.querySelector<HTMLInputElement>('[name="company"]');
+      if (hp && hp.value) {
+        window.location.href = redirect;
+        return;
+      }
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      if (phoneRoot && phoneRoot.dataset.valid !== 'true') {
+        phoneInput?.dispatchEvent(new Event('blur'));
+        phoneInput?.focus();
+        return;
+      }
+
+      if (submit) submit.disabled = true;
+      if (label) label.textContent = sendingText;
+      setStatus('');
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        if (!res.ok) throw new Error('bad status');
+        window.location.href = redirect;
+      } catch {
+        if (submit) submit.disabled = false;
+        if (label) label.textContent = labelDefault;
+        setStatus(errorText, 'error');
+      }
+    });
+  });
+</script>

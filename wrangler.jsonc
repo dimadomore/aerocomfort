@@ -2,9 +2,12 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "aerocomfort",
 	"compatibility_date": "2026-06-12",
-	// Static site: serve the Astro build output as Worker assets
+	// Worker handles the lead form POST (/api/lead); all other requests fall
+	// through to the static Astro build served via the ASSETS binding.
+	"main": "worker/index.ts",
 	"assets": {
-		"directory": "./dist"
+		"directory": "./dist",
+		"binding": "ASSETS"
 	},
 	// Production domain: aero.dimadomore.com (temporary, until switching to aerocomfort.es).
 	// The custom domain is attached at the account level via the Workers Domains API,

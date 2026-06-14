@@ -1,0 +1,141 @@
+---
+import { type Locale } from '../../config';
+import { useTranslations } from '../../i18n/utils';
+
+/**
+ * Phone field with real per-country validation (libphonenumber-js) → solves the
+ * brief's #1 pain: malformed lead numbers. Country select + masked input, live
+ * validity, normalization to E.164 in a hidden field, "has WhatsApp" handled by
+ * the form. Progressive enhancement: without JS it's a plain tel input.
+ */
+interface Props {
+  locale: Locale;
+  id?: string;
+}
+const { locale, id = 'phone' } = Astro.props;
+const t = useTranslations(locale);
+
+// Curated to the audience (docs/00 §3): UK/IE/ES/DE first, then nearby Europe.
+const countries = [
+  { iso: 'GB', name: 'United Kingdom', dial: '44', flag: '🇬🇧' },
+  { iso: 'ES', name: 'Spain', dial: '34', flag: '🇪🇸' },
+  { iso: 'IE', name: 'Ireland', dial: '353', flag: '🇮🇪' },
+  { iso: 'DE', name: 'Germany', dial: '49', flag: '🇩🇪' },
+  { iso: 'FR', name: 'France', dial: '33', flag: '🇫🇷' },
+  { iso: 'NL', name: 'Netherlands', dial: '31', flag: '🇳🇱' },
+  { iso: 'BE', name: 'Belgium', dial: '32', flag: '🇧🇪' },
+  { iso: 'NO', name: 'Norway', dial: '47', flag: '🇳🇴' },
+  { iso: 'SE', name: 'Sweden', dial: '46', flag: '🇸🇪' },
+  { iso: 'DK', name: 'Denmark', dial: '45', flag: '🇩🇰' },
+  { iso: 'CH', name: 'Switzerland', dial: '41', flag: '🇨🇭' },
+  { iso: 'IT', name: 'Italy', dial: '39', flag: '🇮🇹' },
+  { iso: 'PT', name: 'Portugal', dial: '351', flag: '🇵🇹' },
+  { iso: 'PL', name: 'Poland', dial: '48', flag: '🇵🇱' },
+  { iso: 'US', name: 'United States', dial: '1', flag: '🇺🇸' },
+];
+const defaultIso = locale === 'es' ? 'ES' : 'GB';
+---
+<div
+  class="lead-phone"
+  data-phone-input
+  data-err-invalid={t('form.errPhoneInvalid')}
+  data-err-incomplete={t('form.errPhoneIncomplete')}
+>
+  <label class="lead-label" for={id}>{t('form.phone')}</label>
+  <div class="lead-phone__combo">
+    <select class="lead-control lead-phone__country" data-country aria-label={t('form.country')}>
+      {countries.map((c) => (
+        <option value={c.iso} selected={c.iso === defaultIso}>{c.flag} {c.iso} +{c.dial}</option>
+      ))}
+    </select>
+    <input
+      class="lead-control"
+      type="tel"
+      id={id}
+      name="phone"
+      inputmode="tel"
+      autocomplete="tel"
+      placeholder="612 34 56 78"
+      data-phone
+      required
+    />
+  </div>
+  <input type="hidden" name="phone_e164" data-e164 />
+  <p class="lead-error" data-error hidden></p>
+  <p class="lead-hint">{t('form.phoneHint')}</p>
+</div>
+
+<style>
+  .lead-phone__combo {
+    display: grid;
+    grid-template-columns: minmax(112px, max-content) 1fr;
+    gap: 0.5rem;
+  }
+  .lead-phone__country {
+    min-width: 0;
+    padding-inline: 0.6rem;
+  }
+  .lead-hint {
+    margin-top: 0.4rem;
+    font-size: var(--text-caption);
+    color: var(--ink-400);
+  }
+</style>
+
+<script>
+  import { AsYouType, parsePhoneNumberFromString, type CountryCode } from 'libphonenumber-js';
+
+  document.querySelectorAll<HTMLElement>('[data-phone-input]').forEach((root) => {
+    const sel = root.querySelector<HTMLSelectElement>('[data-country]');
+    const input = root.querySelector<HTMLInputElement>('[data-phone]');
+    const hidden = root.querySelector<HTMLInputElement>('[data-e164]');
+    const err = root.querySelector<HTMLElement>('[data-error]');
+    if (!sel || !input || !hidden) return;
+
+    const country = () => sel.value as CountryCode;
+    let last = '';
+
+    const setError = (msg: string) => {
+      if (!err) return;
+      err.textContent = msg;
+      err.hidden = !msg;
+    };
+
+    const validate = (showError: boolean): boolean => {
+      const raw = input.value.trim();
+      hidden.value = '';
+      root.dataset.valid = 'false';
+      if (!raw) {
+        input.setAttribute('aria-invalid', 'false');
+        setError('');
+        return false;
+      }
+      const pn = parsePhoneNumberFromString(raw, country());
+      if (pn && pn.isValid()) {
+        hidden.value = pn.number;
+        root.dataset.valid = 'true';
+        input.setAttribute('aria-invalid', 'false');
+        setError('');
+        return true;
+      }
+      input.setAttribute('aria-invalid', 'true');
+      if (showError) {
+        const digits = raw.replace(/\D/g, '').length;
+        setError(digits < 6 ? root.dataset.errIncomplete! : root.dataset.errInvalid!);
+      }
+      return false;
+    };
+
+    input.addEventListener('input', () => {
+      const val = input.value;
+      // Reformat only while typing forward, so deletions/edits aren't fought.
+      if (val.length > last.length && /\d/.test(val)) {
+        input.value = new AsYouType(country()).input(val);
+      }
+      last = input.value;
+      validate(false);
+    });
+    input.addEventListener('blur', () => validate(true));
+    sel.addEventListener('change', () => validate(Boolean(input.value)));
+  });
+</script>

@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import Container from '../../components/ui/Container.astro';
+import Button from '../../components/ui/Button.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import { business } from '../../data';
+
+const locale = 'es' as const;
+const t = useTranslations(locale);
+const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+const homeHref = localizedPath('/', locale);
+---
+<Base
+  locale={locale}
+  path="/thank-you"
+  title="Gracias — Aerocomfort"
+  description="Hemos recibido tu solicitud."
+  noindex
+>
+  <Container class="py-20 lg:py-28">
+    <div class="mx-auto max-w-xl text-center">
+      <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-wa-500 text-white">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+      </span>
+      <h1 class="mt-6 text-h1">{t('thankyou.title')}</h1>
+      <p class="mt-4 text-body-lg text-ink-500">{t('thankyou.body')}</p>
+      <p class="mt-8 text-small font-semibold text-ink-700">{t('thankyou.whileWait')}</p>
+      <div class="mt-4 flex flex-col justify-center gap-3 sm:flex-row">
+        <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={20} />
+          {t('cta.whatsapp')}
+        </Button>
+        <Button href={telHref} variant="secondary" size="lg">
+          <Icon name="phone" size={18} />
+          {business.phone}
+        </Button>
+      </div>
+      <p class="mt-10">
+        <a class="text-small font-semibold text-brand-700 hover:underline" href={homeHref}>← {t('thankyou.home')}</a>
+      </p>
+    </div>
+  </Container>
+</Base>

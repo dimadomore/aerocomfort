@@ -36,5 +36,45 @@
   "footer.legalNote": "Datos de empresa por confirmar.",
 
   "common.skipToContent": "Saltar al contenido",
-  "common.openingHours": "Horario"
+  "common.openingHours": "Horario",
+
+  "service.installation": "Instalación",
+  "service.repair": "Reparación",
+  "service.maintenance": "Mantenimiento",
+  "service.cleaning": "Limpieza",
+  "service.other": "Otra cosa",
+
+  "form.name": "Nombre",
+  "form.namePh": "Tu nombre",
+  "form.phone": "Teléfono (móvil)",
+  "form.phoneHint": "Te llamamos o te escribimos por WhatsApp.",
+  "form.country": "Prefijo del país",
+  "form.service": "Servicio",
+  "form.servicePick": "Elige un servicio",
+  "form.message": "Mensaje (opcional)",
+  "form.messagePh": "Cuéntanos brevemente qué necesitas…",
+  "form.hasWhatsapp": "Tengo WhatsApp en este número",
+  "form.consentPre": "Acepto la",
+  "form.consentLink": "política de privacidad",
+  "form.submit": "Solicitar llamada",
+  "form.sending": "Enviando…",
+  "form.errRequired": "Por favor, completa este campo.",
+  "form.errPhoneInvalid": "Introduce un móvil válido.",
+  "form.errPhoneIncomplete": "Este número parece incompleto.",
+  "form.errConsent": "Acepta la política de privacidad para continuar.",
+  "form.errorTitle": "Algo ha fallado",
+  "form.error": "No hemos podido enviar tu solicitud. Prueba por WhatsApp o llámanos.",
+
+  "contact.title": "Contacta con Aerocomfort",
+  "contact.intro": "Cuéntanos qué necesitas y te responderemos rápido — normalmente el mismo día. ¿Prefieres hablar ahora? Escríbenos por WhatsApp o llámanos.",
+  "contact.formTitle": "Pide presupuesto gratis",
+  "contact.channelsTitle": "Habla con nosotros ahora",
+  "contact.areasLabel": "Zona de servicio",
+
+  "thankyou.title": "Gracias — hemos recibido tu solicitud",
+  "thankyou.body": "Hemos recibido tu solicitud y te contactaremos enseguida.",
+  "thankyou.whileWait": "¿Prefieres hablar ahora?",
+  "thankyou.home": "Volver al inicio",
+
+  "breadcrumb.home": "Inicio"
 }
