@@ -1,0 +1,24 @@
+---
+import Container from '../ui/Container.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+
+/** Inner-page header band: breadcrumbs + eyebrow + H1 + intro + optional CTA slot. */
+interface Props {
+  crumbs: { label: string; href?: string }[];
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+}
+const { crumbs, eyebrow, title, intro } = Astro.props;
+---
+<section class="border-b border-line bg-surface-cool py-12 lg:py-16">
+  <Container>
+    <Breadcrumbs items={crumbs} />
+    <div class="mt-6 max-w-3xl">
+      {eyebrow && <p class="text-small font-bold uppercase tracking-[0.14em] text-brand-600">{eyebrow}</p>}
+      <h1 class:list={['text-h1', eyebrow && 'mt-3']}>{title}</h1>
+      {intro && <p class="mt-4 text-body-lg text-ink-500">{intro}</p>}
+      <slot name="cta" />
+    </div>
+  </Container>
+</section>

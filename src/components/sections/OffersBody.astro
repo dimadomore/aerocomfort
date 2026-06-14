@@ -1,0 +1,45 @@
+---
+import { type Locale } from '../../config';
+import { offers } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import PageHero from './PageHero.astro';
+import OfferCard from '../ui/OfferCard.astro';
+import FinalCta from './FinalCta.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: t('nav.offers') },
+];
+const intro = es
+  ? `Equipos A+++ de marcas líderes a precios de temporada. ${offers.season.label.es}.`
+  : `A+++ units from leading brands at seasonal prices. ${offers.season.label.en}.`;
+---
+<PageHero
+  crumbs={crumbs}
+  eyebrow={es ? 'Ofertas de temporada' : 'Seasonal offers'}
+  title={es ? 'Ofertas en aire acondicionado A+++' : 'A+++ air conditioning offers'}
+  intro={intro}
+/>
+
+<section class="py-16 lg:py-24">
+  <Container>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {offers.items.map((o) => <OfferCard offer={o} locale={locale} />)}
+    </div>
+    <p class="mt-8 max-w-2xl text-small text-ink-400">
+      {es
+        ? 'Precios de suministro orientativos; la instalación depende del equipo y la vivienda. Pide presupuesto sin compromiso.'
+        : 'Indicative supply prices; installation depends on the unit and the property. Ask for a no-obligation quote.'}
+    </p>
+  </Container>
+</section>
+
+<FinalCta locale={locale} />

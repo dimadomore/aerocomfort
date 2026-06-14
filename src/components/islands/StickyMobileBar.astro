@@ -48,6 +48,13 @@ const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${enc
   .stickybar.is-visible {
     transform: translateY(0);
   }
+  /* Hide on desktop via a scoped rule — a utility like `lg:hidden` loses to this
+     component's scoped `.stickybar` display (higher specificity from scoping). */
+  @media (min-width: 1024px) {
+    .stickybar {
+      display: none;
+    }
+  }
   .stickybar__btn {
     display: flex;
     align-items: center;

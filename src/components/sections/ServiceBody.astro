@@ -1,0 +1,114 @@
+---
+import { type Locale } from '../../config';
+import { SERVICES, type Service } from '../../data/services';
+import { business } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import PageHero from './PageHero.astro';
+import FinalCta from './FinalCta.astro';
+
+interface Props {
+  locale: Locale;
+  service: Service;
+  crumbs: { label: string; href?: string }[];
+}
+const { locale, service, crumbs } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+const c = service[locale];
+
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+const contactHref = localizedPath('/contact', locale);
+const others = SERVICES.filter((s) => s.slug !== service.slug);
+---
+<PageHero crumbs={crumbs} eyebrow={es ? 'Servicio' : 'Service'} title={c.h1} intro={c.intro}>
+  <div slot="cta" class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+    <Button href={contactHref} variant="primary" size="lg">
+      {t('cta.quote')}
+      <Icon name="arrow-right" size={20} />
+    </Button>
+    <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
+      <Icon name="whatsapp" size={20} />
+      {t('cta.whatsapp')}
+    </Button>
+  </div>
+</PageHero>
+
+<section class="py-16 lg:py-24">
+  <Container>
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <h2 class="text-h2">{c.includesTitle}</h2>
+        <ul class="mt-6 space-y-3.5">
+          {c.includes.map((i) => (
+            <li class="flex gap-3">
+              <Icon name="check" size={22} class="mt-0.5 shrink-0 text-brand-700" />
+              <span class="text-body text-ink-700">{i}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-h2">{c.pointsTitle}</h2>
+        <ul class="mt-6 space-y-3.5">
+          {c.points.map((p) => (
+            <li class="flex gap-3">
+              <Icon name="arrow-right" size={20} class="mt-1 shrink-0 text-accent-600" />
+              <span class="text-body text-ink-700">{p}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<section class="border-y border-line bg-surface-cool py-16 lg:py-24">
+  <Container class="max-w-3xl">
+    <h2 class="text-center text-h2">{es ? 'Preguntas frecuentes' : 'Frequent questions'}</h2>
+    <div class="mt-8 divide-y divide-line border-y border-line">
+      {c.faq.map((f) => (
+        <details class="faq">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-body-lg font-semibold text-ink-900">
+            {f.q}
+            <Icon name="chevron-down" size={22} class="faq__chev shrink-0 text-brand-700 transition-transform" />
+          </summary>
+          <p class="pb-5 text-body text-ink-500">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </Container>
+</section>
+
+<section class="py-16 lg:py-24">
+  <Container>
+    <h2 class="text-h2">{es ? 'Otros servicios' : 'Other services'}</h2>
+    <div class="mt-8 grid gap-5 sm:grid-cols-3">
+      {others.map((s) => (
+        <a
+          href={localizedPath(`/services/${s.slug}`, locale)}
+          class="group rounded-xl border border-line bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
+        >
+          <span class="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-100 text-brand-700">
+            <Icon name={s.icon} size={26} />
+          </span>
+          <h3 class="mt-5 text-h3">{s[locale].title}</h3>
+          <p class="mt-2 text-small text-ink-500">{s[locale].blurb}</p>
+        </a>
+      ))}
+    </div>
+  </Container>
+</section>
+
+<FinalCta locale={locale} />
+
+<style>
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq[open] .faq__chev {
+    transform: rotate(180deg);
+  }
+</style>

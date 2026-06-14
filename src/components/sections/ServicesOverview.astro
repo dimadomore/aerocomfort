@@ -1,0 +1,73 @@
+---
+import { type Locale } from '../../config';
+import { SERVICES } from '../../data/services';
+import { business } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import PageHero from './PageHero.astro';
+import WhyUs from './WhyUs.astro';
+import FinalCta from './FinalCta.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+const contactHref = localizedPath('/contact', locale);
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: t('nav.services') },
+];
+---
+<PageHero
+  crumbs={crumbs}
+  eyebrow={es ? 'Servicios' : 'Services'}
+  title={es ? 'Servicios de aire acondicionado en la Costa Blanca' : 'Air conditioning services on the Costa Blanca'}
+  intro={es
+    ? 'Instalación, reparación, mantenimiento y limpieza — un mismo profesional de confianza, de principio a fin.'
+    : 'Installation, repair, maintenance and cleaning — one trusted specialist, start to finish.'}
+>
+  <div slot="cta" class="mt-7 flex flex-col gap-3 sm:flex-row">
+    <Button href={contactHref} variant="primary" size="lg">
+      {t('cta.quote')}
+      <Icon name="arrow-right" size={20} />
+    </Button>
+    <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
+      <Icon name="whatsapp" size={20} />
+      {t('cta.whatsapp')}
+    </Button>
+  </div>
+</PageHero>
+
+<section class="py-16 lg:py-24">
+  <Container>
+    <div class="grid gap-6 md:grid-cols-2">
+      {SERVICES.map((s) => (
+        <a
+          href={localizedPath(`/services/${s.slug}`, locale)}
+          class="group flex gap-5 rounded-xl border border-line bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
+        >
+          <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-brand-700">
+            <Icon name={s.icon} size={28} />
+          </span>
+          <div>
+            <h2 class="text-h3">{s[locale].title}</h2>
+            <p class="mt-1.5 text-small text-ink-500">{s[locale].blurb}</p>
+            <span class="mt-3 inline-flex items-center gap-1.5 text-small font-bold text-brand-700">
+              {es ? 'Saber más' : 'Learn more'}
+              <Icon name="arrow-right" size={16} />
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </Container>
+</section>
+
+<WhyUs locale={locale} />
+<FinalCta locale={locale} />

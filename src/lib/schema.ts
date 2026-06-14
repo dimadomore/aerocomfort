@@ -1,5 +1,5 @@
 import { SITE_URL } from '../config';
-import { business, isPlaceholder } from '../data';
+import { business, isPlaceholder, type OfferItem } from '../data';
 
 /** Absolute URL helper for schema (which requires fully-qualified URLs). */
 const abs = (path: string) => new URL(path, SITE_URL).href;
@@ -92,4 +92,22 @@ export function breadcrumbLd(items: { name: string; url: string }[]) {
       item: abs(it.url),
     })),
   };
+}
+
+/** Product/Offer schema for the offers page (docs/06 §2 — honest prices only). */
+export function offerProductsLd(items: OfferItem[], priceValidUntil: string, offersUrl: string) {
+  return items.map((o) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: `${o.brand} ${o.model}`,
+    brand: { '@type': 'Brand', name: o.brand },
+    offers: {
+      '@type': 'Offer',
+      price: o.priceNew,
+      priceCurrency: 'EUR',
+      priceValidUntil,
+      availability: 'https://schema.org/InStock',
+      url: abs(offersUrl),
+    },
+  }));
 }

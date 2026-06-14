@@ -1,0 +1,38 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ServiceBody from '../../../components/sections/ServiceBody.astro';
+import { SERVICES } from '../../../data/services';
+import { useTranslations, localizedPath } from '../../../i18n/utils';
+import { serviceLd, breadcrumbLd, faqLd } from '../../../lib/schema';
+
+export function getStaticPaths() {
+  return SERVICES.map((service) => ({ params: { slug: service.esSlug }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const locale = 'es' as const;
+const t = useTranslations(locale);
+const c = service[locale];
+// EN canonical key — localizedPath maps to the localized ES URL for canonical/hreflang.
+const path = `/services/${service.slug}`;
+const esUrl = localizedPath(path, locale);
+const title = `${c.title} de Aire Acondicionado en la Costa Blanca | Aerocomfort`;
+const description = `${c.title} de aire acondicionado en la Costa Blanca. Precios claros, garantía y valoración 5,0★. Presupuesto gratis — llama o WhatsApp.`;
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: t('nav.services'), href: localizedPath('/services', locale) },
+  { label: c.title },
+];
+const jsonLd = [
+  serviceLd(c.h1, esUrl),
+  breadcrumbLd([
+    { name: t('breadcrumb.home'), url: localizedPath('/', locale) },
+    { name: t('nav.services'), url: localizedPath('/services', locale) },
+    { name: c.title, url: esUrl },
+  ]),
+  faqLd(c.faq.map((f) => ({ question: f.q, answer: f.a }))),
+];
+---
+<Base locale={locale} path={path} title={title} description={description} jsonLd={jsonLd}>
+  <ServiceBody locale={locale} service={service} crumbs={crumbs} />
+</Base>

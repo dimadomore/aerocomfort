@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import ServiceBody from '../../components/sections/ServiceBody.astro';
+import { SERVICES } from '../../data/services';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import { serviceLd, breadcrumbLd, faqLd } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return SERVICES.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const locale = 'en' as const;
+const t = useTranslations(locale);
+const c = service[locale];
+const path = `/services/${service.slug}`;
+const title = `Air Conditioning ${c.title} in Costa Blanca | Aerocomfort`;
+const description = `${c.title} of air conditioning across the Costa Blanca. Clear pricing, guarantee and a 5.0★ rating. Free quote — call or WhatsApp.`;
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: t('nav.services'), href: localizedPath('/services', locale) },
+  { label: c.title },
+];
+const jsonLd = [
+  serviceLd(c.h1, path),
+  breadcrumbLd([
+    { name: t('breadcrumb.home'), url: localizedPath('/', locale) },
+    { name: t('nav.services'), url: localizedPath('/services', locale) },
+    { name: c.title, url: path },
+  ]),
+  faqLd(c.faq.map((f) => ({ question: f.q, answer: f.a }))),
+];
+---
+<Base locale={locale} path={path} title={title} description={description} jsonLd={jsonLd}>
+  <ServiceBody locale={locale} service={service} crumbs={crumbs} />
+</Base>
