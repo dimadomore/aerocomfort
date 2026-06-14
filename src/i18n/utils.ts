@@ -47,12 +47,24 @@ export const ROUTES = [
 
 export type EnRoute = (typeof ROUTES)[number]['en'];
 
-/** Localized URL path for a given EN canonical key. */
+/** EN→ES section prefixes for dynamic item routes (areas/brands/services/blog). */
+const SECTION_ES: Record<string, string> = {
+  '/services/': '/es/servicios/',
+  '/areas/': '/es/zonas/',
+  '/brands/': '/es/marcas/',
+  '/blog/': '/es/blog/',
+};
+
+/** Localized URL path for a given EN canonical key (handles dynamic item routes). */
 export function localizedPath(enPath: string, locale: Locale): string {
   const match = ROUTES.find((r) => r.en === enPath);
   if (match) return match[locale];
-  // Unmapped path (e.g. a not-yet-listed route): prefix ES generically.
-  if (locale === 'es') return enPath === '/' ? '/es' : `/es${enPath}`;
+  if (locale === 'es') {
+    for (const [enPre, esPre] of Object.entries(SECTION_ES)) {
+      if (enPath.startsWith(enPre)) return esPre + enPath.slice(enPre.length);
+    }
+    return enPath === '/' ? '/es' : `/es${enPath}`;
+  }
   return enPath;
 }
 

@@ -1,0 +1,18 @@
+---
+import Base from '../../../layouts/Base.astro';
+import BrandsHub from '../../../components/sections/BrandsHub.astro';
+import { hvacBusinessLd, breadcrumbLd } from '../../../lib/schema';
+import { localizedPath } from '../../../i18n/utils';
+
+const locale = 'es' as const;
+const title = 'Marcas de Aire Acondicionado — Daikin, Mitsubishi, LG… | Aerocomfort';
+const description =
+  'Instalamos y reparamos Daikin, Mitsubishi Electric, LG, Panasonic y Giatsu en la Costa Blanca. Presupuesto gratis — llama o WhatsApp.';
+const crumbs = [
+  { name: 'Inicio', url: localizedPath('/', locale) },
+  { name: 'Marcas', url: localizedPath('/brands', locale) },
+];
+---
+<Base locale={locale} path="/brands" title={title} description={description} jsonLd={[hvacBusinessLd(), breadcrumbLd(crumbs)]}>
+  <BrandsHub locale={locale} />
+</Base>

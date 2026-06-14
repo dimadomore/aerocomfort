@@ -1,0 +1,30 @@
+---
+import Base from '../../../layouts/Base.astro';
+import BrandBody from '../../../components/sections/BrandBody.astro';
+import { BRANDS } from '../../../data/brands';
+import { useTranslations, localizedPath } from '../../../i18n/utils';
+import { hvacBusinessLd, breadcrumbLd } from '../../../lib/schema';
+
+export function getStaticPaths() {
+  return BRANDS.map((brand) => ({ params: { slug: brand.slug }, props: { brand } }));
+}
+
+const { brand } = Astro.props;
+const locale = 'es' as const;
+const t = useTranslations(locale);
+const path = `/brands/${brand.slug}`;
+const esUrl = localizedPath(path, locale);
+const title = `Aire Acondicionado ${brand.name} — Instalación y Servicio en Costa Blanca`;
+const description = `${brand.name}: suministro, instalación y reparación de aire acondicionado en la Costa Blanca por Aerocomfort. 5,0★ en Google. Presupuesto gratis.`;
+const jsonLd = [
+  hvacBusinessLd(),
+  breadcrumbLd([
+    { name: t('breadcrumb.home'), url: localizedPath('/', locale) },
+    { name: 'Marcas', url: localizedPath('/brands', locale) },
+    { name: brand.name, url: esUrl },
+  ]),
+];
+---
+<Base locale={locale} path={path} title={title} description={description} jsonLd={jsonLd}>
+  <BrandBody locale={locale} brand={brand} />
+</Base>

@@ -1,11 +1,14 @@
 ---
 import { type Locale } from '../../config';
+import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
+const t = useTranslations(locale);
 const es = locale === 'es';
 // Brand wordmarks (real SVG logos to replace these once usage rights confirmed — D2).
 const brands = ['Daikin', 'Mitsubishi Electric', 'LG', 'Panasonic', 'Giatsu'];
@@ -17,8 +20,22 @@ const brands = ['Daikin', 'Mitsubishi Electric', 'LG', 'Panasonic', 'Giatsu'];
     </p>
     <div class="mt-7 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
       {brands.map((b) => (
-        <span class="font-display text-h3 font-extrabold text-ink-400">{b}</span>
+        <a
+          href={localizedPath('/brands', locale)}
+          class="font-display text-h3 font-extrabold text-ink-400 transition-colors hover:text-brand-700"
+        >
+          {b}
+        </a>
       ))}
+    </div>
+    <div class="mt-6 text-center">
+      <a
+        class="inline-flex items-center gap-1.5 text-small font-bold text-brand-700 transition-all hover:gap-3"
+        href={localizedPath('/brands', locale)}
+      >
+        {t('cta.allBrands')}
+        <Icon name="arrow-right" size={16} />
+      </a>
     </div>
   </Container>
 </section>

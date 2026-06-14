@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import AreaBody from '../../components/sections/AreaBody.astro';
+import { AREAS } from '../../data/areas';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import { hvacBusinessLd, breadcrumbLd, serviceLd } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return AREAS.map((area) => ({ params: { slug: area.slug }, props: { area } }));
+}
+
+const { area } = Astro.props;
+const locale = 'en' as const;
+const t = useTranslations(locale);
+const c = area.en;
+const path = `/areas/${area.slug}`;
+const title = `Air Conditioning in ${c.name} | Install & Repair — Aerocomfort`;
+const description = `Local AC services in ${c.name}: installation, repair, maintenance and cleaning. Fast, tidy and guaranteed. Free quote by call or WhatsApp.`;
+const jsonLd = [
+  hvacBusinessLd(),
+  serviceLd(`Air conditioning in ${c.name}`, path),
+  breadcrumbLd([
+    { name: t('breadcrumb.home'), url: localizedPath('/', locale) },
+    { name: t('nav.areas'), url: localizedPath('/areas', locale) },
+    { name: c.name, url: path },
+  ]),
+];
+---
+<Base locale={locale} path={path} title={title} description={description} jsonLd={jsonLd}>
+  <AreaBody locale={locale} area={area} />
+</Base>

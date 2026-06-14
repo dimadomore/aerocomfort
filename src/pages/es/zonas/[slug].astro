@@ -1,0 +1,32 @@
+---
+import Base from '../../../layouts/Base.astro';
+import AreaBody from '../../../components/sections/AreaBody.astro';
+import { AREAS } from '../../../data/areas';
+import { useTranslations, localizedPath } from '../../../i18n/utils';
+import { hvacBusinessLd, breadcrumbLd, serviceLd } from '../../../lib/schema';
+
+export function getStaticPaths() {
+  return AREAS.map((area) => ({ params: { slug: area.slug }, props: { area } }));
+}
+
+const { area } = Astro.props;
+const locale = 'es' as const;
+const t = useTranslations(locale);
+const c = area.es;
+const path = `/areas/${area.slug}`;
+const esUrl = localizedPath(path, locale);
+const title = `Aire Acondicionado en ${c.name} | Instalación y Reparación — Aerocomfort`;
+const description = `Servicios locales de aire acondicionado en ${c.name}: instalación, reparación, mantenimiento y limpieza. Rápido y con garantía. Presupuesto gratis.`;
+const jsonLd = [
+  hvacBusinessLd(),
+  serviceLd(`Aire acondicionado en ${c.name}`, esUrl),
+  breadcrumbLd([
+    { name: t('breadcrumb.home'), url: localizedPath('/', locale) },
+    { name: t('nav.areas'), url: localizedPath('/areas', locale) },
+    { name: c.name, url: esUrl },
+  ]),
+];
+---
+<Base locale={locale} path={path} title={title} description={description} jsonLd={jsonLd}>
+  <AreaBody locale={locale} area={area} />
+</Base>

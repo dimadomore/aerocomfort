@@ -1,0 +1,50 @@
+---
+import { type Locale } from '../../config';
+import { BRANDS } from '../../data/brands';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import PageHero from './PageHero.astro';
+import FinalCta from './FinalCta.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: es ? 'Marcas' : 'Brands' },
+];
+---
+<PageHero
+  crumbs={crumbs}
+  eyebrow={es ? 'Marcas' : 'Brands'}
+  title={es ? 'Marcas de aire acondicionado que instalamos y reparamos' : 'Air conditioning brands we install & service'}
+  intro={es
+    ? 'Trabajamos con las marcas líderes y te ayudamos a elegir la adecuada para tu espacio y presupuesto.'
+    : 'We work with the leading brands and help you choose the right one for your space and budget.'}
+/>
+
+<section class="py-16 lg:py-24">
+  <Container>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {BRANDS.map((b) => (
+        <a
+          href={localizedPath(`/brands/${b.slug}`, locale)}
+          class="group flex flex-col rounded-xl border border-line bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
+        >
+          <h2 class="font-display text-h3 font-extrabold text-ink-900">{b.name}</h2>
+          <p class="mt-2 flex-1 text-small text-ink-500">{b[locale].intro}</p>
+          <span class="mt-4 inline-flex items-center gap-1.5 text-small font-bold text-brand-700">
+            {es ? 'Saber más' : 'Learn more'}
+            <Icon name="arrow-right" size={16} />
+          </span>
+        </a>
+      ))}
+    </div>
+  </Container>
+</section>
+
+<FinalCta locale={locale} />

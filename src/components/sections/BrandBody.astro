@@ -1,0 +1,96 @@
+---
+import { type Locale } from '../../config';
+import { type Brand } from '../../data/brands';
+import { BRANDS } from '../../data/brands';
+import { SERVICES } from '../../data/services';
+import { offers, business } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import OfferCard from '../ui/OfferCard.astro';
+import PageHero from './PageHero.astro';
+import FinalCta from './FinalCta.astro';
+
+interface Props {
+  locale: Locale;
+  brand: Brand;
+}
+const { locale, brand } = Astro.props;
+const t = useTranslations(locale);
+const es = locale === 'es';
+const c = brand[locale];
+
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+const contactHref = localizedPath('/contact', locale);
+const brandOffers = offers.items.filter((o) => o.brand === brand.name);
+const others = BRANDS.filter((b) => b.slug !== brand.slug);
+const h1 = es ? `Aire acondicionado ${brand.name} — instalación y servicio` : `${brand.name} air conditioning — install & service`;
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: es ? 'Marcas' : 'Brands', href: localizedPath('/brands', locale) },
+  { label: brand.name },
+];
+---
+<PageHero crumbs={crumbs} eyebrow={es ? 'Marca' : 'Brand'} title={h1} intro={c.intro}>
+  <div slot="cta" class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+    <Button href={contactHref} variant="primary" size="lg">
+      {t('cta.quote')}
+      <Icon name="arrow-right" size={20} />
+    </Button>
+    <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
+      <Icon name="whatsapp" size={20} />
+      {t('cta.whatsapp')}
+    </Button>
+  </div>
+</PageHero>
+
+<section class="py-16 lg:py-24">
+  <Container>
+    <div class="grid gap-12 lg:grid-cols-3 lg:gap-16">
+      <div class="lg:col-span-2">
+        <h2 class="text-h2">{es ? `Por qué ${brand.name}` : `Why ${brand.name}`}</h2>
+        <p class="mt-4 text-body-lg text-ink-700">{c.why}</p>
+
+        <h2 class="mt-10 text-h2">{es ? 'Lo que hacemos' : 'What we do'}</h2>
+        <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+          {SERVICES.map((s) => (
+            <li>
+              <a class="inline-flex items-center gap-2.5 text-body font-semibold text-ink-700 transition-colors hover:text-brand-700" href={localizedPath(`/services/${s.slug}`, locale)}>
+                <Icon name={s.icon} size={20} class="text-brand-700" />
+                {s[locale].title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {brandOffers.length > 0 && (
+        <aside class="lg:col-span-1">
+          <h2 class="text-h3">{es ? 'En oferta' : 'On offer'}</h2>
+          <div class="mt-4 space-y-5">
+            {brandOffers.map((o) => <OfferCard offer={o} locale={locale} />)}
+          </div>
+        </aside>
+      )}
+    </div>
+  </Container>
+</section>
+
+<section class="border-t border-line bg-surface-cool py-14">
+  <Container>
+    <h2 class="text-h3">{es ? 'Otras marcas' : 'Other brands'}</h2>
+    <div class="mt-5 flex flex-wrap gap-2.5">
+      {others.map((b) => (
+        <a
+          class="inline-flex items-center rounded-pill border border-line bg-white px-4 py-2 text-small font-semibold text-ink-700 transition-colors hover:border-blue-300 hover:text-brand-700"
+          href={localizedPath(`/brands/${b.slug}`, locale)}
+        >
+          {b.name}
+        </a>
+      ))}
+    </div>
+  </Container>
+</section>
+
+<FinalCta locale={locale} />
