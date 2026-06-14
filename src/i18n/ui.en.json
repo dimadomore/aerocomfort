@@ -1,0 +1,40 @@
+{
+  "site.tagline": "Air conditioning specialists on the Costa Blanca",
+  "site.region": "Costa Blanca, Alicante",
+
+  "nav.services": "Services",
+  "nav.offers": "Offers",
+  "nav.areas": "Areas",
+  "nav.about": "About",
+  "nav.faq": "FAQ",
+  "nav.contact": "Contact",
+  "nav.menu": "Menu",
+  "nav.close": "Close",
+
+  "cta.quote": "Get a free quote",
+  "cta.whatsapp": "Chat on WhatsApp",
+  "cta.call": "Call us",
+  "cta.callShort": "Call",
+  "cta.services": "See our services",
+  "cta.offers": "View all offers",
+  "cta.callback": "Request a callback",
+  "cta.ask": "Ask us anything",
+
+  "hero.h1.lead": "Air conditioning in",
+  "hero.h1.place": "Costa Blanca",
+  "hero.h1.tail": "installation, repair & maintenance",
+  "hero.sub": "Trusted local specialists across Torrevieja, Orihuela Costa and 30+ areas. Clear pricing, tidy work, and a guarantee you can rely on. We speak English.",
+  "hero.trust": "5.0 on Google · 160 reviews",
+  "hero.imageAlt": "Aerocomfort technician installing a wall-mounted air conditioning unit",
+
+  "lang.en": "EN",
+  "lang.es": "ES",
+  "lang.switch": "Cambiar a español",
+
+  "footer.rights": "All rights reserved.",
+  "footer.builtBy": "Air conditioning installation, repair, maintenance and cleaning across the Costa Blanca.",
+  "footer.legalNote": "Company details to be confirmed.",
+
+  "common.skipToContent": "Skip to content",
+  "common.openingHours": "Opening hours"
+}

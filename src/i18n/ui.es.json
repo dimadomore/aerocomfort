@@ -1,0 +1,40 @@
+{
+  "site.tagline": "Especialistas en aire acondicionado en la Costa Blanca",
+  "site.region": "Costa Blanca, Alicante",
+
+  "nav.services": "Servicios",
+  "nav.offers": "Ofertas",
+  "nav.areas": "Zonas",
+  "nav.about": "Nosotros",
+  "nav.faq": "Preguntas",
+  "nav.contact": "Contacto",
+  "nav.menu": "Menú",
+  "nav.close": "Cerrar",
+
+  "cta.quote": "Pide presupuesto gratis",
+  "cta.whatsapp": "Escríbenos por WhatsApp",
+  "cta.call": "Llámanos",
+  "cta.callShort": "Llamar",
+  "cta.services": "Ver servicios",
+  "cta.offers": "Ver todas las ofertas",
+  "cta.callback": "Solicitar llamada",
+  "cta.ask": "Pregúntanos lo que sea",
+
+  "hero.h1.lead": "Aire acondicionado en la",
+  "hero.h1.place": "Costa Blanca",
+  "hero.h1.tail": "instalación, reparación y mantenimiento",
+  "hero.sub": "Especialistas locales de confianza en Torrevieja, Orihuela Costa y más de 30 zonas. Precios claros, trabajo limpio y garantía. Hablamos español e inglés.",
+  "hero.trust": "5.0 en Google · 160 reseñas",
+  "hero.imageAlt": "Técnico de Aerocomfort instalando un equipo de aire acondicionado de pared",
+
+  "lang.en": "EN",
+  "lang.es": "ES",
+  "lang.switch": "Switch to English",
+
+  "footer.rights": "Todos los derechos reservados.",
+  "footer.builtBy": "Instalación, reparación, mantenimiento y limpieza de aire acondicionado en toda la Costa Blanca.",
+  "footer.legalNote": "Datos de empresa por confirmar.",
+
+  "common.skipToContent": "Saltar al contenido",
+  "common.openingHours": "Horario"
+}

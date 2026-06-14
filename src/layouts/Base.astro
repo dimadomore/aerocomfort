@@ -1,0 +1,58 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { type Locale } from '../config';
+import { useTranslations } from '../i18n/utils';
+import Seo from '../components/seo/Seo.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+
+interface Props {
+  locale: Locale;
+  /** EN canonical route key — drives canonical + hreflang + active nav. */
+  path: string;
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+const { locale, path, title, description, image, noindex, jsonLd } = Astro.props;
+const t = useTranslations(locale);
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#11305c" />
+    <Seo
+      path={path}
+      locale={locale}
+      title={title}
+      description={description}
+      image={image}
+      noindex={noindex}
+      jsonLd={jsonLd}
+    />
+  </head>
+  <body class="flex min-h-screen flex-col bg-surface">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-ink-900 focus:shadow-lg"
+    >
+      {t('common.skipToContent')}
+    </a>
+    <Header locale={locale} path={path} />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

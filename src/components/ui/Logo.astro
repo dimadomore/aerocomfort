@@ -1,0 +1,39 @@
+---
+/**
+ * Brand logo. The source PNG is a white lockup on transparent; we colorize it
+ * via CSS mask so the same asset works on light (brand) and dark (white) surfaces
+ * with zero image processing. A proper blue SVG is a later polish task (docs/08 §5).
+ */
+interface Props {
+  height?: number;
+  color?: 'brand' | 'white' | 'ink' | 'brand-900';
+  class?: string;
+}
+const { height = 40, color = 'brand', class: cls = '' } = Astro.props;
+
+const colorVar = {
+  brand: 'var(--brand-700)',
+  white: '#ffffff',
+  ink: 'var(--ink-900)',
+  'brand-900': 'var(--brand-900)',
+}[color];
+
+// Source asset is 811×718.
+const width = Math.round((height * 811) / 718);
+---
+<span
+  class:list={['logo-mark', cls]}
+  role="img"
+  aria-label="Aerocomfort"
+  style={`--logo-color:${colorVar}; height:${height}px; width:${width}px;`}
+></span>
+
+<style>
+  .logo-mark {
+    display: inline-block;
+    flex: none;
+    background-color: var(--logo-color);
+    -webkit-mask: url('/logo.png') center / contain no-repeat;
+    mask: url('/logo.png') center / contain no-repeat;
+  }
+</style>

@@ -1,0 +1,47 @@
+# Seasonal offers (docs/05 §3.4). Edit this one file to update the offers page.
+# Prices/models from the current site (docs/00 §2). Old prices, exact coverage and
+# "supply only vs supply+install" to confirm with the owner (D5). Season 1 Oct–30 Apr.
+
+season:
+  start: "10-01"
+  end: "04-30"
+  label:
+    en: "Valid 1 Oct – 30 Apr"
+    es: "Válido del 1 oct al 30 abr"
+
+items:
+  - brand: Giatsu
+    model: AROMA 2E
+    priceNew: 609
+    priceOld: null            # ‹PLACEHOLDER: previous price — D5›
+    efficiency: "A+++"
+    coverage: "25 m²"         # ‹confirm — D5›
+    image: ""                 # ‹PLACEHOLDER: unit photo — docs/08 §2.6›
+  - brand: LG
+    model: Connect S09EC
+    priceNew: 769
+    priceOld: null
+    efficiency: "A+++"
+    coverage: "25 m²"
+    image: ""
+  - brand: Panasonic
+    model: KIT-BZ25-XKE
+    priceNew: 769
+    priceOld: null
+    efficiency: "A+++"
+    coverage: "25 m²"
+    image: ""
+  - brand: Daikin
+    model: TXF25F
+    priceNew: 859
+    priceOld: null
+    efficiency: "A+++"
+    coverage: "25 m²"
+    image: ""
+  - brand: Mitsubishi Electric
+    model: MSZ-HR25VFK
+    priceNew: 879
+    priceOld: null
+    efficiency: "A+++"
+    coverage: "25 m²"
+    image: ""

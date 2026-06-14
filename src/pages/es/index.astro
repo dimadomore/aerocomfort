@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/sections/Hero.astro';
+import TrustBar from '../../components/sections/TrustBar.astro';
+import { hvacBusinessLd } from '../../lib/schema';
+
+const locale = 'es' as const;
+const title = 'Aire Acondicionado en la Costa Blanca | Instalación y Reparación — Aerocomfort';
+const description =
+  'Instalación, reparación y mantenimiento de aire acondicionado en Torrevieja, Orihuela Costa y +30 zonas. 5.0★ en Google. Presupuesto gratis.';
+---
+<Base locale={locale} path="/" title={title} description={description} jsonLd={[hvacBusinessLd()]}>
+  <Hero locale={locale} />
+  <TrustBar locale={locale} />
+</Base>

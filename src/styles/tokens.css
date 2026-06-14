@@ -1,0 +1,50 @@
+/* Design tokens — single source of truth for the COLOR palette.
+   Mirrors docs/04-design-system.md §3 (palette v2 — refreshed, lighter blue).
+   Tailwind utilities map these via var() in global.css (@theme), so changing a
+   value here changes it everywhere. Radii / shadows / type scale live in the
+   @theme block of global.css (raw values, to avoid var() self-reference). */
+:root {
+  /* Brand blue (anchor) — refreshed: lighter & fresher */
+  --brand-900: #11305c; /* deepest — footer, dark UI on light */
+  --brand-800: #16498f; /* deep sections */
+  --brand-700: #1c62b8; /* HERO background — fresh, lighter blue */
+  --brand-600: #2479e0; /* strong brand blue */
+
+  /* Primary blue (interactive — links, secondary buttons) */
+  --blue-600: #2c82e6;
+  --blue-500: #4a97f0;
+  --blue-300: #93c2f6;
+  --blue-100: #dcebfc;
+
+  /* Sky (cool air — airy backgrounds, illustration) */
+  --sky-300: #bfe1f7;
+  --sky-200: #dceffb;
+  --sky-100: #eaf5fd;
+  --sky-50: #f5fafe;
+
+  /* Fresh cyan — optional micro-accent for "cool air" details (use sparingly) */
+  --cyan-400: #29b6e6;
+
+  /* Accent — warm CTA red ("приятный красный") */
+  --accent-700: #b82e2e; /* hover / text on light */
+  --accent-600: #da3b3b; /* primary CTA */
+  --accent-500: #ed5453;
+
+  /* WhatsApp (hero channel — use ONLY for WA button) */
+  --wa-600: #1fb457;
+  --wa-500: #25d366;
+
+  /* Neutrals (cool-tinted, airy) */
+  --ink-900: #0f1e36; /* headings / body text */
+  --ink-700: #31415c;
+  --ink-500: #61708a; /* secondary text */
+  --ink-400: #8a97ac; /* hints, captions */
+  --line: #e4eaf2; /* borders / dividers */
+  --surface: #ffffff;
+  --surface-cool: #f4f9fd; /* alternating section bg */
+
+  /* Semantic */
+  --success: #1fa971;
+  --warning: #e0a100;
+  --error: #da3b3b;
+}

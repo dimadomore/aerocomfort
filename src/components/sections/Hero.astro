@@ -1,0 +1,126 @@
+---
+import { type Locale } from '../../config';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import { business } from '../../data';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+const contactHref = localizedPath('/contact', locale);
+const regionUpper = (locale === 'es' ? 'Costa Blanca · Alicante' : 'Costa Blanca · Alicante');
+---
+<section class="relative overflow-hidden bg-brand-700 text-white">
+  <!-- Signature motif: cool-air currents, full-bleed and faint (docs/04 §7) -->
+  <svg
+    class="pointer-events-none absolute inset-0 h-full w-full"
+    viewBox="0 0 1200 600"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+  >
+    <g class="text-white/10" stroke-width="2">
+      <path d="M-50 120 C 300 60, 520 200, 900 130 S 1300 60, 1300 120" />
+      <path d="M-50 250 C 320 180, 560 320, 920 250 S 1300 190, 1300 250" />
+      <path d="M-50 400 C 280 330, 600 470, 950 390 S 1300 330, 1300 390" />
+    </g>
+  </svg>
+
+  <Container class="relative z-10 grid items-center gap-12 py-14 lg:grid-cols-12 lg:gap-8 lg:py-24">
+    <div class="lg:col-span-7">
+      <p class="inline-flex items-center gap-2 text-small font-bold tracking-[0.14em] text-white/70 uppercase">
+        <Icon name="map-pin" size={16} />
+        {regionUpper}
+      </p>
+
+      <h1 class="mt-5 text-display">
+        {t('hero.h1.lead')} <span class="place">{t('hero.h1.place')}</span>
+        <span class="mt-3 block font-display text-h2 font-semibold text-white/85">
+          — {t('hero.h1.tail')}
+        </span>
+      </h1>
+
+      <p class="mt-6 max-w-xl text-body-lg text-white/85">{t('hero.sub')}</p>
+
+      <div class="mt-7 inline-flex items-center gap-2.5 rounded-pill bg-white/12 px-4 py-2 ring-1 ring-white/20">
+        <Icon name="star" size={18} class="text-warning" />
+        <span class="text-small font-semibold">{t('hero.trust')}</span>
+      </div>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <Button href={contactHref} variant="primary" size="lg">
+          {t('cta.quote')}
+          <Icon name="arrow-right" size={20} />
+        </Button>
+        <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={20} />
+          {t('cta.whatsapp')}
+        </Button>
+        <Button href={telHref} variant="secondary" size="lg">
+          <Icon name="phone" size={18} />
+          {business.phone}
+        </Button>
+      </div>
+    </div>
+
+    <!-- Signature illustration: a split AC unit breathing cool air (subject-true,
+         stands in for the hero photo until the owner's photos arrive — docs/08 §2.1) -->
+    <div class="lg:col-span-5">
+      <div class="relative mx-auto max-w-md rounded-xl bg-linear-to-br from-brand-600 to-brand-800 p-6 shadow-lg ring-1 ring-white/15 sm:p-8">
+        <svg viewBox="0 0 420 320" class="h-auto w-full" role="img" aria-label={t('hero.imageAlt')} fill="none">
+          <!-- indoor split unit -->
+          <rect x="44" y="60" width="332" height="80" rx="18" fill="rgba(255,255,255,0.05)" stroke="#fff" stroke-width="2.5" />
+          <circle cx="74" cy="86" r="4" fill="var(--cyan-400)" />
+          <line x1="92" y1="86" x2="150" y2="86" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.8" />
+          <rect x="308" y="76" width="44" height="18" rx="5" fill="none" stroke="#fff" stroke-width="2" opacity="0.7" />
+          <circle cx="318" cy="85" r="2.5" fill="var(--cyan-400)" />
+          <!-- louver / air outlet -->
+          <rect x="60" y="120" width="300" height="12" rx="6" fill="rgba(255,255,255,0.12)" stroke="#fff" stroke-width="2" />
+          <!-- cool-air streams -->
+          <g stroke-width="2.75" stroke-linecap="round">
+            <path d="M150 150 C 140 178, 140 198, 152 222 C 162 242, 162 262, 150 286" stroke="#fff" opacity="0.55" />
+            <path d="M210 152 C 200 184, 200 206, 212 232 C 222 254, 222 276, 210 300" stroke="var(--cyan-400)" opacity="0.9" />
+            <path d="M270 150 C 280 178, 280 198, 268 222 C 258 242, 258 262, 270 286" stroke="#fff" opacity="0.55" />
+          </g>
+          <g stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6" fill="none">
+            <path d="M142 280 l8 9 l8 -9" />
+            <path d="M262 280 l8 9 l8 -9" />
+          </g>
+          <path d="M202 296 l8 9 l8 -9" stroke="var(--cyan-400)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <!-- floating temperature chip — overlap detail (docs/04 §8.5) -->
+        <div class="absolute -bottom-4 -left-3 flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 shadow-lg">
+          <span class="inline-block h-2.5 w-2.5 rounded-full bg-cyan-400"></span>
+          <span class="font-display text-h3 font-extrabold text-brand-700">21°</span>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  /* Accent underline on the place word — energy without hurting text contrast */
+  .place {
+    position: relative;
+    white-space: nowrap;
+  }
+  .place::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.04em;
+    height: 0.16em;
+    border-radius: var(--radius-pill);
+    background: var(--accent-500);
+  }
+</style>

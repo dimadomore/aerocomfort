@@ -1,0 +1,157 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* ---------------------------------------------------------------------------
+   Tailwind v4 theme: map design tokens → utilities (bg-brand-700, text-accent-600…)
+   Colors reference the tokens in tokens.css (var()) so that file stays the source
+   of truth. Radii / shadows / fonts / fluid type are defined here directly.
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Colors → utilities */
+  --color-brand-900: var(--brand-900);
+  --color-brand-800: var(--brand-800);
+  --color-brand-700: var(--brand-700);
+  --color-brand-600: var(--brand-600);
+
+  --color-blue-600: var(--blue-600);
+  --color-blue-500: var(--blue-500);
+  --color-blue-300: var(--blue-300);
+  --color-blue-100: var(--blue-100);
+
+  --color-sky-300: var(--sky-300);
+  --color-sky-200: var(--sky-200);
+  --color-sky-100: var(--sky-100);
+  --color-sky-50: var(--sky-50);
+
+  --color-cyan-400: var(--cyan-400);
+
+  --color-accent-700: var(--accent-700);
+  --color-accent-600: var(--accent-600);
+  --color-accent-500: var(--accent-500);
+
+  --color-wa-600: var(--wa-600);
+  --color-wa-500: var(--wa-500);
+
+  --color-ink-900: var(--ink-900);
+  --color-ink-700: var(--ink-700);
+  --color-ink-500: var(--ink-500);
+  --color-ink-400: var(--ink-400);
+
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-surface-cool: var(--surface-cool);
+
+  /* Typefaces (self-hosted variable; imported in Base.astro) */
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-display: 'Archivo Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* Fluid type scale (docs/04 §4) — clamp(min, fluid, max) */
+  --text-display: clamp(2.5rem, 4vw + 1.5rem, 3.75rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: clamp(2.25rem, 3vw + 1rem, 3rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: clamp(1.75rem, 2vw + 0.75rem, 2.25rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h3: clamp(1.375rem, 1vw + 0.9rem, 1.625rem);
+  --text-h3--line-height: 1.25;
+  --text-body-lg: 1.25rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.6;
+  --text-small: 1rem;
+  --text-caption: 0.875rem;
+
+  /* Radii (docs/04 §5) */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* Shadows (cool, soft) */
+  --shadow-sm: 0 1px 2px rgba(20, 38, 74, 0.06);
+  --shadow-md: 0 8px 24px rgba(20, 38, 74, 0.08);
+  --shadow-lg: 0 16px 48px rgba(20, 38, 74, 0.1);
+
+  /* Breakpoints (docs/04 §5) — Tailwind defaults already match; kept explicit */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+/* ---------------------------------------------------------------------------
+   Base layer — readable for 40+ audience: 18px base, generous line-height,
+   visible focus, reduced-motion respected (docs/04 §10).
+   --------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    color-scheme: light;
+    --container-max: 1200px;
+    --container-pad: 20px;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --container-pad: 32px;
+    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--ink-900);
+    background-color: var(--surface);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    color: var(--ink-900);
+  }
+
+  a {
+    color: var(--blue-600);
+    text-underline-offset: 0.15em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--blue-500);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background-color: var(--brand-700);
+    color: #fff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

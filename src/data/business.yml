@@ -1,0 +1,46 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# SINGLE SOURCE OF TRUTH for business facts (NAP, contacts, rating, social).
+# Consumed by header, footer, <Seo>, JSON-LD and contact pages. Change once → it
+# changes everywhere. Keep this byte-identical with the Google Business Profile
+# (NAP consistency — docs/03 §4.1, docs/06 §4). Locale-specific copy (taglines)
+# lives in src/i18n/ui.*.json, not here, to keep these facts language-neutral.
+#
+# ‹PLACEHOLDER: …› marks facts to confirm with the owner (John) — see docs/02.
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: Aerocomfort
+legalName: "‹PLACEHOLDER: autónomo/SL legal name — C3›"
+taxId: "‹PLACEHOLDER: NIF/CIF — C3›"
+
+# Contact channels — WhatsApp is the hero channel (docs/03 §2.1).
+phone: "+34 643 265 007"        # human-readable, used in tel: as digits below
+phoneE164: "+34643265007"
+whatsapp: "+34643265007"        # WhatsApp Business
+whatsappMessage:
+  en: "Hi Aerocomfort, I'd like a quote for air conditioning."
+  es: "Hola Aerocomfort, me gustaría un presupuesto de aire acondicionado."
+email: "info.aerocomfort@gmail.com"
+emailFuture: "info@aerocomfort.es"   # optional domain email via Cloudflare Routing (G4)
+
+# Location / service area
+addressRegion: "Alicante"
+addressCountry: "ES"
+geo:
+  lat: "‹PLACEHOLDER: lat — C/geo›"
+  lng: "‹PLACEHOLDER: lng›"
+hours: "‹PLACEHOLDER: opening hours — C7›"
+areasLead:
+  - Torrevieja
+  - Orihuela Costa
+  - Alicante
+areasCount: 30
+
+# Real Google rating (keep in sync with GBP — never invent; docs/06 §2)
+rating:
+  value: "5.0"
+  count: 160
+
+social:
+  google: "https://maps.app.goo.gl/eTYVXAazTkRR2edJ9"
+  instagram: "‹PLACEHOLDER: Instagram URL — G3›"
+  facebook: "‹PLACEHOLDER: Facebook URL — G3›"

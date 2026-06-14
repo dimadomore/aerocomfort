@@ -1,19 +1,15 @@
 ---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/sections/Hero.astro';
+import TrustBar from '../components/sections/TrustBar.astro';
+import { hvacBusinessLd } from '../lib/schema';
 
+const locale = 'en' as const;
+const title = 'Air Conditioning in Costa Blanca | Install, Repair & Service — Aerocomfort';
+const description =
+  'Trusted AC installation, repair & maintenance across Torrevieja, Orihuela Costa & 30+ areas. 5.0★ on Google. Free quote — call or WhatsApp.';
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="robots" content="noindex, nofollow" />
-		<title>Aerocomfort — new site in progress</title>
-	</head>
-	<body>
-		<h1>Aerocomfort</h1>
-		<p>New website under construction. Current site: <a href="https://aerocomfort.es">aerocomfort.es</a></p>
-	</body>
-</html>
+<Base locale={locale} path="/" title={title} description={description} jsonLd={[hvacBusinessLd()]}>
+  <Hero locale={locale} />
+  <TrustBar locale={locale} />
+</Base>

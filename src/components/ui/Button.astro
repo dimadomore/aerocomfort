@@ -1,0 +1,47 @@
+---
+/**
+ * Button / link. Variants per docs/04 §6. Renders <a> when `href` is set, else
+ * <button>. Touch target ≥44px (docs/04 §10). Subtle hover lift (docs/04 §8.5).
+ */
+interface Props {
+  variant?: 'primary' | 'secondary' | 'whatsapp' | 'ghost';
+  size?: 'md' | 'lg';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+  [key: string]: unknown;
+}
+const {
+  variant = 'primary',
+  size = 'lg',
+  href,
+  type = 'button',
+  class: cls = '',
+  ...rest
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2.5 rounded-pill font-display font-bold tracking-tight transition-[transform,box-shadow,background-color,color] duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-3 focus-visible:outline-offset-2';
+
+const sizes = {
+  md: 'text-small px-5 min-h-11',
+  lg: 'text-body px-7 min-h-13',
+};
+
+const variants = {
+  primary: 'bg-accent-600 text-white shadow-md hover:bg-accent-700 hover:shadow-lg',
+  secondary: 'bg-white text-blue-600 ring-2 ring-inset ring-blue-300 hover:bg-blue-100',
+  whatsapp: 'bg-wa-500 text-white shadow-md hover:bg-wa-600 hover:shadow-lg',
+  ghost: 'text-ink-700 hover:bg-sky-100',
+};
+
+const Tag = href ? 'a' : 'button';
+---
+<Tag
+  class:list={[base, sizes[size], variants[variant], cls]}
+  href={href}
+  type={href ? undefined : type}
+  {...rest}
+>
+  <slot />
+</Tag>
