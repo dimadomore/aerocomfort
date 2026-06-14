@@ -17,7 +17,7 @@ const t = useTranslations(locale);
 const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
 const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
 ---
-<div class="stickybar lg:hidden" data-sticky-bar aria-hidden="true">
+<div class="stickybar lg:hidden" data-sticky-bar aria-hidden="true" inert>
   <a class="stickybar__btn stickybar__btn--call" href={telHref}>
     <Icon name="phone" size={20} />
     {t('cta.callShort')}
@@ -92,6 +92,7 @@ const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${enc
         shown = past;
         bar.classList.toggle('is-visible', past);
         bar.setAttribute('aria-hidden', String(!past));
+        bar.toggleAttribute('inert', !past); // keep links out of focus order while hidden
       }
     };
     update();

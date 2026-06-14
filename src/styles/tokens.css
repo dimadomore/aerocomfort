@@ -25,9 +25,10 @@
   /* Fresh cyan — optional micro-accent for "cool air" details (use sparingly) */
   --cyan-400: #29b6e6;
 
-  /* Accent — warm CTA red ("приятный красный") */
+  /* Accent — warm CTA red ("приятный красный"). 600 deepened so white text on it
+     clears WCAG AA (≈5:1) for buttons and offer prices. */
   --accent-700: #b82e2e; /* hover / text on light */
-  --accent-600: #da3b3b; /* primary CTA */
+  --accent-600: #d12f2f; /* primary CTA */
   --accent-500: #ed5453;
 
   /* WhatsApp (hero channel — use ONLY for WA button) */
@@ -37,8 +38,8 @@
   /* Neutrals (cool-tinted, airy) */
   --ink-900: #0f1e36; /* headings / body text */
   --ink-700: #31415c;
-  --ink-500: #61708a; /* secondary text */
-  --ink-400: #8a97ac; /* hints, captions */
+  --ink-500: #61708a; /* secondary text (≈5:1 on white) */
+  --ink-400: #6b7689; /* captions/hints — darkened to clear AA (≈4.6:1 on white) */
   --line: #e4eaf2; /* borders / dividers */
   --surface: #ffffff;
   --surface-cool: #f4f9fd; /* alternating section bg */
