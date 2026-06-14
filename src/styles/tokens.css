@@ -46,6 +46,6 @@
 
   /* Semantic */
   --success: #1fa971;
-  --warning: #e0a100;
+  --warning: #f5b400; /* gold — review stars */
   --error: #da3b3b;
 }

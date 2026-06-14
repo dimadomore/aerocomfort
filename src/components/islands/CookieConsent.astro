@@ -1,5 +1,5 @@
 ---
-import { type Locale, ANALYTICS, ELFSIGHT_ID } from '../../config';
+import { type Locale, ANALYTICS } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 
 /**
@@ -12,7 +12,9 @@ interface Props {
 }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-const needsConsent = Boolean(ANALYTICS.gaId || ANALYTICS.adsId || ELFSIGHT_ID);
+// Driven by analytics/ads only — those use Consent Mode. The Elfsight reviews
+// widget loads as content, so it doesn't by itself trigger the banner.
+const needsConsent = Boolean(ANALYTICS.gaId || ANALYTICS.adsId);
 const cookiesHref = localizedPath('/cookies', locale);
 ---
 {

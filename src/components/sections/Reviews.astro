@@ -1,53 +1,32 @@
 ---
 import { type Locale, ELFSIGHT_ID } from '../../config';
-import { business } from '../../data';
-import { useTranslations } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
-import Button from '../ui/Button.astro';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
-const t = useTranslations(locale);
 const es = locale === 'es';
-const gbp = business.social.google;
 ---
 <section class="border-y border-line bg-surface-cool py-16 lg:py-24">
   <Container class="text-center">
     <div class="flex items-center justify-center gap-1.5 text-warning">
       {Array.from({ length: 5 }).map(() => <Icon name="star" size={26} />)}
     </div>
-    <p class="mt-5 font-display text-h1 font-extrabold">
-      {es ? 'Valorados 5,0 en Google' : 'Rated 5.0 on Google'}
-    </p>
-    <p class="mx-auto mt-3 max-w-xl text-body-lg text-ink-500">
-      {business.rating.count}{' '}
-      {es ? 'reseñas de clientes reales en la Costa Blanca.' : 'reviews from real customers across the Costa Blanca.'}
-    </p>
+    <h2 class="mt-5 text-h1">{es ? 'Valorados 5,0 en Google' : 'Rated 5.0 on Google'}</h2>
 
     {
       ELFSIGHT_ID && (
-        <div
-          class="mx-auto mt-8 max-w-4xl"
-          data-elfsight-id={ELFSIGHT_ID}
-          style="min-height:320px"
-        />
+        <div class="mx-auto mt-8 max-w-4xl" data-elfsight-id={ELFSIGHT_ID} style="min-height:320px" />
       )
     }
-
-    <div class="mt-8">
-      <Button href={gbp} variant="secondary" size="lg" target="_blank" rel="noopener">
-        {t('cta.reviewGoogle')}
-        <Icon name="arrow-up-right" size={18} />
-      </Button>
-    </div>
   </Container>
 </section>
 
 <script>
   // Lazy-mount the Elfsight Google-reviews widget on viewport (keeps Lighthouse green).
+  // The widget renders its own rating, count and "Review on Google" button.
   const host = document.querySelector<HTMLElement>('[data-elfsight-id]');
   if (host) {
     const id = host.getAttribute('data-elfsight-id');
