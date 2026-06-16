@@ -42,13 +42,9 @@ Home · Services overview + 4 service pages (installation/repair/maintenance/cle
 
 ## Remaining vs the plan
 
-### A. Needs the owner (John) — placeholders are marked `‹…›` in data
-- Trust facts: years experience, installs, certifications, guarantee terms, insurance (C1–C5) → TrustBar/About/schema.
-- Prices "from €…" (D3); exact service-area list + local detail (D4); FAQ specifics (E1).
-- Legal entity name + NIF/address (C3) → fills Privacy/Cookies/Aviso Legal (currently DRAFT templates — need a legal review too).
-- Real photos (F1/F2) → hero, About, and the **Gallery section (not built yet — waiting on photos)**.
-- Social links (G3); domain email decision (G4).
-- **Access:** Google Search Console (A1) + Google Ads (A2) — needed to inventory current conversions before migration.
+### A. Owner facts — mostly ANSWERED & integrated (2026-06-14)
+- ✅ In the site now: 1000+ installs · certified for fluorinated-gas handling (cert number withheld) · 3-yr workmanship + 3-yr equipment guarantee · payments card/transfer/Bizum/cash (no instalments) · brands Mitsubishi Electric, Panasonic, LG, Giatsu, Haier, Samsung, Gree · also heat pumps (aerotermia) + ventilation (no refrigeration) · cleaning from €50 (install/repair on quote) · install time 24–72h · real FAQ · full service-area list (Costa Blanca & Costa Cálida, 45+ towns, 14 with pages) · autónomo, NIE Y9274595C, manager Gregorio.
+- ⛔ Still needed: full legal **surname** (Aviso Legal + footer reg line stay hidden until then) · **insurance** (seguro RC) yes/no · years-in-business (not given) · confirm the **Daikin** seasonal offer (Daikin isn't in the brand list) · real **photos** → hero/About + a **Gallery** (not built yet) · social links (G3) · domain email (G4) · Search Console (A1) + Google Ads (A2) access for the migration.
 
 ### B. Deferred technical
 - **Conversion events** (form submit / WhatsApp click / tel click → gtag + `/thank-you`) — wire after the GA4/Ads IDs are in. Critical so ads don't regress.
