@@ -10,28 +10,27 @@ interface Props {
 const { locale } = Astro.props;
 const es = locale === 'es';
 
-// Claims kept to what's verifiable today (rating, locality, pricing, guarantee).
-// Certifications/insurance copy added once confirmed by the owner (C2/C5).
+// Real, owner-confirmed facts (John, 2026-06-14).
 const items: { icon: 'star' | 'wind' | 'check' | 'shield-check'; t: string; d: string }[] = [
   {
     icon: 'star',
     t: es ? '5,0★ en Google' : '5.0★ on Google',
-    d: es ? '160 clientes satisfechos en la Costa Blanca.' : '160 happy customers across the Costa Blanca.',
+    d: es ? '160 reseñas y más de 1000 instalaciones.' : '160 reviews and 1000+ installations.',
+  },
+  {
+    icon: 'shield-check',
+    t: es ? 'Certificados y con garantía' : 'Certified & guaranteed',
+    d: es ? 'Cualificados para gases fluorados; 3 años de garantía en trabajo y equipo.' : 'Qualified for refrigerant handling; 3-year guarantee on work and equipment.',
   },
   {
     icon: 'wind',
     t: es ? 'Local y rápido' : 'Local & fast',
-    d: es ? 'En la Costa Blanca, con salidas rápidas a más de 30 zonas.' : 'On the Costa Blanca, with quick callouts to 30+ areas.',
+    d: es ? 'Costa Blanca y Costa Cálida — instalación en 24–72 h según la temporada.' : 'Costa Blanca & Costa Cálida — installed in 24–72h depending on season.',
   },
   {
     icon: 'check',
     t: es ? 'Precios claros' : 'Clear, upfront pricing',
-    d: es ? 'Presupuestos gratis y precios honestos — sin sorpresas.' : 'Free quotes and honest prices — no surprises.',
-  },
-  {
-    icon: 'shield-check',
-    t: es ? 'Trabajo garantizado' : 'Tidy, guaranteed work',
-    d: es ? 'Instalaciones limpias, bien hechas y con garantía.' : 'Clean installations done right, backed by a guarantee.',
+    d: es ? 'Presupuestos gratis — pago con tarjeta, transferencia, Bizum o efectivo.' : 'Free quotes — pay by card, transfer, Bizum or cash.',
   },
 ];
 ---

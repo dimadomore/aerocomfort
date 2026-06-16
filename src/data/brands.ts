@@ -13,33 +13,33 @@ export interface Brand {
 }
 
 /**
- * Brands we install and service (docs/05 §3.6). Copy is generic-true; official
- * partnership/dealer status to confirm before claiming "official installer" (D2).
- * Brand logos (SVG) to be added once usage rights are confirmed.
+ * Brands we install and service (owner-confirmed, John 2026-06-14):
+ * Mitsubishi Electric, Panasonic, LG, Giatsu, Haier, Samsung, Gree.
+ * No official dealership — we don't claim "official installer". Logos (SVG) TBD.
  */
 export const BRANDS: Brand[] = [
-  {
-    slug: 'daikin',
-    name: 'Daikin',
-    en: {
-      intro: 'Daikin is one of the world’s leading air conditioning makers, known for reliable, highly efficient split systems.',
-      why: 'A popular choice for quiet operation and strong energy ratings. We supply, install and service the full Daikin range across the Costa Blanca.',
-    },
-    es: {
-      intro: 'Daikin es uno de los mayores fabricantes de aire acondicionado del mundo, conocido por sus splits fiables y muy eficientes.',
-      why: 'Una opción muy popular por su funcionamiento silencioso y su buena eficiencia energética. Suministramos, instalamos y reparamos toda la gama Daikin en la Costa Blanca.',
-    },
-  },
   {
     slug: 'mitsubishi-electric',
     name: 'Mitsubishi Electric',
     en: {
       intro: 'Mitsubishi Electric is renowned for durable, premium air conditioning with excellent build quality.',
-      why: 'A great long-term investment for homes that want top reliability and comfort. We install and service the Mitsubishi Electric range.',
+      why: 'A great long-term investment for homes that want top reliability and quiet comfort. We install and service the full range.',
     },
     es: {
       intro: 'Mitsubishi Electric es reconocida por sus equipos de aire acondicionado duraderos y de gama alta, con un acabado excelente.',
-      why: 'Una gran inversión a largo plazo para hogares que buscan máxima fiabilidad y confort. Instalamos y reparamos la gama Mitsubishi Electric.',
+      why: 'Una gran inversión a largo plazo para quien busca máxima fiabilidad y confort silencioso. Instalamos y reparamos toda la gama.',
+    },
+  },
+  {
+    slug: 'panasonic',
+    name: 'Panasonic',
+    en: {
+      intro: 'Panasonic air conditioning is known for clean-air technology and dependable performance.',
+      why: 'A solid all-round choice with a focus on air quality. We supply, install and maintain Panasonic systems.',
+    },
+    es: {
+      intro: 'El aire acondicionado Panasonic destaca por su tecnología de aire limpio y su rendimiento fiable.',
+      why: 'Una opción sólida y equilibrada, centrada en la calidad del aire. Suministramos, instalamos y mantenemos sistemas Panasonic.',
     },
   },
   {
@@ -55,27 +55,51 @@ export const BRANDS: Brand[] = [
     },
   },
   {
-    slug: 'panasonic',
-    name: 'Panasonic',
-    en: {
-      intro: 'Panasonic air conditioning is known for clean-air technology and dependable performance.',
-      why: 'A solid all-round choice, with models that focus on air quality. We supply, install and maintain Panasonic systems.',
-    },
-    es: {
-      intro: 'El aire acondicionado Panasonic destaca por su tecnología de aire limpio y su rendimiento fiable.',
-      why: 'Una opción sólida y equilibrada, con modelos centrados en la calidad del aire. Suministramos, instalamos y mantenemos sistemas Panasonic.',
-    },
-  },
-  {
     slug: 'giatsu',
     name: 'Giatsu',
     en: {
-      intro: 'Giatsu offers excellent value air conditioning that’s popular across Spain.',
-      why: 'A budget-friendly way to get efficient A+++ cooling — featured in our seasonal offers. We install and service Giatsu units.',
+      intro: 'Giatsu offers excellent value air conditioning that is popular across Spain.',
+      why: 'A budget-friendly way to get efficient A+++ cooling — often featured in our seasonal offers. We install and service Giatsu units.',
     },
     es: {
       intro: 'Giatsu ofrece aire acondicionado con una excelente relación calidad-precio, muy popular en España.',
-      why: 'Una forma económica de conseguir refrigeración eficiente A+++ — presente en nuestras ofertas de temporada. Instalamos y reparamos equipos Giatsu.',
+      why: 'Una forma económica de conseguir refrigeración eficiente A+++ — habitual en nuestras ofertas. Instalamos y reparamos equipos Giatsu.',
+    },
+  },
+  {
+    slug: 'haier',
+    name: 'Haier',
+    en: {
+      intro: 'Haier is one of the world’s largest appliance makers, with a wide, well-priced air conditioning range.',
+      why: 'Reliable, efficient units at a competitive price. We supply, install and service the Haier range.',
+    },
+    es: {
+      intro: 'Haier es uno de los mayores fabricantes de electrodomésticos del mundo, con una amplia gama de aire acondicionado a buen precio.',
+      why: 'Equipos fiables y eficientes a un precio competitivo. Suministramos, instalamos y reparamos la gama Haier.',
+    },
+  },
+  {
+    slug: 'samsung',
+    name: 'Samsung',
+    en: {
+      intro: 'Samsung air conditioning combines striking design with features like Wind-Free comfort.',
+      why: 'A great pick if you want a stylish unit with even, draught-free cooling. We install and service Samsung systems.',
+    },
+    es: {
+      intro: 'El aire acondicionado Samsung combina un diseño llamativo con funciones como la climatización Wind-Free.',
+      why: 'Ideal si quieres un equipo elegante con un frío uniforme y sin corrientes. Instalamos y reparamos sistemas Samsung.',
+    },
+  },
+  {
+    slug: 'gree',
+    name: 'Gree',
+    en: {
+      intro: 'Gree is the world’s largest dedicated air conditioning manufacturer, known for great value.',
+      why: 'Dependable cooling at a sharp price. We supply, install and service Gree units across the Costa Blanca and Costa Cálida.',
+    },
+    es: {
+      intro: 'Gree es el mayor fabricante del mundo dedicado al aire acondicionado, conocido por su buena relación calidad-precio.',
+      why: 'Frío fiable a un precio ajustado. Suministramos, instalamos y reparamos equipos Gree en la Costa Blanca y la Costa Cálida.',
     },
   },
 ];

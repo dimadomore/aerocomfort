@@ -23,12 +23,13 @@ const crumbs = [
   { label: t('nav.about') },
 ];
 
-// Trust facts — ‹N› placeholders await the owner (C1); rating/areas are real.
+// Real owner facts (John, 2026-06-14).
+const tr = business.trust;
 const stats = [
-  { value: '‹N›+', label: es ? 'años de experiencia' : 'years experience', pending: true },
-  { value: '‹N›+', label: es ? 'instalaciones' : 'installations', pending: true },
-  { value: `${business.rating.value}★`, label: es ? `${business.rating.count} reseñas` : `${business.rating.count} reviews`, pending: false },
-  { value: `${business.areasCount}+`, label: es ? 'zonas' : 'areas', pending: false },
+  { value: tr?.installs ?? '1000+', label: es ? 'instalaciones' : 'installations' },
+  { value: `${business.rating.value}★`, label: es ? `${business.rating.count} reseñas` : `${business.rating.count} reviews` },
+  { value: es ? `${tr?.guaranteeYears ?? 3} años` : `${tr?.guaranteeYears ?? 3}-yr`, label: es ? 'de garantía' : 'guarantee' },
+  { value: `${business.areasCount}+`, label: es ? 'zonas' : 'areas' },
 ];
 ---
 <PageHero
@@ -47,17 +48,17 @@ const stats = [
         <Prose>
           {es ? (
             <Fragment>
-              <p>Aerocomfort es el trabajo de un mismo especialista de confianza — ‹John›, la persona detrás de cada instalación, reparación y mantenimiento. Con ‹N› años trabajando con el aire acondicionado en la Costa Blanca, ‹ha› conseguido una valoración de 5,0★ en Google de 160 clientes.</p>
-              <p>Cada trabajo se hace en persona — sin subcontratas ni centralitas. Tratas directamente con el especialista que realiza el trabajo, desde el primer presupuesto hasta la última prueba.</p>
-              <p>‹Certificaciones / licencia — por confirmar.› El trabajo se realiza de forma limpia y con garantía, y te asesoramos con honestidad sobre el equipo adecuado para tu espacio y tu presupuesto.</p>
-              <p>Trabajamos en español e inglés, en Torrevieja, Orihuela Costa, Alicante y más de 30 localidades de la Costa Blanca.</p>
+              <p>Aerocomfort es el trabajo de Gregorio, el especialista detrás de cada servicio. Con más de <strong>1000 instalaciones</strong> de aire acondicionado en la Costa Blanca y la Costa Cálida, ha conseguido una valoración de <strong>5,0★ en Google</strong> de 160 clientes.</p>
+              <p>Cada trabajo se hace en persona — sin subcontratas ni centralitas. Tratas directamente con quien realiza el trabajo, desde el primer presupuesto hasta la última prueba.</p>
+              <p>Estamos <strong>cualificados para la manipulación de gases fluorados</strong> y respaldamos cada instalación con <strong>3 años de garantía</strong>, más la garantía del fabricante de 3 años sobre el equipo.</p>
+              <p>Instalamos, reparamos, limpiamos y mantenemos todas las marcas principales, y también montamos bombas de calor (aerotermia) y ventilación. Pago con tarjeta, transferencia, Bizum o efectivo. Trabajamos en español e inglés, de Torrevieja y Orihuela Costa al Mar Menor y Mazarrón.</p>
             </Fragment>
           ) : (
             <Fragment>
-              <p>Aerocomfort is the work of one trusted specialist — ‹John›, the person behind every installation, repair and service. With ‹N› years working with air conditioning across the Costa Blanca, ‹he› has earned a 5.0★ rating on Google from 160 customers.</p>
-              <p>Every job is done personally — no subcontractors, no call centre. You deal directly with the specialist who does the work, from the first quote to the final test.</p>
-              <p>‹Certifications / licence — to confirm.› Work is carried out cleanly and backed by a guarantee, and we're happy to advise honestly on the right unit for your space and budget.</p>
-              <p>We work in English and Spanish, across Torrevieja, Orihuela Costa, Alicante and 30+ towns on the Costa Blanca.</p>
+              <p>Aerocomfort is run by Gregorio, the specialist behind every job. With <strong>1000+ air conditioning installations</strong> across the Costa Blanca and Costa Cálida, he has earned a <strong>5.0★ rating on Google</strong> from 160 customers.</p>
+              <p>Every job is done personally — no subcontractors, no call centre. You deal directly with the person who does the work, from the first quote to the final test.</p>
+              <p>We are <strong>certified for refrigerant handling (gases fluorados)</strong> and back every installation with a <strong>3-year guarantee</strong>, plus the manufacturer's 3-year warranty on the equipment.</p>
+              <p>We install, repair, clean and service all major brands, and also fit heat pumps (aerotermia) and ventilation. Pay by card, transfer, Bizum or cash. We work in English and Spanish, from Torrevieja and Orihuela Costa to the Mar Menor and Mazarrón.</p>
             </Fragment>
           )}
         </Prose>

@@ -15,7 +15,7 @@ const t = useTranslations(locale);
 const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
 const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
 const contactHref = localizedPath('/contact', locale);
-const regionUpper = (locale === 'es' ? 'Costa Blanca · Alicante' : 'Costa Blanca · Alicante');
+const regionUpper = 'Costa Blanca · Costa Cálida';
 ---
 <section class="relative overflow-hidden bg-brand-700 text-white">
   <!-- Signature motif: cool-air currents, full-bleed and faint (docs/04 §7) -->

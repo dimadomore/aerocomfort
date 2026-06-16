@@ -58,21 +58,21 @@ export const AREAS: Area[] = [
     },
   },
   {
-    slug: 'alicante',
+    slug: 'santa-pola',
     en: {
-      name: 'Alicante',
-      intro: 'Air conditioning for homes and businesses across Alicante city.',
+      name: 'Santa Pola',
+      intro: 'Air conditioning installation, repair and maintenance across Santa Pola.',
       body: [
-        'In the city of Alicante we install and service air conditioning for flats, offices and shops — from the centre and Playa de San Juan to the surrounding neighbourhoods. Efficient cooling matters all summer, and we help you get it sized and fitted right.',
-        'For businesses we can advise on multi-split systems to cool several rooms cleanly and economically.',
+        'Santa Pola is a busy coastal town — fishing port, long beaches and plenty of holiday apartments — so reliable air conditioning is a must through the long summer. We install, repair, clean and service AC across the town and its urbanisations.',
+        'Sea air is hard on outdoor units, so a regular clean and service keeps them efficient and trouble-free.',
       ],
     },
     es: {
-      name: 'Alicante',
-      intro: 'Aire acondicionado para hogares y negocios en la ciudad de Alicante.',
+      name: 'Santa Pola',
+      intro: 'Instalación, reparación y mantenimiento de aire acondicionado en Santa Pola.',
       body: [
-        'En la ciudad de Alicante instalamos y reparamos aire acondicionado para pisos, oficinas y comercios — del centro y la Playa de San Juan a los barrios de alrededor. El frío eficiente importa todo el verano, y te ayudamos a dimensionarlo e instalarlo bien.',
-        'Para negocios te asesoramos sobre sistemas multisplit para climatizar varias estancias de forma limpia y económica.',
+        'Santa Pola es un municipio costero con puerto pesquero, playas largas y muchos apartamentos de vacaciones — un buen aire acondicionado es imprescindible en el largo verano. Instalamos, reparamos, limpiamos y mantenemos equipos en el pueblo y sus urbanizaciones.',
+        'El aire del mar castiga las unidades exteriores; una limpieza y un mantenimiento regulares las mantienen eficientes y sin averías.',
       ],
     },
   },

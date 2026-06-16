@@ -9,8 +9,11 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 name: Aerocomfort
-legalName: "‹PLACEHOLDER: autónomo/SL legal name — C3›"
-taxId: "‹PLACEHOLDER: NIF/CIF — C3›"
+# Autónomo. NIE confirmed; full legal first+last name still needed for the Aviso Legal.
+legalForm: "autónomo"
+legalName: "Gregorio ‹apellidos — por confirmar›"
+taxId: "Y9274595C" # NIE
+manager: "Gregorio"
 
 # Contact channels — WhatsApp is the hero channel (docs/03 §2.1).
 phone: "+34 643 265 007"        # human-readable, used in tel: as digits below
@@ -32,8 +35,8 @@ hours: "‹PLACEHOLDER: opening hours — C7›"
 areasLead:
   - Torrevieja
   - Orihuela Costa
-  - Alicante
-areasCount: 30
+  - Pilar de la Horadada
+areasCount: 45
 
 # Real Google rating (keep in sync with GBP — never invent; docs/06 §2)
 rating:
@@ -44,3 +47,18 @@ social:
   google: "https://maps.app.goo.gl/eTYVXAazTkRR2edJ9"
   instagram: "‹PLACEHOLDER: Instagram URL — G3›"
   facebook: "‹PLACEHOLDER: Facebook URL — G3›"
+
+# Trust facts (John, 2026-06-14): 1000+ installs; 3-yr workmanship + 3-yr equipment
+# warranty; certified for fluorinated-gas handling (cert number withheld by owner).
+trust:
+  installs: "1000+"
+  guaranteeYears: 3
+  equipmentWarrantyYears: 3
+  certified: true
+
+# Any method except instalments.
+payment:
+  - Cash
+  - Card
+  - Transfer
+  - Bizum

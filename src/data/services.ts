@@ -232,6 +232,7 @@ export const SERVICES: Service[] = [
         'Prevents leaks and bad smells',
       ],
       faq: [
+        { q: 'How much does a cleaning cost?', a: 'AC cleaning starts from €50.' },
         { q: 'How often should I clean my AC?', a: 'At least once a year — more often with heavy use, pets or allergies.' },
         { q: 'Is cleaning different from a service?', a: 'Cleaning focuses on hygiene and airflow; a full service also checks the mechanics of the system.' },
       ],
@@ -257,6 +258,7 @@ export const SERVICES: Service[] = [
         'Evita fugas y malos olores',
       ],
       faq: [
+        { q: '¿Cuánto cuesta una limpieza?', a: 'La limpieza de aire acondicionado desde 50 €.' },
         { q: '¿Cada cuánto debo limpiar el aire acondicionado?', a: 'Al menos una vez al año — más a menudo con mucho uso, mascotas o alergias.' },
         { q: '¿La limpieza es lo mismo que el mantenimiento?', a: 'La limpieza se centra en la higiene y el caudal de aire; un mantenimiento completo también revisa la mecánica del equipo.' },
       ],

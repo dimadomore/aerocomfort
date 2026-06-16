@@ -6,53 +6,53 @@ export interface Faq {
 }
 
 /**
- * Starter FAQ (docs/10 §3.8). Answers are safe, generic drafts — refine with the
- * owner's real specifics (waiting times, exact guarantee terms) from John (E1).
- * Direct Q→A is also AEO gold for LLM agents (docs/06 §3).
+ * FAQ — based on the owner's real customer questions (John, 2026-06-14): coverage,
+ * client-supplied units, install time (24–72h), guarantee (3+3), pre-installation,
+ * cleaning from €50, brands, common repair faults. Direct Q→A is AEO gold (docs/06 §3).
  */
 export const FAQ: Record<Locale, Faq[]> = {
   en: [
     {
-      q: 'How much does AC installation cost?',
-      a: 'It depends on the unit and the room, but we always give a clear, free quote before any work — no surprises. Seasonal supply offers start from €609.',
+      q: 'How soon can you install — what is the waiting time?',
+      a: 'Typically 24–72 hours from your request, depending on the season. In peak summer it can be a little longer — ask us for the soonest slot.',
     },
     {
-      q: 'How long does an installation take?',
-      a: 'Most single-split installations are completed in a few hours, usually the same day.',
+      q: 'What guarantee do you give?',
+      a: 'A 3-year guarantee on our installation work, plus the manufacturer’s 3-year warranty on the equipment.',
     },
     {
-      q: 'Which brand should I choose?',
-      a: 'We help you pick the right unit for your space and budget. We install and service Daikin, Mitsubishi Electric, LG, Panasonic and Giatsu.',
+      q: 'Can you install a unit I bought myself?',
+      a: 'Yes — we’re happy to install air conditioning you’ve already purchased, as well as supply and fit new units.',
     },
     {
       q: 'Do you cover my area?',
-      a: 'We work across the Costa Blanca — Torrevieja, Orihuela Costa, Alicante and 30+ towns. Not sure if we reach you? Just ask on WhatsApp.',
+      a: 'We cover the Costa Blanca and Costa Cálida — Torrevieja, Orihuela Costa, Guardamar, the Mar Menor, Mazarrón and 45+ towns. Not sure if we reach you? Just ask on WhatsApp.',
     },
     {
-      q: 'Do you offer a guarantee?',
-      a: 'Yes. Our installation work is guaranteed and your equipment carries the manufacturer warranty.',
+      q: 'How much does it cost?',
+      a: 'AC cleaning starts from €50. Installation and repairs are quoted after a quick assessment — always a clear, free quote with no obligation.',
     },
   ],
   es: [
     {
-      q: '¿Cuánto cuesta instalar el aire acondicionado?',
-      a: 'Depende del equipo y de la estancia, pero siempre damos un presupuesto claro y gratuito antes de empezar — sin sorpresas. Las ofertas de temporada desde 609 €.',
+      q: '¿En cuánto tiempo instaláis — cuál es el plazo?',
+      a: 'Normalmente entre 24 y 72 horas desde tu solicitud, según la temporada. En pleno verano puede ser algo más — pregúntanos por la cita más próxima.',
     },
     {
-      q: '¿Cuánto tarda una instalación?',
-      a: 'La mayoría de instalaciones de un split se completan en unas horas, normalmente el mismo día.',
+      q: '¿Qué garantía dais?',
+      a: '3 años de garantía en nuestra instalación, más la garantía del fabricante de 3 años sobre el equipo.',
     },
     {
-      q: '¿Qué marca debo elegir?',
-      a: 'Te ayudamos a elegir el equipo adecuado para tu espacio y presupuesto. Instalamos y reparamos Daikin, Mitsubishi Electric, LG, Panasonic y Giatsu.',
+      q: '¿Podéis instalar un equipo que he comprado yo?',
+      a: 'Sí — instalamos equipos de aire acondicionado que ya hayas comprado, además de suministrar e instalar equipos nuevos.',
     },
     {
       q: '¿Trabajáis en mi zona?',
-      a: 'Trabajamos en toda la Costa Blanca — Torrevieja, Orihuela Costa, Alicante y más de 30 localidades. ¿No sabes si llegamos? Pregúntanos por WhatsApp.',
+      a: 'Cubrimos la Costa Blanca y la Costa Cálida — Torrevieja, Orihuela Costa, Guardamar, el Mar Menor, Mazarrón y más de 45 localidades. ¿No sabes si llegamos? Pregúntanos por WhatsApp.',
     },
     {
-      q: '¿Ofrecéis garantía?',
-      a: 'Sí. Nuestro trabajo de instalación está garantizado y el equipo cuenta con la garantía del fabricante.',
+      q: '¿Cuánto cuesta?',
+      a: 'La limpieza de aire acondicionado desde 50 €. La instalación y las reparaciones se presupuestan tras una breve valoración — siempre un presupuesto claro y gratuito, sin compromiso.',
     },
   ],
 };
@@ -62,38 +62,41 @@ export interface FaqGroup {
   items: Faq[];
 }
 
-/** Grouped FAQ for the full /faq page (docs/05 §3.8). Drafts — refine with E1. */
+/** Grouped FAQ for the full /faq page (docs/05 §3.8). Owner-confirmed answers. */
 export const FAQ_GROUPS: Record<Locale, FaqGroup[]> = {
   en: [
     {
       title: 'General',
       items: [
-        { q: 'Do you cover my area?', a: 'We work across the Costa Blanca — Torrevieja, Orihuela Costa, Alicante and 30+ towns. Not sure if we reach you? Just ask on WhatsApp.' },
-        { q: 'Which brands do you work with?', a: 'We install and service all major brands — Daikin, Mitsubishi Electric, LG, Panasonic, Giatsu and more.' },
+        { q: 'Do you cover my area?', a: 'We cover the Costa Blanca and Costa Cálida — Torrevieja, Orihuela Costa, Guardamar, the Mar Menor, Mazarrón and 45+ towns. Not sure if we reach you? Just ask on WhatsApp.' },
+        { q: 'Which brands do you work with?', a: 'We install and service Mitsubishi Electric, Panasonic, LG, Giatsu, Haier, Samsung and Gree — and repair all major brands.' },
+        { q: 'Can you recommend which unit to buy?', a: 'Yes — tell us your room size and budget and we’ll recommend the right unit, with no pressure to spend more.' },
         { q: 'Do you speak English?', a: 'Yes — we work in both English and Spanish.' },
       ],
     },
     {
       title: 'Installation',
       items: [
-        { q: 'How much does installation cost?', a: 'We give a clear, free quote after a quick site visit. Seasonal supply offers start from €609.' },
-        { q: 'How long does an installation take?', a: 'Most single-split installations are completed in a few hours, usually the same day.' },
-        { q: 'Do you supply the unit or just install it?', a: 'Both — we can supply an A+++ unit from our seasonal offers or install one you already have.' },
+        { q: 'What is the waiting time for an installation?', a: 'Usually 24–72 hours from your request, depending on the season.' },
+        { q: 'Can you install a unit I bought myself?', a: 'Yes — we install client-supplied equipment as well as units we supply.' },
+        { q: 'Do you offer pre-installation (pre-instalación)?', a: 'Yes. During a build or reform we can run the pipework and cabling in advance, so the unit is fitted later cleanly and without mess.' },
+        { q: 'How much does installation cost?', a: 'It’s quoted after a quick assessment of the unit and the property — always a clear, free quote.' },
       ],
     },
     {
       title: 'Repair & maintenance',
       items: [
-        { q: "My AC isn't cooling — can you help?", a: 'Yes — we diagnose and fix cooling faults, leaks, noise and error codes on any brand.' },
-        { q: 'How often should AC be serviced?', a: 'Once a year is ideal, usually before the summer season.' },
-        { q: 'Do you repair all brands?', a: 'Yes — we repair and service all major brands.' },
+        { q: 'My AC isn’t cooling — can you help?', a: 'Yes. We fix the most common faults: not cooling, the outdoor unit not running, no response to the remote, error codes, leaks and a noisy outdoor unit — on any brand.' },
+        { q: 'How often should AC be serviced?', a: 'Once a year is ideal — an annual service keeps it efficient, healthy and reliable.' },
+        { q: 'How much is a cleaning or service?', a: 'AC cleaning starts from €50. A repair is quoted after we diagnose the fault.' },
       ],
     },
     {
-      title: 'Pricing & guarantee',
+      title: 'Pricing & payment',
       items: [
         { q: 'Are quotes free?', a: 'Yes — every quote is clear and free, with no obligation.' },
-        { q: 'Do you offer a guarantee?', a: 'Yes. Our installation work is guaranteed and your equipment carries the manufacturer warranty.' },
+        { q: 'What guarantee do you give?', a: '3 years on our installation work, plus the manufacturer’s 3-year warranty on the equipment.' },
+        { q: 'How can I pay?', a: 'Card, bank transfer, Bizum or cash. (We don’t offer instalment plans.)' },
       ],
     },
   ],
@@ -101,34 +104,36 @@ export const FAQ_GROUPS: Record<Locale, FaqGroup[]> = {
     {
       title: 'General',
       items: [
-        { q: '¿Trabajáis en mi zona?', a: 'Trabajamos en toda la Costa Blanca — Torrevieja, Orihuela Costa, Alicante y más de 30 localidades. ¿No sabes si llegamos? Pregúntanos por WhatsApp.' },
-        { q: '¿Con qué marcas trabajáis?', a: 'Instalamos y reparamos todas las marcas principales — Daikin, Mitsubishi Electric, LG, Panasonic, Giatsu y más.' },
+        { q: '¿Trabajáis en mi zona?', a: 'Cubrimos la Costa Blanca y la Costa Cálida — Torrevieja, Orihuela Costa, Guardamar, el Mar Menor, Mazarrón y más de 45 localidades. ¿No sabes si llegamos? Pregúntanos por WhatsApp.' },
+        { q: '¿Con qué marcas trabajáis?', a: 'Instalamos y reparamos Mitsubishi Electric, Panasonic, LG, Giatsu, Haier, Samsung y Gree — y reparamos todas las marcas principales.' },
+        { q: '¿Podéis recomendarme qué equipo comprar?', a: 'Sí — dinos el tamaño de la estancia y tu presupuesto y te recomendamos el equipo adecuado, sin presionarte a gastar de más.' },
         { q: '¿Habláis inglés?', a: 'Sí — trabajamos en español e inglés.' },
       ],
     },
     {
       title: 'Instalación',
       items: [
-        { q: '¿Cuánto cuesta la instalación?', a: 'Damos un presupuesto claro y gratuito tras una breve visita. Las ofertas de temporada desde 609 €.' },
-        { q: '¿Cuánto tarda una instalación?', a: 'La mayoría de instalaciones de un split se completan en unas horas, normalmente el mismo día.' },
-        { q: '¿Suministráis el equipo o solo lo instaláis?', a: 'Ambos — podemos suministrar un equipo A+++ de nuestras ofertas o instalar uno que ya tengas.' },
+        { q: '¿Cuál es el plazo para una instalación?', a: 'Normalmente entre 24 y 72 horas desde tu solicitud, según la temporada.' },
+        { q: '¿Podéis instalar un equipo que he comprado yo?', a: 'Sí — instalamos equipos aportados por el cliente además de los que suministramos nosotros.' },
+        { q: '¿Hacéis preinstalación?', a: 'Sí. Durante una obra o reforma dejamos hecha la tubería y el cableado, para instalar después el equipo de forma limpia y sin destrozos.' },
+        { q: '¿Cuánto cuesta la instalación?', a: 'Se presupuesta tras una breve valoración del equipo y la vivienda — siempre un presupuesto claro y gratuito.' },
       ],
     },
     {
       title: 'Reparación y mantenimiento',
       items: [
-        { q: 'Mi aire no enfría, ¿podéis ayudar?', a: 'Sí — diagnosticamos y reparamos fallos de refrigeración, fugas, ruidos y códigos de error de cualquier marca.' },
-        { q: '¿Cada cuánto hay que hacer el mantenimiento?', a: 'Una vez al año es lo ideal, normalmente antes del verano.' },
-        { q: '¿Reparáis todas las marcas?', a: 'Sí — reparamos y mantenemos todas las marcas principales.' },
+        { q: 'Mi aire no enfría, ¿podéis ayudar?', a: 'Sí. Resolvemos las averías más habituales: no enfría, la unidad exterior no arranca, no responde al mando, códigos de error, fugas y ruido en la unidad exterior — de cualquier marca.' },
+        { q: '¿Cada cuánto hay que hacer el mantenimiento?', a: 'Una vez al año es lo ideal — un mantenimiento anual lo mantiene eficiente, sano y fiable.' },
+        { q: '¿Cuánto cuesta una limpieza o mantenimiento?', a: 'La limpieza de aire acondicionado desde 50 €. La reparación se presupuesta tras diagnosticar la avería.' },
       ],
     },
     {
-      title: 'Precios y garantía',
+      title: 'Precios y pago',
       items: [
         { q: '¿Los presupuestos son gratis?', a: 'Sí — cada presupuesto es claro y gratuito, sin compromiso.' },
-        { q: '¿Ofrecéis garantía?', a: 'Sí. Nuestro trabajo de instalación está garantizado y el equipo cuenta con la garantía del fabricante.' },
+        { q: '¿Qué garantía dais?', a: '3 años en nuestra instalación, más la garantía del fabricante de 3 años sobre el equipo.' },
+        { q: '¿Cómo puedo pagar?', a: 'Tarjeta, transferencia, Bizum o efectivo. (No ofrecemos pago a plazos.)' },
       ],
     },
   ],
 };
-

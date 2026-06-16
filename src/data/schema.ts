@@ -23,6 +23,18 @@ export const businessSchema = z.object({
     instagram: z.string(),
     facebook: z.string(),
   }),
+  // Owner-provided facts (John, 2026-06-14)
+  manager: z.string().optional(),
+  legalForm: z.string().optional(),
+  trust: z
+    .object({
+      installs: z.string(), // e.g. "1000+"
+      guaranteeYears: z.number(), // workmanship guarantee
+      equipmentWarrantyYears: z.number().optional(),
+      certified: z.boolean(), // fluorinated-gas handling cert (number withheld)
+    })
+    .optional(),
+  payment: z.array(z.string()).optional(),
 });
 export type Business = z.infer<typeof businessSchema>;
 
@@ -47,7 +59,8 @@ export const offersSchema = z.object({
 });
 export type Offers = z.infer<typeof offersSchema>;
 
-/** True when a field still holds an unfilled ‹PLACEHOLDER›. */
+/** True when a field still holds an unfilled ‹PLACEHOLDER› (anywhere in the value,
+ *  so partials like "Gregorio ‹apellidos›" also count as incomplete). */
 export function isPlaceholder(value: string): boolean {
-  return value.trim().startsWith('‹');
+  return value.includes('‹');
 }
