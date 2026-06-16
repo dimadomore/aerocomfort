@@ -29,6 +29,7 @@ export const businessSchema = z.object({
   trust: z
     .object({
       installs: z.string(), // e.g. "1000+"
+      years: z.number().optional(), // years in business
       guaranteeYears: z.number(), // workmanship guarantee
       equipmentWarrantyYears: z.number().optional(),
       certified: z.boolean(), // fluorinated-gas handling cert (number withheld)

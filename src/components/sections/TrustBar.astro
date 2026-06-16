@@ -1,6 +1,6 @@
 ---
 import { type Locale } from '../../config';
-import { business } from '../../data';
+import { business, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 
 interface Props {
@@ -13,7 +13,7 @@ const tr = business.trust;
 // Real owner facts (John, 2026-06-14): 1000+ installs, 5.0★, 3-yr guarantee, 45+ areas.
 const stats = [
   { value: tr?.installs ?? '1000+', label: es ? 'instalaciones' : 'installations' },
-  { value: `${business.rating.value}★`, label: es ? `${business.rating.count} reseñas Google` : `${business.rating.count} Google reviews` },
+  { value: `${business.rating.value}★`, label: es ? `${reviewCountDisplay} reseñas Google` : `${reviewCountDisplay} Google reviews` },
   { value: es ? `${tr?.guaranteeYears ?? 3} años` : `${tr?.guaranteeYears ?? 3}-yr`, label: es ? 'de garantía' : 'guarantee' },
   { value: `${business.areasCount}+`, label: es ? 'zonas cubiertas' : 'areas covered' },
 ];

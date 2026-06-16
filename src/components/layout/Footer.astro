@@ -1,7 +1,7 @@
 ---
 import { type Locale } from '../../config';
 import { useTranslations, getNav, localizedPath } from '../../i18n/utils';
-import { business, isPlaceholder } from '../../data';
+import { business, isPlaceholder, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 import Logo from '../ui/Logo.astro';
 import Icon from '../ui/Icon.astro';
@@ -37,7 +37,7 @@ const linkCls = 'inline-flex items-center gap-3 text-small text-white/80 transit
         <div class="mt-5 inline-flex items-center gap-2 rounded-pill bg-white/10 px-3.5 py-2">
           <Icon name="star" size={16} class="text-warning" />
           <span class="text-small font-bold">{business.rating.value}</span>
-          <span class="text-small text-white/70">· {business.rating.count} Google reviews</span>
+          <span class="text-small text-white/70">· {reviewCountDisplay} Google reviews</span>
         </div>
       </div>
 

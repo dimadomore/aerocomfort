@@ -1,5 +1,6 @@
 ---
 import { type Locale } from '../../config';
+import { reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
@@ -15,7 +16,7 @@ const items: { icon: 'star' | 'wind' | 'check' | 'shield-check'; t: string; d: s
   {
     icon: 'star',
     t: es ? '5,0★ en Google' : '5.0★ on Google',
-    d: es ? '160 reseñas y más de 1000 instalaciones.' : '160 reviews and 1000+ installations.',
+    d: es ? `${reviewCountDisplay} reseñas y más de 1000 instalaciones.` : `${reviewCountDisplay} reviews and 1000+ installations.`,
   },
   {
     icon: 'shield-check',

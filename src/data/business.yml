@@ -52,6 +52,7 @@ social:
 # warranty; certified for fluorinated-gas handling (cert number withheld by owner).
 trust:
   installs: "1000+"
+  years: 5 # fifth year on the market (John, 2026-06-14)
   guaranteeYears: 3
   equipmentWarrantyYears: 3
   certified: true

@@ -1,7 +1,7 @@
 ---
 import { type Locale } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
-import { business, isPlaceholder } from '../../data';
+import { business, isPlaceholder, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
@@ -86,7 +86,7 @@ const crumbs = [
         <div class="mt-7 flex items-center gap-2 border-t border-line pt-5">
           <Icon name="star" size={18} class="text-warning" />
           <span class="text-small font-bold text-ink-700">{business.rating.value} on Google</span>
-          <span class="text-small text-ink-400">· {business.rating.count} reviews</span>
+          <span class="text-small text-ink-400">· {reviewCountDisplay} reviews</span>
         </div>
       </div>
     </aside>

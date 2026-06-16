@@ -1,7 +1,7 @@
 ---
 import { type Locale } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
-import { business } from '../../data';
+import { business, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
@@ -52,7 +52,7 @@ const regionUpper = 'Costa Blanca · Costa Cálida';
 
       <div class="mt-7 inline-flex items-center gap-2.5 rounded-pill bg-white/12 px-4 py-2 ring-1 ring-white/20">
         <Icon name="star" size={18} class="text-warning" />
-        <span class="text-small font-semibold">{t('hero.trust')}</span>
+        <span class="text-small font-semibold">{business.rating.value} {locale === 'es' ? 'en' : 'on'} Google · {reviewCountDisplay} {locale === 'es' ? 'reseñas' : 'reviews'}</span>
       </div>
 
       <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
