@@ -13,35 +13,35 @@ items:
   - brand: Giatsu
     model: AROMA 2E
     priceNew: 609
-    priceOld: null            # ‹PLACEHOLDER: previous price — D5›
+    priceOld: 709             # previous price (aerocomfort.es)
     efficiency: "A+++"
     coverage: "25 m²"         # ‹confirm — D5›
     image: "/offers/giatsu-aroma-2e.webp"
   - brand: LG
     model: Connect S09EC
     priceNew: 769
-    priceOld: null
+    priceOld: 879
     efficiency: "A+++"
     coverage: "25 m²"
     image: "/offers/lg-s09ec.webp"
   - brand: Panasonic
     model: KIT-BZ25-XKE
     priceNew: 769
-    priceOld: null
+    priceOld: 859
     efficiency: "A+++"
     coverage: "25 m²"
     image: "/offers/panasonic-bz25.jpg"
   - brand: Daikin
     model: TXF25F
     priceNew: 859
-    priceOld: null
+    priceOld: 999
     efficiency: "A+++"
     coverage: "25 m²"
     image: "/offers/daikin-txf25.webp"
   - brand: Mitsubishi Electric
     model: MSZ-HR25VFK
     priceNew: 879
-    priceOld: null
+    priceOld: 999
     efficiency: "A+++"
     coverage: "25 m²"
     image: "/offers/mitsubishi-msz-hr25.jpg"
