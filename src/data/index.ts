@@ -17,5 +17,7 @@ export const offers = offersSchema.parse(offersRaw);
  */
 export const reviewCountDisplay = `${business.rating.count}+`;
 
+export { galleryPhotos, type GalleryPhoto } from './gallery';
+
 export type { Business, OfferItem, Offers } from './schema';
 export { isPlaceholder } from './schema';

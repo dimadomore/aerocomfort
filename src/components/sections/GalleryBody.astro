@@ -1,0 +1,48 @@
+---
+import { type Locale } from '../../config';
+import { galleryPhotos } from '../../data';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import PageHero from './PageHero.astro';
+import FinalCta from './FinalCta.astro';
+
+/** Full "Our work" gallery page (DIM-277): the complete set of jobs as a grid. */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
+  { label: t('nav.gallery') },
+];
+---
+<PageHero
+  crumbs={crumbs}
+  eyebrow={t('gallery.eyebrow')}
+  title={t('gallery.title')}
+  intro={t('gallery.intro')}
+/>
+
+<section class="py-16 lg:py-24">
+  <Container>
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-5">
+      {galleryPhotos.map((p) => (
+        <figure class="group overflow-hidden rounded-xl border border-line bg-white">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img
+              src={p.src}
+              alt={p.alt[locale]}
+              loading="lazy"
+              decoding="async"
+              class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+            />
+          </div>
+        </figure>
+      ))}
+    </div>
+  </Container>
+</section>
+
+<FinalCta locale={locale} />

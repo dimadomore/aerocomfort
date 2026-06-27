@@ -6,6 +6,7 @@ import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 import OfferCard from '../ui/OfferCard.astro';
+import Carousel from '../ui/Carousel.astro';
 
 interface Props {
   locale: Locale;
@@ -13,7 +14,7 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const es = locale === 'es';
-const top = offers.items.slice(0, 3);
+const offersHref = localizedPath('/offers', locale);
 ---
 <section class="border-y border-line bg-surface-cool py-16 lg:py-24">
   <Container>
@@ -25,15 +26,27 @@ const top = offers.items.slice(0, 3);
       />
       <a
         class="hidden items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3 sm:inline-flex"
-        href={localizedPath('/offers', locale)}
+        href={offersHref}
       >
         {t('cta.offers')}
         <Icon name="arrow-right" size={18} />
       </a>
     </div>
 
-    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {top.map((o) => <OfferCard offer={o} locale={locale} />)}
-    </div>
+    <Carousel locale={locale} label={es ? 'Ofertas de temporada' : 'Seasonal offers'} class="mt-10">
+      {offers.items.map((o) => (
+        <div class="w-[82%] sm:w-[20rem] lg:w-[21rem]">
+          <OfferCard offer={o} locale={locale} />
+        </div>
+      ))}
+    </Carousel>
+
+    <a
+      class="mt-8 inline-flex items-center gap-2 text-small font-bold text-brand-700 sm:hidden"
+      href={offersHref}
+    >
+      {t('cta.offers')}
+      <Icon name="arrow-right" size={18} />
+    </a>
   </Container>
 </section>

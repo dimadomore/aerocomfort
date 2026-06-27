@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import GalleryBody from '../../components/sections/GalleryBody.astro';
+import { hvacBusinessLd, breadcrumbLd } from '../../lib/schema';
+import { localizedPath } from '../../i18n/utils';
+
+const locale = 'es' as const;
+const title = 'Nuestros Trabajos — Galería de Instalaciones | Aerocomfort';
+const description =
+  'Fotos de instalaciones reales de aire acondicionado en la Costa Blanca: equipos Daikin, Mitsubishi, LG, Panasonic y Giatsu instalados por Aerocomfort.';
+const crumbs = [
+  { name: 'Inicio', url: localizedPath('/', locale) },
+  { name: 'Galería', url: localizedPath('/gallery', locale) },
+];
+const jsonLd = [hvacBusinessLd(), breadcrumbLd(crumbs)];
+---
+<Base locale={locale} path="/gallery" title={title} description={description} jsonLd={jsonLd}>
+  <GalleryBody locale={locale} />
+</Base>

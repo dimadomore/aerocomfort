@@ -7,6 +7,7 @@ import WhyUs from '../../components/sections/WhyUs.astro';
 import HowItWorks from '../../components/sections/HowItWorks.astro';
 import OffersPreview from '../../components/sections/OffersPreview.astro';
 import Brands from '../../components/sections/Brands.astro';
+import GalleryPreview from '../../components/sections/GalleryPreview.astro';
 import Reviews from '../../components/sections/Reviews.astro';
 import Areas from '../../components/sections/Areas.astro';
 import FaqPreview from '../../components/sections/FaqPreview.astro';
@@ -34,6 +35,7 @@ const faq = faqLd(FAQ[locale].map((f) => ({ question: f.q, answer: f.a })));
   <HowItWorks locale={locale} />
   <OffersPreview locale={locale} />
   <Brands locale={locale} />
+  <GalleryPreview locale={locale} />
   <Reviews locale={locale} />
   <Areas locale={locale} />
   <FaqPreview locale={locale} />
