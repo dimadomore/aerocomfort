@@ -43,8 +43,13 @@ const t = useTranslations(locale);
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    /* breathing room so card hover-scale + shadow aren't clipped */
-    padding-block: 0.75rem;
+    /* Generous breathing room so a card's hover zoom + soft shadow are never
+       clipped by the scroll container (it can't be overflow-y: visible while
+       scrolling on x). Inline padding + scroll-padding keep the first/last
+       card's scaled edges clear too, without breaking snap alignment. */
+    padding-block: 1.75rem;
+    padding-inline: 0.85rem;
+    scroll-padding-inline: 0.85rem;
   }
   .carousel__track::-webkit-scrollbar {
     display: none;
