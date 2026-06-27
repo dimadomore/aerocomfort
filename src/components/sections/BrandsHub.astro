@@ -35,6 +35,14 @@ const crumbs = [
           href={localizedPath(`/brands/${b.slug}`, locale)}
           class="group card-cool flex flex-col rounded-xl border border-line p-6 hover:-translate-y-1 hover:border-blue-300"
         >
+          <img
+            src={b.logo}
+            alt={b.name}
+            height="32"
+            class="mb-5 h-8 w-auto max-w-[62%] object-contain object-left"
+            loading="lazy"
+            decoding="async"
+          />
           <h2 class="font-display text-h3 font-extrabold text-brand-800">{b.name}</h2>
           <p class="mt-2 flex-1 text-small text-ink-500">{b[locale].intro}</p>
           <span class="mt-4 inline-flex items-center gap-1.5 text-small font-bold text-brand-700">

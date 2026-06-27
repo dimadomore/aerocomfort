@@ -1,5 +1,6 @@
 ---
 import { type Locale } from '../../config';
+import { BRANDS } from '../../data/brands';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
@@ -10,28 +11,26 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const es = locale === 'es';
-// Brand wordmarks (real SVG logos to replace these once usage rights confirmed — D2).
-const brands = ['Mitsubishi Electric', 'Panasonic', 'LG', 'Giatsu', 'Haier', 'Samsung', 'Gree'];
+const brandsHref = localizedPath('/brands', locale);
 ---
 <section class="py-14 lg:py-16">
   <Container>
     <p class="text-center text-small font-semibold text-ink-400">
-      {es ? 'Instalamos y reparamos todas las marcas principales' : 'We install & service all major brands'}
+      {es ? 'Instalamos y reparamos todas las marcas principales' : 'We install and service all major brands'}
     </p>
-    <div class="mt-7 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-      {brands.map((b) => (
-        <a
-          href={localizedPath('/brands', locale)}
-          class="font-display text-h3 font-extrabold text-ink-400 transition-colors hover:text-brand-700"
-        >
-          {b}
-        </a>
+    <ul class="mt-8 grid grid-cols-3 items-center justify-items-center gap-x-8 gap-y-7 sm:grid-cols-4 lg:grid-cols-7">
+      {BRANDS.map((b) => (
+        <li class="flex w-full justify-center">
+          <a href={brandsHref} class="brand-logo" aria-label={b.name}>
+            <img src={b.logo} alt={`${b.name}`} height="36" width="120" loading="lazy" decoding="async" />
+          </a>
+        </li>
       ))}
-    </div>
-    <div class="mt-6 text-center">
+    </ul>
+    <div class="mt-8 text-center">
       <a
         class="inline-flex items-center gap-1.5 text-small font-bold text-brand-700 transition-all hover:gap-3"
-        href={localizedPath('/brands', locale)}
+        href={brandsHref}
       >
         {t('cta.allBrands')}
         <Icon name="arrow-right" size={16} />
@@ -39,3 +38,36 @@ const brands = ['Mitsubishi Electric', 'Panasonic', 'LG', 'Giatsu', 'Haier', 'Sa
     </div>
   </Container>
 </section>
+
+<style>
+  /* Uniform logo wall: muted greyscale at rest, true brand colour on hover.
+     The greyscale filter unifies mixed SVG/PNG sources into one quiet row. */
+  .brand-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem;
+  }
+  .brand-logo img {
+    height: 2rem;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.6;
+    transition:
+      filter 0.25s ease,
+      opacity 0.25s ease,
+      transform 0.25s ease;
+  }
+  .brand-logo:hover img {
+    filter: none;
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-logo:hover img {
+      transform: none;
+    }
+  }
+</style>

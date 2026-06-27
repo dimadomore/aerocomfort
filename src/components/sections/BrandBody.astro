@@ -49,6 +49,14 @@ const crumbs = [
   <Container>
     <div class="grid gap-12 lg:grid-cols-3 lg:gap-16">
       <div class="lg:col-span-2">
+        <img
+          src={brand.logo}
+          alt={brand.name}
+          height="44"
+          class="mb-8 h-11 w-auto max-w-[55%] object-contain object-left"
+          loading="lazy"
+          decoding="async"
+        />
         <h2 class="text-h2">{es ? `Por qué ${brand.name}` : `Why ${brand.name}`}</h2>
         <p class="mt-4 text-body-lg text-ink-700">{c.why}</p>
 

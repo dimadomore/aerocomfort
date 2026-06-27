@@ -8,6 +8,9 @@ interface BrandCopy {
 export interface Brand {
   slug: string;
   name: string;
+  /** Official manufacturer logo, served from /public/brands. Shown nominatively
+   *  (we service these brands) — no dealership claim. SVG where available. */
+  logo: string;
   en: BrandCopy;
   es: BrandCopy;
 }
@@ -15,12 +18,13 @@ export interface Brand {
 /**
  * Brands we install and service (owner-confirmed, John 2026-06-14):
  * Mitsubishi Electric, Panasonic, LG, Giatsu, Haier, Samsung, Gree.
- * No official dealership — we don't claim "official installer". Logos (SVG) TBD.
+ * No official dealership — we don't claim "official installer".
  */
 export const BRANDS: Brand[] = [
   {
     slug: 'mitsubishi-electric',
     name: 'Mitsubishi Electric',
+    logo: '/brands/mitsubishi-electric.svg',
     en: {
       intro: 'Mitsubishi Electric is renowned for durable, premium air conditioning with excellent build quality.',
       why: 'A great long-term investment for homes that want top reliability and quiet comfort. We install and service the full range.',
@@ -33,6 +37,7 @@ export const BRANDS: Brand[] = [
   {
     slug: 'panasonic',
     name: 'Panasonic',
+    logo: '/brands/panasonic.svg',
     en: {
       intro: 'Panasonic air conditioning is known for clean-air technology and dependable performance.',
       why: 'A solid all-round choice with a focus on air quality. We supply, install and maintain Panasonic systems.',
@@ -45,6 +50,7 @@ export const BRANDS: Brand[] = [
   {
     slug: 'lg',
     name: 'LG',
+    logo: '/brands/lg.svg',
     en: {
       intro: 'LG offers modern, feature-rich air conditioning with sleek designs and smart controls.',
       why: 'Good value with strong efficiency and Wi-Fi features. We fit and service LG units throughout the area.',
@@ -57,6 +63,7 @@ export const BRANDS: Brand[] = [
   {
     slug: 'giatsu',
     name: 'Giatsu',
+    logo: '/brands/giatsu.png',
     en: {
       intro: 'Giatsu offers excellent value air conditioning that is popular across Spain.',
       why: 'A budget-friendly way to get efficient A+++ cooling — often featured in our seasonal offers. We install and service Giatsu units.',
@@ -69,6 +76,7 @@ export const BRANDS: Brand[] = [
   {
     slug: 'haier',
     name: 'Haier',
+    logo: '/brands/haier.svg',
     en: {
       intro: 'Haier is one of the world’s largest appliance makers, with a wide, well-priced air conditioning range.',
       why: 'Reliable, efficient units at a competitive price. We supply, install and service the Haier range.',
@@ -81,6 +89,7 @@ export const BRANDS: Brand[] = [
   {
     slug: 'samsung',
     name: 'Samsung',
+    logo: '/brands/samsung.svg',
     en: {
       intro: 'Samsung air conditioning combines striking design with features like Wind-Free comfort.',
       why: 'A great pick if you want a stylish unit with even, draught-free cooling. We install and service Samsung systems.',
@@ -93,6 +102,7 @@ export const BRANDS: Brand[] = [
   {
     slug: 'gree',
     name: 'Gree',
+    logo: '/brands/gree.svg',
     en: {
       intro: 'Gree is the world’s largest dedicated air conditioning manufacturer, known for great value.',
       why: 'Dependable cooling at a sharp price. We supply, install and service Gree units across the Costa Blanca and Costa Cálida.',
