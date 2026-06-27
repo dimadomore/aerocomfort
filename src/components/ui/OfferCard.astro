@@ -13,7 +13,7 @@ const es = locale === 'es';
 const contactHref = localizedPath('/contact', locale);
 const cta = es ? 'Solicitar este equipo' : 'Request this unit';
 ---
-<article class="group card-cool flex flex-col overflow-hidden rounded-xl border border-line hover:-translate-y-1">
+<article class="group card-cool flex flex-col overflow-hidden rounded-xl border border-line">
   <div
     class:list={[
       'relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b border-line',
@@ -24,7 +24,7 @@ const cta = es ? 'Solicitar este equipo' : 'Request this unit';
       <img
         src={offer.image}
         alt={`${offer.brand} ${offer.model}`}
-        class="h-full w-full object-contain p-4 transition-transform duration-300 ease-out group-hover:scale-[1.04]"
+        class="h-full w-full object-contain p-4"
         loading="lazy"
         decoding="async"
       />
@@ -36,7 +36,7 @@ const cta = es ? 'Solicitar este equipo' : 'Request this unit';
           <path d="M-5 72 C 35 60, 70 82, 125 66" />
         </svg>
         {/* placeholder until a catalogue photo is set (docs/08 §2.6) */}
-        <svg viewBox="0 0 120 90" class="relative w-1/2 text-brand-600/70 transition-transform duration-300 ease-out group-hover:scale-105" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+        <svg viewBox="0 0 120 90" class="relative w-1/2 text-brand-600/70" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
           <rect x="14" y="26" width="92" height="26" rx="8" fill="rgba(255,255,255,0.65)" />
           <circle cx="24" cy="36" r="2.2" fill="var(--cyan-400)" stroke="none" />
           <path d="M34 36h34M82 36h12" />

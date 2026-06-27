@@ -425,9 +425,11 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.9),
       0 1px 2px rgba(20, 38, 74, 0.05),
       0 10px 24px -12px rgba(20, 38, 74, 0.16);
+    /* Slower, gentler than before (was 0.25s); animate `scale` so the whole card
+       zooms uniformly on hover instead of lifting. */
     transition:
-      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      scale 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.25s ease;
   }
   .card-cool:hover {
@@ -435,6 +437,17 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.9),
       0 2px 4px rgba(20, 38, 74, 0.06),
       0 22px 44px -16px rgba(20, 38, 74, 0.26);
+  }
+  /* Interactive cards (those marked `group`) gently scale up on hover — a subtle
+     all-directions zoom, no vertical lift. Static card-cool surfaces (forms,
+     sticky sidebar) are not `group`, so they don't react. */
+  .group.card-cool:hover {
+    scale: 1.02;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .group.card-cool:hover {
+      scale: 1;
+    }
   }
 
   /* Group-hover lift for the icon tile inside an interactive card. */
