@@ -21,11 +21,17 @@ export default defineConfig({
   },
 
   integrations: [
+    // Every page (EN + localized-ES) is listed as its own <loc>. hreflang is
+    // declared once, authoritatively, in the HTML <head> (Seo.astro) — Google
+    // wants a single method, so we deliberately DON'T duplicate (and only
+    // partially, given our localized ES slugs) hreflang here.
     sitemap({
-      i18n: {
-        defaultLocale: 'en',
-        locales: { en: 'en', es: 'es' },
-      },
+      // Keep non-indexable pages out of the sitemap (best practice): the
+      // thank-you confirmation pages (noindex + robots-disallowed) and 404.
+      filter: (page) =>
+        !/\/thank-you\/?$/.test(page) &&
+        !/\/es\/gracias\/?$/.test(page) &&
+        !/\/404\/?$/.test(page),
     }),
   ],
 
