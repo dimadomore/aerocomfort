@@ -45,6 +45,37 @@ const stats = [
   <Container>
     <div class="grid gap-10 lg:grid-cols-3 lg:gap-12">
       <div class="lg:col-span-2">
+        {/* Owner intro — humanises the page. Monogram avatar stands in for a real
+            portrait until the owner's photo arrives (swap the <span>G</span>). */}
+        <div class="mb-9 flex flex-col gap-6 sm:flex-row sm:items-center">
+          <div class="shrink-0">
+            <div class="relative flex h-28 w-28 items-center justify-center rounded-2xl bg-linear-to-br from-brand-600 to-brand-800 shadow-lg ring-1 ring-white/15">
+              <span class="font-display text-5xl font-extrabold text-white">G</span>
+              <span class="absolute -bottom-2.5 -right-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-white text-brand-700 shadow-md ring-1 ring-line">
+                <Icon name="shield-check" size={18} />
+              </span>
+            </div>
+          </div>
+          <div>
+            <p class="kicker">{es ? 'El especialista' : 'The specialist'}</p>
+            <p class="mt-2 font-display text-h3 font-extrabold text-brand-800">Gregorio</p>
+            <p class="mt-1 text-small text-ink-500">
+              {es ? 'Fundador — detrás de cada trabajo, en español e inglés.' : 'Founder — behind every job, in English and Spanish.'}
+            </p>
+            <ul class="mt-4 flex flex-wrap gap-2">
+              {(es
+                ? ['Certificado · gases fluorados', '3 años de garantía', 'Quinto año']
+                : ['Certified · refrigerant handling', '3-year guarantee', 'Fifth year']
+              ).map((chip) => (
+                <li class="inline-flex items-center gap-1.5 rounded-pill border border-line bg-surface-cool px-3 py-1.5 text-caption font-semibold text-ink-700">
+                  <Icon name="check" size={14} class="text-success" />
+                  {chip}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
         <Prose>
           {es ? (
             <Fragment>
@@ -65,11 +96,12 @@ const stats = [
       </div>
 
       <aside class="lg:col-span-1">
-        <div class="rounded-xl bg-surface-cool p-6 ring-1 ring-line sm:p-8">
-          <dl class="grid grid-cols-2 gap-6">
+        <div class="card-cool rounded-xl p-6 ring-1 ring-line sm:p-8 lg:sticky lg:top-24">
+          <p class="text-small font-bold text-ink-500">{es ? 'En cifras' : 'At a glance'}</p>
+          <dl class="mt-5 grid grid-cols-2 gap-6">
             {stats.map((s) => (
               <div>
-                <dt class:list={['font-display text-h2 font-extrabold tabular-nums', s.pending ? 'text-ink-400' : 'text-brand-700']}>{s.value}</dt>
+                <dt class="font-display text-h2 font-extrabold tabular-nums text-brand-700">{s.value}</dt>
                 <dd class="mt-1 text-small text-ink-500">{s.label}</dd>
               </div>
             ))}
