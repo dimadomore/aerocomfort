@@ -1,8 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import GalleryBody from '../components/sections/GalleryBody.astro';
-import { hvacBusinessLd, breadcrumbLd } from '../lib/schema';
+import { hvacBusinessLd, breadcrumbLd, imageGalleryLd } from '../lib/schema';
 import { localizedPath } from '../i18n/utils';
+import { galleryPhotos } from '../data';
 
 const locale = 'en' as const;
 const title = 'Our Work — AC Installation Gallery | Aerocomfort';
@@ -12,7 +13,15 @@ const crumbs = [
   { name: 'Home', url: localizedPath('/', locale) },
   { name: 'Gallery', url: localizedPath('/gallery', locale) },
 ];
-const jsonLd = [hvacBusinessLd(), breadcrumbLd(crumbs)];
+const jsonLd = [
+  hvacBusinessLd(),
+  breadcrumbLd(crumbs),
+  imageGalleryLd(
+    galleryPhotos.map((p) => ({ src: p.src, caption: p.alt[locale] })),
+    '/gallery',
+    'Aerocomfort — recent installations',
+  ),
+];
 ---
 <Base locale={locale} path="/gallery" title={title} description={description} jsonLd={jsonLd}>
   <GalleryBody locale={locale} />

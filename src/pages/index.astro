@@ -12,7 +12,7 @@ import Reviews from '../components/sections/Reviews.astro';
 import Areas from '../components/sections/Areas.astro';
 import FaqPreview from '../components/sections/FaqPreview.astro';
 import FinalCta from '../components/sections/FinalCta.astro';
-import { hvacBusinessLd, faqLd } from '../lib/schema';
+import { hvacBusinessLd, faqLd, websiteLd } from '../lib/schema';
 import { FAQ } from '../data/faq';
 
 const locale = 'en' as const;
@@ -26,7 +26,7 @@ const faq = faqLd(FAQ[locale].map((f) => ({ question: f.q, answer: f.a })));
   path="/"
   title={title}
   description={description}
-  jsonLd={[hvacBusinessLd(), faq]}
+  jsonLd={[hvacBusinessLd(), websiteLd(), faq]}
 >
   <Hero locale={locale} />
   <TrustBar locale={locale} />
