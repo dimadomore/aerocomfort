@@ -24,6 +24,13 @@ const legalLinks = [
   { label: locale === 'es' ? 'Aviso legal' : 'Legal notice', en: '/legal' },
 ];
 
+// Footer site links = primary nav + the useful extras not in the top nav.
+const exploreLinks = [
+  ...nav.map((i) => ({ label: i.label, href: i.href })),
+  { label: locale === 'es' ? 'Marcas' : 'Brands', href: localizedPath('/brands', locale) },
+  { label: locale === 'es' ? 'Nuestros trabajos' : 'Our work', href: localizedPath('/gallery', locale) },
+];
+
 const hasReg = !isPlaceholder(business.legalName) && !isPlaceholder(business.taxId);
 const areaWord = locale === 'es' ? 'zonas' : 'areas';
 const linkCls = 'inline-flex items-center gap-3 text-small text-white/80 transition-colors hover:text-white';
@@ -44,7 +51,7 @@ const linkCls = 'inline-flex items-center gap-3 text-small text-white/80 transit
       <nav class="lg:col-span-3" aria-label={locale === 'es' ? 'Servicios (pie)' : 'Footer services'}>
         <h2 class="text-small font-bold text-white/85">{t('nav.services')}</h2>
         <ul class="mt-4 space-y-2.5">
-          {nav.map((i) => (
+          {exploreLinks.map((i) => (
             <li><a class="text-small text-white/80 transition-colors hover:text-white" href={i.href}>{i.label}</a></li>
           ))}
         </ul>
@@ -67,6 +74,7 @@ const linkCls = 'inline-flex items-center gap-3 text-small text-white/80 transit
         {legalLinks.map((l) => (
           <a class="text-white/70 transition-colors hover:text-white" href={localizedPath(l.en, locale)}>{l.label}</a>
         ))}
+        <a class="text-white/70 transition-colors hover:text-white" href="/sitemap-index.xml">Sitemap</a>
         <button
           type="button"
           class="text-white/70 transition-colors hover:text-white"

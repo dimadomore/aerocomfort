@@ -47,7 +47,7 @@ const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] 
     <div>
       <label class="lead-label" for="lead-service">{t('form.service')}</label>
       <select class="lead-control" id="lead-service" name="service">
-        <option value="" selected disabled>{t('form.servicePick')}</option>
+        <option value="" selected>{t('form.servicePick')}</option>
         {services.map((s) => <option value={s}>{t(`service.${s}` as 'service.installation')}</option>)}
       </select>
     </div>
