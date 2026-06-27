@@ -39,7 +39,7 @@ const crumbs = [
             src={b.logo}
             alt={b.name}
             height="32"
-            class="mb-5 h-8 w-auto max-w-[62%] object-contain object-left"
+            class:list={['mb-5 w-auto max-w-[62%] object-contain object-left', b.slug === 'lg' ? 'h-11' : 'h-8']}
             loading="lazy"
             decoding="async"
           />

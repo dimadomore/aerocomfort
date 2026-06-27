@@ -21,7 +21,7 @@ const brandsHref = localizedPath('/brands', locale);
     <ul class="mt-8 grid grid-cols-3 items-center justify-items-center gap-x-8 gap-y-7 sm:grid-cols-4 lg:grid-cols-7">
       {BRANDS.map((b) => (
         <li class="flex w-full justify-center">
-          <a href={brandsHref} class="brand-logo" aria-label={b.name}>
+          <a href={brandsHref} class:list={['brand-logo', b.slug === 'lg' && 'brand-logo--lg']} aria-label={b.name}>
             <img src={b.logo} alt={`${b.name}`} height="36" width="120" loading="lazy" decoding="async" />
           </a>
         </li>
@@ -59,6 +59,11 @@ const brandsHref = localizedPath('/brands', locale);
       filter 0.25s ease,
       opacity 0.25s ease,
       transform 0.25s ease;
+  }
+  /* LG ships as a compact square mark, so it reads small next to the wide
+     wordmarks — give it extra height to balance the row. */
+  .brand-logo--lg img {
+    height: 2.9rem;
   }
   .brand-logo:hover img {
     filter: none;
