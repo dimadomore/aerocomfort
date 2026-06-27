@@ -120,6 +120,54 @@ export function serviceLd(serviceType: string, url: string) {
   };
 }
 
+/**
+ * HowTo schema (DIM-284). The visible "How it works" section was removed, but
+ * the process is kept here as structured data so search/AI engines still see it.
+ * Two steps — pricing can be agreed up front, so no on-site visit is needed.
+ */
+export function howToLd(locale: 'en' | 'es') {
+  const copy = {
+    en: {
+      name: 'How to get air conditioning installed or repaired with Aerocomfort',
+      steps: [
+        {
+          name: 'Tell us what you need',
+          text: 'Send your details by form, WhatsApp or call. We talk it through, agree the details and can quote in advance — pricing can be discussed up front, so no on-site visit is required.',
+        },
+        {
+          name: 'We come and do the work',
+          text: 'We carry out the installation, repair or service cleanly, on schedule and guaranteed.',
+        },
+      ],
+    },
+    es: {
+      name: 'Cómo instalar o reparar el aire acondicionado con Aerocomfort',
+      steps: [
+        {
+          name: 'Cuéntanos qué necesitas',
+          text: 'Escríbenos por formulario, WhatsApp o llamada. Lo hablamos, acordamos los detalles y podemos presupuestar por adelantado — el precio se puede tratar de antemano, sin necesidad de visita previa.',
+        },
+        {
+          name: 'Vamos y hacemos el trabajo',
+          text: 'Realizamos la instalación, reparación o mantenimiento de forma limpia, puntual y con garantía.',
+        },
+      ],
+    },
+  };
+  const c = copy[locale];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: c.name,
+    step: c.steps.map((s, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+    })),
+  };
+}
+
 /** FAQPage schema (docs/11 §4.3). */
 export function faqLd(items: { question: string; answer: string }[]) {
   return {

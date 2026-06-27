@@ -4,7 +4,6 @@ import Hero from '../components/sections/Hero.astro';
 import TrustBar from '../components/sections/TrustBar.astro';
 import ServicesGrid from '../components/sections/ServicesGrid.astro';
 import WhyUs from '../components/sections/WhyUs.astro';
-import HowItWorks from '../components/sections/HowItWorks.astro';
 import OffersPreview from '../components/sections/OffersPreview.astro';
 import Brands from '../components/sections/Brands.astro';
 import GalleryPreview from '../components/sections/GalleryPreview.astro';
@@ -12,7 +11,7 @@ import Reviews from '../components/sections/Reviews.astro';
 import Areas from '../components/sections/Areas.astro';
 import FaqPreview from '../components/sections/FaqPreview.astro';
 import FinalCta from '../components/sections/FinalCta.astro';
-import { hvacBusinessLd, faqLd, websiteLd } from '../lib/schema';
+import { hvacBusinessLd, faqLd, websiteLd, howToLd } from '../lib/schema';
 import { FAQ } from '../data/faq';
 
 const locale = 'en' as const;
@@ -26,13 +25,12 @@ const faq = faqLd(FAQ[locale].map((f) => ({ question: f.q, answer: f.a })));
   path="/"
   title={title}
   description={description}
-  jsonLd={[hvacBusinessLd(), websiteLd(), faq]}
+  jsonLd={[hvacBusinessLd(), websiteLd(), howToLd(locale), faq]}
 >
   <Hero locale={locale} />
   <TrustBar locale={locale} />
   <ServicesGrid locale={locale} />
   <WhyUs locale={locale} />
-  <HowItWorks locale={locale} />
   <Reviews locale={locale} />
   <OffersPreview locale={locale} />
   <Brands locale={locale} />
