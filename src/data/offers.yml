@@ -16,32 +16,32 @@ items:
     priceOld: null            # ‹PLACEHOLDER: previous price — D5›
     efficiency: "A+++"
     coverage: "25 m²"         # ‹confirm — D5›
-    image: ""                 # ‹PLACEHOLDER: unit photo — docs/08 §2.6›
+    image: "/offers/giatsu-aroma-2e.webp"
   - brand: LG
     model: Connect S09EC
     priceNew: 769
     priceOld: null
     efficiency: "A+++"
     coverage: "25 m²"
-    image: ""
+    image: "/offers/lg-s09ec.jpg"
   - brand: Panasonic
     model: KIT-BZ25-XKE
     priceNew: 769
     priceOld: null
     efficiency: "A+++"
     coverage: "25 m²"
-    image: ""
+    image: "/offers/panasonic-bz25.jpg"
   - brand: Daikin
     model: TXF25F
     priceNew: 859
     priceOld: null
     efficiency: "A+++"
     coverage: "25 m²"
-    image: ""
+    image: "/offers/daikin-txf25.webp"
   - brand: Mitsubishi Electric
     model: MSZ-HR25VFK
     priceNew: 879
     priceOld: null
     efficiency: "A+++"
     coverage: "25 m²"
-    image: ""
+    image: "/offers/mitsubishi-msz-hr25.jpg"

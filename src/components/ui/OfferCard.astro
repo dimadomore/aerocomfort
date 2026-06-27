@@ -14,19 +14,36 @@ const contactHref = localizedPath('/contact', locale);
 const cta = es ? 'Solicitar este equipo' : 'Request this unit';
 ---
 <article class="group card-cool flex flex-col overflow-hidden rounded-xl border border-line hover:-translate-y-1">
-  <div class="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-linear-to-br from-sky-50 via-sky-100 to-sky-200">
-    {/* faint cool-air currents behind the unit (signature motif) */}
-    <svg class="pointer-events-none absolute inset-0 h-full w-full text-brand-600/10" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
-      <path d="M-5 22 C 30 10, 60 32, 125 18" />
-      <path d="M-5 72 C 35 60, 70 82, 125 66" />
-    </svg>
-    {/* placeholder until catalogue photos arrive (docs/08 §2.6) */}
-    <svg viewBox="0 0 120 90" class="relative w-1/2 text-brand-600/70 transition-transform duration-300 ease-out group-hover:scale-105" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
-      <rect x="14" y="26" width="92" height="26" rx="8" fill="rgba(255,255,255,0.65)" />
-      <circle cx="24" cy="36" r="2.2" fill="var(--cyan-400)" stroke="none" />
-      <path d="M34 36h34M82 36h12" />
-      <path d="M40 60c2-2 2-4 2-6M60 64c2-2 2-4 2-6M80 60c2-2 2-4 2-6" stroke="var(--cyan-400)" />
-    </svg>
+  <div
+    class:list={[
+      'relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b border-line',
+      offer.image ? 'bg-white' : 'bg-linear-to-br from-sky-50 via-sky-100 to-sky-200',
+    ]}
+  >
+    {offer.image ? (
+      <img
+        src={offer.image}
+        alt={`${offer.brand} ${offer.model}`}
+        class="h-full w-full object-contain p-4 transition-transform duration-300 ease-out group-hover:scale-[1.04]"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <>
+        {/* faint cool-air currents behind the unit (signature motif) */}
+        <svg class="pointer-events-none absolute inset-0 h-full w-full text-brand-600/10" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+          <path d="M-5 22 C 30 10, 60 32, 125 18" />
+          <path d="M-5 72 C 35 60, 70 82, 125 66" />
+        </svg>
+        {/* placeholder until a catalogue photo is set (docs/08 §2.6) */}
+        <svg viewBox="0 0 120 90" class="relative w-1/2 text-brand-600/70 transition-transform duration-300 ease-out group-hover:scale-105" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+          <rect x="14" y="26" width="92" height="26" rx="8" fill="rgba(255,255,255,0.65)" />
+          <circle cx="24" cy="36" r="2.2" fill="var(--cyan-400)" stroke="none" />
+          <path d="M34 36h34M82 36h12" />
+          <path d="M40 60c2-2 2-4 2-6M60 64c2-2 2-4 2-6M80 60c2-2 2-4 2-6" stroke="var(--cyan-400)" />
+        </svg>
+      </>
+    )}
     {offer.efficiency && (
       <span class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-pill bg-brand-700 px-3 py-1 text-caption font-bold text-white shadow-[0_4px_10px_-3px_rgba(20,38,74,0.5)]">
         <span class="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
