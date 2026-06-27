@@ -23,7 +23,7 @@ items:
     priceOld: null
     efficiency: "A+++"
     coverage: "25 m²"
-    image: "/offers/lg-s09ec.jpg"
+    image: "/offers/lg-s09ec.webp"
   - brand: Panasonic
     model: KIT-BZ25-XKE
     priceNew: 769
