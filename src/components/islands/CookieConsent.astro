@@ -1,116 +1,328 @@
 ---
-import { type Locale, ANALYTICS } from '../../config';
+import { type Locale, ANALYTICS, ELFSIGHT_ID, MAP_EMBED_URL } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 
 /**
- * GDPR cookie banner. Only renders when something actually needs consent
- * (analytics or a third-party widget configured) — otherwise nothing shows.
- * Accept/Reject updates Consent Mode v2 via window.gtag and remembers the choice.
+ * Cookie consent — Spain (LSSI-CE art. 22.2 + RGPD / AEPD guidance):
+ * - Shows whenever any non-essential tech is present (analytics/ads, the
+ *   Elfsight reviews widget, or a Google Maps embed) — all set 3rd-party cookies.
+ * - Blocking layer ABOVE everything: the visitor must Accept or Reject before
+ *   using the site (no layout shift — it's a fixed overlay).
+ * - Reject is exactly as easy as Accept (equal prominence), nothing non-essential
+ *   is pre-ticked, and a "Configure" panel gives granular categories.
+ * - Choice persists in localStorage; analytics flow through Consent Mode v2 and
+ *   third-party widgets listen for `aero-consent-change` before loading.
+ * Re-open anytime via window.AeroConsent.open() (e.g. the footer "Cookie settings").
  */
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-// Driven by analytics/ads only — those use Consent Mode. The Elfsight reviews
-// widget loads as content, so it doesn't by itself trigger the banner.
-const needsConsent = Boolean(ANALYTICS.gaId || ANALYTICS.adsId);
+const needsConsent = Boolean(
+  ANALYTICS.gaId || ANALYTICS.adsId || ELFSIGHT_ID || MAP_EMBED_URL,
+);
 const cookiesHref = localizedPath('/cookies', locale);
+
+const categories = [
+  { key: 'necessary', name: t('consent.necessary'), desc: t('consent.necessaryDesc'), locked: true },
+  { key: 'analytics', name: t('consent.analytics'), desc: t('consent.analyticsDesc'), locked: false },
+  { key: 'thirdparty', name: t('consent.thirdparty'), desc: t('consent.thirdpartyDesc'), locked: false },
+];
 ---
 {
   needsConsent && (
-    <div class="consent" data-consent role="dialog" aria-label="Cookies" hidden>
-      <p class="consent__text">
-        {t('consent.text')} <a href={cookiesHref}>{t('consent.manage')}</a>
-      </p>
-      <div class="consent__actions">
-        <button type="button" class="consent__btn consent__btn--ghost" data-consent-reject>{t('consent.reject')}</button>
-        <button type="button" class="consent__btn consent__btn--accept" data-consent-accept>{t('consent.accept')}</button>
+    <div class="cc" data-cc hidden>
+      <div class="cc__scrim" />
+      <div
+        class="cc__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cc-title"
+        aria-describedby="cc-body"
+        tabindex="-1"
+      >
+        <h2 id="cc-title" class="cc__title">{t('consent.title')}</h2>
+        <p id="cc-body" class="cc__body">
+          {t('consent.body')}{' '}
+          <a href={cookiesHref}>{t('consent.manage')}</a>
+        </p>
+
+        <div class="cc__panel" data-cc-panel hidden>
+          {categories.map((c) => (
+            <label class="cc__cat">
+              <span class="cc__cat-text">
+                <span class="cc__cat-name">{c.name}</span>
+                <span class="cc__cat-desc">{c.desc}</span>
+              </span>
+              <input
+                type="checkbox"
+                class="cc__switch"
+                data-cc-toggle={c.key}
+                checked={c.locked}
+                disabled={c.locked}
+              />
+            </label>
+          ))}
+        </div>
+
+        <div class="cc__actions">
+          <button type="button" class="cc__btn cc__btn--ghost" data-cc-reject>
+            {t('consent.rejectAll')}
+          </button>
+          <button
+            type="button"
+            class="cc__btn cc__btn--ghost"
+            data-cc-configure
+            aria-expanded="false"
+          >
+            {t('consent.configure')}
+          </button>
+          <button type="button" class="cc__btn cc__btn--accept" data-cc-accept>
+            {t('consent.acceptAll')}
+          </button>
+          <button type="button" class="cc__btn cc__btn--accept cc__btn--save" data-cc-save hidden>
+            {t('consent.save')}
+          </button>
+        </div>
       </div>
     </div>
   )
 }
 
 <style>
-  .consent {
+  .cc {
     position: fixed;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    z-index: 60;
+    inset: 0;
+    z-index: 2147483000; /* above the chat launcher, sticky bar and any 3rd-party widget */
     display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-    max-width: 30rem;
-    padding: 1.1rem 1.25rem;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1rem;
   }
   @media (min-width: 640px) {
-    .consent {
-      right: auto;
+    .cc {
+      align-items: center;
     }
   }
-  .consent__text {
+  .cc__scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 30, 54, 0.55);
+    backdrop-filter: blur(2px);
+  }
+  .cc__dialog {
+    position: relative;
+    width: 100%;
+    max-width: 32rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    animation: cc-in 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (min-width: 640px) {
+    .cc__dialog {
+      padding: 1.75rem;
+    }
+  }
+  .cc__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: 800;
+    color: var(--brand-800);
+  }
+  .cc__body {
+    margin-top: 0.6rem;
     font-size: var(--text-small);
+    line-height: 1.6;
     color: var(--ink-700);
   }
-  .consent__text a {
+  .cc__body a {
     color: var(--blue-600);
     text-decoration: underline;
     text-underline-offset: 0.15em;
   }
-  .consent__actions {
-    display: flex;
-    gap: 0.6rem;
+
+  .cc__panel {
+    margin-top: 1.1rem;
+    border-top: 1px solid var(--line);
   }
-  .consent__btn {
-    flex: 1;
-    min-height: 44px;
-    padding: 0 1rem;
+  .cc__cat {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .cc__cat-text {
+    display: block;
+  }
+  .cc__cat-name {
+    display: block;
+    font-size: var(--text-small);
+    font-weight: 700;
+    color: var(--ink-900);
+  }
+  .cc__cat-desc {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: var(--text-caption);
+    color: var(--ink-500);
+  }
+  /* Accessible switch built on a native checkbox */
+  .cc__switch {
+    appearance: none;
+    flex-shrink: 0;
+    width: 44px;
+    height: 26px;
+    margin-top: 0.1rem;
+    border-radius: var(--radius-pill);
+    background: var(--line);
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .cc__switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease;
+  }
+  .cc__switch:checked {
+    background: var(--success);
+  }
+  .cc__switch:checked::after {
+    transform: translateX(18px);
+  }
+  .cc__switch:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+  .cc__switch:focus-visible {
+    outline: 3px solid var(--blue-500);
+    outline-offset: 2px;
+  }
+
+  .cc__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  .cc__btn {
+    flex: 1 1 auto;
+    min-height: 46px;
+    padding: 0 1.1rem;
     border-radius: var(--radius-pill);
     font-family: var(--font-display);
     font-weight: 700;
     font-size: var(--text-small);
-    transition: background-color 0.15s ease;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
   }
-  .consent__btn--ghost {
+  .cc__btn--ghost {
     color: var(--ink-700);
     border: 1.5px solid var(--line);
     background: #fff;
   }
-  .consent__btn--ghost:hover {
+  .cc__btn--ghost:hover {
     background: var(--sky-100);
+    border-color: var(--blue-300);
   }
-  .consent__btn--accept {
+  .cc__btn--accept {
     color: #fff;
     background: var(--accent-600);
   }
-  .consent__btn--accept:hover {
+  .cc__btn--accept:hover {
     background: var(--accent-700);
+  }
+
+  @keyframes cc-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cc__dialog {
+      animation: none;
+    }
   }
 </style>
 
 <script>
   const KEY = 'aero-consent';
-  const el = document.querySelector<HTMLElement>('[data-consent]');
-  if (el) {
-    let stored: string | null = null;
-    try {
-      stored = localStorage.getItem(KEY);
-    } catch {
-      /* ignore */
-    }
-    if (!stored) el.hidden = false;
+  const VERSION = 1;
 
-    const apply = (value: 'granted' | 'denied') => {
+  type Prefs = { v: number; analytics: boolean; thirdparty: boolean; ts: number };
+
+  const read = (): Prefs | null => {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      const p = JSON.parse(raw);
+      if (!p || p.v !== VERSION) return null;
+      return p as Prefs;
+    } catch {
+      return null;
+    }
+  };
+
+  const root = document.querySelector<HTMLElement>('[data-cc]');
+  if (root) {
+    const dialog = root.querySelector<HTMLElement>('.cc__dialog');
+    const panel = root.querySelector<HTMLElement>('[data-cc-panel]');
+    const configureBtn = root.querySelector<HTMLButtonElement>('[data-cc-configure]');
+    const saveBtn = root.querySelector<HTMLButtonElement>('[data-cc-save]');
+    const toggles = {
+      analytics: root.querySelector<HTMLInputElement>('[data-cc-toggle="analytics"]'),
+      thirdparty: root.querySelector<HTMLInputElement>('[data-cc-toggle="thirdparty"]'),
+    };
+
+    let lastFocus: HTMLElement | null = null;
+
+    const lockScroll = (on: boolean) => {
+      document.documentElement.style.overflow = on ? 'hidden' : '';
+    };
+
+    const open = () => {
+      const stored = read();
+      if (toggles.analytics) toggles.analytics.checked = stored?.analytics ?? false;
+      if (toggles.thirdparty) toggles.thirdparty.checked = stored?.thirdparty ?? false;
+      lastFocus = document.activeElement as HTMLElement;
+      root.hidden = false;
+      lockScroll(true);
+      dialog?.focus();
+    };
+
+    const close = () => {
+      root.hidden = true;
+      lockScroll(false);
+      lastFocus?.focus?.();
+    };
+
+    const apply = (prefs: { analytics: boolean; thirdparty: boolean }) => {
+      const full: Prefs = { v: VERSION, ...prefs, ts: Date.now() };
       try {
-        localStorage.setItem(KEY, value);
+        localStorage.setItem(KEY, JSON.stringify(full));
       } catch {
         /* ignore */
       }
+      const value = prefs.analytics ? 'granted' : 'denied';
       const w = window as unknown as { gtag?: (...a: unknown[]) => void };
       if (typeof w.gtag === 'function') {
         w.gtag('consent', 'update', {
@@ -120,10 +332,55 @@ const cookiesHref = localizedPath('/cookies', locale);
           analytics_storage: value,
         });
       }
-      el.hidden = true;
+      window.dispatchEvent(new CustomEvent('aero-consent-change', { detail: full }));
+      close();
     };
 
-    el.querySelector('[data-consent-accept]')?.addEventListener('click', () => apply('granted'));
-    el.querySelector('[data-consent-reject]')?.addEventListener('click', () => apply('denied'));
+    const showPanel = () => {
+      if (!panel || !saveBtn || !configureBtn) return;
+      panel.hidden = false;
+      configureBtn.hidden = true;
+      configureBtn.setAttribute('aria-expanded', 'true');
+      saveBtn.hidden = false;
+    };
+
+    root.querySelector('[data-cc-accept]')?.addEventListener('click', () =>
+      apply({ analytics: true, thirdparty: true }),
+    );
+    root.querySelector('[data-cc-reject]')?.addEventListener('click', () =>
+      apply({ analytics: false, thirdparty: false }),
+    );
+    configureBtn?.addEventListener('click', showPanel);
+    saveBtn?.addEventListener('click', () =>
+      apply({
+        analytics: Boolean(toggles.analytics?.checked),
+        thirdparty: Boolean(toggles.thirdparty?.checked),
+      }),
+    );
+
+    // Keep focus inside the modal (must choose before using the site).
+    root.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab' || root.hidden) return;
+      const focusable = root.querySelectorAll<HTMLElement>(
+        'button:not([hidden]), a[href], input:not([disabled])',
+      );
+      const list = Array.from(focusable).filter((el) => el.offsetParent !== null);
+      if (!list.length) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    // Public API — re-open from anywhere (footer "Cookie settings").
+    (window as unknown as { AeroConsent: unknown }).AeroConsent = { open, get: read };
+
+    // First visit (no stored choice) → show immediately.
+    if (!read()) open();
   }
 </script>

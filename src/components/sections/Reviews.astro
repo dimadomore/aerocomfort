@@ -1,5 +1,6 @@
 ---
 import { type Locale, ELFSIGHT_ID } from '../../config';
+import { useTranslations } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
 
@@ -7,6 +8,7 @@ interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
+const t = useTranslations(locale);
 const es = locale === 'es';
 ---
 <section class="border-y border-line bg-surface-cool py-16 lg:py-24">
@@ -18,35 +20,83 @@ const es = locale === 'es';
 
     {
       ELFSIGHT_ID && (
-        <div class="mx-auto mt-8 max-w-4xl" data-elfsight-id={ELFSIGHT_ID} style="min-height:320px" />
+        <Fragment>
+          <div class="mx-auto mt-8 max-w-4xl" data-elfsight-id={ELFSIGHT_ID} style="min-height:320px" />
+          {/* Shown until the visitor consents to third-party cookies (LSSI/RGPD). */}
+          <div class="mx-auto mt-8 max-w-md rounded-xl border border-line bg-white p-6" data-reviews-blocked hidden>
+            <p class="text-small text-ink-500">{t('consent.reviewsBlocked')}</p>
+            <button
+              type="button"
+              class="mt-4 inline-flex min-h-11 items-center rounded-pill bg-brand-700 px-5 font-display text-small font-bold text-white transition-colors hover:bg-brand-800"
+              data-reviews-settings
+            >
+              {t('consent.settings')}
+            </button>
+          </div>
+        </Fragment>
       )
     }
   </Container>
 </section>
 
 <script>
-  // Lazy-mount the Elfsight Google-reviews widget on viewport (keeps Lighthouse green).
-  // The widget renders its own rating, count and "Review on Google" button.
+  // Elfsight (Google reviews) sets third-party cookies, so it only loads after the
+  // visitor accepts "third-party content". Until then a notice offers a way in.
   const host = document.querySelector<HTMLElement>('[data-elfsight-id]');
+  const blocked = document.querySelector<HTMLElement>('[data-reviews-blocked]');
+
+  const hasThirdparty = (): boolean => {
+    try {
+      const c = JSON.parse(localStorage.getItem('aero-consent') || 'null');
+      return !!(c && c.thirdparty);
+    } catch {
+      return false;
+    }
+  };
+
   if (host) {
-    const id = host.getAttribute('data-elfsight-id');
-    const io = new IntersectionObserver((entries, obs) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        if (!document.querySelector('script[data-elfsight-platform]')) {
-          const s = document.createElement('script');
-          s.src = 'https://static.elfsight.com/platform/platform.js';
-          s.async = true;
-          s.setAttribute('data-elfsight-platform', '');
-          document.body.appendChild(s);
-        }
-        const w = document.createElement('div');
-        if (id) w.className = id;
-        w.setAttribute('data-elfsight-app-lazy', '');
-        host.appendChild(w);
-        obs.disconnect();
+    let mounted = false;
+    const mount = () => {
+      if (mounted) return;
+      mounted = true;
+      const id = host.getAttribute('data-elfsight-id');
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          if (!document.querySelector('script[data-elfsight-platform]')) {
+            const s = document.createElement('script');
+            s.src = 'https://static.elfsight.com/platform/platform.js';
+            s.async = true;
+            s.setAttribute('data-elfsight-platform', '');
+            document.body.appendChild(s);
+          }
+          const w = document.createElement('div');
+          if (id) w.className = id;
+          w.setAttribute('data-elfsight-app-lazy', '');
+          host.appendChild(w);
+          obs.disconnect();
+        });
+      }, { rootMargin: '200px' });
+      io.observe(host);
+    };
+
+    const sync = () => {
+      if (hasThirdparty()) {
+        if (blocked) blocked.hidden = true;
+        host.hidden = false;
+        mount();
+      } else {
+        host.hidden = true;
+        if (blocked) blocked.hidden = false;
+      }
+    };
+
+    sync();
+    window.addEventListener('aero-consent-change', sync);
+    document
+      .querySelector('[data-reviews-settings]')
+      ?.addEventListener('click', () => {
+        (window as unknown as { AeroConsent?: { open?: () => void } }).AeroConsent?.open?.();
       });
-    }, { rootMargin: '200px' });
-    io.observe(host);
   }
 </script>
