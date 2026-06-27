@@ -11,9 +11,9 @@ const es = locale === 'es';
 const tr = business.trust;
 
 // Real owner facts (John, 2026-06-14): 1000+ installs, 5.0★, 3-yr guarantee, 45+ areas.
-const stats = [
+const stats: { value: string; label: string; star?: boolean }[] = [
   { value: tr?.installs ?? '1000+', label: es ? 'instalaciones' : 'installations' },
-  { value: `${business.rating.value}★`, label: es ? `${reviewCountDisplay} reseñas Google` : `${reviewCountDisplay} Google reviews` },
+  { value: business.rating.value, star: true, label: es ? `${reviewCountDisplay} reseñas Google` : `${reviewCountDisplay} Google reviews` },
   { value: es ? `${tr?.guaranteeYears ?? 3} años` : `${tr?.guaranteeYears ?? 3}-yr`, label: es ? 'de garantía' : 'guarantee' },
   { value: `${business.areasCount}+`, label: es ? 'zonas cubiertas' : 'areas covered' },
 ];
@@ -23,7 +23,7 @@ const stats = [
     <div class="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4">
       {stats.map((s) => (
         <div class="flex flex-col items-center text-center">
-          <span class="font-display text-h2 font-extrabold tabular-nums text-brand-700">{s.value}</span>
+          <span class="font-display text-h2 font-extrabold tabular-nums text-brand-700">{s.value}{s.star && <span class="text-warning">★</span>}</span>
           <span class="mt-2.5 h-0.5 w-7 rounded-full bg-linear-to-r from-cyan-400 to-brand-600" aria-hidden="true"></span>
           <span class="mt-2.5 text-small text-ink-500">{s.label}</span>
         </div>
