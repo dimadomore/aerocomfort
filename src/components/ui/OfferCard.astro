@@ -2,6 +2,7 @@
 import { type Locale } from '../../config';
 import { type OfferItem } from '../../data';
 import { localizedPath } from '../../i18n/utils';
+import Icon from './Icon.astro';
 
 interface Props {
   offer: OfferItem;
@@ -12,20 +13,29 @@ const es = locale === 'es';
 const contactHref = localizedPath('/contact', locale);
 const cta = es ? 'Solicitar este equipo' : 'Request this unit';
 ---
-<article class="flex flex-col overflow-hidden rounded-xl border border-line bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
-  <div class="relative flex aspect-[4/3] items-center justify-center bg-sky-100">
+<article class="group card-cool flex flex-col overflow-hidden rounded-xl border border-line hover:-translate-y-1">
+  <div class="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-linear-to-br from-sky-50 via-sky-100 to-sky-200">
+    {/* faint cool-air currents behind the unit (signature motif) */}
+    <svg class="pointer-events-none absolute inset-0 h-full w-full text-brand-600/10" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+      <path d="M-5 22 C 30 10, 60 32, 125 18" />
+      <path d="M-5 72 C 35 60, 70 82, 125 66" />
+    </svg>
     {/* placeholder until catalogue photos arrive (docs/08 §2.6) */}
-    <svg viewBox="0 0 120 90" class="w-1/2 text-blue-300" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
-      <rect x="14" y="26" width="92" height="26" rx="8" />
-      <path d="M24 44h22M70 44h12" />
-      <path d="M40 60c2-2 2-4 2-6M60 64c2-2 2-4 2-6M80 60c2-2 2-4 2-6" />
+    <svg viewBox="0 0 120 90" class="relative w-1/2 text-brand-600/70 transition-transform duration-300 ease-out group-hover:scale-105" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+      <rect x="14" y="26" width="92" height="26" rx="8" fill="rgba(255,255,255,0.65)" />
+      <circle cx="24" cy="36" r="2.2" fill="var(--cyan-400)" stroke="none" />
+      <path d="M34 36h34M82 36h12" />
+      <path d="M40 60c2-2 2-4 2-6M60 64c2-2 2-4 2-6M80 60c2-2 2-4 2-6" stroke="var(--cyan-400)" />
     </svg>
     {offer.efficiency && (
-      <span class="absolute left-3 top-3 rounded-pill bg-brand-700 px-2.5 py-1 text-caption font-bold text-white">{offer.efficiency}</span>
+      <span class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-pill bg-brand-700 px-3 py-1 text-caption font-bold text-white shadow-[0_4px_10px_-3px_rgba(20,38,74,0.5)]">
+        <span class="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
+        {offer.efficiency}
+      </span>
     )}
   </div>
   <div class="flex flex-1 flex-col p-5">
-    <p class="text-small text-ink-400">{offer.brand}</p>
+    <p class="text-small font-semibold text-ink-500">{offer.brand}</p>
     <h3 class="text-h3">{offer.model}</h3>
     <div class="mt-2 flex items-baseline gap-2">
       {offer.priceOld && <span class="text-body text-ink-400 line-through">€{offer.priceOld}</span>}
@@ -34,9 +44,10 @@ const cta = es ? 'Solicitar este equipo' : 'Request this unit';
     {offer.coverage && <p class="mt-1 text-caption text-ink-400">{offer.coverage}</p>}
     <a
       href={contactHref}
-      class="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-pill bg-brand-700 px-5 font-display font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-800"
+      class="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-[4px] bg-brand-700 px-5 font-display font-bold text-white shadow-[inset_0_-1px_3px_rgba(8,28,64,0.6),0_3px_6px_rgba(8,24,60,0.18)] transition-[background-color,box-shadow] duration-200 ease-out hover:bg-brand-800"
     >
       {cta}
+      <Icon name="arrow-right" size={16} />
     </a>
   </div>
 </article>

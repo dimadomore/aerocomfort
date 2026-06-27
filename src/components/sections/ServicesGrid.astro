@@ -34,16 +34,16 @@ const es = locale === 'es';
       {SERVICES.map((s) => (
         <a
           href={localizedPath(`/services/${s.slug}`, locale)}
-          class="group rounded-xl border border-line bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
+          class="group card-cool rounded-xl border border-line p-6 hover:-translate-y-1 hover:border-blue-300"
         >
-          <span class="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-100 text-brand-700">
+          <span class="icon-tile h-12 w-12 rounded-xl">
             <Icon name={s.icon} size={26} />
           </span>
           <h3 class="mt-5 text-h3">{s[locale].title}</h3>
           <p class="mt-2 text-small text-ink-500">{s[locale].blurb}</p>
           <span class="mt-4 inline-flex items-center gap-1.5 text-small font-bold text-brand-700">
             {es ? 'Saber más' : 'Learn more'}
-            <Icon name="arrow-right" size={16} />
+            <Icon name="arrow-right" size={16} class="transition-transform duration-200 ease-out group-hover:translate-x-1" />
           </span>
         </a>
       ))}

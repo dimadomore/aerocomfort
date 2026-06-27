@@ -20,9 +20,11 @@ const items = FAQ[locale];
     <div class="mt-10 divide-y divide-line border-y border-line">
       {items.map((f) => (
         <details class="faq">
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-body-lg font-semibold text-ink-900">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-body-lg font-semibold text-ink-900 transition-colors hover:text-brand-700">
             {f.q}
-            <Icon name="chevron-down" size={22} class="faq__chev shrink-0 text-brand-700 transition-transform" />
+            <span class="faq__chev flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-100 text-brand-700 transition-transform">
+              <Icon name="chevron-down" size={20} />
+            </span>
           </summary>
           <p class="pb-5 text-body text-ink-500">{f.a}</p>
         </details>

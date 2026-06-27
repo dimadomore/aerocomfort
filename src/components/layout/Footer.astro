@@ -42,7 +42,7 @@ const linkCls = 'inline-flex items-center gap-3 text-small text-white/80 transit
       </div>
 
       <nav class="lg:col-span-3" aria-label={locale === 'es' ? 'Servicios (pie)' : 'Footer services'}>
-        <h2 class="text-caption font-bold tracking-wider text-white/70 uppercase">{t('nav.services')}</h2>
+        <h2 class="text-small font-bold text-white/85">{t('nav.services')}</h2>
         <ul class="mt-4 space-y-2.5">
           {nav.map((i) => (
             <li><a class="text-small text-white/80 transition-colors hover:text-white" href={i.href}>{i.label}</a></li>
@@ -51,7 +51,7 @@ const linkCls = 'inline-flex items-center gap-3 text-small text-white/80 transit
       </nav>
 
       <div class="lg:col-span-5">
-        <h2 class="text-caption font-bold tracking-wider text-white/70 uppercase">{t('nav.contact')}</h2>
+        <h2 class="text-small font-bold text-white/85">{t('nav.contact')}</h2>
         <ul class="mt-4 space-y-3.5">
           <li><a class={linkCls} href={telHref}><Icon name="phone" size={18} class="text-white/55" />{business.phone}</a></li>
           <li><a class={linkCls} href={waHref} target="_blank" rel="noopener"><Icon name="whatsapp" size={18} class="text-white/55" />WhatsApp</a></li>

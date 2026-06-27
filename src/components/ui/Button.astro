@@ -21,17 +21,22 @@ const {
 } = Astro.props;
 
 const base =
-  'inline-flex items-center justify-center gap-2.5 rounded-pill font-display font-bold tracking-tight transition-[transform,box-shadow,background-color,color] duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-3 focus-visible:outline-offset-2';
+  'inline-flex items-center justify-center gap-2.5 rounded-[4px] font-display font-bold tracking-tight transition-[background-color,box-shadow,color] duration-200 ease-out focus-visible:outline-3 focus-visible:outline-offset-2';
 
 const sizes = {
-  md: 'text-small px-5 min-h-11',
-  lg: 'text-body px-7 min-h-13',
+  md: 'text-small px-5 min-h-12',
+  lg: 'text-body px-7 min-h-14',
 };
 
+// button-66 style in brand colors: solid fill, inset bottom-edge line + soft
+// drop shadow, hover = darken (dim) only — no lift.
 const variants = {
-  primary: 'bg-accent-600 text-white shadow-md hover:bg-accent-700 hover:shadow-lg',
-  secondary: 'bg-white text-brand-700 ring-2 ring-inset ring-blue-300 hover:bg-blue-100',
-  whatsapp: 'bg-wa-500 text-white shadow-md hover:bg-wa-600 hover:shadow-lg',
+  primary:
+    'bg-accent-600 text-white shadow-[inset_0_-1px_3px_rgba(120,16,16,0.55),0_3px_6px_rgba(70,10,10,0.13)] hover:bg-accent-700',
+  secondary:
+    'bg-white text-brand-700 ring-2 ring-inset ring-blue-300 shadow-[0_3px_6px_rgba(0,44,97,0.1)] hover:bg-blue-100 hover:ring-blue-500',
+  whatsapp:
+    'bg-wa-500 text-white shadow-[inset_0_-1px_3px_rgba(8,92,42,0.55),0_3px_6px_rgba(8,70,40,0.15)] hover:bg-wa-600',
   ghost: 'text-ink-700 hover:bg-sky-100',
 };
 

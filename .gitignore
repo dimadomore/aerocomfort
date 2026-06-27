@@ -20,3 +20,6 @@ Thumbs.db
 
 # Obsidian vault settings
 .obsidian/
+
+# Skill working state / caches
+src/components/.impeccable/

@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "color-expert": {
+      "source": "meodai/skill.color-expert",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "5789b0640121ed6e19582776b13d5d012234010bff0c66a64c4759aca4f0ce22"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",

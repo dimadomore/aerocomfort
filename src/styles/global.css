@@ -72,11 +72,12 @@
   --text-small: 1rem;
   --text-caption: 0.875rem;
 
-  /* Radii (docs/04 §5) */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Radii — sharpened to match the 4px buttons (sharp, engineered feel).
+     Anchored on 4px; only the largest surfaces get a hair more (6px). */
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
   --radius-pill: 999px;
 
   /* Shadows (cool, soft) */
@@ -331,6 +332,83 @@
     border-radius: inherit;
     pointer-events: none;
     animation: cta-pulse 2s ease-out infinite;
+  }
+
+  /* ---- Enrichment primitives — tasteful "cool-air" depth -------------------
+     Reusable so the polish stays DRY and on-system, not one-off decoration. */
+
+  /* Section kicker — replaces the generic uppercase-tracked eyebrow with a
+     branded label: a short cool-air "frost rule" + the label in brand blue,
+     authored case (no shouty tracking). One deliberate device, used site-wide. */
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.005em;
+    color: var(--brand-700);
+  }
+  .kicker::before {
+    content: "";
+    width: 2rem;
+    height: 2.5px;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg, var(--cyan-400), var(--brand-600));
+  }
+  .kicker-light {
+    color: var(--sky-200);
+  }
+  .kicker-light::before {
+    background: linear-gradient(90deg, var(--cyan-400), rgba(255, 255, 255, 0.55));
+  }
+
+  /* Icon tile — a lit, frosted cool surface: inner top highlight + hairline
+     ring + soft cool shadow. Reads as real material, not a flat sky square.
+     Size it with width, height and rounding utilities on the element. */
+  .icon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-700);
+    background: linear-gradient(157deg, #fff 0%, var(--sky-100) 52%, var(--sky-200) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 0 0 1px rgba(36, 121, 224, 0.14),
+      0 8px 16px -8px rgba(20, 38, 74, 0.3);
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Enriched card surface — cool layered elevation + a 1px top highlight so the
+     edge catches light. Pair with rounded-* + border on the element itself. */
+  .card-cool {
+    background: linear-gradient(180deg, #fff 0%, var(--sky-50) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 1px 2px rgba(20, 38, 74, 0.05),
+      0 10px 24px -12px rgba(20, 38, 74, 0.16);
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.25s ease;
+  }
+  .card-cool:hover {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 2px 4px rgba(20, 38, 74, 0.06),
+      0 22px 44px -16px rgba(20, 38, 74, 0.26);
+  }
+
+  /* Group-hover lift for the icon tile inside an interactive card. */
+  .group:hover .icon-tile {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 0 0 1px rgba(36, 121, 224, 0.2),
+      0 12px 22px -10px rgba(20, 38, 74, 0.36);
   }
 }
 

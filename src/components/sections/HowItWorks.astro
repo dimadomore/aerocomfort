@@ -33,11 +33,16 @@ const steps = [
       eyebrow={es ? 'Cómo trabajamos' : 'How it works'}
       title={es ? 'Tres pasos sencillos' : 'Three simple steps'}
     />
-    <ol class="mt-12 grid gap-8 md:grid-cols-3">
-      {steps.map((s) => (
+    <ol class="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+      {steps.map((s, i) => (
         <li class="relative">
-          <span class="font-display text-display font-extrabold text-brand-600">{s.n}</span>
-          <h3 class="mt-2 text-h3">{s.t}</h3>
+          <div class="flex items-center gap-4">
+            <span class="font-display text-display font-extrabold leading-none text-brand-600">{s.n}</span>
+            {i < steps.length - 1 && (
+              <span class="hidden h-0.5 flex-1 rounded-full bg-linear-to-r from-blue-300 to-transparent md:block" aria-hidden="true"></span>
+            )}
+          </div>
+          <h3 class="mt-4 text-h3">{s.t}</h3>
           <p class="mt-2 text-body text-ink-500">{s.d}</p>
         </li>
       ))}

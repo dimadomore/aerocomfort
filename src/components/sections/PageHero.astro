@@ -15,7 +15,7 @@ const { crumbs, eyebrow, title, intro } = Astro.props;
   <Container>
     <Breadcrumbs items={crumbs} />
     <div class="mt-6 max-w-3xl">
-      {eyebrow && <p class="text-small font-bold uppercase tracking-[0.14em] text-brand-700">{eyebrow}</p>}
+      {eyebrow && <p class="kicker">{eyebrow}</p>}
       <h1 class:list={['text-h1', eyebrow && 'mt-3']}>{title}</h1>
       {intro && <p class="mt-4 text-body-lg text-ink-500">{intro}</p>}
       <slot name="cta" />
