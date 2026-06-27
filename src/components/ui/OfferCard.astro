@@ -10,7 +10,8 @@ interface Props {
 }
 const { offer, locale } = Astro.props;
 const es = locale === 'es';
-const contactHref = localizedPath('/contact', locale);
+// Pass the unit so the contact form can pre-fill the message (DIM-279).
+const contactHref = `${localizedPath('/contact', locale)}?unit=${encodeURIComponent(`${offer.brand} ${offer.model}`)}`;
 const cta = es ? 'Solicitar este equipo' : 'Request this unit';
 ---
 <article class="group card-cool flex h-full flex-col overflow-hidden rounded-xl border border-line">

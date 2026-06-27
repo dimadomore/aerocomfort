@@ -53,6 +53,7 @@
   "form.servicePick": "Choose a service",
   "form.message": "Message (optional)",
   "form.messagePh": "Tell us briefly what you need…",
+  "form.unitInterest": "I'm interested in this unit:",
   "form.hasWhatsapp": "I have WhatsApp on this number",
   "form.consentPre": "I agree to the",
   "form.consentLink": "privacy policy",

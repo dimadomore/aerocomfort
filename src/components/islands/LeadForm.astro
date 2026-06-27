@@ -28,6 +28,7 @@ const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] 
   data-redirect={thankYouHref}
   data-sending={t('form.sending')}
   data-error={t('form.error')}
+  data-unit-prefix={t('form.unitInterest')}
   novalidate
 >
   <input type="hidden" name="locale" value={locale} />
@@ -115,6 +116,15 @@ const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] 
 
 <script>
   document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
+    // Pre-fill the message when arriving from an offer's "Request this unit"
+    // (DIM-279): /contact?unit=Brand+Model → "I'm interested in this unit: …".
+    const unit = new URLSearchParams(window.location.search).get('unit');
+    const messageEl = form.querySelector<HTMLTextAreaElement>('[name="message"]');
+    if (unit && messageEl && !messageEl.value) {
+      const prefix = form.dataset.unitPrefix || 'I am interested in this unit:';
+      messageEl.value = `${prefix} ${unit}`;
+    }
+
     const phoneRoot = form.querySelector<HTMLElement>('[data-phone-input]');
     const phoneInput = phoneRoot?.querySelector<HTMLInputElement>('[data-phone]');
     const submit = form.querySelector<HTMLButtonElement>('[data-submit]');
