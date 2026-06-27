@@ -51,7 +51,8 @@
     "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, Arial, sans-serif;
   --font-display:
-    "Archivo Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+    "Schibsted Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui,
+    sans-serif;
 
   /* Fluid type scale (docs/04 §4) — clamp(min, fluid, max) */
   --text-display: clamp(2.5rem, 4vw + 1.5rem, 3.75rem);
@@ -134,7 +135,9 @@
     line-height: 1.1;
     letter-spacing: -0.015em;
     text-wrap: balance;
-    color: var(--ink-900);
+    /* Headings in deep brand blue (not near-black) — on-brand and distinctive
+       on light surfaces. Dark sections set text-white explicitly (DIM-237). */
+    color: var(--brand-800);
   }
 
   a {
@@ -221,14 +224,14 @@
     margin-bottom: 0.75rem;
     font-family: var(--font-display);
     font-size: var(--text-h2);
-    color: var(--ink-900);
+    color: var(--brand-800);
   }
   .prose h3 {
     margin-top: 1.75rem;
     margin-bottom: 0.5rem;
     font-family: var(--font-display);
     font-size: var(--text-h3);
-    color: var(--ink-900);
+    color: var(--brand-800);
   }
   .prose p {
     margin-bottom: 1rem;
