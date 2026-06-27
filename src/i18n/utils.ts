@@ -82,6 +82,7 @@ export function getNav(locale: Locale) {
   return items.map((i) => ({
     label: t(i.key),
     href: localizedPath(i.en, locale),
+    en: i.en,
     highlight: i.key === 'nav.offers',
   }));
 }

@@ -254,8 +254,8 @@
     font-weight: 700;
   }
 
-  /* "Offers" nav highlight — slim accent underline echoing the hero "Costa Blanca"
-     motif (smaller), plus a small periodic "salut" firework burst to draw the eye. */
+  /* "Offers" nav — a tidy but loud accent badge (not an underline, which read as
+     a false "active page"). Keeps the periodic "salut" firework burst (DIM-239). */
   .offers-nav {
     position: relative;
     display: inline-flex;
@@ -263,26 +263,58 @@
     min-height: 44px;
     padding: 0 0.15rem;
   }
-  .offers-nav__text {
-    position: relative;
-    padding-bottom: 0.28em;
-    font-size: var(--text-small);
+  .offers-nav__badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-pill);
+    padding: 0.32rem 0.72rem;
+    font-family: var(--font-display);
+    font-size: var(--text-caption);
     font-weight: 800;
-    color: var(--ink-900);
+    letter-spacing: 0.01em;
+    color: #fff;
+    background: linear-gradient(180deg, var(--accent-500), var(--accent-600));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 4px 10px -3px rgba(209, 47, 47, 0.55);
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .offers-nav:hover .offers-nav__badge {
+    background: linear-gradient(180deg, var(--accent-600), var(--accent-700));
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 7px 16px -4px rgba(209, 47, 47, 0.6);
+  }
+
+  /* Primary nav link + active-page indicator — a light brand underline under the
+     current section (e.g. on /contact the "Contact" link is marked). DIM-239. */
+  .nav-link {
+    position: relative;
+    font-size: var(--text-small);
+    font-weight: 600;
+    color: var(--ink-700);
     transition: color 0.2s ease;
   }
-  .offers-nav__text::after {
+  .nav-link:hover {
+    color: var(--brand-700);
+  }
+  .nav-link--active {
+    color: var(--brand-700);
+    font-weight: 700;
+  }
+  .nav-link--active::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
-    height: 3px;
+    bottom: -0.5rem;
+    height: 2.5px;
     border-radius: var(--radius-pill);
-    background: var(--accent-600);
-  }
-  .offers-nav:hover .offers-nav__text {
-    color: var(--accent-700);
+    background: var(--brand-600);
   }
   /* salut: a tiny multi-colour firework that pops above the word periodically */
   .offers-nav .salut {

@@ -16,6 +16,10 @@ const t = useTranslations(locale);
 const nav = getNav(locale);
 const offersItem = nav.find((n) => n.highlight);
 
+/** Active when the current page IS the nav target or sits under it (e.g.
+ *  /services/installation highlights "Services"). `path` is the EN route key. */
+const isActive = (en: string) => path === en || (en !== '/' && path.startsWith(en + '/'));
+
 const homeHref = localizedPath('/', locale);
 const enHref = localizedPath(path, 'en');
 const esHref = localizedPath(path, 'es');
@@ -36,14 +40,15 @@ const contactHref = localizedPath('/contact', locale);
         {
           nav.map((item) =>
             item.highlight ? (
-              <a href={item.href} class="offers-nav">
+              <a href={item.href} class="offers-nav" aria-current={isActive(item.en) ? 'page' : undefined}>
                 <span class="salut" aria-hidden="true" />
-                <span class="offers-nav__text">{item.label}</span>
+                <span class="offers-nav__badge">{item.label}</span>
               </a>
             ) : (
               <a
                 href={item.href}
-                class="text-small font-semibold text-ink-700 transition-colors hover:text-brand-700"
+                class:list={['nav-link', isActive(item.en) && 'nav-link--active']}
+                aria-current={isActive(item.en) ? 'page' : undefined}
               >
                 {item.label}
               </a>
@@ -74,7 +79,7 @@ const contactHref = localizedPath('/contact', locale);
           {offersItem && (
             <a href={offersItem.href} class="offers-nav mr-1" aria-label={offersItem.label}>
               <span class="salut" aria-hidden="true" />
-              <span class="offers-nav__text">{offersItem.label}</span>
+              <span class="offers-nav__badge">{offersItem.label}</span>
             </a>
           )}
           <a
@@ -115,7 +120,13 @@ const contactHref = localizedPath('/contact', locale);
           nav.map((item) => (
             <a
               href={item.href}
-              class="border-b border-line py-3.5 text-body font-semibold text-ink-900"
+              aria-current={isActive(item.en) ? 'page' : undefined}
+              class:list={[
+                'border-b border-line py-3.5 text-body font-semibold',
+                isActive(item.en)
+                  ? 'border-l-[3px] border-l-accent-600 pl-3 text-brand-700'
+                  : 'text-ink-900',
+              ]}
             >
               {item.label}
             </a>
