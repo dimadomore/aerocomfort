@@ -149,12 +149,27 @@ const contactHref = localizedPath('/contact', locale);
   </div>
 </header>
 
+<style is:global>
+  /* Freeze the page behind the open mobile menu so the background doesn't scroll. */
+  html.nav-open,
+  html.nav-open body {
+    overflow: hidden;
+    touch-action: none;
+  }
+</style>
+
 <script>
   const btn = document.getElementById('nav-toggle');
   const panel = document.getElementById('mobile-nav');
-  btn?.addEventListener('click', () => {
-    const open = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', String(!open));
-    if (panel) panel.hidden = open;
+  const setOpen = (open: boolean) => {
+    btn?.setAttribute('aria-expanded', String(open));
+    if (panel) panel.hidden = !open;
+    document.documentElement.classList.toggle('nav-open', open);
+  };
+  btn?.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  // Release the lock when navigating or returning to desktop width.
+  panel?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) setOpen(false);
   });
 </script>
