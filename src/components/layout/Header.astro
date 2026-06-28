@@ -149,25 +149,40 @@ const contactHref = localizedPath('/contact', locale);
   </div>
 </header>
 
-<style is:global>
-  /* Freeze the page behind the open mobile menu so the background doesn't scroll. */
-  html.nav-open,
-  html.nav-open body {
-    overflow: hidden;
-    touch-action: none;
+<style>
+  /* Open menu: a panel from under the header bar to the bottom, scrollable on its
+     own if the content is tall. Kept in normal flow so the sticky header still
+     works (we must NOT set overflow:hidden on <html>, which un-sticks it). */
+  @media (max-width: 1023px) {
+    #mobile-nav:not([hidden]) {
+      max-height: calc(100dvh - 4rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
   }
 </style>
 
 <script>
   const btn = document.getElementById('nav-toggle');
   const panel = document.getElementById('mobile-nav');
+
+  // Block background scrolling WITHOUT touching overflow (which would break the
+  // sticky header). Allow scrolling inside the menu itself when it overflows.
+  const blockScroll = (e: Event) => {
+    if (panel && panel.scrollHeight > panel.clientHeight && panel.contains(e.target as Node)) return;
+    e.preventDefault();
+  };
+
   const setOpen = (open: boolean) => {
     btn?.setAttribute('aria-expanded', String(open));
     if (panel) panel.hidden = !open;
-    document.documentElement.classList.toggle('nav-open', open);
+    const fn = open ? document.addEventListener : document.removeEventListener;
+    fn.call(document, 'touchmove', blockScroll, { passive: false });
+    fn.call(document, 'wheel', blockScroll, { passive: false });
   };
+
   btn?.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
-  // Release the lock when navigating or returning to desktop width.
+  // Close (and release the lock) on navigation or when returning to desktop width.
   panel?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
   window.addEventListener('resize', () => {
     if (window.innerWidth >= 1024) setOpen(false);
