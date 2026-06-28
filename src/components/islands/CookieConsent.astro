@@ -294,9 +294,26 @@ const categories = [
     };
 
     let lastFocus: HTMLElement | null = null;
+    let lockedY = 0;
 
+    // iOS Safari ignores overflow:hidden for the document, so the page can
+    // rubber-band behind the modal and stay scrolled after closing. Pin the body
+    // with position:fixed and restore the exact scroll position on release.
     const lockScroll = (on: boolean) => {
-      document.documentElement.style.overflow = on ? 'hidden' : '';
+      const b = document.body;
+      if (on) {
+        lockedY = window.scrollY;
+        b.style.position = 'fixed';
+        b.style.top = `-${lockedY}px`;
+        b.style.insetInline = '0';
+        b.style.width = '100%';
+      } else {
+        b.style.position = '';
+        b.style.top = '';
+        b.style.insetInline = '';
+        b.style.width = '';
+        window.scrollTo(0, lockedY);
+      }
     };
 
     const open = () => {
