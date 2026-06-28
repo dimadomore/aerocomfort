@@ -72,8 +72,9 @@ const regionUpper = 'Costa Blanca · Costa Cálida';
     </div>
 
     <!-- Signature illustration: a split AC unit breathing cool air (subject-true,
-         stands in for the hero photo until the owner's photos arrive — docs/08 §2.1) -->
-    <div class="lg:col-span-5">
+         stands in for the hero photo until the owner's photos arrive — docs/08 §2.1).
+         Hidden on mobile (DIM) to keep the hero short — desktop only. -->
+    <div class="hidden lg:col-span-5 lg:block">
       <div class="relative mx-auto max-w-md rounded-xl bg-linear-to-br from-brand-600 to-brand-800 p-6 shadow-lg ring-1 ring-white/15 sm:p-8">
         <svg viewBox="0 0 420 320" class="h-auto w-full" role="img" aria-label={t('hero.imageAlt')} fill="none">
           <!-- indoor split unit -->
