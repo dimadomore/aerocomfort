@@ -306,13 +306,15 @@ const categories = [
       lastFocus = document.activeElement as HTMLElement;
       root.hidden = false;
       lockScroll(true);
-      dialog?.focus();
+      // preventScroll: focusing the (bottom-anchored, on mobile) dialog must NOT
+      // jump the page down — the visitor should stay at the top on first load.
+      dialog?.focus({ preventScroll: true });
     };
 
     const close = () => {
       root.hidden = true;
       lockScroll(false);
-      lastFocus?.focus?.();
+      lastFocus?.focus?.({ preventScroll: true });
     };
 
     const apply = (prefs: { analytics: boolean; thirdparty: boolean }) => {
@@ -370,10 +372,10 @@ const categories = [
       const last = list[list.length - 1];
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault();
-        last.focus();
+        last.focus({ preventScroll: true });
       } else if (!e.shiftKey && document.activeElement === last) {
         e.preventDefault();
-        first.focus();
+        first.focus({ preventScroll: true });
       }
     });
 
