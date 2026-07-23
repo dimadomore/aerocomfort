@@ -5,10 +5,18 @@ node_modules/
 dist/
 .astro/
 
+# Wrangler / Cloudflare local state & cache (D1 local db, etc.)
+.wrangler/
+
 # Environment / secrets
 .env
 .env.*
 !.env.example
+.dev.vars
+
+# Local lead "table" (mini-CRM) written by the dev server — test data, not committed
+data/leads.csv
+data/leads.ndjson
 
 # OS / editor
 .DS_Store

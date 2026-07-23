@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import yaml from '@rollup/plugin-yaml';
+import { devLeadApi } from './worker/dev-lead-middleware.mjs';
 
 // Canonical/site URL is the FINAL domain from day one (docs/07-migration.md):
 // canonical, sitemap and schema all reference aerocomfort.es, so cutover only
@@ -21,6 +22,9 @@ export default defineConfig({
   },
 
   integrations: [
+    // Local-dev only: handle POST /api/lead the same way the Worker does
+    // (lead → Resend email + data/leads.csv). No-op in `astro build`.
+    devLeadApi(),
     // Every page (EN + localized-ES) is listed as its own <loc>. hreflang is
     // declared once, authoritatively, in the HTML <head> (Seo.astro) — Google
     // wants a single method, so we deliberately DON'T duplicate (and only

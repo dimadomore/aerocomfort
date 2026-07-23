@@ -14,5 +14,16 @@
 	// not declared here — the CI token has no zone-level Workers Routes permission.
 	"workers_dev": false,
 	// Preview URLs for `wrangler versions upload` (dev branch deploys)
-	"preview_urls": true
+	"preview_urls": true,
+	// Lead storage (mini-CRM). The Worker writes each lead here and /leads reads
+	// it. Local `wrangler dev` uses a local SQLite copy; apply the schema with:
+	//   wrangler d1 migrations apply aerocomfort-leads --local   (and --remote for prod)
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "aerocomfort-leads",
+			"database_id": "0f7286b3-9422-4d6b-99d2-56381adb9545",
+			"migrations_dir": "migrations"
+		}
+	]
 }

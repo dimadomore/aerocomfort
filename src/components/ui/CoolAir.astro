@@ -1,0 +1,217 @@
+---
+/**
+ * Signature "cool air" backdrop for deep-blue brand bands (hero, final CTA).
+ * Pure CSS/SVG — three layers, no JS, no images:
+ *   1. a soft cyan "cold glow" + depth shading,
+ *   2. two drifting streamline fields (seamless 1200-unit tile, translateX loop),
+ *   3. a slow bright "current" pulse riding one cyan stream (dashoffset),
+ *   4. faint frost crystals floating at different depths.
+ * All motion is decorative, GPU-cheap (transform/dashoffset only) and fully
+ * disabled under prefers-reduced-motion (the static composition still reads).
+ * Text contrast: everything stays ≤ ~16% white / ≤ 35% cyan on brand blue.
+ */
+interface Props {
+  /** 'hero' = full band with crystals + glow; 'panel' = quieter, for CTA cards. */
+  variant?: 'hero' | 'panel';
+}
+const { variant = 'hero' } = Astro.props;
+
+/* Seamless wave paths — wavelength 600 divides the 1200 tile; end slope equals
+   start slope, so the duplicated tile joins with C1 continuity (no visible seam). */
+const wave = (y: number, amp: number, phase: 0 | 1) => {
+  const hi = y - amp;
+  const lo = y + amp;
+  const a = phase === 0 ? hi : lo;
+  const b = phase === 0 ? lo : hi;
+  return (
+    `M0 ${y} C100 ${a}, 200 ${a}, 300 ${y} C400 ${b}, 500 ${b}, 600 ${y} ` +
+    `C700 ${a}, 800 ${a}, 900 ${y} C1000 ${b}, 1100 ${b}, 1200 ${y}`
+  );
+};
+
+const farLines = [
+  { d: wave(110, 26, 0), w: 1.5, o: 0.08 },
+  { d: wave(240, 34, 1), w: 2, o: 0.1 },
+  { d: wave(390, 30, 0), w: 1.5, o: 0.08 },
+  { d: wave(520, 38, 1), w: 2, o: 0.09 },
+];
+const nearLines = [
+  { d: wave(170, 42, 1), w: 2.5, o: 0.13 },
+  { d: wave(330, 48, 0), w: 2.75, o: 0.16 },
+  { d: wave(470, 40, 1), w: 2.5, o: 0.12 },
+];
+/** The cyan stream the bright current rides along. */
+const currentPath = wave(330, 48, 0);
+
+const crystals = [
+  { x: '72%', y: '18%', s: 22, o: 0.3, dur: '7s', delay: '0s' },
+  { x: '86%', y: '46%', s: 14, o: 0.22, dur: '9s', delay: '-3s' },
+  { x: '58%', y: '68%', s: 18, o: 0.18, dur: '8s', delay: '-5s' },
+  { x: '38%', y: '82%', s: 12, o: 0.16, dur: '10s', delay: '-2s' },
+  { x: '90%', y: '78%', s: 16, o: 0.2, dur: '7.5s', delay: '-6s' },
+  { x: '48%', y: '12%', s: 10, o: 0.14, dur: '9.5s', delay: '-4s' },
+];
+---
+<div class:list={['coolair', `coolair--${variant}`]} aria-hidden="true">
+  <!-- 1 · cold glow + depth shading -->
+  <div class="coolair__glow"></div>
+
+  <!-- 2 · far streamline field (slow) -->
+  <svg
+    class="coolair__flow coolair__flow--far"
+    viewBox="0 0 2400 600"
+    preserveAspectRatio="none"
+    fill="none"
+    stroke="#fff"
+    stroke-linecap="round"
+  >
+    {[0, 1200].map((dx) => (
+      <g transform={`translate(${dx})`}>
+        {farLines.map((l) => (
+          <path d={l.d} stroke-width={l.w} opacity={l.o} />
+        ))}
+      </g>
+    ))}
+  </svg>
+
+  <!-- 2 · near streamline field (faster, opposite drift feel via speed) -->
+  <svg
+    class="coolair__flow coolair__flow--near"
+    viewBox="0 0 2400 600"
+    preserveAspectRatio="none"
+    fill="none"
+    stroke-linecap="round"
+  >
+    {[0, 1200].map((dx) => (
+      <g transform={`translate(${dx})`} stroke="#fff">
+        {nearLines.map((l) => (
+          <path d={l.d} stroke-width={l.w} opacity={l.o} />
+        ))}
+        <!-- 3 · bright cold current riding the middle stream -->
+        <path
+          class="coolair__current"
+          d={currentPath}
+          stroke="var(--cyan-400)"
+          stroke-width="3"
+          opacity="0.55"
+        />
+      </g>
+    ))}
+  </svg>
+
+  <!-- 4 · frost crystals (hero only) -->
+  {variant === 'hero' && (
+    <svg class="coolair__frost" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none">
+      {crystals.map((c) => (
+        <g
+          class="coolair__crystal"
+          style={`--cx:${c.x}; --cy:${c.y}; --dur:${c.dur}; --delay:${c.delay}; opacity:${c.o};`}
+        >
+          <path
+            d={`M0 ${-c.s / 2} V${c.s / 2} M${-c.s / 2} 0 H${c.s / 2} M${-c.s * 0.35} ${-c.s * 0.35} L${c.s * 0.35} ${c.s * 0.35} M${-c.s * 0.35} ${c.s * 0.35} L${c.s * 0.35} ${-c.s * 0.35}`}
+            stroke="#fff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+          <circle r={c.s * 0.14} fill="var(--cyan-400)" />
+        </g>
+      ))}
+    </svg>
+  )}
+</div>
+
+<style>
+  .coolair {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* Cold glow: cyan bloom upper-right (where the air "comes from"), a deep
+     shade lower-left for depth, and a whisper of light along the bottom edge. */
+  .coolair__glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(56rem 34rem at 82% 22%, rgba(41, 182, 230, 0.22), transparent 65%),
+      radial-gradient(40rem 30rem at 12% 108%, rgba(11, 26, 51, 0.5), transparent 70%),
+      linear-gradient(to top, rgba(220, 239, 251, 0.07), transparent 22%);
+  }
+  .coolair--panel .coolair__glow {
+    background:
+      radial-gradient(40rem 22rem at 80% 10%, rgba(41, 182, 230, 0.2), transparent 65%),
+      radial-gradient(30rem 20rem at 8% 115%, rgba(11, 26, 51, 0.45), transparent 70%);
+  }
+
+  .coolair__flow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    will-change: transform;
+  }
+  .coolair__flow--far {
+    animation: coolair-drift 90s linear infinite;
+  }
+  .coolair__flow--near {
+    animation: coolair-drift 52s linear infinite;
+  }
+  .coolair--panel .coolair__flow--far {
+    animation-duration: 70s;
+  }
+  .coolair--panel .coolair__flow--near {
+    animation-duration: 40s;
+  }
+  /* The tile repeats at 50% of the svg width → -50% lands exactly on-period. */
+  @keyframes coolair-drift {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* A bright "gust" sliding along the cyan stream. Dash cycle 700 divides the
+     drift period visually; motion reads as cold air actually flowing. */
+  .coolair__current {
+    stroke-dasharray: 110 590;
+    animation: coolair-current 13s linear infinite;
+  }
+  @keyframes coolair-current {
+    to {
+      stroke-dashoffset: -1400;
+    }
+  }
+
+  .coolair__frost {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .coolair__crystal {
+    transform: translate(var(--cx), var(--cy));
+  }
+  .coolair__crystal path,
+  .coolair__crystal circle {
+    animation: coolair-float var(--dur) ease-in-out var(--delay) infinite alternate;
+  }
+  @keyframes coolair-float {
+    from {
+      transform: translateY(-6px) rotate(0deg);
+    }
+    to {
+      transform: translateY(6px) rotate(24deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .coolair__flow--far,
+    .coolair__flow--near,
+    .coolair__current,
+    .coolair__crystal path,
+    .coolair__crystal circle {
+      animation: none;
+    }
+  }
+</style>

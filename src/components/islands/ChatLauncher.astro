@@ -8,6 +8,8 @@ import Icon from '../ui/Icon.astro';
  * Floating contact launcher (docs/04 §6, docs/05 §2). Not a live chat — a quick
  * actions panel (WhatsApp / call / callback) so contact is one tap from anywhere.
  * A greeting tooltip nudges once, then remembers via localStorage.
+ * DESKTOP ONLY (≥1024px): on mobile the sticky bottom bar + header already give
+ * one-tap Call/WhatsApp, so the FAB was pure duplication and screen clutter.
  */
 interface Props {
   locale: Locale;
@@ -60,22 +62,20 @@ const contactHref = localizedPath('/contact', locale);
 </div>
 
 <style>
+  /* Hidden below lg — StickyMobileBar + header cover mobile contact. */
   .chat {
-    position: fixed;
-    right: 1rem;
-    /* Stays pinned bottom-right; the offset clears the mobile sticky bar so it
-       sits just above the Call / WhatsApp buttons once they appear on scroll. */
-    bottom: calc(env(safe-area-inset-bottom) + 5.25rem);
-    z-index: 50;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.75rem;
+    display: none;
   }
   @media (min-width: 1024px) {
     .chat {
-      bottom: 1.5rem;
+      position: fixed;
       right: 1.5rem;
+      bottom: 1.5rem;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.75rem;
     }
   }
 
@@ -238,7 +238,8 @@ const contactHref = localizedPath('/contact', locale);
     } catch {
       /* ignore */
     }
-    if (!seen && tip) {
+    // Nudge only where the launcher is actually visible (desktop).
+    if (!seen && tip && window.matchMedia('(min-width: 1024px)').matches) {
       setTimeout(() => {
         if (panel?.hidden) tip.hidden = false;
       }, 2600);

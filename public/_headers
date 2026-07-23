@@ -1,0 +1,13 @@
+# Site-wide headers for static assets (Workers Assets serves these directly,
+# without invoking the Worker — worker/index.ts sets the same set on dynamic
+# routes: /api/lead, /leads). Keep both places in sync.
+# Security: specification.website/spec/security/ · Link: .../agent-readiness/link-headers/
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Link: </llms.txt>; rel="describedby"; type="text/markdown"; title="Site index for LLMs"
+  Link: </sitemap-index.xml>; rel="sitemap"; type="application/xml"

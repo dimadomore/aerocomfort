@@ -438,6 +438,45 @@
       0 2px 4px rgba(20, 38, 74, 0.06),
       0 22px 44px -16px rgba(20, 38, 74, 0.26);
   }
+  /* Frost sweep — on hover a soft cool-air sheen slides across interactive
+     cards (cyan → white, very faint). Lives on ::before so it never fights
+     the card's shadows; absolute positioning is safe (card is relative). */
+  .group.card-cool {
+    position: relative;
+  }
+  .group.card-cool::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 42%,
+      rgba(41, 182, 230, 0.09) 50%,
+      rgba(255, 255, 255, 0.16) 55%,
+      transparent 64%
+    );
+    background-size: 250% 100%;
+    background-position: 130% 0;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .group.card-cool:hover::before {
+    opacity: 1;
+    background-position: -30% 0;
+    transition:
+      opacity 0.15s ease,
+      background-position 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .group.card-cool::before,
+    .group.card-cool:hover::before {
+      opacity: 0;
+      transition: none;
+    }
+  }
   /* Interactive cards (those marked `group`) gently scale up on hover — a subtle
      all-directions zoom, no vertical lift. Static card-cool surfaces (forms,
      sticky sidebar) are not `group`, so they don't react. */

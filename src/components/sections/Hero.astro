@@ -5,6 +5,7 @@ import { business, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
+import CoolAir from '../ui/CoolAir.astro';
 
 interface Props {
   locale: Locale;
@@ -17,25 +18,12 @@ const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${enc
 const contactHref = localizedPath('/contact', locale);
 const regionUpper = 'Costa Blanca · Costa Cálida';
 ---
-<section class="relative overflow-hidden bg-brand-700 text-white">
-  <!-- Signature motif: cool-air currents, full-bleed and faint (docs/04 §7) -->
-  <svg
-    class="pointer-events-none absolute inset-0 h-full w-full"
-    viewBox="0 0 1200 600"
-    preserveAspectRatio="xMidYMid slice"
-    aria-hidden="true"
-    fill="none"
-    stroke="currentColor"
-  >
-    <g class="text-white/10" stroke-width="2">
-      <path d="M-50 120 C 300 60, 520 200, 900 130 S 1300 60, 1300 120" />
-      <path d="M-50 250 C 320 180, 560 320, 920 250 S 1300 190, 1300 250" />
-      <path d="M-50 400 C 280 330, 600 470, 950 390 S 1300 330, 1300 390" />
-    </g>
-  </svg>
+<section class="hero-band relative overflow-hidden text-white">
+  <!-- Signature motif: animated cool-air currents + frost (docs/04 §7) -->
+  <CoolAir variant="hero" />
 
-  <Container class="relative z-10 grid items-center gap-12 py-14 lg:grid-cols-12 lg:gap-8 lg:py-24">
-    <div class="lg:col-span-7">
+  <Container class="relative z-10 py-14 lg:py-24">
+    <div class="max-w-3xl">
       <p class="inline-flex items-center gap-2 text-small font-semibold text-sky-200">
         <Icon name="map-pin" size={16} class="text-cyan-400" />
         {regionUpper}
@@ -71,44 +59,16 @@ const regionUpper = 'Costa Blanca · Costa Cálida';
       </div>
     </div>
 
-    <!-- Signature illustration: a split AC unit breathing cool air (subject-true,
-         stands in for the hero photo until the owner's photos arrive — docs/08 §2.1).
-         Hidden on mobile (DIM) to keep the hero short — desktop only. -->
-    <div class="hidden lg:col-span-5 lg:block">
-      <div class="relative mx-auto max-w-md rounded-xl bg-linear-to-br from-brand-600 to-brand-800 p-6 shadow-lg ring-1 ring-white/15 sm:p-8">
-        <svg viewBox="0 0 420 320" class="h-auto w-full" role="img" aria-label={t('hero.imageAlt')} fill="none">
-          <!-- indoor split unit -->
-          <rect x="44" y="60" width="332" height="80" rx="18" fill="rgba(255,255,255,0.05)" stroke="#fff" stroke-width="2.5" />
-          <circle cx="74" cy="86" r="4" fill="var(--cyan-400)" />
-          <line x1="92" y1="86" x2="150" y2="86" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.8" />
-          <rect x="308" y="76" width="44" height="18" rx="5" fill="none" stroke="#fff" stroke-width="2" opacity="0.7" />
-          <circle cx="318" cy="85" r="2.5" fill="var(--cyan-400)" />
-          <!-- louver / air outlet -->
-          <rect x="60" y="120" width="300" height="12" rx="6" fill="rgba(255,255,255,0.12)" stroke="#fff" stroke-width="2" />
-          <!-- cool-air streams -->
-          <g stroke-width="2.75" stroke-linecap="round">
-            <path d="M150 150 C 140 178, 140 198, 152 222 C 162 242, 162 262, 150 286" stroke="#fff" opacity="0.55" />
-            <path d="M210 152 C 200 184, 200 206, 212 232 C 222 254, 222 276, 210 300" stroke="var(--cyan-400)" opacity="0.9" />
-            <path d="M270 150 C 280 178, 280 198, 268 222 C 258 242, 258 262, 270 286" stroke="#fff" opacity="0.55" />
-          </g>
-          <g stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6" fill="none">
-            <path d="M142 280 l8 9 l8 -9" />
-            <path d="M262 280 l8 9 l8 -9" />
-          </g>
-          <path d="M202 296 l8 9 l8 -9" stroke="var(--cyan-400)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-
-        <!-- floating temperature chip — overlap detail (docs/04 §8.5) -->
-        <div class="absolute -bottom-4 -left-3 flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 shadow-lg">
-          <span class="inline-block h-2.5 w-2.5 rounded-full bg-cyan-400"></span>
-          <span class="font-display text-h3 font-extrabold text-brand-700">21°</span>
-        </div>
-      </div>
-    </div>
   </Container>
 </section>
 
 <style>
+  /* Temperature gradient: deep "warm-side" blue upper-left cooling toward the
+     fresher brand blue lower-right — the band itself reads as air cooling down. */
+  .hero-band {
+    background: linear-gradient(150deg, var(--brand-800) 0%, var(--brand-700) 58%, #2170cd 100%);
+  }
+
   /* Accent underline on the place word — energy without hurting text contrast */
   .place {
     position: relative;

@@ -18,14 +18,19 @@ const t = useTranslations(locale);
 const d = LEGAL[doc][locale];
 
 const emailLink = `<a href="mailto:${business.email}">${business.email}</a>`;
-const sub = (s: string) => s.replaceAll('{EMAIL}', emailLink).replaceAll('{NAME}', business.name);
+const phoneLink = `<a href="tel:+${business.phoneE164.replace(/\D/g, '')}">${business.phone}</a>`;
+const sub = (s: string) =>
+  s
+    .replaceAll('{EMAIL}', emailLink)
+    .replaceAll('{PHONE}', phoneLink)
+    .replaceAll('{NAME}', business.name);
 
 const crumbs = [
   { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
   { label: navLabel },
 ];
 ---
-<PageHero crumbs={crumbs} title={d.title} intro={d.intro} />
+<PageHero crumbs={crumbs} title={d.title} intro={d.intro.replaceAll('{NAME}', business.name)} />
 <section class="py-14 lg:py-20">
   <Container>
     <p class="text-caption text-ink-400">{updatedLabel}</p>

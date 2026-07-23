@@ -23,7 +23,12 @@
 Home · Services overview + 4 service pages (installation/repair/maintenance/cleaning) · Offers · Areas hub + 6 area pages · Brands hub + 5 brand pages · About · FAQ · Contact · /thank-you (noindex) · Privacy · Cookies · Aviso Legal · 404.
 
 **Cross-cutting:**
-- Header (sticky; **Offers** = accent underline + "salut" confetti burst; **Get a free quote** = attention pulse; EN/ES switch; one-tap WhatsApp + phone; Offers also shown in mobile bar), Footer, **ChatLauncher**, **StickyMobileBar**.
+- Header (sticky; **Offers** = accent underline + "salut" confetti burst; **Get a free quote** = attention pulse; EN/ES switch; one-tap WhatsApp + phone; Offers also shown in mobile bar), Footer, **ChatLauncher** (desktop-only ≥1024px since 2026-07-06 — on mobile it duplicated the sticky bar), **StickyMobileBar**.
+- **CoolAir backdrop** (`src/components/ui/CoolAir.astro`, 2026-07-06): the signature animated cold-air background — drifting streamline fields (seamless 1200-unit tile), a cyan "current" pulse, frost crystals, cyan glow. Used in Hero (`variant="hero"`) and FinalCta (`variant="panel"`); pure CSS/SVG, reduced-motion safe. Hero band now has a "temperature" gradient (brand-800 → brand-700). The **hero illustration (split-unit SVG + 21° chip) was removed entirely** — the animated backdrop IS the hero visual now; content column is `max-w-3xl`, `hero.imageAlt` i18n keys dropped.
+- **Icon duotone v2** (2026-07-06): air strokes in the HVAC glyphs (`ac-unit` louver streams, `wind` middle line, `sparkles` small star) render in `var(--icon-air, var(--cyan-400))` — cyan = cool air, semantic accent only. **Frost sweep**: interactive `.group.card-cool` cards get a faint cyan→white sheen sweeping across on hover (`::before`, reduced-motion off).
+- **Legal docs are production copy now** (2026-07-06): privacy/cookies/aviso legal rewritten with real facts (autónomo Gregorio, NIE, processors: Cloudflare/Resend/Google, actual cookie inventory incl. `aero-consent`, retention, RGPD arts., AEPD). Only ‹surname› + ‹address› remain placeholders. `{PHONE}` now substituted in LegalBody.
+- `/leads` Basic-Auth uses a constant-time compare; `WebSite` JSON-LD got `alternateName` variants (sitelinks groundwork).
+- **Agent-readiness pass (2026-07-06, per specification.website):** `/llms.txt` is now a build-time endpoint (`src/pages/llms.txt.ts`, llmstxt.org format, generated from the data modules) + new **`/llms-full.txt`** (~40 KB, full EN content with `---` page separators and URLs). **robots.txt** (indexable mode) now welcomes named AI crawlers (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, anthropic-ai, Google-Extended, Applebot-Extended, PerplexityBot, CCBot) and carries `Content-Signal: search=yes, ai-input=yes, ai-train=yes` (visibility is the business goal). **`/.well-known/security.txt`** added (RFC 9116; ⛔ bump `Expires:` before 2027-07-01). **Security + Link headers** on every response: static assets via `public/_headers` (Workers Assets serves them without invoking the Worker), dynamic routes via `SITE_HEADERS` in `worker/index.ts` — keep the two in sync. Verified on `wrangler dev` (headers on `/` and `/leads`; auth flow intact). Deliberately skipped as N/A for a small marketing site: per-page `.md` endpoints, RSS (until the Phase-3 blog), MCP/A2A/NLWeb/WebMCP/agent-skills/api-catalog, strict CSP (GA4/Elfsight inline scripts).
 - **LeadForm + PhoneInput** (libphonenumber-js validation across UK/IE/ES/DE+, E.164, WhatsApp toggle, honeypot) → **/api/lead Worker** → /thank-you. Works with and without JS.
 - **Consent Mode v2 + cookie banner** (default-denied; banner only appears once analytics IDs are set), **Cloudflare Web Analytics** hook.
 - **Elfsight Google-reviews** widget (LIVE — lazy-loads on viewport), gold rating stars.
@@ -38,7 +43,7 @@ Home · Services overview + 4 service pages (installation/repair/maintenance/cle
 | Google Maps embed `src` | `MAP_EMBED_URL` | inline interactive map on /areas (Maps → place → Share → Embed a map → copy src) |
 | Elfsight widget id | `ELFSIGHT_ID` | ✅ already set & live |
 
-**Worker secrets (lead delivery — set in Cloudflare/CI, not in repo):** `RESEND_API_KEY`, `LEAD_EMAIL_TO`, `LEAD_EMAIL_FROM` (email), `TURNSTILE_SECRET` + `PUBLIC_TURNSTILE_SITE_KEY` (anti-spam). Until set, leads are logged (`wrangler tail`).
+**Worker secrets (set in Cloudflare/CI, not in repo):** `RESEND_API_KEY`, `LEAD_EMAIL_TO`, `LEAD_EMAIL_FROM` (email); `LEADS_PASSWORD` (+ optional `LEADS_USER`) for the private `/leads` CRM login; `TURNSTILE_SECRET` + `PUBLIC_TURNSTILE_SITE_KEY` (anti-spam). Locally these live in `.dev.vars` (git-ignored), read by both `astro dev` and `wrangler dev`.
 
 ## Remaining vs the plan
 
@@ -48,7 +53,10 @@ Home · Services overview + 4 service pages (installation/repair/maintenance/cle
 
 ### B. Deferred technical
 - **Conversion events** (form submit / WhatsApp click / tel click → gtag + `/thank-you`) — wire after the GA4/Ads IDs are in. Critical so ads don't regress.
-- Lead-delivery secrets + Google Sheets append (mini-CRM).
+- **Lead email + mini-CRM (DONE, verified locally).** Lead logic is shared in `worker/lead-core.mjs` (parse, anti-spam, Resend email, table render, Basic-Auth) and runs identically in the Worker (prod) and the local Astro dev middleware (`worker/dev-lead-middleware.mjs`, wired in `astro.config.mjs`).
+  - **Email:** Russian notification via Resend (HTTP 200 confirmed). Recipient `dimadomore@gmail.com`, sender `onboarding@resend.dev` (Resend test sender — only delivers to the Resend account's own address until a domain is verified; ⛔ verify `aerocomfort.es` in Resend to send anywhere + improve deliverability).
+  - **Storage:** Cloudflare **D1** `aerocomfort-leads` (id `0f7286b3-9422-4d6b-99d2-56381adb9545`), bound as `DB` in `wrangler.jsonc`; schema in `migrations/0001_init.sql` (applied **remote**; apply **local** with `wrangler d1 migrations apply aerocomfort-leads --local`). Worker writes each lead to D1; `astro dev` writes the file `data/leads.{csv,ndjson}` instead (no FS in the Worker).
+  - **Private CRM viewer:** `GET /leads` (HTML table, newest-first) + `GET /leads.csv`, gated by Basic Auth (`LEADS_PASSWORD`, username ignored unless `LEADS_USER` set), `X-Robots-Tag: noindex` + `Disallow: /leads` in robots.txt. Same domain as the site (`…/leads`). Verified end-to-end on `wrangler dev` (POST→D1→/leads) and `astro dev` (file). ⛔ Set `LEADS_PASSWORD` as a Worker secret for prod; current local test password is in `.dev.vars`.
 - Blue logo SVG (light surfaces currently use the CSS-masked white PNG); per-page dynamic OG images; MapLibre alternative if Google embed is undesired.
 
 ### C. Phase 3 — Blog + automation

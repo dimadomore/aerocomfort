@@ -1,164 +1,159 @@
 /**
- * Cloudflare Worker: serves the static site (assets binding) and handles the
- * lead form POST at /api/lead. Delivery channels are best-effort and gated on
- * secrets — until they're set, leads are logged (visible in `wrangler tail`).
- * Wire real delivery by setting Worker secrets (see README / docs/09 §7):
- *   TURNSTILE_SECRET, RESEND_API_KEY, LEAD_EMAIL_TO, LEAD_EMAIL_FROM
+ * Cloudflare Worker: serves the static site (assets binding), handles the lead
+ * form POST at /api/lead, and exposes a private read-only CRM at /leads.
+ *
+ * Lead logic (parse, anti-spam, email, table render, auth) lives in
+ * ./lead-core.mjs so the SAME code runs here and in the local Astro dev
+ * middleware (astro.config.mjs) — see that file for local testing.
+ *
+ * Storage: leads are written to Cloudflare D1 (binding DB) — the Worker has no
+ * filesystem, so the local CSV/JSON "table" is dev-only. /leads reads D1.
+ *
+ * Secrets (set in Cloudflare/CI, see README / docs/09 §7):
+ *   RESEND_API_KEY, LEAD_EMAIL_TO, LEAD_EMAIL_FROM  — email notification
+ *   LEADS_PASSWORD  (+ optional LEADS_USER)         — /leads login
+ *   TURNSTILE_SECRET                                — optional anti-spam
  */
-interface Env {
-  ASSETS: { fetch: (req: Request) => Promise<Response> };
-  TURNSTILE_SECRET?: string;
-  RESEND_API_KEY?: string;
-  LEAD_EMAIL_TO?: string;
-  LEAD_EMAIL_FROM?: string;
-}
+// @ts-expect-error — plain ESM module, not type-checked (worker/ is excluded in tsconfig)
+import {
+  handleLead,
+  renderLeadsPage,
+  leadsToCsv,
+  checkLeadsAuth,
+  unauthorizedResponse,
+  NOINDEX_HEADERS,
+} from './lead-core.mjs';
 
-interface Lead {
+interface LeadRow {
+  at: string;
   name: string;
   phone: string;
-  whatsapp: boolean;
+  whatsapp: number;
   service: string;
   message: string;
   locale: string;
   page: string;
   ip: string;
-  at: string;
+}
+
+interface Env {
+  ASSETS: { fetch: (req: Request) => Promise<Response> };
+  DB?: D1Database;
+  TURNSTILE_SECRET?: string;
+  RESEND_API_KEY?: string;
+  LEAD_EMAIL_TO?: string;
+  LEAD_EMAIL_FROM?: string;
+  LEADS_USER?: string;
+  LEADS_PASSWORD?: string;
+}
+
+// Minimal D1 typings (avoid pulling @cloudflare/workers-types just for this).
+interface D1Database {
+  prepare(query: string): D1PreparedStatement;
+}
+interface D1PreparedStatement {
+  bind(...values: unknown[]): D1PreparedStatement;
+  run(): Promise<unknown>;
+  all<T = Record<string, unknown>>(): Promise<{ results: T[] }>;
+}
+
+/**
+ * Site-wide response headers (specification.website: security + agent-readiness).
+ * Static assets get the same set from public/_headers (Workers Assets serves
+ * them WITHOUT invoking this Worker); this covers the dynamic routes handled
+ * here (/api/lead, /leads). Keep in sync with public/_headers. CSP is
+ * deliberately minimal (`frame-ancestors` only): GA4/Elfsight inject inline
+ * scripts, so a strict script-src would need per-response nonces.
+ */
+const SITE_HEADERS: Record<string, string> = {
+  'Strict-Transport-Security': 'max-age=63072000; includeSubDomains',
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'SAMEORIGIN',
+  'Content-Security-Policy': "frame-ancestors 'self'",
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+  Link:
+    '</llms.txt>; rel="describedby"; type="text/markdown"; title="Site index for LLMs", ' +
+    '</sitemap-index.xml>; rel="sitemap"; type="application/xml"',
+};
+
+function withSiteHeaders(res: Response): Response {
+  const out = new Response(res.body, res);
+  for (const [k, v] of Object.entries(SITE_HEADERS)) out.headers.set(k, v);
+  return out;
 }
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const url = new URL(request.url);
-    if (url.pathname === '/api/lead' && request.method === 'POST') {
-      return handleLead(request, env);
-    }
-    // Everything else → static assets (pages, css, js, 404).
-    return env.ASSETS.fetch(request);
+    return withSiteHeaders(await route(request, env));
   },
 };
 
-async function handleLead(request: Request, env: Env): Promise<Response> {
-  const wantsJson = (request.headers.get('accept') || '').includes('application/json');
+async function route(request: Request, env: Env): Promise<Response> {
+  const url = new URL(request.url);
+  const path = url.pathname;
 
-  const data: Record<string, string> = {};
-  const ct = request.headers.get('content-type') || '';
-  try {
-    if (ct.includes('application/json')) {
-      Object.assign(data, await request.json());
-    } else {
-      const fd = await request.formData();
-      fd.forEach((v, k) => {
-        data[k] = String(v);
-      });
-    }
-  } catch {
-    // fall through to validation
-  }
-
-  const locale = data.locale === 'es' ? 'es' : 'en';
-  const thankYou = locale === 'es' ? '/es/gracias' : '/thank-you';
-  const contact = locale === 'es' ? '/es/contacto' : '/contact';
-
-  const respond = (ok: boolean): Response => {
-    if (wantsJson) {
-      return new Response(JSON.stringify({ ok }), {
-        status: ok ? 200 : 400,
-        headers: { 'content-type': 'application/json' },
-      });
-    }
-    // No-JS path: redirect to thank-you on success, back to contact on failure.
-    return new Response(null, {
-      status: 303,
-      headers: { Location: ok ? thankYou : `${contact}?error=1` },
+  if (path === '/api/lead' && request.method === 'POST') {
+    // Persist to D1 (when bound); email delivery runs when Resend secrets set.
+    return handleLead(request, env, {
+      persist: env.DB ? (lead: LeadRow) => insertLead(env.DB!, lead) : undefined,
     });
-  };
-
-  // Honeypot — silently accept (don't tip off bots), don't deliver.
-  if (data.company) return respond(true);
-
-  // Turnstile (only enforced once configured).
-  if (env.TURNSTILE_SECRET) {
-    const ok = await verifyTurnstile(
-      env.TURNSTILE_SECRET,
-      data['cf-turnstile-response'],
-      request.headers.get('cf-connecting-ip'),
-    );
-    if (!ok) return respond(false);
   }
 
-  const name = (data.name || '').trim();
-  const phone = (data.phone_e164 || data.phone || '').trim();
-  if (!name || !phone) return respond(false);
-
-  const lead: Lead = {
-    name,
-    phone,
-    whatsapp: data.has_whatsapp === 'yes',
-    service: data.service || '',
-    message: data.message || '',
-    locale,
-    page: request.headers.get('referer') || '',
-    ip: request.headers.get('cf-connecting-ip') || '',
-    at: new Date().toISOString(),
-  };
-
-  try {
-    await deliver(lead, env);
-  } catch (err) {
-    // Lead is still accepted for the user; we log for follow-up rather than lose it.
-    console.error('lead delivery failed', err);
+  if ((path === '/leads' || path === '/leads.csv') && request.method === 'GET') {
+    return handleLeads(path, request, env);
   }
 
-  return respond(true);
+  // Everything else → static assets (pages, css, js, 404).
+  return env.ASSETS.fetch(request);
 }
 
-async function verifyTurnstile(
-  secret: string,
-  token: string | undefined,
-  ip: string | null,
-): Promise<boolean> {
-  if (!token) return false;
-  const body = new FormData();
-  body.append('secret', secret);
-  body.append('response', token);
-  if (ip) body.append('remoteip', ip);
-  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    body,
-  });
-  const json = (await res.json().catch(() => ({ success: false }))) as { success?: boolean };
-  return Boolean(json.success);
+async function insertLead(db: D1Database, lead: LeadRow): Promise<void> {
+  await db
+    .prepare(
+      'INSERT INTO leads (at, name, phone, whatsapp, service, message, locale, page, ip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    )
+    .bind(
+      lead.at,
+      lead.name,
+      lead.phone,
+      lead.whatsapp ? 1 : 0,
+      lead.service,
+      lead.message,
+      lead.locale,
+      lead.page,
+      lead.ip,
+    )
+    .run();
 }
 
-async function deliver(lead: Lead, env: Env): Promise<void> {
-  if (env.RESEND_API_KEY && env.LEAD_EMAIL_TO && env.LEAD_EMAIL_FROM) {
-    await fetch('https://api.resend.com/emails', {
-      method: 'POST',
+async function handleLeads(path: string, request: Request, env: Env): Promise<Response> {
+  // Gate: password required. Without LEADS_PASSWORD set, the page stays locked.
+  if (!checkLeadsAuth(request, env)) return unauthorizedResponse();
+
+  if (!env.DB) {
+    return new Response('CRM storage (D1) is not configured.', {
+      status: 503,
+      headers: { 'content-type': 'text/plain; charset=utf-8', ...NOINDEX_HEADERS },
+    });
+  }
+
+  const { results } = await env.DB.prepare(
+    'SELECT at, name, phone, whatsapp, service, message, locale, page, ip FROM leads ORDER BY id DESC LIMIT 1000',
+  ).all<LeadRow>();
+  const leads = results.map((r) => ({ ...r, whatsapp: Boolean(r.whatsapp) }));
+
+  if (path === '/leads.csv') {
+    return new Response(leadsToCsv(leads), {
       headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
-        'content-type': 'application/json',
+        'content-type': 'text/csv; charset=utf-8',
+        'content-disposition': 'attachment; filename="leads.csv"',
+        ...NOINDEX_HEADERS,
       },
-      body: JSON.stringify({
-        from: env.LEAD_EMAIL_FROM,
-        to: env.LEAD_EMAIL_TO,
-        subject: `New lead: ${lead.name}${lead.service ? ` (${lead.service})` : ''}`,
-        text: leadText(lead),
-      }),
     });
-    return;
   }
-  // No delivery configured yet — log so nothing is lost (see `wrangler tail`).
-  console.log('LEAD (no delivery channel configured):', JSON.stringify(lead));
-}
 
-function leadText(l: Lead): string {
-  return [
-    `Name: ${l.name}`,
-    `Phone: ${l.phone}`,
-    `WhatsApp on this number: ${l.whatsapp ? 'yes' : 'no'}`,
-    `Service: ${l.service || '—'}`,
-    `Message: ${l.message || '—'}`,
-    `Language: ${l.locale}`,
-    `From page: ${l.page || '—'}`,
-    `Time: ${l.at}`,
-  ].join('\n');
+  return new Response(renderLeadsPage(leads), {
+    headers: { 'content-type': 'text/html; charset=utf-8', ...NOINDEX_HEADERS },
+  });
 }

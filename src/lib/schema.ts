@@ -36,7 +36,7 @@ export function hvacBusinessLd() {
     email: business.email,
     priceRange: '€€',
     currenciesAccepted: 'EUR',
-    paymentAccepted: business.payment.join(', '),
+    paymentAccepted: (business.payment ?? []).join(', '),
     knowsLanguage: ['en', 'es'],
     areaServed: business.areasLead,
     knowsAbout: [
@@ -103,6 +103,9 @@ export function websiteLd() {
     '@id': abs('/#website'),
     url: SITE_URL + '/',
     name: business.name,
+    // Spelling variants people actually search for — helps Google tie the brand
+    // query to this site (a prerequisite for branded sitelinks).
+    alternateName: ['AeroComfort', 'Aerocomfort Spain', 'Aerocomfort Torrevieja'],
     inLanguage: ['en', 'es'],
     publisher: { '@id': abs('/#business') },
   };
