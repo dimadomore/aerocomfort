@@ -25,18 +25,18 @@ export const AREAS: Area[] = [
     slug: 'torrevieja',
     en: {
       name: 'Torrevieja',
-      intro: 'Air conditioning installation, repair and maintenance throughout Torrevieja.',
+      intro: 'Torrevieja flats heat up fast and stay warm after dark, so AC must suit each room and its sun.',
       body: [
-        'Torrevieja’s long, hot summers and dense apartment blocks make reliable air conditioning essential. We install, repair, clean and service AC across the town and its urbanisations: from the centre and the port to Los Balcones, La Mata and Aguas Nuevas.',
-        'Whether you need a new split fitted in a holiday apartment or a quick repair before the heat peaks, we work locally and respond fast.',
+        'Much of Torrevieja is apartment blocks and compact urbanisations such as Los Balcones and Aguas Nuevas, and top floors take the sun all day. Size those units for the heat they absorb, not just the square metres, and check community rules before fixing anything to a façade.',
+        'Our specialists, led by Gregorio, who also works on site, handle AC installation, repair and servicing from the port to La Mata. For air conditioning in Torrevieja, send a photo on WhatsApp and we’ll reply within the hour during working hours.',
       ],
     },
     es: {
       name: 'Torrevieja',
-      intro: 'Instalación, reparación y mantenimiento de aire acondicionado en todo Torrevieja.',
+      intro: 'Los pisos de Torrevieja se calientan rápido y tardan en refrescar de noche, así que cada estancia pide su equipo.',
       body: [
-        'Los veranos largos y calurosos de Torrevieja y sus bloques de apartamentos hacen imprescindible un buen aire acondicionado. Instalamos, reparamos, limpiamos y mantenemos equipos en toda la ciudad y sus urbanizaciones: del centro y el puerto a Los Balcones, La Mata y Aguas Nuevas.',
-        'Tanto si necesitas instalar un split nuevo en un apartamento como una reparación rápida antes del pico de calor, trabajamos en la zona y respondemos rápido.',
+        'Torrevieja es sobre todo bloques y urbanizaciones compactas como Los Balcones o Aguas Nuevas, y las últimas plantas reciben sol todo el día. Calcula la potencia por el calor que acumula, no solo por los metros, y consulta a tu comunidad antes de tocar la fachada.',
+        'Nuestros especialistas, con Gregorio al frente y también a pie de obra, se ocupan de instalación, reparación y mantenimiento del puerto a La Mata. Para aire acondicionado en Torrevieja, mándanos una foto por WhatsApp y te contestamos en menos de una hora en horario laboral.',
       ],
     },
   },
@@ -44,18 +44,18 @@ export const AREAS: Area[] = [
     slug: 'orihuela-costa',
     en: {
       name: 'Orihuela Costa',
-      intro: 'Local AC services across Orihuela Costa and its urbanisations.',
+      intro: 'From La Zenia to Cabo Roig, homes on Orihuela Costa need AC that copes with long summers and salty sea air.',
       body: [
-        'From Playa Flamenca and La Zenia to Cabo Roig, Villamartín, Campoamor, Mil Palmeras and Punta Prima, Orihuela Costa is full of villas and townhouses where good air conditioning makes the difference. We supply and install efficient units and keep existing systems running cleanly.',
-        'We know the area’s communities well and can advise on the right unit for apartments, bungalows and detached villas alike.',
+        'Orihuela Costa takes in Playa Flamenca, La Zenia, Cabo Roig, Villamartín, Campoamor and Punta Prima, so one street can hold apartments, bungalows and detached villas. Each needs something different: a split, a multi-split or ducted air. Near the beach, keep the outdoor unit out of direct sea wind if you can.',
+        'For air conditioning in Orihuela Costa we cover AC installation, repair and servicing on all major brands. Tell us what kind of property you have and we’ll send a free quote that shows exactly what’s included.',
       ],
     },
     es: {
       name: 'Orihuela Costa',
-      intro: 'Servicios locales de aire acondicionado en Orihuela Costa y sus urbanizaciones.',
+      intro: 'De La Zenia a Cabo Roig, las viviendas de Orihuela Costa necesitan una climatización que aguante veranos largos y salitre.',
       body: [
-        'De Playa Flamenca y La Zenia a Cabo Roig, Villamartín, Campoamor, Mil Palmeras y Punta Prima, Orihuela Costa está llena de villas y adosados donde un buen aire acondicionado marca la diferencia. Suministramos e instalamos equipos eficientes y mantenemos los sistemas existentes en perfecto estado.',
-        'Conocemos bien las comunidades de la zona y te asesoramos sobre el equipo adecuado para apartamentos, bungalós y villas.',
+        'Orihuela Costa abarca Playa Flamenca, La Zenia, Cabo Roig, Villamartín, Campoamor y Punta Prima, y en una misma calle conviven apartamentos, bungalós y villas. Cada caso pide algo distinto: un split, un multisplit o conductos. Cerca de la playa, aleja la unidad exterior del viento directo del mar siempre que puedas.',
+        'Para el aire acondicionado en Orihuela Costa hacemos instalación, reparación y mantenimiento de todas las grandes marcas. Cuéntanos qué vivienda tienes y te enviamos un presupuesto gratuito en el que verás claro qué incluye cada partida.',
       ],
     },
   },
@@ -63,18 +63,18 @@ export const AREAS: Area[] = [
     slug: 'guardamar-del-segura',
     en: {
       name: 'Guardamar del Segura',
-      intro: 'Installation and repair of air conditioning in Guardamar del Segura.',
+      intro: 'Between pine woods and the sea, Guardamar del Segura homes need outdoor units protected from salt and wind-blown sand.',
       body: [
-        'Guardamar’s pine-backed beaches and growing residential areas mean plenty of homes that need cooling through the long season. We fit new units and keep existing ones efficient, across the town and nearby El Raso and El Moncayo.',
-        'Coastal air can be hard on outdoor units, regular cleaning and servicing keeps them running well for longer.',
+        'Guardamar’s beaches are backed by dunes and pines, and the town has spread with apartments and townhouses towards El Moncayo and El Raso. Sand and salt attack outdoor units, so raise yours off the ground and rinse the coil gently with fresh water now and then, power off.',
+        'We look after air conditioning in Guardamar del Segura from AC installation to AC repair and yearly AC servicing, with cleaning from €50. Already bought a unit? We fit those too, usually within 24 to 72 hours of your request, depending on season.',
       ],
     },
     es: {
       name: 'Guardamar del Segura',
-      intro: 'Instalación y reparación de aire acondicionado en Guardamar del Segura.',
+      intro: 'Entre la pinada y el mar, las casas de Guardamar del Segura necesitan unidades exteriores protegidas de la sal y la arena.',
       body: [
-        'Las playas con pinada de Guardamar y sus zonas residenciales en crecimiento suponen muchas viviendas que necesitan refrigeración durante la larga temporada. Instalamos equipos nuevos y mantenemos los existentes, en el pueblo y en El Raso y El Moncayo.',
-        'El aire de costa castiga las unidades exteriores, una limpieza y mantenimiento regulares las mantienen en forma más tiempo.',
+        'Las playas de Guardamar tienen detrás dunas y pinos, y el pueblo ha crecido con apartamentos y adosados hacia El Moncayo y El Raso. La arena y la sal castigan la unidad exterior: elévala del suelo y enjuágala de vez en cuando con agua dulce, siempre sin corriente.',
+        'Nos encargamos del aire acondicionado en Guardamar del Segura: instalación, reparación y mantenimiento anual, con limpiezas desde 50 €. Si ya tienes el equipo, te lo montamos, normalmente entre 24 y 72 horas desde tu aviso, según la temporada.',
       ],
     },
   },
@@ -82,18 +82,18 @@ export const AREAS: Area[] = [
     slug: 'santa-pola',
     en: {
       name: 'Santa Pola',
-      intro: 'Air conditioning installation, repair and maintenance across Santa Pola.',
+      intro: 'The breeze helps in Santa Pola, but holiday flats still get stuffy and salt shortens the life of neglected outdoor units.',
       body: [
-        'Santa Pola is a busy coastal town, fishing port, long beaches and plenty of holiday apartments, so reliable air conditioning is a must through the long summer. We install, repair, clean and service AC across the town and its urbanisations.',
-        'Sea air is hard on outdoor units, so a regular clean and service keeps them efficient and trouble-free.',
+        'Santa Pola combines its fishing port, long beaches and salt pans with holiday apartments and, up on the cape, the homes of Gran Alacant. Flats left shut for weeks often smell musty when the AC first starts, so have filters and drain cleaned before your summer stay.',
+        'Cleaning starts from €50 as part of our AC servicing, and we take on AC installation and repair across all major brands. For air conditioning in Santa Pola, call or WhatsApp us; we answer within the hour in working hours.',
       ],
     },
     es: {
       name: 'Santa Pola',
-      intro: 'Instalación, reparación y mantenimiento de aire acondicionado en Santa Pola.',
+      intro: 'La brisa ayuda en Santa Pola, pero los pisos de vacaciones se cargan igual y la sal castiga las unidades exteriores descuidadas.',
       body: [
-        'Santa Pola es un municipio costero con puerto pesquero, playas largas y muchos apartamentos de vacaciones, un buen aire acondicionado es imprescindible en el largo verano. Instalamos, reparamos, limpiamos y mantenemos equipos en el pueblo y sus urbanizaciones.',
-        'El aire del mar castiga las unidades exteriores; una limpieza y un mantenimiento regulares las mantienen eficientes y sin averías.',
+        'Santa Pola reúne puerto pesquero, playas largas y salinas con apartamentos de vacaciones y, arriba en el cabo, las casas de Gran Alacant. Un piso cerrado varias semanas suele oler a humedad cuando arranca el aire, así que limpia filtros y desagüe antes de tu estancia de verano.',
+        'Las limpiezas empiezan en 50 € dentro de nuestro mantenimiento, y hacemos instalación y reparación de todas las grandes marcas. Para aire acondicionado en Santa Pola, llámanos o escribe por WhatsApp: respondemos en menos de una hora en horario laboral.',
       ],
     },
   },
@@ -101,18 +101,18 @@ export const AREAS: Area[] = [
     slug: 'ciudad-quesada',
     en: {
       name: 'Ciudad Quesada',
-      intro: 'AC installation, servicing and repair in Ciudad Quesada and Rojales.',
+      intro: 'Ciudad Quesada villas and bungalows need winter heating as much as summer cooling, which makes a heat pump worthwhile.',
       body: [
-        'Ciudad Quesada and Rojales are popular with international residents, with many villas and bungalows fitted with split air conditioning. We install new systems, service and clean existing ones, and repair any brand.',
-        'We speak English and Spanish, so getting a clear quote and a tidy job is straightforward.',
+        'Up the hill from Rojales, Ciudad Quesada is mostly villas and bungalows with a large international community, many of them around La Marquesa golf course. Tiled floors feel chilly in January, and a split with a heat pump costs far less to run than plug-in electric heaters.',
+        'Gregorio and the team can fit a unit we supply or one you already own. We handle AC installation, repair and servicing, in English or Spanish. For air conditioning in Ciudad Quesada, start with a free quote and decide from there.',
       ],
     },
     es: {
       name: 'Ciudad Quesada',
-      intro: 'Instalación, mantenimiento y reparación de aire acondicionado en Ciudad Quesada y Rojales.',
+      intro: 'En las villas de Ciudad Quesada el invierno importa tanto como el verano, y ahí compensa una bomba de calor.',
       body: [
-        'Ciudad Quesada y Rojales son muy populares entre residentes internacionales, con muchas villas y bungalós con aire acondicionado por split. Instalamos sistemas nuevos, mantenemos y limpiamos los existentes y reparamos cualquier marca.',
-        'Hablamos español e inglés, así que conseguir un presupuesto claro y un trabajo limpio es muy fácil.',
+        'Subiendo desde Rojales, Ciudad Quesada es sobre todo villas y bungalós con una gran comunidad internacional, muchos alrededor del campo de golf La Marquesa. En enero el suelo de baldosa se nota frío, y un split con bomba de calor gasta mucho menos que los radiadores eléctricos enchufables.',
+        'Gregorio y el equipo te montan una unidad nuestra o la que ya tengas. Hacemos instalación, reparación y mantenimiento, en español o en inglés. Si piensas en aire acondicionado en Ciudad Quesada, pide presupuesto gratis y luego decides con calma.',
       ],
     },
   },
@@ -120,18 +120,18 @@ export const AREAS: Area[] = [
     slug: 'san-miguel-de-salinas',
     en: {
       name: 'San Miguel de Salinas',
-      intro: 'Air conditioning installation, repair and maintenance in San Miguel de Salinas.',
+      intro: 'On the hills behind the coast, San Miguel de Salinas has hot, still summers, so correctly sized AC keeps your bills sensible.',
       body: [
-        'San Miguel de Salinas sits on the hills above Orihuela Costa, with a large international community and many villas and apartments. We install, repair and service air conditioning throughout the town and its urbanisations.',
-        'Its inland position brings hot, still summers, we help you size and fit a unit that cools efficiently without driving up the bills.',
+        'San Miguel de Salinas looks down towards Orihuela Costa, with a large international community in villas and apartments. An oversized unit cycles on and off and leaves rooms clammy, while an undersized one runs flat out all afternoon. Correct sizing matters more than the brand.',
+        'Tell us your room sizes and which way they face for a free quote on air conditioning in San Miguel de Salinas. AC installation, repair and servicing are all covered, with a 3-year guarantee on our work plus 3 years from the manufacturer.',
       ],
     },
     es: {
       name: 'San Miguel de Salinas',
-      intro: 'Instalación, reparación y mantenimiento de aire acondicionado en San Miguel de Salinas.',
+      intro: 'En las lomas tras la costa, San Miguel de Salinas tiene veranos calurosos y sin brisa: un equipo bien dimensionado controla la factura.',
       body: [
-        'San Miguel de Salinas se asienta en las lomas sobre Orihuela Costa, con una gran comunidad internacional y muchas villas y apartamentos. Instalamos, reparamos y mantenemos aire acondicionado en todo el municipio y sus urbanizaciones.',
-        'Su ubicación interior trae veranos calurosos y sin brisa, te ayudamos a dimensionar e instalar un equipo que enfríe de forma eficiente sin disparar la factura.',
+        'San Miguel de Salinas mira hacia Orihuela Costa, con una gran comunidad internacional en villas y apartamentos. Un equipo demasiado grande arranca y se apaga continuamente y deja la casa pegajosa; uno pequeño va a tope toda la tarde. Acertar con la potencia importa más que la marca.',
+        'Dinos metros y orientación de cada habitación y te preparamos un presupuesto gratuito de aire acondicionado en San Miguel de Salinas. Hacemos instalación, reparación y mantenimiento, con 3 años de garantía en nuestro trabajo y otros 3 del fabricante.',
       ],
     },
   },
@@ -139,18 +139,18 @@ export const AREAS: Area[] = [
     slug: 'almoradi',
     en: {
       name: 'Almoradí',
-      intro: 'AC installation, repair and maintenance in Almoradí.',
+      intro: 'Almoradí homes and shops need cooling that holds up through the inland heat, with a clear price agreed first.',
       body: [
-        'Almoradí is a lively inland town in the Vega Baja, where summer heat makes reliable air conditioning essential for homes and shops alike. We install, repair, clean and service all major brands.',
-        'We work in English and Spanish and give a clear, free quote before any work.',
+        'Almoradí is a lively Vega Baja town of flats, town houses and shops, with no sea breeze to take the edge off July. In long, narrow town houses, a split placed so the air travels down the main room does far more than one tucked into a corner.',
+        'Shops and small restaurants often suit a cassette, which sits flush in the ceiling and spreads air evenly. For air conditioning in Almoradí, ask Gregorio’s team about AC installation, AC repair or AC servicing. You’ll get the full price, free, before we start.',
       ],
     },
     es: {
       name: 'Almoradí',
-      intro: 'Instalación, reparación y mantenimiento de aire acondicionado en Almoradí.',
+      intro: 'Casas y comercios de Almoradí necesitan un aire que aguante el calor de interior, con precio claro antes de empezar.',
       body: [
-        'Almoradí es un pueblo activo del interior de la Vega Baja, donde el calor del verano hace imprescindible un buen aire acondicionado en casas y comercios. Instalamos, reparamos, limpiamos y mantenemos todas las marcas.',
-        'Trabajamos en español e inglés y damos un presupuesto claro y gratuito antes de empezar.',
+        'Almoradí es un pueblo animado de la Vega Baja, con pisos, casas y comercios y sin brisa que suavice julio. En las casas largas y estrechas, un split colocado para que el aire recorra la estancia principal rinde más que uno en una esquina.',
+        'En tiendas y restaurantes pequeños suele encajar un cassette, que va enrasado en el techo y reparte bien el aire. Para el aire acondicionado en Almoradí, habla con el equipo de Gregorio sobre instalación, reparación o mantenimiento. El presupuesto es gratis y sabrás el precio antes de empezar.',
       ],
     },
   },
@@ -158,18 +158,18 @@ export const AREAS: Area[] = [
     slug: 'pilar-de-la-horadada',
     en: {
       name: 'Pilar de la Horadada',
-      intro: 'Trusted air conditioning services in Pilar de la Horadada and Torre de la Horadada.',
+      intro: 'Homes in Pilar de la Horadada range from town houses to seaside flats, and the right AC differs for each.',
       body: [
-        'At the southern edge of the Costa Blanca, Pilar de la Horadada and the coastal Torre de la Horadada combine permanent homes and holiday properties, all needing dependable cooling in summer. We install, repair and maintain across the area.',
-        'Booking ahead of the season avoids the rush; off-season is the ideal time for installations and servicing.',
+        'The municipality runs from the inland town down to the beaches of Torre de la Horadada, mixing permanent homes with holiday properties. Inland, dust is the main enemy of filters; by the sea it’s salt. Book a spring check and any fault shows up before the first hot week.',
+        'Spring suits AC installation too, which usually takes 24 to 72 hours from your request, depending on the season. For air conditioning in Pilar de la Horadada, including AC repair and servicing, message us your address and what you need.',
       ],
     },
     es: {
       name: 'Pilar de la Horadada',
-      intro: 'Servicios de aire acondicionado de confianza en Pilar de la Horadada y Torre de la Horadada.',
+      intro: 'En Pilar de la Horadada hay desde casas de pueblo hasta pisos junto al mar, y cada vivienda pide un equipo distinto.',
       body: [
-        'En el extremo sur de la Costa Blanca, Pilar de la Horadada y la costera Torre de la Horadada combinan viviendas habituales y de vacaciones, todas necesitan una refrigeración fiable en verano. Instalamos, reparamos y mantenemos en toda la zona.',
-        'Reservar antes de la temporada evita las prisas; la temporada baja es el momento ideal para instalaciones y mantenimientos.',
+        'El municipio va del pueblo interior a las playas de Torre de la Horadada, con viviendas habituales y de vacaciones. Tierra adentro el enemigo de los filtros es el polvo; junto al mar, la sal. Con una revisión en primavera, las averías salen antes del primer calor.',
+        'La primavera también va bien para la instalación, que suele llevar entre 24 y 72 horas desde tu aviso, según la temporada. Para el aire acondicionado en Pilar de la Horadada, reparación y mantenimiento incluidos, escríbenos tu dirección y lo que necesitas.',
       ],
     },
   },
@@ -177,18 +177,18 @@ export const AREAS: Area[] = [
     slug: 'san-pedro-del-pinatar',
     en: {
       name: 'San Pedro del Pinatar',
-      intro: 'Air conditioning across San Pedro del Pinatar and Lo Pagán.',
+      intro: 'San Pedro del Pinatar and Lo Pagán fill up every summer, so plan AC work early rather than during a heatwave.',
       body: [
-        'On the northern edge of the Mar Menor, San Pedro del Pinatar and Lo Pagán are busy year-round and packed in summer, so dependable cooling matters. We install, repair, clean and service air conditioning across the area.',
-        'Salt-laden coastal air is tough on outdoor units; regular servicing keeps them running well.',
+        'Beside the Mar Menor and the salt flats, San Pedro del Pinatar has town flats, beach apartments in Lo Pagán and plenty of second homes. Salt in the air attacks fins and fixings, so choose a sheltered spot for the outdoor unit and book a clean every year.',
+        'We carry out AC installation, repair and servicing for homes, restaurants and small businesses. If you’re thinking about air conditioning in San Pedro del Pinatar, ask for your free quote before the summer crowds arrive.',
       ],
     },
     es: {
       name: 'San Pedro del Pinatar',
-      intro: 'Aire acondicionado en San Pedro del Pinatar y Lo Pagán.',
+      intro: 'San Pedro del Pinatar y Lo Pagán se llenan cada verano, así que mejor planificar el aire antes de la ola de calor.',
       body: [
-        'En el extremo norte del Mar Menor, San Pedro del Pinatar y Lo Pagán tienen mucha actividad todo el año y se llenan en verano, la refrigeración fiable importa. Instalamos, reparamos, limpiamos y mantenemos equipos en toda la zona.',
-        'El aire salino de la costa castiga las unidades exteriores; un mantenimiento regular las mantiene en forma.',
+        'Junto al Mar Menor y las salinas, San Pedro del Pinatar tiene pisos en el pueblo, apartamentos de playa en Lo Pagán y muchas segundas residencias. La sal del ambiente ataca aletas y soportes, de modo que busca un sitio resguardado para la unidad exterior y programa una limpieza cada año.',
+        'Hacemos instalación, reparación y mantenimiento en viviendas, restaurantes y pequeños negocios. Si te estás planteando el aire acondicionado en San Pedro del Pinatar, pide tu presupuesto gratuito antes de que empiece la temporada alta.',
       ],
     },
   },
@@ -196,18 +196,18 @@ export const AREAS: Area[] = [
     slug: 'san-javier',
     en: {
       name: 'San Javier',
-      intro: 'Air conditioning in San Javier and Santiago de la Ribera.',
+      intro: 'In San Javier, homes and businesses need AC that runs reliably through humid Mar Menor summers without huge bills.',
       body: [
-        'San Javier and its seafront Santiago de la Ribera sit on the Mar Menor, with homes, apartments and businesses that rely on good air conditioning each summer. We install, repair, clean and service all brands.',
-        'Coastal air is hard on equipment, a yearly clean and service keeps it efficient.',
+        'San Javier pairs a working town centre with the seafront at Santiago de la Ribera, mixing family homes, apartments and businesses. Humid nights feel worse than the thermometer suggests. On sticky evenings try dry mode, which pulls moisture from the room without chilling it.',
+        'Businesses can ask about cassette or ducted systems and ventilation; most homes need a split or multi-split. We cover air conditioning in San Javier from AC installation to AC repair and servicing. Phone or WhatsApp and you’ll hear back within the hour during working hours.',
       ],
     },
     es: {
       name: 'San Javier',
-      intro: 'Aire acondicionado en San Javier y Santiago de la Ribera.',
+      intro: 'En San Javier, hogares y negocios necesitan un aire fiable para los veranos húmedos del Mar Menor, sin facturas desorbitadas.',
       body: [
-        'San Javier y su paseo marítimo de Santiago de la Ribera se asoman al Mar Menor, con viviendas, apartamentos y negocios que dependen de un buen aire acondicionado cada verano. Instalamos, reparamos, limpiamos y mantenemos todas las marcas.',
-        'El aire de costa castiga los equipos, una limpieza y un mantenimiento anuales los mantienen eficientes.',
+        'San Javier une un centro con mucha actividad y la fachada marítima de Santiago de la Ribera, con casas, apartamentos y negocios. Las noches húmedas se hacen más duras de lo que marca el termómetro: prueba el modo seco, que quita humedad sin helar la habitación.',
+        'Para negocios tenemos cassette, conductos y ventilación; en casa suele bastar un split o un multisplit. Del aire acondicionado en San Javier hacemos instalación, reparación y mantenimiento. Llama o escribe por WhatsApp y tendrás respuesta en menos de una hora en horario laboral.',
       ],
     },
   },
@@ -215,18 +215,18 @@ export const AREAS: Area[] = [
     slug: 'los-alcazares',
     en: {
       name: 'Los Alcázares',
-      intro: 'AC installation, repair and maintenance in Los Alcázares.',
+      intro: 'Los Alcázares holiday homes can sit empty for weeks, then need to cool fast when family or guests arrive in July.',
       body: [
-        'Los Alcázares is a popular Mar Menor resort town packed with holiday and permanent homes that all need cooling through the long Murcia summer. We supply, install and service air conditioning across the town.',
-        'Book ahead of the season to avoid the rush, off-season is ideal for installs and servicing.',
+        'Along the Mar Menor, Los Alcázares is a resort town of apartments, townhouses and second homes, with plenty of permanent residents too. Many newer units accept a Wi-Fi controller, so you can switch on the AC and confirm it works before you even leave home.',
+        'Gregorio’s team looks after air conditioning in Los Alcázares for residents and visitors alike. AC installation is easiest to schedule in the cooler months, and AC repair and servicing cover all major brands. Send us your dates and we’ll plan around them.',
       ],
     },
     es: {
       name: 'Los Alcázares',
-      intro: 'Instalación, reparación y mantenimiento de aire acondicionado en Los Alcázares.',
+      intro: 'Las casas de vacaciones de Los Alcázares pasan semanas vacías y luego deben enfriar rápido cuando llegan familia o huéspedes en julio.',
       body: [
-        'Los Alcázares es un popular municipio turístico del Mar Menor lleno de viviendas de vacaciones y habituales que necesitan refrigeración durante el largo verano murciano. Suministramos, instalamos y reparamos aire acondicionado en todo el municipio.',
-        'Reserva antes de la temporada para evitar las prisas, la temporada baja es ideal para instalar y mantener.',
+        'A orillas del Mar Menor, Los Alcázares es un municipio turístico de apartamentos, adosados y segundas residencias, con muchos vecinos todo el año. Bastantes equipos nuevos admiten control por wifi: puedes encender el aire y comprobar que funciona antes de salir de casa.',
+        'El equipo de Gregorio atiende el aire acondicionado en Los Alcázares de vecinos y visitantes. La instalación es más fácil de encajar en los meses frescos, y la reparación y el mantenimiento abarcan todas las grandes marcas. Pásanos tus fechas y nos organizamos.',
       ],
     },
   },
@@ -234,18 +234,18 @@ export const AREAS: Area[] = [
     slug: 'torre-pacheco',
     en: {
       name: 'Torre Pacheco',
-      intro: 'AC installation, repair and maintenance in Torre Pacheco.',
+      intro: 'Torre Pacheco summers are hot and dry, and homes and businesses here need AC that won’t give up in August.',
       body: [
-        'Torre Pacheco is a busy inland Murcia town with hot, dry summers where air conditioning is a must for homes and businesses. We supply, install, repair and service all major brands.',
-        'We give honest advice on the right unit for your space and a clear, free quote.',
+        'Inland on the Campo de Cartagena, Torre Pacheco has town houses, flats and shops, with golf-resort homes not far away. Dust from the surrounding farmland settles on filters and outdoor coils, so wash the filters every few weeks in summer. A clogged filter means a weaker unit and a bigger bill.',
+        'Need air conditioning in Torre Pacheco for a home, a restaurant or a small business? We cover AC installation, AC repair on all major brands and regular AC servicing, and the quote is free and easy to follow.',
       ],
     },
     es: {
       name: 'Torre Pacheco',
-      intro: 'Instalación, reparación y mantenimiento de aire acondicionado en Torre Pacheco.',
+      intro: 'Los veranos de Torre Pacheco son calurosos y secos, y casas y negocios necesitan un aire que no falle en agosto.',
       body: [
-        'Torre Pacheco es un activo municipio del interior de Murcia con veranos calurosos y secos donde el aire acondicionado es imprescindible en casas y negocios. Suministramos, instalamos, reparamos y mantenemos todas las marcas.',
-        'Te asesoramos con honestidad sobre el equipo adecuado y damos un presupuesto claro y gratuito.',
+        'En pleno Campo de Cartagena, Torre Pacheco tiene casas de pueblo, pisos y comercios, con viviendas de resorts de golf no muy lejos. El polvo de los cultivos se posa en filtros y baterías exteriores, así que en verano lava los filtros cada pocas semanas. Un filtro sucio significa menos frío y más consumo.',
+        '¿Necesitas aire acondicionado en Torre Pacheco para tu casa, un restaurante o un pequeño negocio? Hacemos instalación, reparación de todas las grandes marcas y mantenimiento periódico, y el presupuesto es gratuito y fácil de entender.',
       ],
     },
   },
@@ -253,18 +253,18 @@ export const AREAS: Area[] = [
     slug: 'la-manga',
     en: {
       name: 'La Manga del Mar Menor',
-      intro: 'Air conditioning across La Manga del Mar Menor.',
+      intro: 'On La Manga, salt reaches your AC from both shores, and flats need units sited where wind and community rules allow.',
       body: [
-        'La Manga is a thin strip of apartments and holiday flats between the Mar Menor and the sea, and they all need efficient cooling in summer. We install, repair, clean and service air conditioning the length of La Manga.',
-        'Sea air on both sides is tough on outdoor units, so regular cleaning really pays off here.',
+        'La Manga del Mar Menor is a thin strip of apartment blocks and holiday flats with water on each side. Balcony outdoor units take the worst of it, so keep them out of the direct wind where the community allows, and have the coil cleaned every year.',
+        'Not here right now? Send photos of the unit by WhatsApp and we’ll reply within the hour during working hours, then agree access with you. For air conditioning in La Manga, that includes AC installation, repair and servicing.',
       ],
     },
     es: {
       name: 'La Manga del Mar Menor',
-      intro: 'Aire acondicionado en La Manga del Mar Menor.',
+      intro: 'En La Manga la sal le llega al equipo por las dos orillas, y cada unidad debe ir donde lo permitan viento y comunidad.',
       body: [
-        'La Manga es una estrecha franja de apartamentos y pisos de vacaciones entre el Mar Menor y el mar, y todos necesitan una refrigeración eficiente en verano. Instalamos, reparamos, limpiamos y mantenemos aire acondicionado a lo largo de toda La Manga.',
-        'El aire marino por ambos lados castiga las unidades exteriores, así que aquí una limpieza regular merece mucho la pena.',
+        'La Manga del Mar Menor es una estrecha franja de bloques de apartamentos y pisos de vacaciones con agua a ambos lados. Las unidades exteriores de los balcones se llevan la peor parte: si tu comunidad lo permite, apártalas del viento directo y limpia la batería cada año.',
+        '¿No estás por aquí ahora mismo? Mándanos fotos del equipo por WhatsApp, te contestamos en menos de una hora en horario laboral y acordamos cómo entrar. Para aire acondicionado en La Manga hacemos instalación, reparación y mantenimiento.',
       ],
     },
   },
@@ -272,18 +272,18 @@ export const AREAS: Area[] = [
     slug: "la-mata",
     en: {
       name: "La Mata",
-      intro: "Air conditioning installation, repair and maintenance in La Mata.",
+      intro: "La Mata apartments sit between the salt lagoon and the beach, so their outdoor units need more care than most.",
       body: [
-        "Sitting between Torrevieja’s salt lagoon and a long sandy beach, La Mata is a low-rise resort where seafront apartments and holiday lets bake through July and August. We fit new splits, recharge tired units and keep filters clean so the place stays cool the moment owners or guests arrive.",
-        "The salty air off the dunes is hard on outdoor condensers here, so we pay special attention to corrosion when we service. Call us in English or Spanish, we’re local and turn jobs around quickly.",
+        "Between Torrevieja’s salt lagoon and a long sandy beach, La Mata is a low-rise resort of seafront apartments and holiday lets that bake through July and August. Salty air off the dunes eats at condensers, so a sheltered position and a yearly clean both help a unit last.",
+        "If you let your flat, book AC servicing between guests instead of waiting for a complaint; cleaning starts from €50. We handle AC installation and repair too, so air conditioning in La Mata is one message away.",
       ],
     },
     es: {
       name: "La Mata",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en La Mata.",
+      intro: "Los apartamentos de La Mata están entre la laguna salada y la playa, y sus unidades exteriores piden más cuidado.",
       body: [
-        "Entre la laguna salada de Torrevieja y una larga playa de arena, La Mata es un núcleo de baja altura donde los apartamentos de primera línea y los pisos de alquiler aguantan el calor de julio y agosto. Instalamos splits nuevos, recargamos equipos cansados y limpiamos los filtros para que todo esté fresco en cuanto llegan propietarios o huéspedes.",
-        "El aire salino de las dunas castiga las unidades exteriores, así que cuidamos especialmente la corrosión en cada mantenimiento. Llámanos en inglés o español: somos de aquí y resolvemos rápido.",
+        "Entre la laguna salada de Torrevieja y una larga playa de arena, La Mata es un núcleo de baja altura, con apartamentos y pisos de alquiler que sufren el calor de julio y agosto. El aire salino de las dunas castiga los condensadores: un sitio resguardado y una limpieza anual alargan su vida.",
+        "Si alquilas, programa el mantenimiento entre huéspedes en vez de esperar a la primera queja; las limpiezas empiezan en 50 €. También hacemos instalación y reparación, así que tu aire acondicionado en La Mata queda resuelto con un mensaje.",
       ],
     },
   },
@@ -291,18 +291,18 @@ export const AREAS: Area[] = [
     slug: "la-zenia",
     en: {
       name: "La Zenia",
-      intro: "Air conditioning installation, repair and maintenance across La Zenia.",
+      intro: "La Zenia homes use AC for summer cooling and winter warmth, so a quiet, efficient heat pump is worth choosing carefully.",
       body: [
-        "La Zenia’s smart villas, the Boulevard shopping centre and its blue-flag coves draw a year-round international crowd, and most homes here rely on AC for both summer cooling and a bit of winter warmth. We install heat-pump splits, repair breakdowns and service multi-room systems in villas and townhouses alike.",
-        "Whether it’s a holiday rental near the beach or a permanent family home off the Boulevard, we work locally and answer fast. Our team speaks English and Spanish, so there’s never any confusion over what your system needs.",
+        "Around the Boulevard shopping centre and the coves, La Zenia mixes villas and townhouses with holiday rentals and a year-round international crowd. In a two-storey townhouse heat rises and bedrooms suffer first, so a multi-split lets you cool each floor separately.",
+        "We fit heat-pump splits and multi-room systems, and AC repair covers all major brands. Every AC installation carries our 3-year guarantee plus 3 years from the manufacturer on the unit. For air conditioning in La Zenia, or simply yearly AC servicing, give us a ring.",
       ],
     },
     es: {
       name: "La Zenia",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en La Zenia.",
+      intro: "En La Zenia el aire refresca en verano y calienta en invierno, así que elige bien tu bomba de calor.",
       body: [
-        "Las villas modernas de La Zenia, el centro comercial Boulevard y sus calas con bandera azul atraen a un público internacional todo el año, y casi todas las casas dependen del aire para refrescar en verano y calentar algo en invierno. Instalamos splits con bomba de calor, reparamos averías y mantenemos sistemas multisplit tanto en villas como en adosados.",
-        "Ya sea un alquiler vacacional junto a la playa o una vivienda familiar cerca del Boulevard, trabajamos en la zona y respondemos rápido. Nuestro equipo habla inglés y español, así que nunca habrá dudas sobre lo que necesita tu equipo.",
+        "Alrededor del centro comercial Boulevard y de sus calas, La Zenia combina villas y adosados con alquileres vacacionales y un público internacional todo el año. En un adosado de dos plantas el calor sube y los dormitorios lo sufren primero; con un multisplit enfrías cada planta por separado.",
+        "Instalamos splits con bomba de calor y sistemas para varias estancias, y hacemos reparación de todas las grandes marcas. Cada instalación lleva 3 años de garantía nuestra y 3 más del fabricante. Para el aire acondicionado en La Zenia, o el mantenimiento anual, llámanos.",
       ],
     },
   },
@@ -310,18 +310,18 @@ export const AREAS: Area[] = [
     slug: "cabo-roig",
     en: {
       name: "Cabo Roig",
-      intro: "Air conditioning installation, repair and maintenance in Cabo Roig.",
+      intro: "Cabo Roig’s clifftop homes take strong sun and sea wind, so AC needs careful siting as well as the right capacity.",
       body: [
-        "Perched on cliffs above a busy marina and the Cabo Roig strip, this is villa-and-apartment territory where exposed seafront properties take the full force of the coastal sun. We install discreet splits and ducted systems, fix faults and clean coils so homes here cool quickly without driving up the electricity bill.",
-        "Because outdoor units so close to the water corrode faster, our maintenance focuses on keeping them protected and efficient. Get in touch in English or Spanish for a fast, local visit.",
+        "Above the marina and the Cabo Roig strip, villas and apartments stand close to the water with little shade. Big sea-facing windows add a lot of heat, so count them when sizing. Units this near the sea corrode sooner, so ask about anti-corrosion coils when replacing one.",
+        "Ducted systems suit larger villas if you’d rather not see indoor units, while splits keep things simple in apartments. We offer AC installation, repair and servicing for air conditioning in Cabo Roig. Send photos for a free quote.",
       ],
     },
     es: {
       name: "Cabo Roig",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Cabo Roig.",
+      intro: "Las casas sobre los acantilados de Cabo Roig reciben mucho sol y viento marino: importa dónde va el equipo, no solo su potencia.",
       body: [
-        "Asomado a los acantilados sobre un concurrido puerto deportivo y la zona del Cabo Roig, es terreno de villas y apartamentos donde las viviendas de primera línea reciben todo el sol de la costa. Instalamos splits discretos y sistemas por conductos, reparamos averías y limpiamos baterías para que las casas enfríen rápido sin disparar la factura de la luz.",
-        "Como las unidades exteriores tan cerca del mar se corroen antes, nuestro mantenimiento se centra en protegerlas y mantenerlas eficientes. Contáctanos en inglés o español para una visita local y rápida.",
+        "Sobre el puerto deportivo, villas y apartamentos miran al agua con poca sombra. Los grandes ventanales al mar meten mucho calor, así que tenlos en cuenta al dimensionar. Tan cerca de la costa, las unidades exteriores se corroen antes: al cambiarlas, pregunta por baterías anticorrosión.",
+        "Los conductos van bien en villas grandes si no quieres ver unidades interiores, y en apartamentos un split lo simplifica todo. Hacemos instalación, reparación y mantenimiento de aire acondicionado en Cabo Roig. Mándanos fotos y te preparamos presupuesto gratis.",
       ],
     },
   },
@@ -329,18 +329,18 @@ export const AREAS: Area[] = [
     slug: "punta-prima",
     en: {
       name: "Punta Prima",
-      intro: "Air conditioning installation, repair and maintenance throughout Punta Prima.",
+      intro: "Busy beachfront blocks in Punta Prima need compact AC that suits small rooms and follows the rules of each community.",
       body: [
-        "Punta Prima is a dense stretch of beachfront apartment blocks and resort complexes right on the Orihuela Costa shoreline, where summer occupancy is high and demand for reliable cooling peaks. We install splits in compact apartments, repair systems mid-season and carry out the cleaning that keeps communal blocks comfortable.",
-        "We’re used to working around holiday-let schedules and community access here, fitting jobs in quickly between changeovers. Reach us in English or Spanish whenever the heat catches you out.",
+        "Punta Prima is a dense stretch of apartment blocks and resort complexes on the shoreline, packed in summer. Before fitting anything on a balcony or roof, ask the community administrator where outdoor units may go, and plan the drain so it never drips onto a neighbour’s terrace.",
+        "Own the unit already? We can usually complete the AC installation 24 to 72 hours from your request, depending on the season. For air conditioning in Punta Prima, AC repair or AC servicing, just tell us your block and floor.",
       ],
     },
     es: {
       name: "Punta Prima",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Punta Prima.",
+      intro: "Los bloques junto a la playa de Punta Prima piden equipos compactos para estancias pequeñas, y respetar las normas de cada comunidad.",
       body: [
-        "Punta Prima es una franja densa de bloques de apartamentos y complejos turísticos junto al mar, en plena Orihuela Costa, con alta ocupación en verano y una gran demanda de refrigeración fiable. Instalamos splits en apartamentos compactos, reparamos equipos en plena temporada y hacemos la limpieza que mantiene cómodos los bloques comunitarios.",
-        "Estamos acostumbrados a trabajar entre cambios de alquiler vacacional y accesos de comunidad, encajando los trabajos con rapidez. Llámanos en inglés o español cuando el calor te pille por sorpresa.",
+        "Punta Prima es una franja densa de bloques y complejos turísticos junto al mar, a tope en verano. Antes de poner nada en el balcón o la azotea, pregunta al administrador dónde pueden ir las unidades exteriores, y prevé el desagüe para que no gotee en la terraza del vecino.",
+        "¿Ya tienes el equipo? Hacemos la instalación normalmente entre 24 y 72 horas desde tu aviso, según la temporada. Para aire acondicionado en Punta Prima, reparación o mantenimiento, solo dinos tu bloque y tu planta.",
       ],
     },
   },
@@ -348,18 +348,18 @@ export const AREAS: Area[] = [
     slug: "villamartin",
     en: {
       name: "Villamartín",
-      intro: "Air conditioning installation, repair and maintenance in Villamartín.",
+      intro: "Many Villamartín residents live here all year, so AC has to cool in summer and heat on cold evenings.",
       body: [
-        "Built around one of the Costa Blanca’s best-known golf courses and the lively Villamartín Plaza, this is a settled community of villas and bungalows where many residents live all year. AC here does double duty, cooling through the long summers and warming on cooler winter evenings, so we install efficient heat pumps and keep them running with regular servicing.",
-        "From a single bedroom unit to a full villa system, we repair, clean and maintain whatever you’ve got. We’re based locally, speak English and Spanish, and don’t keep you waiting.",
+        "Built around its golf course and the lively Plaza, Villamartín is a settled community of villas and bungalows. When AC works in both seasons, filters need attention twice a year: before the heat and before the first cold spell. A heat pump with a dirty filter costs more and warms less.",
+        "Gregorio and our specialists look after single bedroom units and full villa systems alike. For air conditioning in Villamartín that means AC installation, repair and servicing, plus aerotermia if your old heating needs replacing. The quote is free.",
       ],
     },
     es: {
       name: "Villamartín",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Villamartín.",
+      intro: "Muchos vecinos de Villamartín viven aquí todo el año y necesitan un equipo que enfríe en verano y caliente en invierno.",
       body: [
-        "Levantada en torno a uno de los campos de golf más conocidos de la Costa Blanca y a la animada Villamartín Plaza, es una comunidad asentada de villas y bungalós donde muchos residentes viven todo el año. Aquí el aire trabaja doble, refresca durante los largos veranos y calienta en las tardes frías de invierno, por eso instalamos bombas de calor eficientes y las mantenemos a punto con revisiones periódicas.",
-        "Desde una unidad para un dormitorio hasta el sistema completo de una villa, reparamos, limpiamos y mantenemos lo que tengas. Somos de la zona, hablamos inglés y español y no te hacemos esperar.",
+        "Levantada en torno a su campo de golf y a su Plaza, Villamartín es una comunidad asentada de villas y bungalós. Si el aire trabaja todo el año, limpia los filtros antes del calor y antes del primer frío. Una bomba de calor con el filtro sucio gasta más y calienta menos.",
+        "Gregorio y nuestros especialistas cuidan desde un split de dormitorio hasta el sistema de una villa. El aire acondicionado en Villamartín incluye instalación, reparación y mantenimiento, además de aerotermia si toca renovar la calefacción. El presupuesto es gratis.",
       ],
     },
   },
@@ -367,18 +367,18 @@ export const AREAS: Area[] = [
     slug: "dehesa-de-campoamor",
     en: {
       name: "Dehesa de Campoamor",
-      intro: "Air conditioning installation, repair and maintenance in Dehesa de Campoamor.",
+      intro: "Larger villas in Dehesa de Campoamor often need multi-zone AC, so every room stays comfortable without overworking one big unit.",
       body: [
-        "One of the greener, more exclusive corners of the Orihuela Costa, Dehesa de Campoamor mixes pine-shaded villas, its little marina and a sheltered sandy beach. Larger detached homes here often need multi-zone systems, and we design, install and balance those so every room stays comfortable.",
-        "We also handle repairs and seasonal servicing to keep premium equipment running efficiently year after year. Call us in English or Spanish and we’ll be out quickly.",
+        "One of the greener corners of Orihuela Costa, Dehesa de Campoamor mixes pine-shaded villas with a small marina and a sheltered beach. Rooms in a detached house warm at different hours, so separate zones usually beat one large unit. Pine needles collect around outdoor units too, so keep them clear.",
+        "We handle AC installation for ducted and multi-split systems, then AC repair and servicing afterwards. Air conditioning in Dehesa de Campoamor comes with our 3-year guarantee on the work and a 3-year manufacturer warranty, so talk to us first.",
       ],
     },
     es: {
       name: "Dehesa de Campoamor",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Dehesa de Campoamor.",
+      intro: "Las villas grandes de Dehesa de Campoamor suelen pedir un sistema por zonas, para que toda la casa esté cómoda.",
       body: [
-        "Uno de los rincones más verdes y exclusivos de la Orihuela Costa, Dehesa de Campoamor combina villas entre pinos, su pequeño puerto deportivo y una playa de arena resguardada. Las viviendas unifamiliares grandes suelen necesitar sistemas por zonas, y nosotros los diseñamos, instalamos y equilibramos para que cada estancia esté cómoda.",
-        "También nos ocupamos de las reparaciones y del mantenimiento estacional para que los equipos de gama alta rindan bien año tras año. Llámanos en inglés o español y acudiremos enseguida.",
+        "Uno de los rincones más verdes de Orihuela Costa, Dehesa de Campoamor combina villas entre pinos, un pequeño puerto deportivo y una playa resguardada. En una casa unifamiliar cada estancia se calienta a su hora, así que las zonas independientes suelen rendir más que un equipo grande.",
+        "Hacemos la instalación de sistemas por conductos y multisplit, y después la reparación y el mantenimiento. El aire acondicionado en Dehesa de Campoamor lleva 3 años de garantía en la mano de obra y 3 del fabricante: consúltanos antes de comprar.",
       ],
     },
   },
@@ -386,18 +386,18 @@ export const AREAS: Area[] = [
     slug: "mil-palmeras",
     en: {
       name: "Mil Palmeras",
-      intro: "Air conditioning installation, repair and maintenance in Mil Palmeras.",
+      intro: "Mil Palmeras holiday homes need AC that cools quickly on arrival and starts up cleanly after months shut away.",
       body: [
-        "Mil Palmeras is a compact, family-friendly resort known for its shallow, palm-lined beach and clusters of modern apartments and townhouses. With so many properties used as holiday homes, owners want AC that cools fast on arrival and is simple to leave shut up safely between visits, exactly what we install and set up.",
-        "We repair and clean systems too, and the salty seafront air means we always check outdoor units for wear. Reach out in English or Spanish for a prompt local appointment.",
+        "Known for its shallow, palm-lined beach, Mil Palmeras is a compact resort of modern apartments and townhouses, many of them second homes. Before you lock up, run the unit on fan for a while to dry it inside. That helps prevent a musty smell on your next visit.",
+        "Away until June? Book AC servicing ahead of your stay, with cleaning from €50, so the air is fresh when you land. We also cover AC installation and repair, which keeps air conditioning in Mil Palmeras easy to manage from a distance.",
       ],
     },
     es: {
       name: "Mil Palmeras",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Mil Palmeras.",
+      intro: "Las casas de vacaciones de Mil Palmeras necesitan un aire que enfríe enseguida al llegar y arranque limpio tras meses cerradas.",
       body: [
-        "Mil Palmeras es un núcleo turístico compacto y familiar, conocido por su playa de aguas poco profundas bordeada de palmeras y por sus conjuntos de apartamentos y adosados modernos. Como muchas casas son segundas residencias, los propietarios quieren un aire que enfríe rápido al llegar y sea fácil de dejar cerrado con seguridad entre visitas: justo lo que instalamos y configuramos.",
-        "También reparamos y limpiamos equipos, y el aire salino del paseo nos obliga a revisar siempre el desgaste de las unidades exteriores. Escríbenos en inglés o español para una cita local sin demora.",
+        "Conocido por su playa de aguas poco profundas y sus palmeras, Mil Palmeras es un núcleo compacto de apartamentos y adosados modernos, muchos segundas residencias. Antes de cerrar, deja el equipo un rato en modo ventilador para que se seque por dentro. Así evitas el olor a cerrado en la siguiente visita.",
+        "¿Vuelves en junio? Reserva el mantenimiento antes de venir, con limpiezas desde 50 €, y encontrarás el aire limpio al llegar. También hacemos instalación y reparación, para que tu aire acondicionado en Mil Palmeras se gestione fácil a distancia.",
       ],
     },
   },
@@ -405,18 +405,18 @@ export const AREAS: Area[] = [
     slug: "torre-de-la-horadada",
     en: {
       name: "Torre de la Horadada",
-      intro: "Air conditioning installation, repair and maintenance in Torre de la Horadada.",
+      intro: "Seafront homes in Torre de la Horadada run their AC hard all summer while wind and salt wear down the outdoor units.",
       body: [
-        "The southernmost village on the Alicante coast, Torre de la Horadada is built around its old watchtower, fishing marina and a string of small beaches before the Murcia border. Seafront apartments and villas here run their AC hard in summer, and we install, repair and service systems to keep them cool through the busiest months.",
-        "Being right on the water, condensers face plenty of salt and wind, so corrosion checks are part of every service we do. We’re local, bilingual and quick to respond.",
+        "Built around its old watchtower, small marina and string of beaches, Torre de la Horadada has apartments and villas right by the water. Fixings rust first, so check the brackets as well as the unit, and deal with spreading rust in spring, not August.",
+        "Worn-out unit? AC installation can usually follow within 24 to 72 hours of your request, depending on the season. AC repair covers all major brands, and AC servicing keeps sound units going. For air conditioning in Torre de la Horadada, send us a photo.",
       ],
     },
     es: {
       name: "Torre de la Horadada",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Torre de la Horadada.",
+      intro: "Las casas de primera línea en Torre de la Horadada exigen mucho al aire, y el viento y la sal desgastan las unidades exteriores.",
       body: [
-        "El pueblo más al sur de la costa de Alicante, Torre de la Horadada se organiza en torno a su antigua torre vigía, el puerto pesquero y una sucesión de pequeñas playas antes del límite con Murcia. Los apartamentos y villas de primera línea exigen mucho a su aire en verano, y nosotros instalamos, reparamos y mantenemos los equipos para que aguanten frescos los meses de más afluencia.",
-        "Al estar pegados al mar, los condensadores soportan mucha sal y viento, así que las revisiones anticorrosión forman parte de cada mantenimiento. Somos de aquí, bilingües y rápidos.",
+        "En torno a su antigua torre vigía, su pequeño puerto y sus playas, Torre de la Horadada tiene apartamentos y villas pegados al agua. Los soportes se oxidan primero, así que míralos también, y si el óxido avanza, revísalo en primavera y no en agosto.",
+        "¿Equipo agotado? La instalación del nuevo suele hacerse entre 24 y 72 horas desde tu aviso, según la temporada. La reparación cubre todas las grandes marcas y el mantenimiento alarga su vida. Para aire acondicionado en Torre de la Horadada, mándanos una foto.",
       ],
     },
   },
@@ -424,18 +424,18 @@ export const AREAS: Area[] = [
     slug: "el-raso",
     en: {
       name: "El Raso",
-      intro: "Air conditioning installation, repair and maintenance in El Raso.",
+      intro: "El Raso’s modern apartments and bungalows suit neat split systems that cool quickly and stay economical to run.",
       body: [
-        "El Raso is a large, self-contained residential development near Guardamar del Segura, popular with international owners for its pools, bars and walkable layout. The homes are mostly modern apartments and bungalows, well suited to neat split installations that cool quickly and run cheaply.",
-        "We install new systems on new-builds and resales, fix faults and clean units across the whole urbanisation. Call in English or Spanish, we know the development well and respond fast.",
+        "El Raso is a large development near Guardamar del Segura, popular with international owners for its pools, bars and walkable layout. Neighbours are close, so place the outdoor unit away from bedroom windows and pick a quiet inverter. Check your community’s rules on what can show from the street.",
+        "Just bought a resale? An older unit may only need AC servicing or a small AC repair, and we’ll say so. For new air conditioning in El Raso, AC installation generally follows 24 to 72 hours after you ask, depending on the season.",
       ],
     },
     es: {
       name: "El Raso",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en El Raso.",
+      intro: "Los apartamentos y bungalós modernos de El Raso son ideales para splits discretos que enfrían rápido y consumen poco.",
       body: [
-        "El Raso es una gran urbanización residencial junto a Guardamar del Segura, muy apreciada por propietarios internacionales por sus piscinas, bares y trazado peatonal. Las viviendas son sobre todo apartamentos y bungalós modernos, ideales para instalaciones de split limpias que enfrían rápido y consumen poco.",
-        "Instalamos equipos nuevos en obra nueva y segunda mano, reparamos averías y limpiamos unidades por toda la urbanización. Llama en inglés o español: conocemos bien el desarrollo y respondemos rápido.",
+        "El Raso es una gran urbanización junto a Guardamar del Segura, muy apreciada por propietarios internacionales por sus piscinas, bares y trazado peatonal. Los vecinos están cerca: coloca la unidad exterior lejos de los dormitorios y elige un inverter silencioso. Consulta además las normas de tu comunidad.",
+        "¿Piso de segunda mano? Quizá el equipo solo necesite mantenimiento o una pequeña reparación, y te lo diremos. Si partes de cero con el aire acondicionado en El Raso, la instalación suele llevar entre 24 y 72 horas desde tu petición, según la temporada.",
       ],
     },
   },
@@ -443,18 +443,18 @@ export const AREAS: Area[] = [
     slug: "la-marina",
     en: {
       name: "La Marina",
-      intro: "Air conditioning installation, repair and maintenance throughout La Marina.",
+      intro: "In La Marina’s bungalows and quad houses, summer heat builds quickly and pine pollen finds its way into AC filters.",
       body: [
-        "Between the pine forest, the dunes and a wide Blue Flag beach, La Marina’s urbanisation is one of the busiest expat communities in the Vega Baja, full of bungalows and quad houses. These properties heat up fast in summer, so we install efficient splits and keep them serviced for year-round comfort.",
-        "We repair breakdowns and clean filters and coils to stop the dust and pollen off the pine woods clogging things up. We’re local, speak English and Spanish, and won’t leave you sweating for long.",
+        "Between the pine forest, the dunes and a wide beach, La Marina urbanisation is home to a big international community. Upstairs rooms under a sunny roof terrace warm first, so start there if you’re cooling in stages. Pollen and dust off the pines clog filters, so wash them monthly in summer.",
+        "One room or the whole house, AC installation, repair and servicing are all part of our air conditioning in La Marina. Ring or WhatsApp us, in English or Spanish, for an answer within the hour in working hours.",
       ],
     },
     es: {
       name: "La Marina",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en todo La Marina.",
+      intro: "En los bungalós y casas pareadas de La Marina el calor sube pronto y el polen del pinar acaba en los filtros.",
       body: [
-        "Entre el pinar, las dunas y una amplia playa con bandera azul, la urbanización de La Marina es una de las comunidades de extranjeros más activas de la Vega Baja, llena de bungalós y casas pareadas. Estas viviendas se calientan rápido en verano, así que instalamos splits eficientes y los mantenemos a punto para un confort durante todo el año.",
-        "Reparamos averías y limpiamos filtros y baterías para evitar que el polvo y el polen del pinar lo atasquen todo. Somos de la zona, hablamos inglés y español y no te dejamos sudando mucho tiempo.",
+        "Entre el pinar, las dunas y una amplia playa, la urbanización de La Marina reúne una gran comunidad internacional. Las habitaciones bajo una terraza soleada se calientan antes, así que empieza por ahí si climatizas por fases. El polen y el polvo del pinar atascan los filtros: lávalos cada mes en verano.",
+        "Una habitación o toda la casa: hacemos instalación, reparación y mantenimiento de aire acondicionado en La Marina. Llámanos o escribe por WhatsApp, en español o en inglés, y respondemos en menos de una hora en horario laboral.",
       ],
     },
   },
@@ -462,18 +462,18 @@ export const AREAS: Area[] = [
     slug: "rojales",
     en: {
       name: "Rojales",
-      intro: "Air conditioning installation, repair and maintenance in Rojales.",
+      intro: "From old Rojales town houses by the Segura to villas up the hill, each home calls for a different AC setup.",
       body: [
-        "Rojales straddles the River Segura with its historic cave houses and stone bridge, while up the hill the sprawling Ciudad Quesada urbanisation adds thousands of villas and apartments. That mix means everything from traditional town homes to modern golf-side villas, and we install, repair and service AC across all of them.",
-        "Inland and shielded from the sea breeze, summers here feel particularly heavy, so a well-sized, properly maintained system makes a real difference. Get in touch in English or Spanish for a quick local visit.",
+        "Rojales straddles the River Segura, with its stone bridge and historic cave houses, while Ciudad Quesada adds villas and apartments up the hill. Cave homes stay naturally cool but can be damp, so ventilation often matters more than cooling. A sun-facing villa is the opposite and needs real capacity.",
+        "We work with splits, multi-splits, ducted systems and ventilation, so air conditioning in Rojales can match the house. AC repair covers all major brands, and AC installation or AC servicing starts with a free quote. Tell us about your home.",
       ],
     },
     es: {
       name: "Rojales",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Rojales.",
+      intro: "De las casas antiguas de Rojales junto al Segura a las villas de la loma, cada vivienda necesita una solución distinta.",
       body: [
-        "Rojales se extiende a ambas orillas del río Segura, con sus históricas cuevas y su puente de piedra, mientras que en lo alto la gran urbanización de Ciudad Quesada suma miles de villas y apartamentos. Esa mezcla abarca desde casas tradicionales de pueblo hasta villas modernas junto al golf, y en todas instalamos, reparamos y mantenemos el aire.",
-        "Tierra adentro y resguardado de la brisa marina, aquí el verano se siente especialmente pesado, así que un equipo bien dimensionado y mantenido marca la diferencia. Contáctanos en inglés o español para una visita local rápida.",
+        "Rojales se extiende a ambas orillas del Segura, con su puente de piedra y sus históricas casas cueva, y Ciudad Quesada suma villas y apartamentos en lo alto. Las cuevas son frescas pero pueden tener humedad, y ahí importa más la ventilación. Una villa al sol es lo contrario y pide potencia de verdad.",
+        "Trabajamos con split, multisplit, conductos y ventilación, para que el aire acondicionado en Rojales se ajuste a cada casa. La reparación cubre todas las grandes marcas, y la instalación o el mantenimiento empiezan con un presupuesto gratuito.",
       ],
     },
   },
@@ -481,18 +481,18 @@ export const AREAS: Area[] = [
     slug: "san-fulgencio",
     en: {
       name: "San Fulgencio",
-      intro: "Air conditioning installation, repair and maintenance in San Fulgencio.",
+      intro: "San Fulgencio has old village houses and big urbanisations, so good AC advice depends on your kind of home.",
       body: [
-        "A small Vega Baja town surrounded by farmland, San Fulgencio is best known to many for the huge La Marina urbanisation within its boundaries and its large international population. Whether it’s an older village house or a newer bungalow, we install splits that cool effectively against the heavy inland summer heat.",
-        "We also repair faults and carry out the regular cleaning that keeps systems efficient and healthy. Our bilingual team works locally and gets to you fast.",
+        "A small Vega Baja town surrounded by farmland, San Fulgencio also includes the large La Marina urbanisation and a sizeable international population. If you’re adding several units to an older village house, check your contracted electrical power first. Starting them all on a hot afternoon can trip the main switch.",
+        "Air conditioning in San Fulgencio covers everything from AC installation in a new bungalow to AC repair on an ageing split, and AC servicing with cleaning from €50. We’re certified for refrigerant handling, so ring us if your unit has stopped cooling.",
       ],
     },
     es: {
       name: "San Fulgencio",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en San Fulgencio.",
+      intro: "San Fulgencio tiene casas antiguas de pueblo y grandes urbanizaciones, y el mejor consejo depende de cuál sea tu vivienda.",
       body: [
-        "Pequeño municipio de la Vega Baja rodeado de huerta, San Fulgencio es conocido por la enorme urbanización de La Marina dentro de su término y por su numerosa población internacional. Ya sea una casa antigua del pueblo o un bungaló más reciente, instalamos splits que enfrían de verdad frente al fuerte calor del verano de interior.",
-        "También reparamos averías y realizamos la limpieza periódica que mantiene los equipos eficientes y saludables. Nuestro equipo bilingüe trabaja en la zona y llega rápido.",
+        "Pequeño municipio de la Vega Baja rodeado de huerta, San Fulgencio incluye además la gran urbanización de La Marina y una numerosa población internacional. Si vas a poner varios equipos en una casa antigua del pueblo, mira antes la potencia contratada: con todos en marcha puede saltar el general.",
+        "El aire acondicionado en San Fulgencio abarca desde la instalación en un bungaló nuevo hasta la reparación de un split veterano, y el mantenimiento con limpieza desde 50 €. Estamos certificados para manipular refrigerantes: llámanos si tu equipo ya no enfría.",
       ],
     },
   },
@@ -500,18 +500,18 @@ export const AREAS: Area[] = [
     slug: "benijofar",
     en: {
       name: "Benijófar",
-      intro: "Air conditioning installation, repair and maintenance in Benijófar.",
+      intro: "Quiet and close to the Segura, Benijófar feels little sea breeze in high summer, so reliable home cooling really matters.",
       body: [
-        "Benijófar is a compact, friendly Vega Baja village on the banks of the Segura, popular with residents who want a quieter, more Spanish feel within easy reach of the coast. Homes range from traditional terraced houses to modern villas on the edges, and we install, repair and service AC throughout.",
-        "Set inland, the village gets little relief from the sea breeze in high summer, making a reliable, well-maintained system worth having. Call us in English or Spanish for fast, local help.",
+        "Benijófar is a compact Vega Baja village with traditional terraced houses in the centre and modern villas around the edges. Terraced homes usually have few outside walls, so settle the outdoor unit’s position first, often in a patio or on the roof, and then choose the model.",
+        "Bought a unit online? We’ll fit that, or supply one for you. AC installation, repair and servicing are all available, and you’ll get a free quote for your air conditioning in Benijófar with nothing left vague.",
       ],
     },
     es: {
       name: "Benijófar",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Benijófar.",
+      intro: "Tranquilo y cerca del Segura, Benijófar apenas nota la brisa en pleno verano, y una buena refrigeración se agradece de verdad.",
       body: [
-        "Benijófar es un pueblo compacto y acogedor de la Vega Baja a orillas del Segura, apreciado por quienes buscan un ambiente más tranquilo y español cerca de la costa. Las viviendas van de las casas tradicionales entre medianeras a las villas modernas de las afueras, y en todas instalamos, reparamos y mantenemos el aire.",
-        "Al estar tierra adentro, el pueblo apenas nota la brisa marina en pleno verano, por lo que conviene contar con un equipo fiable y bien mantenido. Llámanos en inglés o español para una ayuda local y rápida.",
+        "Benijófar es un pueblo compacto de la Vega Baja, con casas tradicionales entre medianeras en el centro y villas modernas en las afueras. Una casa así tiene pocos muros exteriores: decide primero dónde va la unidad exterior, a menudo en el patio o la azotea, y después el modelo.",
+        "¿Has comprado el equipo por internet? Te lo instalamos, y si no, te lo suministramos nosotros. Hacemos instalación, reparación y mantenimiento, y te damos un presupuesto gratuito para tu aire acondicionado en Benijófar sin ambigüedades.",
       ],
     },
   },
@@ -519,18 +519,18 @@ export const AREAS: Area[] = [
     slug: "algorfa",
     en: {
       name: "Algorfa",
-      intro: "Air conditioning installation, repair and maintenance in Algorfa.",
+      intro: "Around La Finca golf resort and the old village, Algorfa homes benefit from AC that also heats on cool nights.",
       body: [
-        "This quiet inland village is flanked by the well-known La Finca golf resort, where smart villas and apartments overlook the fairways and the surrounding lemon groves. We install efficient heat-pump systems for these homes, balancing cooling in summer with gentle warmth on cool nights, and keep them serviced.",
-        "We also look after the older village properties with repairs, cleaning and upgrades. Wherever you are in Algorfa, our bilingual team responds quickly and works locally.",
+        "Algorfa is a quiet inland village beside La Finca, where villas and apartments look out over fairways and lemon groves. Nights here cool down more than on the coast, so a heat-pump split can replace old heaters. If you live here all year, aerotermia is worth comparing too.",
+        "We can price both options side by side, free of charge. For air conditioning in Algorfa we also provide AC installation in village properties, plus AC repair and servicing on existing systems. Message us the size of your home.",
       ],
     },
     es: {
       name: "Algorfa",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Algorfa.",
+      intro: "Junto al resort de golf La Finca y el pueblo antiguo, en Algorfa compensa un equipo que también caliente las noches frescas.",
       body: [
-        "Este tranquilo pueblo de interior está flanqueado por el conocido resort de golf La Finca, donde villas y apartamentos elegantes miran a los greens y a los limonares del entorno. Instalamos sistemas de bomba de calor eficientes para estas casas, combinando la refrigeración del verano con un calor suave en las noches frescas, y los mantenemos a punto.",
-        "También cuidamos las viviendas más antiguas del pueblo con reparaciones, limpiezas y mejoras. Estés donde estés en Algorfa, nuestro equipo bilingüe responde rápido y trabaja en la zona.",
+        "Algorfa es un tranquilo pueblo de interior junto a La Finca, donde villas y apartamentos miran a los greens y a los limonares. Aquí refresca más de noche que en la costa, y un split con bomba de calor puede sustituir a las estufas viejas. Si vives todo el año, compara también con la aerotermia.",
+        "Te presupuestamos las dos opciones sin coste. Para el aire acondicionado en Algorfa también hacemos instalación en casas del pueblo, además de reparación y mantenimiento. Escríbenos con los metros de tu vivienda y empezamos.",
       ],
     },
   },
@@ -538,18 +538,18 @@ export const AREAS: Area[] = [
     slug: "benejuzar",
     en: {
       name: "Benejúzar",
-      intro: "Air conditioning installation, repair and maintenance in Benejúzar.",
+      intro: "Benejúzar’s year-round households need AC that handles humid inland summers and stays affordable to run every day.",
       body: [
-        "Benejúzar is a traditional agricultural town in the fertile heart of the Vega Baja, set among citrus and vegetable fields along the Segura. Its mostly Spanish, year-round households need AC that handles the fierce, humid inland summers, and we install and size systems to do exactly that.",
-        "From fitting a new split in a town house to repairing and cleaning existing units, we keep things straightforward and affordable. We’re local, work in English and Spanish, and respond fast.",
+        "Among the citrus and vegetable fields along the Segura, Benejúzar is a traditional farming town where most homes are lived in all year. If your AC runs daily, the thermostat matters: 25 or 26 degrees feels comfortable coming in from the heat and costs far less than 20.",
+        "Fitting a first split in a town house? AC installation usually happens 24 to 72 hours after you ask, depending on the season. We also do AC repair and servicing, so air conditioning in Benejúzar stays looked after long after the fitting day.",
       ],
     },
     es: {
       name: "Benejúzar",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Benejúzar.",
+      intro: "Las familias de Benejúzar necesitan un aire que soporte el bochorno y resulte asequible de usar cada día.",
       body: [
-        "Benejúzar es un pueblo agrícola tradicional en el corazón fértil de la Vega Baja, entre campos de cítricos y hortalizas junto al Segura. Sus hogares, en su mayoría españoles y de todo el año, necesitan un aire capaz de afrontar los veranos de interior, intensos y húmedos, y nosotros instalamos y dimensionamos equipos para lograrlo.",
-        "Desde montar un split nuevo en una casa de pueblo hasta reparar y limpiar las unidades existentes, lo mantenemos sencillo y asequible. Somos de aquí, trabajamos en inglés y español y respondemos rápido.",
+        "Entre campos de cítricos y hortalizas junto al Segura, Benejúzar es un pueblo agrícola tradicional donde la mayoría de las casas se habitan todo el año. Si usas el aire a diario, el termostato cuenta: a 25 o 26 grados se está bien y se gasta mucho menos que a 20.",
+        "¿Tu primer split en una casa de pueblo? La instalación suele hacerse entre 24 y 72 horas después de pedirla, según la temporada. También hacemos reparación y mantenimiento, para que el aire acondicionado en Benejúzar siga bien atendido mucho después del montaje.",
       ],
     },
   },
@@ -557,18 +557,18 @@ export const AREAS: Area[] = [
     slug: "jacarilla",
     en: {
       name: "Jacarilla",
-      intro: "Air conditioning installation, repair and maintenance in Jacarilla.",
+      intro: "Village houses and newer builds in Jacarilla both need dependable cooling once the still inland heat settles in each summer.",
       body: [
-        "A small, peaceful village known for its grand palace and gardens, Jacarilla sits among the orchards of the Vega Baja just south of Orihuela. Its homes are a mix of older village houses and newer builds, all needing dependable cooling once the airless inland heat sets in.",
-        "We install new splits, repair breakdowns and carry out the cleaning and gas checks that keep systems efficient. Call in English or Spanish and we’ll be there quickly.",
+        "Known for its palace and gardens, Jacarilla sits among the Vega Baja orchards near Orihuela. Bedrooms off a corridor rarely cool properly from a single split in the lounge, so a multi-split, with several indoor units on one outdoor unit, is often the tidier answer.",
+        "Our AC repair and servicing cover the refrigerant checks that keep systems efficient, carried out by certified staff. AC installation is available for any home size. If you’re comparing options for air conditioning in Jacarilla, we’ll happily give you a free, clear quote.",
       ],
     },
     es: {
       name: "Jacarilla",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Jacarilla.",
+      intro: "Casas de pueblo y viviendas nuevas de Jacarilla necesitan una refrigeración fiable cuando llega el calor quieto del interior.",
       body: [
-        "Pueblo pequeño y tranquilo, conocido por su imponente palacio y sus jardines, Jacarilla se asienta entre los huertos de la Vega Baja, al sur de Orihuela. Sus viviendas combinan casas antiguas del pueblo con construcciones más recientes, y todas necesitan una refrigeración fiable cuando llega el calor sofocante del interior.",
-        "Instalamos splits nuevos, reparamos averías y hacemos las limpiezas y comprobaciones de gas que mantienen los equipos eficientes. Llama en inglés o español y acudiremos enseguida.",
+        "Conocida por su palacio y sus jardines, Jacarilla se asienta entre los huertos de la Vega Baja, cerca de Orihuela. Los dormitorios de un pasillo rara vez se enfrían con un solo split en el salón; un multisplit, con varias unidades interiores y una exterior, suele ser más limpio.",
+        "Nuestra reparación y nuestro mantenimiento incluyen las comprobaciones de refrigerante, a cargo de personal certificado. La instalación la hacemos en casas de cualquier tamaño. Si estás comparando opciones de aire acondicionado en Jacarilla, te damos un presupuesto claro y gratuito.",
       ],
     },
   },
@@ -576,18 +576,18 @@ export const AREAS: Area[] = [
     slug: "bigastro",
     en: {
       name: "Bigastro",
-      intro: "Air conditioning installation, repair and maintenance in Bigastro.",
+      intro: "Bigastro sits inland among orange groves where little sea breeze reaches, so well-fitted AC makes summer nights far easier.",
       body: [
-        "One of the smallest municipalities in the province, Bigastro is a tight-knit inland town surrounded by orange groves close to Orihuela. With little sea breeze to soften the summer, residents here depend on properly fitted AC, and we install and size systems to suit each home’s layout.",
-        "We handle repairs, deep cleans and routine servicing too, keeping running costs down and air quality up. Our bilingual team is local and quick to respond.",
+        "Close to Orihuela, Bigastro is a tight-knit town of family homes. Bedrooms hold the day’s heat long after sunset, so a timer or night mode can cool them before bed without running until morning. Ask for the indoor unit to be placed so the air doesn’t blow straight onto the bed.",
+        "Details like that make a good AC installation. We also take on AC repair and servicing on all major brands. For air conditioning in Bigastro, call or WhatsApp during working hours and you’ll have a reply within the hour.",
       ],
     },
     es: {
       name: "Bigastro",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Bigastro.",
+      intro: "Bigastro está tierra adentro, entre naranjos, donde apenas llega la brisa, y un aire bien instalado cambia las noches de verano.",
       body: [
-        "Uno de los municipios más pequeños de la provincia, Bigastro es un pueblo de interior muy unido, rodeado de naranjos y cerca de Orihuela. Con apenas brisa marina que suavice el verano, sus vecinos dependen de un aire bien instalado, y nosotros montamos y dimensionamos los equipos según la distribución de cada casa.",
-        "También nos ocupamos de reparaciones, limpiezas a fondo y revisiones periódicas, reduciendo el consumo y mejorando la calidad del aire. Nuestro equipo bilingüe es de la zona y responde rápido.",
+        "Cerca de Orihuela, Bigastro es un pueblo de casas familiares. Los dormitorios guardan el calor del día hasta bien entrada la noche: con el temporizador o el modo noche los enfrías antes de acostarte sin dejarlo toda la noche. Pide que la unidad interior no sople sobre la cama.",
+        "Esos detalles forman parte de una buena instalación. También hacemos reparación y mantenimiento de todas las grandes marcas. Para el aire acondicionado en Bigastro, llámanos en horario laboral o déjanos un WhatsApp y te contestamos en menos de una hora.",
       ],
     },
   },
@@ -595,18 +595,18 @@ export const AREAS: Area[] = [
     slug: "vistabella",
     en: {
       name: "Vistabella",
-      intro: "Air conditioning installation, repair and maintenance in Vistabella.",
+      intro: "Modern homes around Vistabella Golf want efficient comfort all year, and any existing AC pre-installation can make fitting simpler.",
       body: [
-        "Vistabella, near Jacarilla and the new Vistabella Golf development, blends a small original village with rows of modern villas and golf-side homes popular with international buyers. These newer properties suit clean, energy-efficient split installations, which we plan and fit to keep both summer and winter comfortable.",
-        "We repair, service and clean existing systems across the area too. Get in touch in English or Spanish, we work locally and don’t keep you waiting.",
+        "Close to Jacarilla, Vistabella blends a small original village with rows of modern villas and golf-side homes popular with international buyers. Check if your new-build came with pre-installed pipework or ducts. If it did, AC installation is usually simpler, though the system still needs sizing for your home.",
+        "A heat-pump split handles both summer and winter here. We also carry out AC repair and servicing across the area. To plan air conditioning in Vistabella, send us your floor plan, or a sketch of it, for a free quote.",
       ],
     },
     es: {
       name: "Vistabella",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Vistabella.",
+      intro: "Las casas modernas de Vistabella Golf buscan confort todo el año, y una preinstalación, si la tienes, simplifica mucho el montaje.",
       body: [
-        "Vistabella, junto a Jacarilla y al nuevo desarrollo de Vistabella Golf, mezcla un pequeño núcleo original con hileras de villas modernas y casas junto al campo de golf muy demandadas por compradores internacionales. Estas viviendas recientes se prestan a instalaciones de split limpias y eficientes, que planificamos y montamos para un confort tanto en verano como en invierno.",
-        "También reparamos, mantenemos y limpiamos los equipos existentes de toda la zona. Contáctanos en inglés o español: trabajamos en la zona y no te hacemos esperar.",
+        "Junto a Jacarilla, Vistabella mezcla un pequeño núcleo original con hileras de villas modernas y casas junto al golf populares entre compradores internacionales. Comprueba si tu obra nueva trae preinstalación de tubos o conductos. Si la trae, la instalación suele ser más sencilla, aunque el equipo hay que dimensionarlo igual.",
+        "Aquí un split con bomba de calor sirve para verano e invierno. También hacemos reparación y mantenimiento en toda la zona. Para organizar tu aire acondicionado en Vistabella, envíanos el plano, o un croquis, y te hacemos un presupuesto gratuito.",
       ],
     },
   },
@@ -614,18 +614,18 @@ export const AREAS: Area[] = [
     slug: "los-montesinos",
     en: {
       name: "Los Montesinos",
-      intro: "Air conditioning installation, repair and maintenance in Los Montesinos.",
+      intro: "Behind Torrevieja’s salt lakes, Los Montesinos has plenty of bungalows and villas where the right split keeps running costs down.",
       body: [
-        "A young, friendly inland town just behind Torrevieja’s salt lakes, Los Montesinos has grown around developments like La Herrada and is home to a big mix of Spanish and international residents. Modern bungalows and villas here cool well with the right split system, which we install, size and set up to run economically.",
-        "We also take care of repairs and seasonal maintenance to keep equipment reliable. Call in English or Spanish for a fast, local appointment.",
+        "Los Montesinos has grown around areas such as La Herrada, with Spanish and international neighbours in modern bungalows and villas. For most of these homes an inverter split is the economical choice, because it slows down once the room is cool instead of switching fully on and off.",
+        "Replacing an older model? AC installation usually follows 24 to 72 hours after your request, depending on the season. For air conditioning in Los Montesinos we handle AC repair and servicing too, whatever the make.",
       ],
     },
     es: {
       name: "Los Montesinos",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Los Montesinos.",
+      intro: "Detrás de las salinas de Torrevieja, Los Montesinos tiene muchos bungalós y villas donde el split adecuado reduce el gasto de luz.",
       body: [
-        "Pueblo joven y acogedor del interior, justo detrás de las salinas de Torrevieja, Los Montesinos ha crecido alrededor de zonas como La Herrada y reúne una gran mezcla de vecinos españoles e internacionales. Los bungalós y villas modernos enfrían bien con el split adecuado, que instalamos, dimensionamos y configuramos para un consumo económico.",
-        "También nos encargamos de las reparaciones y del mantenimiento estacional para que los equipos sigan siendo fiables. Llama en inglés o español para una cita local y rápida.",
+        "Los Montesinos ha crecido alrededor de zonas como La Herrada, con vecinos españoles e internacionales en bungalós y villas modernos. En la mayoría de estas casas lo más económico es un split inverter, que baja el ritmo cuando la habitación ya está fresca.",
+        "Si vas a cambiar un equipo antiguo, la instalación suele hacerse entre 24 y 72 horas tras tu petición, según la temporada. Para el aire acondicionado en Los Montesinos también nos ocupamos de la reparación y el mantenimiento, sea cual sea la marca.",
       ],
     },
   },
@@ -633,18 +633,18 @@ export const AREAS: Area[] = [
     slug: "daya-nueva",
     en: {
       name: "Daya Nueva",
-      intro: "Air conditioning installation, repair and maintenance in Daya Nueva.",
+      intro: "Far from the coast, Daya Nueva gets hot and still in summer, which makes properly fitted AC a sensible investment.",
       body: [
-        "Daya Nueva is a quiet farming village in the flat, irrigated heart of the Vega Baja, with a small but growing international community among its traditional Spanish homes. Surrounded by fields and far from the cooling coast, it gets hot and still in summer, so a well-fitted AC system is genuinely worth it.",
-        "We install new splits, repair faults and clean and service existing units to keep them efficient. Our bilingual team works locally and responds quickly.",
+        "In the flat, irrigated heart of the Vega Baja, Daya Nueva is a quiet farming village of traditional homes with a small international community. West-facing rooms take the worst of the late sun, so close the shutters by day and your unit has far less to do at night.",
+        "We offer AC installation for new splits, AC repair for faults and AC servicing for neglected units. If air conditioning in Daya Nueva is on your list, ask for a free quote and we’ll go through the options in plain language.",
       ],
     },
     es: {
       name: "Daya Nueva",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Daya Nueva.",
+      intro: "Lejos de la costa, Daya Nueva se vuelve calurosa y sin viento en verano, y un aire bien instalado es una buena inversión.",
       body: [
-        "Daya Nueva es un tranquilo pueblo agrícola en el corazón llano y de regadío de la Vega Baja, con una comunidad internacional pequeña pero creciente entre sus casas españolas tradicionales. Rodeada de campos y lejos del frescor de la costa, en verano se vuelve calurosa y sin viento, así que un aire bien instalado merece la pena de verdad.",
-        "Instalamos splits nuevos, reparamos averías y limpiamos y mantenemos las unidades existentes para que sean eficientes. Nuestro equipo bilingüe trabaja en la zona y responde rápido.",
+        "En el corazón llano y de regadío de la Vega Baja, Daya Nueva es un tranquilo pueblo agrícola de casas tradicionales con una pequeña comunidad internacional. Las habitaciones al oeste se llevan el sol de la tarde: baja las persianas durante el día y el equipo trabajará mucho menos por la noche.",
+        "Hacemos instalación de splits nuevos, reparación de averías y mantenimiento de equipos sin revisar. Si el aire acondicionado en Daya Nueva está en tu lista, pide presupuesto gratis y te explicamos las opciones sin tecnicismos.",
       ],
     },
   },
@@ -652,18 +652,18 @@ export const AREAS: Area[] = [
     slug: "daya-vieja",
     en: {
       name: "Daya Vieja",
-      intro: "Air conditioning installation, repair and maintenance in Daya Vieja.",
+      intro: "In Daya Vieja, one well-placed split can be enough to keep a small house cool through heavy, breeze-free summer nights.",
       body: [
-        "One of the tiniest villages in the Vega Baja, Daya Vieja is a sleepy spot among the orange groves with a small, close community of locals and overseas residents. Its handful of village houses and modern bungalows still need solid cooling against the heavy, breeze-free inland summer, and we install systems sized to each one.",
-        "We’re happy with the smaller jobs others overlook, a single repair, a filter clean or a one-room split. Reach us in English or Spanish for fast, friendly local service.",
+        "One of the smallest villages in the Vega Baja, Daya Vieja sits among orange groves with a close community of locals and overseas residents. Not every home needs a big system. In a small house, a single split in the main bedroom may be all you need.",
+        "We’ll take on a one-room AC installation, a single AC repair or routine AC servicing, with cleaning from €50. So if air conditioning in Daya Vieja seems like a small job to you, get in touch anyway.",
       ],
     },
     es: {
       name: "Daya Vieja",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Daya Vieja.",
+      intro: "En Daya Vieja, un split bien colocado puede bastar para mantener fresca una casa pequeña durante las noches pesadas y sin brisa.",
       body: [
-        "Uno de los pueblos más diminutos de la Vega Baja, Daya Vieja es un rincón tranquilo entre naranjos con una comunidad pequeña y cercana de vecinos locales y extranjeros. Sus pocas casas de pueblo y bungalós modernos también necesitan una buena refrigeración frente al verano de interior, pesado y sin brisa, y nosotros instalamos equipos a la medida de cada vivienda.",
-        "Nos encantan los trabajos pequeños que otros pasan por alto: una reparación, una limpieza de filtros o un split de una sola estancia. Escríbenos en inglés o español para un servicio local rápido y cercano.",
+        "Uno de los pueblos más pequeños de la Vega Baja, Daya Vieja es un rincón entre naranjos con una comunidad cercana de vecinos locales y extranjeros. No todas las casas necesitan un gran sistema: en una vivienda pequeña, puede que te llegue con un split en el dormitorio principal.",
+        "Hacemos la instalación de una sola habitación, una reparación puntual o el mantenimiento habitual, con limpiezas desde 50 €. Si crees que tu aire acondicionado en Daya Vieja es poca cosa, escríbenos igualmente.",
       ],
     },
   },
@@ -671,18 +671,18 @@ export const AREAS: Area[] = [
     slug: "santiago-de-la-ribera",
     en: {
       name: "Santiago de la Ribera",
-      intro: "Air conditioning installation, repair and maintenance in Santiago de la Ribera.",
+      intro: "Apartments along the Santiago de la Ribera seafront need AC that can take lagoon humidity and long, warm evenings.",
       body: [
-        "On the calm western shore of the Mar Menor, Santiago de la Ribera is an elegant seaside town with its long promenade, the San Javier air base nearby and a strong year-round community. Apartments and townhouses along the lagoon front rely on AC through the long Murcian summer, and we install, repair and service them all.",
-        "The mild, salty lagoon air still takes its toll on outdoor units, so corrosion and cleaning checks are part of every visit. Call us in English or Spanish for prompt, local help.",
+        "On the calm western shore of the Mar Menor, Santiago de la Ribera has a long promenade, the San Javier air base nearby and a strong year-round community. Muggy air means plenty of condensation, and a blocked drain often causes drips indoors, so have it cleared at each service.",
+        "If water is running down your wall, call us for AC repair. Our AC servicing and AC installation cover apartments and townhouses along the front. For air conditioning in Santiago de la Ribera, start with a free quote, in Spanish or English.",
       ],
     },
     es: {
       name: "Santiago de la Ribera",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Santiago de la Ribera.",
+      intro: "Los apartamentos del paseo de Santiago de la Ribera necesitan un aire que soporte la humedad de la laguna y las noches templadas.",
       body: [
-        "En la tranquila orilla oeste del Mar Menor, Santiago de la Ribera es un elegante pueblo costero con su largo paseo marítimo, la cercana base aérea de San Javier y una comunidad fuerte todo el año. Los apartamentos y adosados frente a la laguna dependen del aire durante el largo verano murciano, y nosotros los instalamos, reparamos y mantenemos.",
-        "El aire suave y salino de la laguna también pasa factura a las unidades exteriores, así que las revisiones de corrosión y limpieza forman parte de cada visita. Llámanos en inglés o español para una ayuda local sin demora.",
+        "En la tranquila orilla oeste del Mar Menor, Santiago de la Ribera tiene un largo paseo marítimo, la base aérea de San Javier cerca y mucha vida todo el año. El ambiente húmedo genera mucha condensación, y un desagüe atascado es causa habitual de goteras interiores: pide que lo limpien en cada revisión.",
+        "Si te cae agua por la pared, avísanos para la reparación. Hacemos mantenimiento e instalación en pisos y adosados de todo el paseo. Tu aire acondicionado en Santiago de la Ribera empieza con un presupuesto gratuito.",
       ],
     },
   },
@@ -690,18 +690,18 @@ export const AREAS: Area[] = [
     slug: "balsicas",
     en: {
       name: "Balsicas",
-      intro: "Air conditioning installation, repair and maintenance in Balsicas.",
+      intro: "Balsicas misses the Mar Menor breeze, so its dry, scorching summers call for efficient AC sized to the local heat.",
       body: [
-        "Balsicas is a busy inland village in the Torre-Pacheco area, a working Murcian town with its train station and a steady flow of residents heading to and from the Mar Menor coast. Away from the lagoon breeze, summers are dry and scorching, so we install efficient splits sized for the local heat.",
-        "We repair, clean and maintain existing systems too, keeping bills sensible and air clean. Our team speaks English and Spanish, works locally and turns up fast.",
+        "A working inland village in the Torre-Pacheco area, Balsicas has its train station, town homes and a steady flow of people heading for the coast. Outdoor units left in full sun on a roof work harder. A ventilated shade helps, but never box one in.",
+        "Our AC installation includes finding the best spot for the unit, and our AC repair and servicing cover all major brands. For air conditioning in Balsicas, a phone call or WhatsApp gets you a reply within the hour during the working day.",
       ],
     },
     es: {
       name: "Balsicas",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Balsicas.",
+      intro: "A Balsicas no llega la brisa del Mar Menor, y sus veranos secos y abrasadores piden un equipo eficiente y bien dimensionado.",
       body: [
-        "Balsicas es un activo pueblo de interior de la zona de Torre-Pacheco, una localidad murciana trabajadora con su estación de tren y un trasiego constante de vecinos que van y vienen de la costa del Mar Menor. Lejos de la brisa de la laguna, los veranos son secos y abrasadores, así que instalamos splits eficientes dimensionados para el calor de aquí.",
-        "También reparamos, limpiamos y mantenemos los equipos existentes, manteniendo a raya las facturas y limpio el aire. Nuestro equipo habla inglés y español, trabaja en la zona y llega rápido.",
+        "Pueblo trabajador de interior en la zona de Torre-Pacheco, Balsicas tiene su estación de tren, casas de pueblo y un trasiego constante de gente hacia la costa. Una unidad exterior a pleno sol en la azotea trabaja más. Una sombra ventilada ayuda, pero nunca la encierres.",
+        "En la instalación buscamos el mejor sitio para la unidad, y la reparación y el mantenimiento abarcan todas las grandes marcas. Para aire acondicionado en Balsicas, con una llamada o un WhatsApp tienes respuesta en menos de una hora durante la jornada laboral.",
       ],
     },
   },
@@ -709,18 +709,18 @@ export const AREAS: Area[] = [
     slug: "roldan",
     en: {
       name: "Roldán",
-      intro: "Air conditioning installation, repair and maintenance in Roldán.",
+      intro: "Roldán’s modern villas and apartments need neat AC that handles dry, intense summers and stays economical to run.",
       body: [
-        "Roldán is a growing town in Torre-Pacheco country, close to the popular Hacienda del Álamo style golf resorts and within easy reach of the Mar Menor beaches. Its modern villas and apartments suit clean split installations, and we plan and fit them for efficient cooling through the dry, intense inland summers.",
-        "We also handle repairs, gas top-ups and the regular cleaning that keeps systems healthy. Get in touch in English or Spanish, we’re local and quick to respond.",
+        "Roldán is a growing town in the Torre-Pacheco area, with modern homes close to golf resorts and within reach of the Mar Menor beaches. If your AC has lost its punch, don’t settle for a gas top-up alone. A sealed system shouldn’t lose refrigerant, so find the leak first.",
+        "We’re certified for refrigerant handling, which makes AC repair like this routine work. AC installation and AC servicing are covered too, on units we supply or you bought. For air conditioning in Roldán, describe the fault and we’ll tell you the next step.",
       ],
     },
     es: {
       name: "Roldán",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Roldán.",
+      intro: "Las villas y apartamentos modernos de Roldán necesitan un aire discreto que aguante veranos secos e intensos y gaste poco.",
       body: [
-        "Roldán es una localidad en crecimiento en la zona de Torre-Pacheco, cerca de los populares resorts de golf y a poca distancia de las playas del Mar Menor. Sus villas y apartamentos modernos se prestan a instalaciones de split limpias, que planificamos y montamos para una refrigeración eficiente durante los veranos de interior, secos e intensos.",
-        "También nos ocupamos de reparaciones, recargas de gas y de la limpieza periódica que mantiene los equipos saludables. Contáctanos en inglés o español: somos de la zona y respondemos rápido.",
+        "Roldán es una localidad en crecimiento de la zona de Torre-Pacheco, con viviendas modernas cerca de resorts de golf y de las playas del Mar Menor. Si tu aire ha perdido fuerza, no te conformes con recargar gas: un circuito sellado no debería perderlo, así que primero hay que encontrar la fuga.",
+        "Estamos certificados para manipular refrigerantes, así que esa reparación es cosa nuestra. También hacemos instalación y mantenimiento, con equipos nuestros o comprados por ti. Para el aire acondicionado en Roldán, cuéntanos qué le pasa y te decimos el siguiente paso.",
       ],
     },
   },
@@ -728,18 +728,18 @@ export const AREAS: Area[] = [
     slug: "gea-y-truyols",
     en: {
       name: "Gea y Truyols",
-      intro: "Air conditioning installation, repair and maintenance in Gea y Truyols.",
+      intro: "Country homes in Gea y Truyols often have big, open rooms, so AC must suit the layout as well as the heat.",
       body: [
-        "Gea y Truyols is a small rural settlement in the Murcia countryside near Sucina, surrounded by farmland and within reach of the golf resorts of the Mar Menor hinterland. Homes here, from country fincas to newer villas, face hot, dry inland summers, and we install systems matched to larger, more open layouts.",
-        "We repair, service and clean existing units across the area, keeping them efficient in dusty rural conditions. Call in English or Spanish for fast, local attention.",
+        "Gea y Truyols is a small rural settlement near Sucina, surrounded by farmland, with fincas and newer villas facing hot, dry summers. A large open room may need more than one indoor unit, and a long pipe run to the outdoor unit costs efficiency, so keep the two reasonably close.",
+        "Fincas can also suit ducted air or a heat pump for winter, and we’ll explain the difference. For air conditioning in Gea y Truyols, covering AC installation, repair and servicing, start with a free quote.",
       ],
     },
     es: {
       name: "Gea y Truyols",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Gea y Truyols.",
+      intro: "Las casas de campo de Gea y Truyols tienen a menudo estancias amplias, y el equipo debe adaptarse a la distribución.",
       body: [
-        "Gea y Truyols es una pequeña pedanía rural del campo de Murcia, cerca de Sucina, rodeada de tierras de cultivo y próxima a los resorts de golf del interior del Mar Menor. Las viviendas, desde fincas de campo a villas más nuevas, afrontan veranos de interior calurosos y secos, y nosotros instalamos equipos adaptados a espacios más amplios y abiertos.",
-        "Reparamos, mantenemos y limpiamos las unidades existentes de la zona, conservándolas eficientes en un entorno rural con polvo. Llama en inglés o español para una atención local y rápida.",
+        "Gea y Truyols es una pequeña pedanía rural cerca de Sucina, rodeada de cultivos, con fincas y villas nuevas y veranos calurosos y secos. Un salón grande y abierto puede necesitar más de una unidad interior, y un tramo largo de tubería resta eficiencia, así que conviene acercar la exterior.",
+        "Las fincas también pueden ir bien con conductos o con bomba de calor para el invierno, y te explicamos la diferencia. Para el aire acondicionado en Gea y Truyols, con instalación, reparación y mantenimiento, lo primero es un presupuesto gratuito.",
       ],
     },
   },
@@ -747,18 +747,18 @@ export const AREAS: Area[] = [
     slug: "la-tercia",
     en: {
       name: "La Tercia",
-      intro: "Air conditioning installation, repair and maintenance in La Tercia.",
+      intro: "Sun-exposed country properties in La Tercia get very hot, so they need well-sized AC and filters kept free of dust.",
       body: [
-        "La Tercia is a quiet rural area near Sucina and Roldán in the Murcia interior, dotted with country homes and newer residential plots within striking distance of the Mar Menor and its golf courses. Its open, sun-exposed properties get very hot in summer, so we install well-sized systems that cool effectively without wasting energy.",
-        "We also repair faults and carry out the cleaning and servicing that rural dust makes essential. Our bilingual team works locally and responds quickly.",
+        "La Tercia is a quiet rural area of country homes and newer plots, within reach of the Mar Menor and its golf courses. On an open plot, put the outdoor unit on the shadiest side of the house, and check the filters after windy days, because dust from the fields builds up fast.",
+        "A clean costs from €50, and a dust-free unit cools better. We also do AC installation and repair, plus regular AC servicing. Air conditioning in La Tercia can be arranged by phone or WhatsApp, whichever suits you.",
       ],
     },
     es: {
       name: "La Tercia",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en La Tercia.",
+      intro: "Muy expuestas al sol, las casas de campo de La Tercia necesitan un equipo bien dimensionado y filtros sin polvo.",
       body: [
-        "La Tercia es una zona rural tranquila cerca de Sucina y Roldán, en el interior de Murcia, salpicada de casas de campo y nuevas parcelas residenciales a poca distancia del Mar Menor y sus campos de golf. Sus viviendas, abiertas y expuestas al sol, se calientan mucho en verano, así que instalamos equipos bien dimensionados que enfrían de forma eficaz sin malgastar energía.",
-        "También reparamos averías y realizamos la limpieza y el mantenimiento que el polvo del campo hace imprescindibles. Nuestro equipo bilingüe trabaja en la zona y responde rápido.",
+        "La Tercia es una zona rural tranquila de casas de campo y parcelas más nuevas, a poca distancia del Mar Menor y sus campos de golf. En una parcela abierta, coloca la unidad exterior en la cara más sombreada de la casa y mira los filtros tras los días de viento: el polvo del campo se acumula rápido.",
+        "Una limpieza cuesta desde 50 €, y un equipo sin polvo enfría mejor. También hacemos instalación, reparación y mantenimiento periódico. Tu aire acondicionado en La Tercia se organiza por teléfono o por WhatsApp.",
       ],
     },
   },
@@ -766,18 +766,18 @@ export const AREAS: Area[] = [
     slug: "el-algar",
     en: {
       name: "El Algar",
-      intro: "Air conditioning installation, repair and maintenance in El Algar.",
+      intro: "El Algar houses and flats work their AC hard through long Campo de Cartagena summers, so reliability comes before anything else.",
       body: [
-        "El Algar is a lively working town between Cartagena and the southern Mar Menor, a handy local hub for the surrounding villages and beaches like Los Urrutias. Its mix of town houses and apartments runs AC hard through the long, hot Campo de Cartagena summers, and we install, repair and maintain it all.",
-        "From a quick repair before a heatwave to a full new installation, we keep things simple and fairly priced. We’re local, speak English and Spanish, and respond fast.",
+        "Between Cartagena and the Mar Menor, El Algar is a busy working town serving nearby villages and beaches. If your unit struggles on the first hot day, start with the filters, then see whether anything is blocking the outdoor unit. Both are easy to fix before a heatwave.",
+        "Still not cooling? Then you need AC repair, and we work on all major brands, as well as AC installation and AC servicing. Air conditioning in El Algar comes with a 3-year guarantee on our work, so ask for a free quote.",
       ],
     },
     es: {
       name: "El Algar",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en El Algar.",
+      intro: "Casas y pisos de El Algar exigen mucho al aire durante los largos veranos del Campo de Cartagena: lo primero es la fiabilidad.",
       body: [
-        "El Algar es una localidad activa y trabajadora entre Cartagena y el sur del Mar Menor, un práctico centro de servicios para los pueblos y playas del entorno, como Los Urrutias. Su mezcla de casas y apartamentos exige mucho al aire durante los largos y calurosos veranos del Campo de Cartagena, y nosotros lo instalamos, reparamos y mantenemos.",
-        "Desde una reparación rápida antes de una ola de calor hasta una instalación nueva completa, lo hacemos sencillo y a buen precio. Somos de aquí, hablamos inglés y español y respondemos rápido.",
+        "Entre Cartagena y el Mar Menor, El Algar es una localidad activa y trabajadora que da servicio a pueblos y playas cercanos. Si el equipo flojea el primer día de calor, empieza por los filtros y mira después si algo tapa la unidad exterior. Las dos cosas se arreglan fácil.",
+        "¿Sigue sin enfriar? Entonces toca reparación, y trabajamos con todas las grandes marcas. También hacemos instalación y mantenimiento. El aire acondicionado en El Algar lleva 3 años de garantía en nuestro trabajo, así que pídenos presupuesto gratis.",
       ],
     },
   },
@@ -785,18 +785,18 @@ export const AREAS: Area[] = [
     slug: "los-urrutias",
     en: {
       name: "Los Urrutias",
-      intro: "Air conditioning installation, repair and maintenance in Los Urrutias.",
+      intro: "Seafront holiday homes in Los Urrutias need AC that shrugs off humid lagoon air and sticky summer nights.",
       body: [
-        "Los Urrutias is a relaxed beach village right on the southern shore of the Mar Menor, known for its shallow, warm lagoon waters and its rows of seafront holiday homes. With apartments and bungalows used heavily in summer, owners want AC that cools fast on arrival, and we install and set up systems to do just that.",
-        "The humid lagoon air is tough on outdoor units, so we always check for corrosion when we service or repair. Reach us in English or Spanish for prompt local help.",
+        "A relaxed beach village on the shore of the Mar Menor, Los Urrutias is known for warm, shallow water and rows of seafront holiday homes. Damp air and long empty spells encourage mould. Black specks around the air outlet usually mean the fan needs a proper clean, not just a filter wash.",
+        "Cleaning starts from €50 with our AC servicing. We provide AC repair and AC installation here too, for apartments and bungalows. Book before your family arrives and your air conditioning in Los Urrutias will be ready.",
       ],
     },
     es: {
       name: "Los Urrutias",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Los Urrutias.",
+      intro: "Las casas de playa de Los Urrutias necesitan un aire que soporte la humedad de la laguna y las noches pegajosas.",
       body: [
-        "Los Urrutias es un tranquilo pueblo de playa en la orilla sur del Mar Menor, conocido por las aguas cálidas y poco profundas de la laguna y por sus hileras de casas vacacionales frente al mar. Con apartamentos y bungalós muy usados en verano, los propietarios quieren un aire que enfríe rápido al llegar, y nosotros instalamos y configuramos los equipos para lograrlo.",
-        "El aire húmedo de la laguna es duro con las unidades exteriores, así que siempre revisamos la corrosión al mantener o reparar. Escríbenos en inglés o español para una ayuda local sin demora.",
+        "Tranquilo pueblo de playa a orillas del Mar Menor, Los Urrutias es conocido por sus aguas cálidas y poco profundas y sus casas de vacaciones. La humedad y los meses vacíos favorecen el moho. Unos puntitos negros en la salida de aire suelen indicar que el ventilador necesita una limpieza a fondo, no solo lavar el filtro.",
+        "Con nuestro mantenimiento, las limpiezas empiezan en 50 €. También hacemos reparación e instalación. Tu aire acondicionado en Los Urrutias estará listo si reservas antes de que llegue la familia.",
       ],
     },
   },
@@ -804,18 +804,18 @@ export const AREAS: Area[] = [
     slug: "playa-honda",
     en: {
       name: "Playa Honda",
-      intro: "Air conditioning installation, repair and maintenance in Playa Honda.",
+      intro: "Playa Honda apartments on the Mar Menor need AC that copes with humidity, salt and changing rental guests.",
       body: [
-        "Playa Honda lines the strip of coast at the base of La Manga, with high-rise apartment towers looking out over both the Mar Menor and the Mediterranean. Sea air hits from both sides here, so these holiday and rental flats need AC that copes with humidity and salt, which we install, repair and service.",
-        "Outdoor units in this exposed position need regular cleaning and corrosion checks to last, and that’s built into how we work. Call in English or Spanish, we’re local and fast to respond.",
+        "Near the start of La Manga, Playa Honda is mostly apartment blocks and holiday flats. Rental guests tend to leave remotes on 16 degrees and filters fill quickly, so leave a short note on sensible settings and have the filters cleaned mid-season.",
+        "We can carry out AC servicing while the flat is between lets, and AC repair covers all major brands. Replacing a tired unit? AC installation usually takes 24 to 72 hours from your request, depending on the season. Tell us about your air conditioning in Playa Honda by WhatsApp.",
       ],
     },
     es: {
       name: "Playa Honda",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Playa Honda.",
+      intro: "Los apartamentos de Playa Honda, en el Mar Menor, necesitan un aire que aguante humedad, salitre y huéspedes distintos.",
       body: [
-        "Playa Honda bordea la franja de costa a los pies de La Manga, con torres de apartamentos que miran al Mar Menor y al Mediterráneo a la vez. El aire marino llega por ambos lados, así que estos pisos vacacionales y de alquiler necesitan un aire capaz de soportar la humedad y la sal, que instalamos, reparamos y mantenemos.",
-        "Las unidades exteriores en una posición tan expuesta requieren limpiezas y revisiones anticorrosión periódicas para durar, y eso forma parte de cómo trabajamos. Llama en inglés o español: somos de la zona y respondemos rápido.",
+        "Cerca del inicio de La Manga, Playa Honda es sobre todo bloques de apartamentos. Los huéspedes suelen dejar el mando a 16 grados y los filtros se llenan pronto: deja una nota con los ajustes recomendados y limpia los filtros a mitad de temporada.",
+        "Podemos hacer el mantenimiento entre un alquiler y otro, y la reparación cubre todas las grandes marcas. ¿Hay que cambiar el equipo? La instalación suele llevar entre 24 y 72 horas desde tu aviso, según la temporada. Escríbenos por WhatsApp sobre tu aire acondicionado en Playa Honda.",
       ],
     },
   },
@@ -823,18 +823,18 @@ export const AREAS: Area[] = [
     slug: "atamaria",
     en: {
       name: "Atamaría",
-      intro: "Air conditioning installation, repair and maintenance in Atamaría.",
+      intro: "High-end villas and apartments in Atamaría call for quiet, even cooling, often from ducted or multi-zone systems kept out of sight.",
       body: [
-        "Atamaría is the upmarket residential and golf enclave within La Manga Club, set on the hills above the resort among pine slopes and championship fairways. The high-end villas and apartments here often run multi-zone systems, and we design, install and balance them for quiet, even comfort throughout.",
-        "We service and repair premium equipment to keep it running discreetly and efficiently season after season. Our bilingual team knows the resort and responds quickly.",
+        "Atamaría is the residential and golf area within La Manga Club, set on pine slopes above the resort and its championship fairways. If your home has ducted air, make sure there’s an inspection hatch in the ceiling, and have the return filters cleaned as often as you would a split’s.",
+        "We handle AC installation, repair and servicing on ducted, multi-split and cassette systems, across all major brands. Planning air conditioning in Atamaría, or an upgrade? Share the plans and we’ll send a free, clear quote.",
       ],
     },
     es: {
       name: "Atamaría",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Atamaría.",
+      intro: "Las villas y apartamentos de alto nivel de Atamaría piden un frío silencioso y uniforme, a menudo con conductos.",
       body: [
-        "Atamaría es el exclusivo enclave residencial y de golf dentro de La Manga Club, en las laderas sobre el resort, entre pinos y campos de campeonato. Las villas y apartamentos de alto nivel suelen contar con sistemas por zonas, y nosotros los diseñamos, instalamos y equilibramos para un confort silencioso y uniforme en toda la vivienda.",
-        "Mantenemos y reparamos equipos de gama alta para que funcionen de forma discreta y eficiente temporada tras temporada. Nuestro equipo bilingüe conoce el resort y responde rápido.",
+        "Atamaría es la zona residencial y de golf dentro de La Manga Club, en laderas de pinos sobre el resort y sus campos de campeonato. Si tu casa tiene conductos, asegúrate de que el falso techo tenga trampilla de registro, y limpia los filtros de retorno tan a menudo como los de un split.",
+        "Hacemos instalación, reparación y mantenimiento de sistemas por conductos, multisplit y cassette de todas las grandes marcas. ¿Piensas en aire acondicionado en Atamaría o en renovar el tuyo? Pásanos los planos y te enviamos un presupuesto gratuito y claro.",
       ],
     },
   },
