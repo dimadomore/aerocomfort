@@ -11,23 +11,23 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const es = locale === 'es';
 ---
-<section class="border-y border-line bg-surface-cool py-16 lg:py-24">
+<section class="py-16 lg:py-24">
   <Container class="text-center">
     <div class="flex items-center justify-center gap-1.5 text-warning">
       {Array.from({ length: 5 }).map(() => <Icon name="star" size={26} />)}
     </div>
-    <h2 class="mt-5 text-h1">{es ? 'Valorados 5,0 en Google' : 'Rated 5.0 on Google'}</h2>
+    <h2 class="mt-4 text-h2">{es ? 'Valorados 5,0 en Google' : 'Rated 5.0 on Google'}</h2>
 
     {
       ELFSIGHT_ID && (
         <Fragment>
           <div class="mx-auto mt-8 max-w-4xl" data-elfsight-id={ELFSIGHT_ID} style="min-height:320px" />
           {/* Shown until the visitor consents to third-party cookies (LSSI/RGPD). */}
-          <div class="mx-auto mt-8 max-w-md rounded-xl border border-line bg-white p-6" data-reviews-blocked hidden>
+          <div class="mx-auto mt-8 max-w-md card p-6" data-reviews-blocked hidden>
             <p class="text-small text-ink-500">{t('consent.reviewsBlocked')}</p>
             <button
               type="button"
-              class="mt-4 inline-flex min-h-11 items-center rounded-pill bg-brand-700 px-5 font-display text-small font-bold text-white transition-colors hover:bg-brand-800"
+              class="mt-4 inline-flex min-h-11 items-center rounded-[4px] bg-brand-900 px-5 font-display text-small font-bold text-white transition-colors hover:bg-brand-700"
               data-reviews-settings
             >
               {t('consent.settings')}

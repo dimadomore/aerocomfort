@@ -20,7 +20,6 @@ const crumbs = [
 ---
 <PageHero
   crumbs={crumbs}
-  eyebrow={es ? 'Marcas' : 'Brands'}
   title={es ? 'Marcas de aire acondicionado que instalamos y reparamos' : 'Air conditioning brands we install & service'}
   intro={es
     ? 'Trabajamos con las marcas líderes y te ayudamos a elegir la adecuada para tu espacio y presupuesto.'
@@ -29,26 +28,18 @@ const crumbs = [
 
 <section class="py-16 lg:py-24">
   <Container>
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="border-t border-line">
       {BRANDS.map((b) => (
         <a
           href={localizedPath(`/brands/${b.slug}`, locale)}
-          class="group card-cool flex flex-col rounded-xl border border-line p-6 hover:border-blue-300"
+          class="group grid items-center gap-3 border-b border-line py-6 no-underline sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:gap-8"
         >
-          <img
-            src={b.logo}
-            alt={b.name}
-            height="32"
-            class:list={['mb-5 w-auto max-w-[62%] object-contain object-left', b.slug === 'lg' ? 'h-11' : 'h-8']}
-            loading="lazy"
-            decoding="async"
-          />
-          <h2 class="font-display text-h3 font-extrabold text-brand-800">{b.name}</h2>
-          <p class="mt-2 flex-1 text-small text-ink-500">{b[locale].intro}</p>
-          <span class="mt-4 inline-flex items-center gap-1.5 text-small font-bold text-brand-700">
-            {es ? 'Saber más' : 'Learn more'}
-            <Icon name="arrow-right" size={16} class="transition-transform duration-200 ease-out group-hover:translate-x-1" />
+          <img src={b.logo} alt="" height="32" width="120" class:list={['w-auto max-w-40 object-contain object-left', b.slug === 'lg' ? 'h-11' : 'h-8']} loading="lazy" decoding="async" />
+          <span>
+            <span class="block font-display text-h3 font-extrabold text-brand-900">{b.name}</span>
+            <span class="mt-1 block max-w-2xl text-small text-ink-700">{b[locale].intro}</span>
           </span>
+          <Icon name="arrow-right" size={22} class="hidden text-brand-900 transition-transform duration-200 ease-out group-hover:translate-x-1 sm:block" />
         </a>
       ))}
     </div>

@@ -33,7 +33,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Who is responsible for your data',
           p: [
-            '{NAME} is the trading name of Gregorio ‹surname — to be confirmed›, a self-employed professional (autónomo) registered in Spain, NIE Y9274595C, providing air-conditioning, heat-pump and ventilation services in the provinces of Alicante and Murcia.',
+            '{NAME} is the trading name of Gregorio ‹surname — to be confirmed›, a self-employed professional (autónomo) registered in Spain, NIE Y9274595C, providing air-conditioning, heat-pump and ventilation services on the Costa Blanca (province of Alicante) and nearby areas.',
             'Contact for anything related to your data: {EMAIL} or {PHONE}.',
           ],
         },
@@ -125,7 +125,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Responsable del tratamiento',
           p: [
-            '{NAME} es el nombre comercial de Gregorio ‹apellidos — por confirmar›, profesional autónomo registrado en España, NIE Y9274595C, que presta servicios de aire acondicionado, aerotermia y ventilación en las provincias de Alicante y Murcia.',
+            '{NAME} es el nombre comercial de Gregorio ‹apellidos — por confirmar›, profesional autónomo registrado en España, NIE Y9274595C, que presta servicios de aire acondicionado, aerotermia y ventilación en la Costa Blanca (provincia de Alicante) y zonas cercanas.',
             'Contacto para cualquier cuestión sobre tus datos: {EMAIL} o {PHONE}.',
           ],
         },
@@ -319,7 +319,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Purpose of the site',
           p: [
-            'This website presents the services offered by {NAME} on the Costa Blanca and Costa Cálida and lets visitors request a quote by form, phone or WhatsApp. Prices shown in offers are indicative and confirmed in the individual quote.',
+            'This website presents the services offered by {NAME} on the Costa Blanca and lets visitors request a quote by form, phone or WhatsApp. Prices shown in offers are indicative and confirmed in the individual quote.',
           ],
         },
         {
@@ -366,7 +366,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Objeto del sitio',
           p: [
-            'Esta web presenta los servicios que ofrece {NAME} en la Costa Blanca y la Costa Cálida y permite a los visitantes solicitar presupuesto por formulario, teléfono o WhatsApp. Los precios mostrados en las ofertas son orientativos y se confirman en el presupuesto individual.',
+            'Esta web presenta los servicios que ofrece {NAME} en la Costa Blanca y permite a los visitantes solicitar presupuesto por formulario, teléfono o WhatsApp. Los precios mostrados en las ofertas son orientativos y se confirman en el presupuesto individual.',
           ],
         },
         {

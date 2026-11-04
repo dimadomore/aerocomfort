@@ -5,7 +5,6 @@ import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import CoolAir from '../ui/CoolAir.astro';
 
 interface Props {
   locale: Locale;
@@ -14,28 +13,31 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const es = locale === 'es';
 const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
 const contactHref = localizedPath('/contact', locale);
 ---
-<section class="py-16 lg:py-24">
-  <Container>
-    <div class="relative overflow-hidden rounded-xl bg-linear-to-br from-brand-600 to-brand-800 px-6 py-12 text-center text-white shadow-lg ring-1 ring-white/10 sm:px-12 lg:py-16">
-      <CoolAir variant="panel" />
-      <div class="relative">
-        <h2 class="text-h1 text-white">{es ? '¿Listo para un aire fiable?' : 'Ready for reliable cooling?'}</h2>
-        <p class="mx-auto mt-4 max-w-xl text-body-lg text-white/85">
-          {es ? 'Pide presupuesto gratis hoy — respondemos rápido.' : 'Get a free quote today — we reply fast.'}
-        </p>
-        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Button href={contactHref} variant="primary" size="lg" class="cta-attention">
-            {t('cta.quote')}
-            <Icon name="arrow-right" size={20} />
-          </Button>
-          <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
-            <Icon name="whatsapp" size={20} />
-            {t('cta.whatsapp')}
-          </Button>
-        </div>
-      </div>
+<section class="bg-brand-900 text-white">
+  <Container class="grid gap-8 py-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16 lg:py-20">
+    <div>
+      <h2 class="text-h1 text-white">{es ? 'Cuéntanos qué necesitas' : 'Tell us what you need'}</h2>
+      <p class="mt-3 max-w-xl text-body-lg text-white/90">
+        {es ? 'Presupuesto gratis y sin compromiso. Respondemos en menos de una hora en horario laboral, en español o inglés.' : 'A free, no-obligation quote. We reply within the hour during working hours, in English or Spanish.'}
+      </p>
+      <a class="mt-5 inline-flex items-center gap-2.5 font-display text-h3 font-bold text-white no-underline hover:underline" href={telHref}>
+        <Icon name="phone" size={22} />
+        {business.phone}
+      </a>
+    </div>
+    <div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
+      <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={20} />
+        {t('cta.whatsapp')}
+      </Button>
+      <Button href={contactHref} variant="primary" size="lg">
+        {t('cta.quote')}
+        <Icon name="arrow-right" size={20} />
+      </Button>
     </div>
   </Container>
+  <div class="border-t border-white/15"></div>
 </section>

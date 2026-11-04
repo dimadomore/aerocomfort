@@ -85,25 +85,25 @@ const contactHref = localizedPath('/contact', locale);
     justify-content: center;
     width: 56px;
     height: 56px;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-xl);
     background: var(--accent-600);
     color: #fff;
-    box-shadow: var(--shadow-lg);
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    box-shadow: var(--shadow-md);
+    transition: background-color 0.2s ease-out;
   }
   .chat__fab:hover {
     background: var(--accent-700);
-    transform: translateY(-2px);
   }
 
   .chat__tip {
     position: relative;
     max-width: 16rem;
     padding: 0.75rem 2rem 0.75rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
     background: #fff;
-    color: var(--ink-900);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+    color: var(--brand-900);
+    box-shadow: var(--shadow-md);
     font-size: var(--text-small);
     font-weight: 600;
     animation: chat-pop 0.25s ease-out;
@@ -114,13 +114,14 @@ const contactHref = localizedPath('/contact', locale);
     right: 0.4rem;
     display: flex;
     padding: 0.2rem;
-    color: var(--ink-400);
+    color: var(--ink-700);
   }
 
   .chat__panel {
     width: min(20rem, calc(100vw - 2rem));
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
     background: #fff;
-    border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
     overflow: hidden;
     animation: chat-pop 0.2s ease-out;
@@ -131,8 +132,11 @@ const contactHref = localizedPath('/contact', locale);
     justify-content: space-between;
     gap: 0.75rem;
     padding: 1.1rem 1.1rem 1rem;
-    background: var(--brand-700);
+    background: var(--brand-900);
     color: #fff;
+  }
+  .chat__head :focus-visible {
+    outline-color: #fff;
   }
   .chat__head-x {
     display: flex;
@@ -151,24 +155,26 @@ const contactHref = localizedPath('/contact', locale);
     gap: 0.7rem;
     min-height: 52px;
     padding: 0 1rem;
+    border: 1px solid var(--line);
     border-radius: var(--radius-md);
-    font-weight: 600;
+    font-family: var(--font-display);
     font-size: var(--text-small);
-    border: 1.5px solid var(--line);
-    color: var(--ink-900);
-    transition: background-color 0.15s ease, transform 0.15s ease;
+    font-weight: 700;
+    color: var(--brand-900);
+    text-decoration: none;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out;
   }
   .chat__action:hover {
-    transform: translateY(-1px);
+    border-color: var(--brand-900);
   }
   .chat__action--wa {
+    border-color: transparent;
     background: var(--wa-500);
     color: #fff;
-    border-color: transparent;
   }
-  .chat__action--call {
-    color: var(--blue-600);
-    border-color: var(--blue-300);
+  .chat__action--wa:hover {
+    border-color: transparent;
+    background: var(--wa-600);
   }
 
   @keyframes chat-pop {
@@ -241,7 +247,10 @@ const contactHref = localizedPath('/contact', locale);
     // Nudge only where the launcher is actually visible (desktop).
     if (!seen && tip && window.matchMedia('(min-width: 1024px)').matches) {
       setTimeout(() => {
-        if (panel?.hidden) tip.hidden = false;
+        if (!panel?.hidden) return;
+        tip.hidden = false;
+        // A nudge, not a fixture: it shouldn't keep covering the page.
+        setTimeout(() => hideTip(true), 8000);
       }, 2600);
     }
   }

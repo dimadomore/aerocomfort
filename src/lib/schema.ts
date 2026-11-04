@@ -27,8 +27,8 @@ export function hvacBusinessLd() {
     name: business.name,
     url: SITE_URL + '/',
     description:
-      'Air conditioning installation, repair, maintenance and cleaning across the ' +
-      'Costa Blanca and Costa Cálida (Alicante & Murcia), Spain. Also heat pumps ' +
+      'Air conditioning installation, repair, maintenance and cleaning across ' +
+      'the Costa Blanca (Alicante), Spain, by a local team of specialists. Also heat pumps ' +
       '(aerotermia) and ventilation. English and Spanish spoken.',
     image: abs('/og/aerocomfort-default.jpg'),
     logo: abs('/logo.png'),
@@ -135,7 +135,7 @@ export function howToLd(locale: 'en' | 'es') {
       steps: [
         {
           name: 'Tell us what you need',
-          text: 'Send your details by form, WhatsApp or call. We talk it through, agree the details and can quote in advance — pricing can be discussed up front, so no on-site visit is required.',
+          text: 'Send your details by form, WhatsApp or call. We talk it through, agree the details and can quote in advance: pricing can be discussed up front, so no on-site visit is required.',
         },
         {
           name: 'We come and do the work',
@@ -148,7 +148,7 @@ export function howToLd(locale: 'en' | 'es') {
       steps: [
         {
           name: 'Cuéntanos qué necesitas',
-          text: 'Escríbenos por formulario, WhatsApp o llamada. Lo hablamos, acordamos los detalles y podemos presupuestar por adelantado — el precio se puede tratar de antemano, sin necesidad de visita previa.',
+          text: 'Escríbenos por formulario, WhatsApp o llamada. Lo hablamos, acordamos los detalles y podemos presupuestar por adelantado: el precio se puede tratar de antemano, sin necesidad de visita previa.',
         },
         {
           name: 'Vamos y hacemos el trabajo',

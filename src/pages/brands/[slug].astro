@@ -13,8 +13,8 @@ const { brand } = Astro.props;
 const locale = 'en' as const;
 const t = useTranslations(locale);
 const path = `/brands/${brand.slug}`;
-const title = `${brand.name} Air Conditioning — Install & Service in Costa Blanca`;
-const description = `${brand.name} AC supplied, installed and serviced across the Costa Blanca by Aerocomfort. 5.0★ on Google. Free quote.`;
+const title = `${brand.name} Air Conditioning: Install & Service, Costa Blanca | Aerocomfort`;
+const description = `${brand.name} air conditioning supplied, installed and serviced across the Costa Blanca by the Aerocomfort team. Rated 5.0 on Google. Free quote.`;
 const jsonLd = [
   hvacBusinessLd(),
   breadcrumbLd([

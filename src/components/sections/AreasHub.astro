@@ -1,9 +1,8 @@
 ---
 import { type Locale } from '../../config';
-import { AREA_GROUPS } from '../../data/areas';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
-import Icon from '../ui/Icon.astro';
+import AreaFinder from '../ui/AreaFinder.astro';
 import PageHero from './PageHero.astro';
 import AreaMap from './AreaMap.astro';
 import FinalCta from './FinalCta.astro';
@@ -21,51 +20,16 @@ const crumbs = [
 ---
 <PageHero
   crumbs={crumbs}
-  eyebrow={es ? 'Zonas de servicio' : 'Service areas'}
-  title={es ? 'Aire acondicionado en la Costa Blanca y Costa Cálida' : 'Air conditioning across the Costa Blanca & Costa Cálida'}
+  title={es ? 'Aire acondicionado en la Costa Blanca' : 'Air conditioning across the Costa Blanca'}
   intro={es
-    ? 'Trabajamos en Torrevieja, Orihuela Costa, Guardamar, el Mar Menor, Mazarrón y más de 45 localidades. Elige tu zona para ver los detalles.'
-    : 'We work across Torrevieja, Orihuela Costa, Guardamar, the Mar Menor, Mazarrón and 45+ towns. Choose your area for details.'}
+    ? 'Trabajamos en Torrevieja, Orihuela Costa, Pilar de la Horadada, Guardamar y más de 40 localidades. Elige tu zona para ver los detalles.'
+    : 'We work across Torrevieja, Orihuela Costa, Pilar de la Horadada, Guardamar and 40+ towns. Choose your area for details.'}
 />
 
 <section class="py-16 lg:py-24">
   <Container>
-    <AreaMap locale={locale} class="mb-12" />
-
-    <div class="space-y-10">
-      {AREA_GROUPS.map((group) => (
-        <div>
-          <h2 class="text-h3 text-brand-700">{group.title[locale]}</h2>
-          <ul class="mt-4 flex flex-wrap gap-2.5">
-            {group.towns.map((town) =>
-              town.slug ? (
-                <li>
-                  <a
-                    class="inline-flex items-center gap-1.5 rounded-pill border border-line bg-white px-3.5 py-2 text-small font-semibold text-brand-700 transition-colors hover:border-blue-300 hover:bg-sky-100"
-                    href={localizedPath(`/areas/${town.slug}`, locale)}
-                  >
-                    <Icon name="map-pin" size={14} class="text-brand-600" />
-                    {town.name}
-                  </a>
-                </li>
-              ) : (
-                <li>
-                  <span class="inline-flex items-center rounded-pill bg-surface-cool px-3.5 py-2 text-small text-ink-500 ring-1 ring-line">
-                    {town.name}
-                  </span>
-                </li>
-              ),
-            )}
-          </ul>
-        </div>
-      ))}
-    </div>
-
-    <p class="mt-10 text-small text-ink-500">
-      {es
-        ? '¿No ves tu zona? Cubrimos toda la Costa Blanca y la Costa Cálida — pregúntanos por WhatsApp.'
-        : "Don't see your area? We cover the whole Costa Blanca & Costa Cálida — just ask on WhatsApp."}
-    </p>
+    <AreaFinder locale={locale} />
+    <AreaMap locale={locale} class="mt-14" />
   </Container>
 </section>
 

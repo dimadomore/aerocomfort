@@ -34,80 +34,59 @@ const stats = [
 ---
 <PageHero
   crumbs={crumbs}
-  eyebrow={es ? 'Nosotros' : 'About'}
+  image="/gallery/work-01.webp"
   title={es ? 'Sobre Aerocomfort' : 'About Aerocomfort'}
   intro={es
-    ? 'Un mismo profesional de confianza detrás de cada trabajo — con la valoración de los clientes que lo respalda.'
-    : 'One trusted specialist behind every job — with the customer rating to back it up.'}
+    ? 'Un equipo local de aire acondicionado en la Costa Blanca, en nuestro quinto año y con 5,0 en Google.'
+    : 'A local air conditioning team on the Costa Blanca, in our fifth year and rated 5.0 on Google.'}
 />
 
 <section class="py-16 lg:py-24">
   <Container>
     <div class="grid gap-10 lg:grid-cols-3 lg:gap-12">
       <div class="lg:col-span-2">
-        {/* Owner intro — humanises the page. Monogram avatar stands in for a real
-            portrait until the owner's photo arrives (swap the <span>G</span>). */}
-        <div class="mb-9 flex flex-col gap-6 sm:flex-row sm:items-center">
-          <div class="shrink-0">
-            <div class="relative flex h-28 w-28 items-center justify-center rounded-2xl bg-linear-to-br from-brand-600 to-brand-800 shadow-lg ring-1 ring-white/15">
-              <span class="font-display text-5xl font-extrabold text-white">G</span>
-              <span class="absolute -bottom-2.5 -right-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-white text-brand-700 shadow-md ring-1 ring-line">
-                <Icon name="shield-check" size={18} />
-              </span>
-            </div>
-          </div>
+        <div class="mb-9 flex items-center gap-5">
+          {/* Monogram stands in for the owner's portrait until the photo arrives (DIM-286). */}
+          <span class="flex h-20 w-20 shrink-0 items-center justify-center rounded-md bg-brand-900 font-display text-4xl font-extrabold text-white" aria-hidden="true">G</span>
           <div>
-            <p class="kicker">{es ? 'El especialista' : 'The specialist'}</p>
-            <p class="mt-2 font-display text-h3 font-extrabold text-brand-800">Gregorio</p>
-            <p class="mt-1 text-small text-ink-500">
-              {es ? 'Fundador — detrás de cada trabajo, en español e inglés.' : 'Founder — behind every job, in English and Spanish.'}
+            <p class="font-display text-h3 font-extrabold text-brand-900">Gregorio</p>
+            <p class="mt-0.5 text-small text-ink-700">
+              {es ? 'Fundador y responsable del equipo.' : 'Founder and head of the team.'}
             </p>
-            <ul class="mt-4 flex flex-wrap gap-2">
-              {(es
-                ? ['Certificado · gases fluorados', '3 años de garantía', 'Quinto año']
-                : ['Certified · refrigerant handling', '3-year guarantee', 'Fifth year']
-              ).map((chip) => (
-                <li class="inline-flex items-center gap-1.5 rounded-pill border border-line bg-surface-cool px-3 py-1.5 text-caption font-semibold text-ink-700">
-                  <Icon name="check" size={14} class="text-success" />
-                  {chip}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 
         <Prose>
           {es ? (
             <Fragment>
-              <p>Aerocomfort es el trabajo de Gregorio, el especialista detrás de cada servicio. Ya en nuestro <strong>quinto año</strong> y con más de <strong>1000 instalaciones</strong> de aire acondicionado en la Costa Blanca y la Costa Cálida, ha conseguido una valoración de <strong>5,0★ en Google</strong> de {reviewCountDisplay} clientes.</p>
-              <p>Cada trabajo se hace en persona — sin subcontratas ni centralitas. Tratas directamente con quien realiza el trabajo, desde el primer presupuesto hasta la última prueba.</p>
+              <p>Aerocomfort es un equipo local de especialistas en aire acondicionado dirigido por Gregorio. Ya en nuestro <strong>quinto año</strong> y con más de <strong>1000 instalaciones</strong> en la Costa Blanca, tenemos una valoración de <strong>5,0★ en Google</strong> de {reviewCountDisplay} clientes.</p>
+              <p>Gregorio trabaja a pie de obra junto al equipo de especialistas, desde la primera visita hasta la última prueba. Siempre sabes con quién hablas y quién responde del trabajo.</p>
               <p>Estamos <strong>cualificados para la manipulación de gases fluorados</strong> y respaldamos cada instalación con <strong>3 años de garantía</strong>, más la garantía del fabricante de 3 años sobre el equipo.</p>
-              <p>Instalamos, reparamos, limpiamos y mantenemos todas las marcas principales, y también montamos bombas de calor (aerotermia) y ventilación. Pago con tarjeta, transferencia, Bizum o efectivo. Trabajamos en español e inglés, de Torrevieja y Orihuela Costa al Mar Menor y Mazarrón.</p>
+              <p>Instalamos, reparamos, limpiamos y mantenemos todas las marcas principales, y también montamos bombas de calor (aerotermia) y ventilación. Trabajamos con viviendas, restaurantes y pequeños negocios, en español e inglés, de Torrevieja y Orihuela Costa a Pilar de la Horadada y Guardamar.</p>
             </Fragment>
           ) : (
             <Fragment>
-              <p>Aerocomfort is run by Gregorio, the specialist behind every job. Now in our <strong>fifth year</strong>, with <strong>1000+ air conditioning installations</strong> across the Costa Blanca and Costa Cálida, he has earned a <strong>5.0★ rating on Google</strong> from {reviewCountDisplay} customers.</p>
-              <p>Every job is done personally — no subcontractors, no call centre. You deal directly with the person who does the work, from the first quote to the final test.</p>
+              <p>Aerocomfort is a local team of air conditioning specialists led by Gregorio. Now in our <strong>fifth year</strong>, with <strong>1000+ installations</strong> across the Costa Blanca, we have earned a <strong>5.0★ rating on Google</strong> from {reviewCountDisplay} customers.</p>
+              <p>Gregorio works on site alongside the team of specialists, from the first visit to the final test. You always know who you are talking to and who is responsible for the job.</p>
               <p>We are <strong>certified for refrigerant handling (gases fluorados)</strong> and back every installation with a <strong>3-year guarantee</strong>, plus the manufacturer's 3-year warranty on the equipment.</p>
-              <p>We install, repair, clean and service all major brands, and also fit heat pumps (aerotermia) and ventilation. Pay by card, transfer, Bizum or cash. We work in English and Spanish, from Torrevieja and Orihuela Costa to the Mar Menor and Mazarrón.</p>
+              <p>We install, repair, clean and service all major brands, and also fit heat pumps (aerotermia) and ventilation. We work with homes, restaurants and small businesses, in English and Spanish, from Torrevieja and Orihuela Costa to Pilar de la Horadada and Guardamar.</p>
             </Fragment>
           )}
         </Prose>
       </div>
 
       <aside class="lg:col-span-1">
-        <div class="card-cool rounded-xl p-6 ring-1 ring-line sm:p-8 lg:sticky lg:top-24">
-          <p class="text-small font-bold text-ink-500">{es ? 'En cifras' : 'At a glance'}</p>
-          <dl class="mt-5 grid grid-cols-2 gap-6">
+        <div class="lg:sticky lg:top-24">
+          <dl class="border-t border-line">
             {stats.map((s) => (
-              <div>
-                <dt class="font-display text-h2 font-extrabold tabular-nums text-brand-700">{s.value}</dt>
-                <dd class="mt-1 text-small text-ink-500">{s.label}</dd>
+              <div class="flex items-baseline justify-between gap-4 border-b border-line py-3.5">
+                <dt class="text-small text-ink-700 first-letter:uppercase">{s.label}</dt>
+                <dd class="font-display text-h3 font-extrabold tabular-nums text-brand-900">{s.value}</dd>
               </div>
             ))}
           </dl>
-          <div class="mt-7">
-            <Button href={contactHref} variant="primary" size="lg" class="cta-attention w-full">
+          <div class="mt-6">
+            <Button href={contactHref} variant="primary" size="lg" class="w-full">
               {t('cta.quote')}
               <Icon name="arrow-right" size={20} />
             </Button>

@@ -2,23 +2,51 @@
 import Container from '../ui/Container.astro';
 import Breadcrumbs from '../ui/Breadcrumbs.astro';
 
-/** Inner-page header band: breadcrumbs + eyebrow + H1 + intro + optional CTA slot. */
+/** Inner-page header: the same navy + real-photo language as the home hero. */
 interface Props {
   crumbs: { label: string; href?: string }[];
-  eyebrow?: string;
   title: string;
   intro?: string;
+  /** Real job photo, faded into the navy on the right. */
+  image?: string;
 }
-const { crumbs, eyebrow, title, intro } = Astro.props;
+const { crumbs, title, intro, image } = Astro.props;
 ---
-<section class="border-b border-line bg-surface-cool py-12 lg:py-16">
-  <Container>
+<section class="page-hero bg-brand-900 text-white">
+  {image && <img class="page-hero__img" src={image} alt="" width="900" height="1200" fetchpriority="high" decoding="async" />}
+  <Container class="relative py-10 lg:py-14">
     <Breadcrumbs items={crumbs} />
-    <div class="mt-6 max-w-3xl">
-      {eyebrow && <p class="kicker">{eyebrow}</p>}
-      <h1 class:list={['text-h1', eyebrow && 'mt-3']}>{title}</h1>
-      {intro && <p class="mt-4 text-body-lg text-ink-500">{intro}</p>}
+    <div class="mt-6 max-w-xl">
+      <h1 class="text-h1 text-white">{title}</h1>
+      {intro && <p class="mt-4 text-body-lg text-white/90">{intro}</p>}
       <slot name="cta" />
     </div>
   </Container>
 </section>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  /* Phones: a quiet texture behind the text. Desktop: the right half, faded in. */
+  .page-hero__img {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.18;
+  }
+  @media (min-width: 1024px) {
+    .page-hero__img {
+      left: 48%;
+      width: 52%;
+      opacity: 1;
+      filter: saturate(1.15) brightness(1.05);
+      mask-image: linear-gradient(90deg, transparent 0%, #000 42%);
+    }
+  }
+</style>

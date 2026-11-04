@@ -21,7 +21,6 @@ const preview = galleryPhotos.slice(0, 12);
   <Container>
     <div class="flex flex-wrap items-end justify-between gap-6">
       <SectionHeading
-        eyebrow={t('gallery.eyebrow')}
         title={t('gallery.title')}
         intro={t('gallery.intro')}
       />
@@ -36,7 +35,7 @@ const preview = galleryPhotos.slice(0, 12);
 
     <Carousel locale={locale} label={t('gallery.eyebrow')} class="mt-10">
       {preview.map((p) => (
-        <figure class="group w-[82%] overflow-hidden rounded-xl border border-line bg-white sm:w-[22rem]">
+        <figure class="group w-[82%] overflow-hidden rounded-md sm:w-[22rem]">
           <div class="aspect-[4/3] overflow-hidden">
             <img
               src={p.src}

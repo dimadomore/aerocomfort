@@ -1,6 +1,6 @@
 {
   "site.tagline": "Air conditioning specialists on the Costa Blanca",
-  "site.region": "Costa Blanca & Costa Cálida",
+  "site.region": "Costa Blanca",
 
   "nav.services": "Services",
   "nav.offers": "Offers",
@@ -20,10 +20,10 @@
   "cta.callback": "Request a callback",
   "cta.ask": "Ask us anything",
 
-  "hero.h1.lead": "Air conditioning in",
+  "hero.h1.lead": "Professional air conditioning on",
   "hero.h1.place": "Costa Blanca",
-  "hero.h1.tail": "installation, repair and maintenance",
-  "hero.sub": "Trusted local specialists across Torrevieja, Orihuela Costa and 45+ areas. Clear pricing, tidy work, and a guarantee you can rely on. We speak English.",
+  "hero.h1.tail": "Installation, repair and maintenance",
+  "hero.sub": "Tell us what you need and we reply within the hour. Clear prices, tidy work and a 3-year guarantee, from a local English-speaking team across Torrevieja, Orihuela Costa and 40+ towns.",
   "hero.trust": "5.0 on Google · 160+ reviews",
 
   "lang.en": "EN",
@@ -32,7 +32,6 @@
 
   "footer.rights": "All rights reserved.",
   "footer.builtBy": "Air conditioning installation, repair, maintenance and cleaning across the Costa Blanca.",
-  "footer.legalNote": "Company details to be confirmed.",
 
   "common.skipToContent": "Skip to content",
   "common.openingHours": "Opening hours",
@@ -66,13 +65,13 @@
   "form.error": "We couldn't send your request. Please try WhatsApp or call us.",
 
   "contact.title": "Contact Aerocomfort",
-  "contact.intro": "Tell us what you need and we'll get back to you quickly — usually the same day. Prefer to talk now? WhatsApp or call us directly.",
+  "contact.intro": "Tell us what you need and we'll reply within the hour during working hours. Prefer to talk now? Call or WhatsApp us.",
   "contact.formTitle": "Request a free quote",
   "contact.channelsTitle": "Talk to us now",
   "contact.areasLabel": "Service area",
 
-  "thankyou.title": "Thank you — your request is in",
-  "thankyou.body": "We've received your request and will be in touch shortly.",
+  "thankyou.title": "Thank you, your request is in",
+  "thankyou.body": "We've got your request and will reply within the hour during working hours.",
   "thankyou.whileWait": "Prefer to talk now?",
   "thankyou.home": "Back to home",
 
@@ -87,13 +86,13 @@
   "nav.gallery": "Gallery",
   "gallery.eyebrow": "Our work",
   "gallery.title": "Recent installations across the Costa Blanca",
-  "gallery.intro": "A selection of real air-conditioning jobs we've completed — installations, upgrades and tidy finishes.",
+  "gallery.intro": "Real jobs by our team: split and multi-split systems, rooftops, terraces and tidy finishes.",
   "carousel.prev": "Previous",
   "carousel.next": "Next",
 
   "chat.greeting": "Hi! Need a quote? Chat with us.",
   "chat.title": "How can we help?",
-  "chat.subtitle": "We usually reply within the hour during working hours.",
+  "chat.subtitle": "We reply within the hour during working hours.",
   "chat.leaveNumber": "Request a callback",
   "chat.open": "Open contact options",
   "chat.close": "Close",
@@ -102,7 +101,7 @@
   "notfound.body": "The page you're looking for doesn't exist or has moved. Let's get you back on track.",
 
   "consent.title": "Your privacy",
-  "consent.body": "We use cookies for essential features, to measure traffic anonymously, and to show Google reviews and maps. You choose what to allow — you can change this anytime.",
+  "consent.body": "We use cookies for essential features, to measure traffic anonymously, and to show Google reviews and maps. You choose what to allow, and you can change it anytime.",
   "consent.acceptAll": "Accept all",
   "consent.rejectAll": "Reject all",
   "consent.configure": "Configure",

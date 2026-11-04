@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/sections/Hero.astro';
-import TrustBar from '../../components/sections/TrustBar.astro';
 import ServicesGrid from '../../components/sections/ServicesGrid.astro';
 import WhyUs from '../../components/sections/WhyUs.astro';
 import OffersPreview from '../../components/sections/OffersPreview.astro';
@@ -15,9 +14,9 @@ import { hvacBusinessLd, faqLd, websiteLd, howToLd } from '../../lib/schema';
 import { FAQ } from '../../data/faq';
 
 const locale = 'es' as const;
-const title = 'Aire Acondicionado en la Costa Blanca | Instalación y Reparación — Aerocomfort';
+const title = 'Aire Acondicionado Costa Blanca: Instalación y Reparación | Aerocomfort';
 const description =
-  'Instalación, reparación y mantenimiento de aire acondicionado en Torrevieja, Orihuela Costa y +45 zonas. 5.0★ en Google. Presupuesto gratis.';
+  'Instalación, reparación y mantenimiento de aire acondicionado en Torrevieja, Orihuela Costa y más de 40 localidades. 5,0 en Google. Respondemos en menos de una hora.';
 const faq = faqLd(FAQ[locale].map((f) => ({ question: f.q, answer: f.a })));
 ---
 <Base
@@ -28,7 +27,6 @@ const faq = faqLd(FAQ[locale].map((f) => ({ question: f.q, answer: f.a })));
   jsonLd={[hvacBusinessLd(), websiteLd(), howToLd(locale), faq]}
 >
   <Hero locale={locale} />
-  <TrustBar locale={locale} />
   <ServicesGrid locale={locale} />
   <WhyUs locale={locale} />
   <Reviews locale={locale} />

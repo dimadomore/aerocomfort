@@ -26,12 +26,12 @@ export const BRANDS: Brand[] = [
     name: 'Mitsubishi Electric',
     logo: '/brands/mitsubishi-electric.svg',
     en: {
-      intro: 'Mitsubishi Electric is renowned for durable, premium air conditioning with excellent build quality.',
-      why: 'A great long-term investment for homes that want top reliability and quiet comfort. We install and service the full range.',
+      intro: 'Mitsubishi Electric is a premium choice, known for quiet running and units that last.',
+      why: 'A good fit if you plan to keep the unit for years and want quiet bedrooms. We install and service the range across the Costa Blanca.',
     },
     es: {
-      intro: 'Mitsubishi Electric es reconocida por sus equipos de aire acondicionado duraderos y de gama alta, con un acabado excelente.',
-      why: 'Una gran inversión a largo plazo para quien busca máxima fiabilidad y confort silencioso. Instalamos y reparamos toda la gama.',
+      intro: 'Mitsubishi Electric es una opción de gama alta, conocida por su funcionamiento silencioso y sus equipos duraderos.',
+      why: 'Encaja si quieres un equipo para muchos años y dormitorios silenciosos. Instalamos y mantenemos la gama en toda la Costa Blanca.',
     },
   },
   {
@@ -39,12 +39,12 @@ export const BRANDS: Brand[] = [
     name: 'Panasonic',
     logo: '/brands/panasonic.svg',
     en: {
-      intro: 'Panasonic air conditioning is known for clean-air technology and dependable performance.',
-      why: 'A solid all-round choice with a focus on air quality. We supply, install and maintain Panasonic systems.',
+      intro: 'Panasonic is known for its clean-air technology and dependable everyday performance.',
+      why: 'A sensible all-rounder, especially if air quality matters to you. We supply, install and service Panasonic systems.',
     },
     es: {
-      intro: 'El aire acondicionado Panasonic destaca por su tecnología de aire limpio y su rendimiento fiable.',
-      why: 'Una opción sólida y equilibrada, centrada en la calidad del aire. Suministramos, instalamos y mantenemos sistemas Panasonic.',
+      intro: 'Panasonic destaca por su tecnología de aire limpio y su rendimiento fiable en el día a día.',
+      why: 'Una opción equilibrada, sobre todo si te importa la calidad del aire. Suministramos, instalamos y mantenemos equipos Panasonic.',
     },
   },
   {
@@ -52,12 +52,12 @@ export const BRANDS: Brand[] = [
     name: 'LG',
     logo: '/brands/lg.svg',
     en: {
-      intro: 'LG offers modern, feature-rich air conditioning with sleek designs and smart controls.',
-      why: 'Good value with strong efficiency and Wi-Fi features. We fit and service LG units throughout the area.',
+      intro: 'LG makes modern units with clean designs and Wi-Fi control from your phone.',
+      why: 'Good value and efficient, and handy for holiday homes you want to cool before you arrive. We fit and service LG units across the Costa Blanca.',
     },
     es: {
-      intro: 'LG ofrece equipos de aire acondicionado modernos y completos, con diseños elegantes y control inteligente.',
-      why: 'Buena relación calidad-precio, con buena eficiencia y funciones Wi-Fi. Instalamos y reparamos equipos LG en toda la zona.',
+      intro: 'LG fabrica equipos modernos, de diseño limpio y con control Wi-Fi desde el móvil.',
+      why: 'Buena relación calidad-precio, eficiente y muy práctico en segundas residencias que quieres enfriar antes de llegar. Instalamos y mantenemos equipos LG en toda la Costa Blanca.',
     },
   },
   {
@@ -65,12 +65,12 @@ export const BRANDS: Brand[] = [
     name: 'Giatsu',
     logo: '/brands/giatsu.png',
     en: {
-      intro: 'Giatsu offers excellent value air conditioning that is popular across Spain.',
-      why: 'A budget-friendly way to get efficient A+++ cooling — often featured in our seasonal offers. We install and service Giatsu units.',
+      intro: 'Giatsu offers good-value air conditioning that is popular across Spain.',
+      why: 'An affordable way to get an efficient A+++ unit, and often in our seasonal offers. We install and service Giatsu units.',
     },
     es: {
-      intro: 'Giatsu ofrece aire acondicionado con una excelente relación calidad-precio, muy popular en España.',
-      why: 'Una forma económica de conseguir refrigeración eficiente A+++ — habitual en nuestras ofertas. Instalamos y reparamos equipos Giatsu.',
+      intro: 'Giatsu ofrece aire acondicionado con buena relación calidad-precio, muy popular en España.',
+      why: 'Una forma asequible de tener un equipo eficiente A+++, habitual en nuestras ofertas de temporada. Instalamos y mantenemos equipos Giatsu.',
     },
   },
   {
@@ -79,11 +79,11 @@ export const BRANDS: Brand[] = [
     logo: '/brands/haier.svg',
     en: {
       intro: 'Haier is one of the world’s largest appliance makers, with a wide, well-priced air conditioning range.',
-      why: 'Reliable, efficient units at a competitive price. We supply, install and service the Haier range.',
+      why: 'Efficient units at a competitive price, a good match for rentals and second homes. We supply, install and service the Haier range.',
     },
     es: {
       intro: 'Haier es uno de los mayores fabricantes de electrodomésticos del mundo, con una amplia gama de aire acondicionado a buen precio.',
-      why: 'Equipos fiables y eficientes a un precio competitivo. Suministramos, instalamos y reparamos la gama Haier.',
+      why: 'Equipos eficientes a un precio competitivo, muy adecuados para alquileres y segundas residencias. Suministramos, instalamos y mantenemos la gama Haier.',
     },
   },
   {
@@ -91,12 +91,12 @@ export const BRANDS: Brand[] = [
     name: 'Samsung',
     logo: '/brands/samsung.svg',
     en: {
-      intro: 'Samsung air conditioning combines striking design with features like Wind-Free comfort.',
-      why: 'A great pick if you want a stylish unit with even, draught-free cooling. We install and service Samsung systems.',
+      intro: 'Samsung pairs a distinctive design with features like WindFree cooling.',
+      why: 'Worth a look if cold draughts bother you, especially in bedrooms. We install and service Samsung systems.',
     },
     es: {
-      intro: 'El aire acondicionado Samsung combina un diseño llamativo con funciones como la climatización Wind-Free.',
-      why: 'Ideal si quieres un equipo elegante con un frío uniforme y sin corrientes. Instalamos y reparamos sistemas Samsung.',
+      intro: 'Samsung combina un diseño propio con funciones como la climatización WindFree.',
+      why: 'Merece la pena si te molestan las corrientes de aire frío, sobre todo en dormitorios. Instalamos y mantenemos equipos Samsung.',
     },
   },
   {
@@ -104,12 +104,12 @@ export const BRANDS: Brand[] = [
     name: 'Gree',
     logo: '/brands/gree.svg',
     en: {
-      intro: 'Gree is the world’s largest dedicated air conditioning manufacturer, known for great value.',
-      why: 'Dependable cooling at a sharp price. We supply, install and service Gree units across the Costa Blanca and Costa Cálida.',
+      intro: 'Gree is one of the world’s biggest air conditioning makers, known for good value.',
+      why: 'Dependable cooling at a sharp price, if budget comes first. We supply, install and service Gree units across the Costa Blanca.',
     },
     es: {
-      intro: 'Gree es el mayor fabricante del mundo dedicado al aire acondicionado, conocido por su buena relación calidad-precio.',
-      why: 'Frío fiable a un precio ajustado. Suministramos, instalamos y reparamos equipos Gree en la Costa Blanca y la Costa Cálida.',
+      intro: 'Gree es uno de los mayores fabricantes de aire acondicionado del mundo, conocido por su buena relación calidad-precio.',
+      why: 'Frío fiable a un precio ajustado, si lo primero es el presupuesto. Suministramos, instalamos y mantenemos equipos Gree en la Costa Blanca.',
     },
   },
 ];

@@ -15,7 +15,7 @@ const t = useTranslations(locale);
 const c = service[locale];
 const path = `/services/${service.slug}`;
 const title = `Air Conditioning ${c.title} in Costa Blanca | Aerocomfort`;
-const description = `${c.title} of air conditioning across the Costa Blanca. Clear pricing, guarantee and a 5.0★ rating. Free quote — call or WhatsApp.`;
+const description = c.meta;
 const crumbs = [
   { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
   { label: t('nav.services'), href: localizedPath('/services', locale) },

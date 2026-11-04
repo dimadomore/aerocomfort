@@ -61,7 +61,7 @@
   --text-h1: clamp(2.25rem, 3vw + 1rem, 3rem);
   --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: -0.015em;
-  --text-h2: clamp(1.75rem, 2vw + 0.75rem, 2.25rem);
+  --text-h2: clamp(1.875rem, 2.4vw + 0.9rem, 2.75rem);
   --text-h2--line-height: 1.15;
   --text-h2--letter-spacing: -0.01em;
   --text-h3: clamp(1.375rem, 1vw + 0.9rem, 1.625rem);
@@ -135,9 +135,8 @@
     line-height: 1.1;
     letter-spacing: -0.015em;
     text-wrap: balance;
-    /* Headings in deep brand blue (not near-black) — on-brand and distinctive
-       on light surfaces. Dark sections set text-white explicitly (DIM-237). */
-    color: var(--brand-800);
+    /* The one dark colour of the site. Dark sections set text-white explicitly. */
+    color: var(--brand-900);
   }
 
   a {
@@ -181,7 +180,7 @@
     width: 100%;
     min-height: 52px;
     padding: 0.7rem 1rem;
-    border: 1.5px solid var(--line);
+    border: 1.5px solid var(--ink-400);
     border-radius: var(--radius-md);
     background: #fff;
     font: inherit;
@@ -254,105 +253,63 @@
     font-weight: 700;
   }
 
-  /* "Offers" nav — a tidy but loud accent badge (not an underline, which read as
-     a false "active page"). Keeps the periodic "salut" firework burst (DIM-239). */
-  .offers-nav {
+  /* Primary nav. Hover and active share one device: a navy rule that grows from
+     the left, so the current page reads as a hover that stayed. */
+  .nav-link {
     position: relative;
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    padding: 0 0.15rem;
-  }
-  .offers-nav__badge {
-    display: inline-flex;
-    align-items: center;
-    border-radius: var(--radius-pill);
-    padding: 0.32rem 0.72rem;
-    font-family: var(--font-display);
-    font-size: var(--text-caption);
-    font-weight: 800;
-    letter-spacing: 0.01em;
-    color: #fff;
-    background: linear-gradient(180deg, var(--accent-500), var(--accent-600));
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.35),
-      0 4px 10px -3px rgba(209, 47, 47, 0.55);
-    transition:
-      background-color 0.2s ease,
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-  .offers-nav:hover .offers-nav__badge {
-    background: linear-gradient(180deg, var(--accent-600), var(--accent-700));
-    transform: translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.35),
-      0 7px 16px -4px rgba(209, 47, 47, 0.6);
-  }
-
-  /* Primary nav link + active-page indicator — a light brand underline under the
-     current section (e.g. on /contact the "Contact" link is marked). DIM-239. */
-  .nav-link {
-    position: relative;
     font-size: var(--text-small);
     font-weight: 600;
-    color: var(--ink-700);
-    transition: color 0.2s ease;
+    color: var(--brand-900);
+    text-decoration: none;
   }
-  .nav-link:hover {
-    color: var(--brand-700);
-  }
-  .nav-link--active {
-    color: var(--brand-700);
-    font-weight: 700;
-  }
-  .nav-link--active::after {
+  .nav-link::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -0.5rem;
-    height: 2.5px;
-    border-radius: var(--radius-pill);
-    background: var(--brand-600);
+    bottom: 0.45rem;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  /* salut: a tiny multi-colour firework that pops above the word periodically */
-  .offers-nav .salut {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    pointer-events: none;
+  .nav-link:hover::after,
+  .nav-link--active::after {
+    transform: scaleX(1);
   }
-  .offers-nav .salut::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    transform: scale(0);
-    opacity: 0;
-    box-shadow:
-      -50px -20px 0 -1px var(--warning),
-      -56px 6px 0 -1px var(--accent-600),
-      -48px 28px 0 -1px var(--brand-600),
-      -34px 45px 0 -1px var(--accent-500),
-      -18px 55px 0 -1px var(--cyan-400),
-      0 58px 0 -1px var(--warning),
-      18px 52px 0 -1px var(--accent-600),
-      35px 44px 0 -1px var(--brand-600),
-      48px 28px 0 -1px var(--accent-500),
-      56px 6px 0 -1px var(--cyan-400),
-      50px -18px 0 -1px var(--warning),
-      38px -32px 0 -1px var(--accent-600),
-      20px -44px 0 -1px var(--brand-600),
-      0 -48px 0 -1px var(--accent-500),
-      -22px -40px 0 -1px var(--cyan-400),
-      -30px 18px 0 -1px var(--warning),
-      28px 20px 0 -1px var(--accent-600),
-      6px 34px 0 -1px var(--brand-600),
-      -12px -22px 0 -1px var(--accent-500);
-    animation: salut 4.5s ease-out infinite;
+
+  /* Offers: a quiet price-tag chip. Stands out by shape, not by shouting. */
+  .offers-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.25rem;
+    padding: 0 0.75rem;
+    border-radius: var(--radius-md);
+    background: var(--surface-cool);
+    font-family: var(--font-display);
+    font-size: var(--text-caption);
+    font-weight: 700;
+    color: var(--brand-900);
+    text-decoration: none;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+  }
+  .offers-chip svg {
+    color: var(--accent-600);
+    transition: color 0.2s ease-out;
+  }
+  .offers-chip:hover,
+  .offers-chip[aria-current='page'] {
+    background: var(--brand-900);
+    color: #fff;
+  }
+  .offers-chip:hover svg,
+  .offers-chip[aria-current='page'] svg {
+    color: #fff;
   }
 
   /* Attention pulse for primary CTAs — expanding ring (adapted from btn-77).
@@ -369,133 +326,17 @@
     animation: cta-pulse 2s ease-out infinite;
   }
 
-  /* ---- Enrichment primitives — tasteful "cool-air" depth -------------------
-     Reusable so the polish stays DRY and on-system, not one-off decoration. */
-
-  /* Section kicker — replaces the generic uppercase-tracked eyebrow with a
-     branded label: a short cool-air "frost rule" + the label in brand blue,
-     authored case (no shouty tracking). One deliberate device, used site-wide. */
-  .kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 0.005em;
-    color: var(--brand-700);
+  /* The only card surface: flat white, one hairline. Depth comes from real
+     photos and content, not from shadows or gradients. */
+  .card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    transition: border-color 0.2s ease-out;
   }
-  .kicker::before {
-    content: "";
-    width: 2rem;
-    height: 2.5px;
-    border-radius: var(--radius-pill);
-    background: linear-gradient(90deg, var(--cyan-400), var(--brand-600));
-  }
-  .kicker-light {
-    color: var(--sky-200);
-  }
-  .kicker-light::before {
-    background: linear-gradient(90deg, var(--cyan-400), rgba(255, 255, 255, 0.55));
-  }
-
-  /* Icon tile — a lit, frosted cool surface: inner top highlight + hairline
-     ring + soft cool shadow. Reads as real material, not a flat sky square.
-     Size it with width, height and rounding utilities on the element. */
-  .icon-tile {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--brand-700);
-    background: linear-gradient(157deg, #fff 0%, var(--sky-100) 52%, var(--sky-200) 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.95),
-      inset 0 0 0 1px rgba(36, 121, 224, 0.14),
-      0 8px 16px -8px rgba(20, 38, 74, 0.3);
-    transition:
-      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  /* Enriched card surface — cool layered elevation + a 1px top highlight so the
-     edge catches light. Pair with rounded-* + border on the element itself. */
-  .card-cool {
-    background: linear-gradient(180deg, #fff 0%, var(--sky-50) 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      0 1px 2px rgba(20, 38, 74, 0.05),
-      0 10px 24px -12px rgba(20, 38, 74, 0.16);
-    /* Slower, gentler than before (was 0.25s); animate `scale` so the whole card
-       zooms uniformly on hover instead of lifting. */
-    transition:
-      scale 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.25s ease;
-  }
-  .card-cool:hover {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      0 2px 4px rgba(20, 38, 74, 0.06),
-      0 22px 44px -16px rgba(20, 38, 74, 0.26);
-  }
-  /* Frost sweep — on hover a soft cool-air sheen slides across interactive
-     cards (cyan → white, very faint). Lives on ::before so it never fights
-     the card's shadows; absolute positioning is safe (card is relative). */
-  .group.card-cool {
-    position: relative;
-  }
-  .group.card-cool::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(
-      105deg,
-      transparent 42%,
-      rgba(41, 182, 230, 0.09) 50%,
-      rgba(255, 255, 255, 0.16) 55%,
-      transparent 64%
-    );
-    background-size: 250% 100%;
-    background-position: 130% 0;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  .group.card-cool:hover::before {
-    opacity: 1;
-    background-position: -30% 0;
-    transition:
-      opacity 0.15s ease,
-      background-position 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .group.card-cool::before,
-    .group.card-cool:hover::before {
-      opacity: 0;
-      transition: none;
-    }
-  }
-  /* Interactive cards (those marked `group`) gently scale up on hover — a subtle
-     all-directions zoom, no vertical lift. Static card-cool surfaces (forms,
-     sticky sidebar) are not `group`, so they don't react. */
-  .group.card-cool:hover {
-    scale: 1.02;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .group.card-cool:hover {
-      scale: 1;
-    }
-  }
-
-  /* Group-hover lift for the icon tile inside an interactive card. */
-  .group:hover .icon-tile {
-    transform: translateY(-2px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.95),
-      inset 0 0 0 1px rgba(36, 121, 224, 0.2),
-      0 12px 22px -10px rgba(20, 38, 74, 0.36);
+  a.card:hover,
+  .card:has(a:hover) {
+    border-color: var(--brand-900);
   }
 }
 
@@ -507,24 +348,6 @@
     box-shadow: 0 0 0 1.5em rgba(209, 47, 47, 0);
   }
 }
-@keyframes salut {
-  0%,
-  72% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  76% {
-    transform: scale(0.2);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0;
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   .cta-attention::after,
-  .offers-nav .salut::before {
-    animation: none;
-  }
 }

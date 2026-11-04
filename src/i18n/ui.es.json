@@ -1,6 +1,6 @@
 {
   "site.tagline": "Especialistas en aire acondicionado en la Costa Blanca",
-  "site.region": "Costa Blanca y Costa Cálida",
+  "site.region": "Costa Blanca",
 
   "nav.services": "Servicios",
   "nav.offers": "Ofertas",
@@ -20,10 +20,10 @@
   "cta.callback": "Solicitar llamada",
   "cta.ask": "Pregúntanos lo que sea",
 
-  "hero.h1.lead": "Aire acondicionado en la",
+  "hero.h1.lead": "Aire acondicionado profesional en la",
   "hero.h1.place": "Costa Blanca",
-  "hero.h1.tail": "instalación, reparación y mantenimiento",
-  "hero.sub": "Especialistas locales de confianza en Torrevieja, Orihuela Costa y más de 45 zonas. Precios claros, trabajo limpio y garantía. Hablamos español e inglés.",
+  "hero.h1.tail": "Instalación, reparación y mantenimiento",
+  "hero.sub": "Cuéntanos qué necesitas y te respondemos en menos de una hora. Precios claros, trabajo limpio y 3 años de garantía, con un equipo local en Torrevieja, Orihuela Costa y más de 40 localidades. Hablamos español e inglés.",
   "hero.trust": "5,0 en Google · 160+ reseñas",
 
   "lang.en": "EN",
@@ -32,7 +32,6 @@
 
   "footer.rights": "Todos los derechos reservados.",
   "footer.builtBy": "Instalación, reparación, mantenimiento y limpieza de aire acondicionado en toda la Costa Blanca.",
-  "footer.legalNote": "Datos de empresa por confirmar.",
 
   "common.skipToContent": "Saltar al contenido",
   "common.openingHours": "Horario",
@@ -66,13 +65,13 @@
   "form.error": "No hemos podido enviar tu solicitud. Prueba por WhatsApp o llámanos.",
 
   "contact.title": "Contacta con Aerocomfort",
-  "contact.intro": "Cuéntanos qué necesitas y te responderemos rápido — normalmente el mismo día. ¿Prefieres hablar ahora? Escríbenos por WhatsApp o llámanos.",
+  "contact.intro": "Cuéntanos qué necesitas y te respondemos en menos de una hora en horario laboral. ¿Prefieres hablar ahora? Llámanos o escríbenos por WhatsApp.",
   "contact.formTitle": "Pide presupuesto gratis",
   "contact.channelsTitle": "Habla con nosotros ahora",
   "contact.areasLabel": "Zona de servicio",
 
-  "thankyou.title": "Gracias — hemos recibido tu solicitud",
-  "thankyou.body": "Hemos recibido tu solicitud y te contactaremos enseguida.",
+  "thankyou.title": "Gracias, hemos recibido tu solicitud",
+  "thankyou.body": "Ya tenemos tu solicitud y te respondemos en menos de una hora en horario laboral.",
   "thankyou.whileWait": "¿Prefieres hablar ahora?",
   "thankyou.home": "Volver al inicio",
 
@@ -87,13 +86,13 @@
   "nav.gallery": "Galería",
   "gallery.eyebrow": "Nuestros trabajos",
   "gallery.title": "Instalaciones recientes en la Costa Blanca",
-  "gallery.intro": "Una selección de trabajos reales de aire acondicionado que hemos realizado: instalaciones, mejoras y acabados impecables.",
+  "gallery.intro": "Trabajos reales de nuestro equipo: split y multisplit, azoteas, terrazas y acabados bien rematados.",
   "carousel.prev": "Anterior",
   "carousel.next": "Siguiente",
 
   "chat.greeting": "¡Hola! ¿Quieres presupuesto? Escríbenos.",
   "chat.title": "¿Cómo podemos ayudarte?",
-  "chat.subtitle": "Solemos responder en menos de una hora en horario laboral.",
+  "chat.subtitle": "Respondemos en menos de una hora en horario laboral.",
   "chat.leaveNumber": "Solicitar llamada",
   "chat.open": "Abrir opciones de contacto",
   "chat.close": "Cerrar",
@@ -102,7 +101,7 @@
   "notfound.body": "La página que buscas no existe o se ha movido. Te ayudamos a volver al camino.",
 
   "consent.title": "Tu privacidad",
-  "consent.body": "Usamos cookies para funciones esenciales, para medir el tráfico de forma anónima y para mostrar reseñas de Google y mapas. Tú eliges qué permites — puedes cambiarlo cuando quieras.",
+  "consent.body": "Usamos cookies para funciones esenciales, para medir el tráfico de forma anónima y para mostrar reseñas de Google y mapas. Tú eliges qué permites y puedes cambiarlo cuando quieras.",
   "consent.acceptAll": "Aceptar todo",
   "consent.rejectAll": "Rechazar todo",
   "consent.configure": "Configurar",

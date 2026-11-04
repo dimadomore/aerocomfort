@@ -32,13 +32,15 @@ export const GET: APIRoute = () => {
   );
 
   page(`About ${business.name}`, '/about', [
-    `${business.name} is a local air-conditioning business run by ${business.manager} (self-employed / autónomo) serving the Costa Blanca and Costa Cálida, Spain — ${business.areasCount}+ towns across the Alicante and Murcia provinces.`,
+    `${business.name} is a local air-conditioning business led by ${business.manager} (self-employed / autónomo), with a team of specialists, serving the Costa Blanca, Spain — ${business.areasCount}+ towns.`,
     '',
     'Key facts:',
     `- ${trust.installs} installations completed; ${trust.years}th year on the market.`,
     `- ${business.rating.value}★ rating on Google (${reviewCountDisplay} reviews).`,
     `- ${trust.guaranteeYears}-year guarantee on workmanship plus ${trust.equipmentWarrantyYears}-year manufacturer warranty on equipment.`,
     '- Certified for fluorinated-gas handling.',
+    '- Replies within the hour during working hours; installs usually within 24 to 72 hours of the request.',
+    '- Works with homes, restaurants and small businesses.',
     '- Also installs heat pumps (aerotermia) and ventilation systems (no refrigeration).',
     `- Payment: ${(business.payment ?? []).join(', ')} — no instalments.`,
     '- English and Spanish spoken; most clients are international homeowners.',

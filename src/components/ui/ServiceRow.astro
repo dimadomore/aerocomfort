@@ -1,0 +1,58 @@
+---
+import { type Locale } from '../../config';
+import { type Service } from '../../data/services';
+import { localizedPath } from '../../i18n/utils';
+import Icon from './Icon.astro';
+
+/** A service as a photo + text row. The photo does the work an icon tile can't. */
+interface Props {
+  service: Service;
+  locale: Locale;
+}
+const { service, locale } = Astro.props;
+const c = service[locale];
+---
+<a class="service-row group" href={localizedPath(`/services/${service.slug}`, locale)}>
+  <span class="service-row__photo">
+    <img src={service.image} alt="" width="900" height="1200" loading="lazy" decoding="async" />
+  </span>
+  <span class="min-w-0 flex-1">
+    <span class="block font-display text-h3 font-extrabold text-brand-900">{c.title}</span>
+    <span class="mt-1 block text-small text-ink-700">{c.blurb}</span>
+  </span>
+  <Icon name="arrow-right" size={22} class="shrink-0 text-brand-900 transition-transform duration-200 ease-out group-hover:translate-x-1" />
+</a>
+
+<style>
+  .service-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+  .service-row__photo {
+    flex: none;
+    width: 6rem;
+    height: 6rem;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--surface-cool);
+  }
+  .service-row__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease-out;
+  }
+  .service-row:hover .service-row__photo img {
+    transform: scale(1.05);
+  }
+  @media (min-width: 640px) {
+    .service-row__photo {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+</style>

@@ -4,17 +4,17 @@
 
 ## Direction
 
-**Tasteful enrichment, fresh & cool-air.** Keep the layouts and the blue/red identity. Add real depth, texture and micro-detail to icons, cards, buttons and borders so the UI feels crafted and complete — while staying calm and credible for a 40+ audience. Lean into the product: light, airy, cool-blue depth with subtle air / temperature / breeze motifs and crisp edges.
+**The rating plate.** The site borrows from the objects of the trade: the spec plate on an outdoor unit and the EU energy label. Facts sit in plain hairline tables, real job photos carry the weight, and nothing is decorated for its own sake. Calm and credible for a 40+ reader, with the hero as the one rich, animated moment.
 
 ## Theme
 
-Light only (`color-scheme: light`). White (`--surface`) and a cool near-white (`--surface-cool #f4f9fd`) alternate sections; deep brand blues carry hero / footer / dark bands. Color strategy: **Committed** — cool blue is the dominant brand surface; warm red is the single CTA accent (≤10%); WhatsApp green is reserved exclusively for the WhatsApp channel.
+Light only. Surfaces are white plus **one** tint (`--surface-cool #f1f5f9`), alternated without borders. **One dark colour: `--brand-900 #11305c`**, used for the hero, page headers, the final CTA, the footer, headings and dark buttons. Never mix other blues as surfaces. Red is the single primary-CTA accent; WhatsApp green is reserved for WhatsApp.
 
 ## Color
 
 Cool-blue brand + warm-red CTA, on cool-tinted neutrals. (Hex below mirror `tokens.css`.)
 
-- **Brand blue (anchor / surfaces):** `--brand-900 #11305c` (footer, deepest) · `--brand-800 #16498f` · `--brand-700 #1c62b8` (hero bg) · `--brand-600 #2479e0`.
+- **Navy, the one dark colour:** `--brand-900 #11305c`. **Link blue:** `--brand-700 #1c62b8` (text links and hovers only, never a surface).
 - **Interactive blue (links / secondary):** `--blue-600 #2c82e6` · `--blue-500 #4a97f0` · `--blue-300 #93c2f6` · `--blue-100 #dcebfc`.
 - **Sky (cool-air backgrounds / illustration):** `--sky-300 #bfe1f7` · `--sky-200 #dceffb` · `--sky-100 #eaf5fd` · `--sky-50 #f5fafe`.
 - **Cyan micro-accent ("cool air"):** `--cyan-400 #29b6e6` — sparingly, for air/breeze details.
@@ -27,9 +27,9 @@ Rule: never gray text on a colored band — use a tint of the band's own hue or 
 
 ## Typography
 
-- **Display (headings):** "Archivo Variable" (weight 800), letter-spacing −0.015em, `text-wrap: balance`.
-- **Body / UI:** "Inter Variable", 18px base (`--text-body 1.125rem`), line-height 1.6. *(Inter is on impeccable's reflex-reject list; it is the committed shipping body face here, so identity-preservation wins — do not swap it during polish. Earn distinctiveness through Archivo display contrast, weight, and detail, not a font change.)*
-- **Fluid scale (clamp):** display `clamp(2.5→3.75rem)` (lh 1.05) · h1 `→3rem` · h2 `→2.25rem` · h3 `→1.625rem` · body-lg 1.25rem · body 1.125rem · small 1rem · caption .875rem. Hero display max ≤ 6rem ✓, letter-spacing ≥ −0.04em ✓.
+- **Display (headings):** "Schibsted Grotesk Variable", weight 800, `text-wrap: balance`. No kickers or eyebrows above section headings; only the home hero has a short audience line.
+- **Body / UI:** "Inter Variable", 18px base, line-height 1.6. Secondary text is `--ink-700`, never lighter on white.
+- **Scale:** display to 3.75rem, h1 to 3rem, h2 to 2.75rem, h3 to 1.625rem.
 
 ## Spacing & Layout
 
@@ -40,16 +40,19 @@ Rule: never gray text on a colored band — use a tint of the band's own hue or 
 
 ## Components
 
-- **Button** (pill, `font-display` bold): `primary` red, `secondary` white + blue ring, `whatsapp` green, `ghost`. Hover lift `-translate-y-0.5` + shadow step. Tap target ≥44px.
-- **Cards** (OfferCard, service/area/brand tiles): white, `border-line`, `shadow-sm`, radius xl, hover `-translate-y-1` + `shadow-md`. *Risk area:* must avoid the identical-icon-tile-grid tell — differentiate via real depth, content, and cool-air detailing, not just a border.
-- **Icon** (`src/components/ui/Icon.astro`): one consistent Lucide-style stroke-1.75 set + filled brand glyphs (WhatsApp, star). Single-path = clean but generic; enrichment target for duotone / cool-air character on the HVAC glyphs (ac-unit, wind, snow, thermometer).
-- **SectionHeading:** currently `eyebrow` = uppercase tracked label, used on ~15 sections. *De-slop target:* the repeated tracked eyebrow is AI section-grammar; replace the default cadence (keep at most one deliberate kicker as a named brand device).
-- Forms: `.lead-control` 52px min-height, 1.5px border, blue focus ring. Header sticky; ChatLauncher + StickyMobileBar persistent contact.
+- **Card** (`.card`): flat white, 1px `--line`, 4px radius, border turns navy on hover. No shadows, gradients or hover lifts. Use only where a box is truly needed.
+- **OfferCard:** the unit as a rating plate: photo, spec rows, EU energy arrow, navy price, navy button.
+- **ServiceRow:** photo + title + blurb + arrow in a hairline list. Never icon tiles.
+- **AreaFinder:** searchable town list; every town is a real link, `limit` only trims the display.
+- **FaqList:** the one accordion. **PageHero:** navy header with an optional real photo fading in on the right.
+- **Header:** solid white, navy logo and links. Hover and active share one rule growing from the left; Offers is a quiet price-tag chip; language is a two-segment switch. **Mobile menu:** full-height navy panel with large links.
+- **Button** (4px radius, `font-display` bold): `primary` red, `secondary` white, `whatsapp` green, `ghost`. Tap target at least 44px.
+- Forms: `.lead-control` 52px min-height, 1.5px `--ink-400` border, blue focus ring.
 
 ## Motion
 
-Ease-out only (no bounce/elastic), 150–200ms. Existing signatures: CTA attention pulse (`cta-pulse`), "Offers" nav accent underline + periodic confetti (`salut`), hover lifts. Every animation has a `prefers-reduced-motion` off-switch (honored globally). Enrichment may add intentional, staggered, air/breeze-flavored motion — never fade-on-scroll on every section.
+Ease-out only, 150–400ms. Signature motion lives in the hero (photo crossfade, slow push-in, cool-air streams). Elsewhere: photo zoom and arrow nudge on hover, nothing else. Every animation has a `prefers-reduced-motion` off-switch.
 
 ## Imagery & Iconography
 
-Owner photos pending; current hero/offer art is custom SVG (line-drawn AC unit + airflow). Treat SVG/canvas as first-class imagery: enrich toward depth and the cool-air motif rather than adding stock. Keep one consistent icon set; no mismatched emoji.
+Real Aerocomfort jobs first. Photos replace icons wherever a service or place is shown. Gallery files are only 900px wide, so use them at modest sizes until originals arrive. Icons are for small UI affordances only.
