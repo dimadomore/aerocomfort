@@ -63,8 +63,8 @@ export const GET: APIRoute = () => {
     ]);
   }
 
-  page('Seasonal offers — A+++ units supplied and installed', '/offers', [
-    `${offers.season.label.en}. Prices include supply and standard installation, from €${fromPrice}.`,
+  page('Seasonal offers: A+++ units', '/offers', [
+    `${offers.season.label.en}. From €${fromPrice}, including a standard turnkey installation. The free quote confirms the final price.`,
     '',
     ...offers.items.map(
       (o) =>

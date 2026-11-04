@@ -21,6 +21,9 @@ const canonical = new URL(localizedPath(path, locale), SITE_URL).href;
 const enHref = new URL(localizedPath(path, 'en'), SITE_URL).href;
 const esHref = new URL(localizedPath(path, 'es'), SITE_URL).href;
 const ogImage = new URL(image ?? DEFAULT_OG_IMAGE, SITE_URL).href;
+// Markdown copy written by scripts/gen-agent-files.mjs (/services/repair → /services/repair.md).
+const pagePath = localizedPath(path, locale).replace(/\/$/, '');
+const markdownHref = new URL(`${pagePath || '/index'}.md`, SITE_URL).href;
 
 // Whole site stays noindex on staging until cutover (docs/07 §5).
 const robots = !SITE_INDEXABLE || noindex ? 'noindex, nofollow' : 'index, follow';
@@ -32,6 +35,7 @@ const ogLocaleAlt = locale === 'es' ? 'en_GB' : 'es_ES';
 <meta name="description" content={description} />
 <meta name="robots" content={robots} />
 <link rel="canonical" href={canonical} />
+{!noindex && <link rel="alternate" type="text/markdown" href={markdownHref} title="Markdown version" />}
 
 {/* hreflang — the lift Tilda lacks (docs/06 §1) */}
 <link rel="alternate" hreflang="en" href={enHref} />

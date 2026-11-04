@@ -1,0 +1,23 @@
+---
+import { type Locale } from '../../config';
+import { localizedPath } from '../../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+<meta name="aero-agent" data-locale={locale} data-contact={localizedPath('/contact', locale)} />
+
+<script>
+  // Only browsers with WebMCP download the tools; for everyone else this is a no-op.
+  const doc = document as Document & { modelContext?: unknown };
+  const nav = navigator as Navigator & { modelContext?: unknown };
+  const context = doc.modelContext ?? nav.modelContext;
+  if (context) {
+    const meta = document.querySelector<HTMLElement>('meta[name="aero-agent"]');
+    import('../../lib/webmcp').then(({ register }) =>
+      register(context as Parameters<typeof register>[0], meta?.dataset.locale ?? 'en', meta?.dataset.contact ?? '/contact'),
+    );
+  }
+</script>

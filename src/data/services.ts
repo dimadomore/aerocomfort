@@ -77,7 +77,7 @@ export const SERVICES: Service[] = [
         { q: 'How long does an installation take?', a: 'Most single-split installations are finished in a few hours, usually the same day. Larger multi-split or ducted systems take longer, and we tell you how long when we quote.' },
         { q: 'How soon can you fit my air conditioning?', a: 'Usually within 24 to 72 hours of your request. In peak summer it can take a little longer, so ask us for the soonest slot.' },
         { q: 'Do you supply the unit or just install it?', a: 'Both. We can supply an A+++ unit from our seasonal offers or fit one you already bought.' },
-        { q: 'How much does installation cost?', a: 'It depends on the unit and the property, so we give you a clear, free quote first. Seasonal unit prices start from €609.' },
+        { q: 'How much does installation cost?', a: 'It depends on the unit and the property, so we give you a clear, free quote first. Seasonal offers with turnkey installation start from €609.' },
       ],
     },
     es: {
@@ -118,7 +118,7 @@ export const SERVICES: Service[] = [
         { q: '¿Cuánto tarda una instalación?', a: 'La mayoría de splits se instalan en unas horas, normalmente en el mismo día. Los multisplit o por conductos llevan más tiempo y te lo decimos al presupuestar.' },
         { q: '¿Cuándo podéis instalarlo?', a: 'Normalmente entre 24 y 72 horas después de tu solicitud. En pleno verano puede ser algo más, pregúntanos por la cita más próxima.' },
         { q: '¿Suministráis el equipo o solo lo instaláis?', a: 'Las dos cosas. Podemos suministrar un equipo A+++ de nuestras ofertas o instalar el que ya hayas comprado.' },
-        { q: '¿Cuánto cuesta la instalación?', a: 'Depende del equipo y de la vivienda, por eso primero te damos un presupuesto claro y gratuito. Los equipos en oferta de temporada empiezan en 609 €.' },
+        { q: '¿Cuánto cuesta la instalación?', a: 'Depende del equipo y de la vivienda, por eso primero te damos un presupuesto claro y gratuito. Las ofertas de temporada con instalación llave en mano empiezan en 609 €.' },
       ],
     },
   },

@@ -11,6 +11,8 @@ export const businessSchema = z.object({
   whatsappMessage: z.object({ en: z.string(), es: z.string() }),
   email: z.string(),
   emailFuture: z.string().optional(),
+  addressLocality: z.string(),
+  postalCode: z.string(),
   addressRegion: z.string(),
   addressCountry: z.string(),
   geo: z.object({ lat: z.string(), lng: z.string() }),
@@ -46,6 +48,7 @@ const offerItemSchema = z.object({
   priceOld: z.number().nullable().default(null),
   efficiency: z.string().optional(),
   coverage: z.string().optional(),
+  wifi: z.boolean().optional(),
   image: z.string().default(''),
 });
 export type OfferItem = z.infer<typeof offerItemSchema>;

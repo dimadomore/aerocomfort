@@ -43,3 +43,8 @@ export const MAP_EMBED_URL = "";
  *  photo slideshow only. Loaded after the page, desktop only; photos stay as the
  *  instant first paint and the mobile / reduced-motion fallback. */
 export const HERO_VIDEO = "";
+
+/** Chrome origin-trial token for WebMCP. Tokens are tied to one origin, so register
+ *  aerocomfort.es at cutover: developer.chrome.com/origintrials. Empty = tools only
+ *  appear in browsers with WebMCP switched on. */
+export const WEBMCP_ORIGIN_TRIAL = "";

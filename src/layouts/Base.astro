@@ -2,10 +2,11 @@
 import '@fontsource-variable/schibsted-grotesk';
 import '@fontsource-variable/inter';
 import '../styles/global.css';
-import { type Locale } from '../config';
+import { type Locale, WEBMCP_ORIGIN_TRIAL } from '../config';
 import { useTranslations } from '../i18n/utils';
 import Seo from '../components/seo/Seo.astro';
 import Analytics from '../components/analytics/Analytics.astro';
+import WebMcp from '../components/seo/WebMcp.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import ChatLauncher from '../components/islands/ChatLauncher.astro';
@@ -47,6 +48,8 @@ const t = useTranslations(locale);
       jsonLd={jsonLd}
     />
     <Analytics />
+    <WebMcp locale={locale} />
+    {WEBMCP_ORIGIN_TRIAL && <meta http-equiv="origin-trial" content={WEBMCP_ORIGIN_TRIAL} />}
   </head>
   <body class="flex min-h-screen flex-col bg-surface">
     <a

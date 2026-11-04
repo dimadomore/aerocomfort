@@ -7,7 +7,7 @@ Website for Aerocomfort — HVAC / air conditioning services in Costa Blanca, Al
 
 ## Status
 
-🛠️ In build — Phases 0–2 + a polish pass are done on the `dev` branch (bilingual site, 55 pages). **Current status, what's left, and how to resume: [docs/14-build-status.md](docs/14-build-status.md).**
+🛠️ Staging is live at aero.dimadomore.com (bilingual site, 135 pages, not indexed yet). Latest work: redesign, owner feedback and agent readiness. **Current status, what's left, and how to resume: [docs/14-build-status.md](docs/14-build-status.md).**
 
 All project documentation lives in [`docs/`](docs/):
 
@@ -26,6 +26,7 @@ All project documentation lives in [`docs/`](docs/):
 - [docs/12-care-and-maintenance.md](docs/12-care-and-maintenance.md) — upkeep guide + Telegram→blog automation
 - [docs/13-build-checklist.md](docs/13-build-checklist.md) — Phase 0/1 tasks, Definition of Done, QA
 - [docs/14-build-status.md](docs/14-build-status.md) — **build status & handover: what's done, what's left, how to resume**
+- [docs/15-agent-readiness.md](docs/15-agent-readiness.md) — WebMCP, MCP server and files for AI agents, with a cutover checklist
 
 ## Stack & deploy
 

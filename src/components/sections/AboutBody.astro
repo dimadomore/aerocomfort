@@ -1,6 +1,6 @@
 ---
 import { type Locale } from '../../config';
-import { business, reviewCountDisplay } from '../../data';
+import { business, ratingLabel, reviewCountDisplay } from '../../data';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
@@ -27,7 +27,7 @@ const crumbs = [
 const tr = business.trust;
 const stats = [
   { value: tr?.installs ?? '1000+', label: es ? 'instalaciones' : 'installations' },
-  { value: `${business.rating.value}★`, label: es ? `${reviewCountDisplay} reseñas` : `${reviewCountDisplay} reviews` },
+  { value: `${ratingLabel(locale)}★`, label: es ? `${reviewCountDisplay} reseñas` : `${reviewCountDisplay} reviews` },
   { value: es ? `${tr?.guaranteeYears ?? 3} años` : `${tr?.guaranteeYears ?? 3}-yr`, label: es ? 'de garantía' : 'guarantee' },
   { value: `${business.areasCount}+`, label: es ? 'zonas' : 'areas' },
 ];
@@ -37,8 +37,8 @@ const stats = [
   image="/gallery/work-01.webp"
   title={es ? 'Sobre Aerocomfort' : 'About Aerocomfort'}
   intro={es
-    ? 'Un equipo local de aire acondicionado en la Costa Blanca, en nuestro quinto año y con 5,0 en Google.'
-    : 'A local air conditioning team on the Costa Blanca, in our fifth year and rated 5.0 on Google.'}
+    ? `Un equipo local de aire acondicionado en la Costa Blanca, en nuestro quinto año y con ${ratingLabel('es')} en Google.`
+    : `A local air conditioning team on the Costa Blanca, in our fifth year and rated ${ratingLabel('en')} on Google.`}
 />
 
 <section class="py-16 lg:py-24">
@@ -59,14 +59,14 @@ const stats = [
         <Prose>
           {es ? (
             <Fragment>
-              <p>Aerocomfort es un equipo local de especialistas en aire acondicionado dirigido por Gregorio. Ya en nuestro <strong>quinto año</strong> y con más de <strong>1000 instalaciones</strong> en la Costa Blanca, tenemos una valoración de <strong>5,0★ en Google</strong> de {reviewCountDisplay} clientes.</p>
+              <p>Aerocomfort es un equipo local de especialistas en aire acondicionado dirigido por Gregorio. Ya en nuestro <strong>quinto año</strong> y con más de <strong>1000 instalaciones</strong> en la Costa Blanca, tenemos una valoración de <strong>{ratingLabel('es')}★ en Google</strong> de {reviewCountDisplay} clientes.</p>
               <p>Gregorio trabaja a pie de obra junto al equipo de especialistas, desde la primera visita hasta la última prueba. Siempre sabes con quién hablas y quién responde del trabajo.</p>
               <p>Estamos <strong>cualificados para la manipulación de gases fluorados</strong> y respaldamos cada instalación con <strong>3 años de garantía</strong>, más la garantía del fabricante de 3 años sobre el equipo.</p>
               <p>Instalamos, reparamos, limpiamos y mantenemos todas las marcas principales, y también montamos bombas de calor (aerotermia) y ventilación. Trabajamos con viviendas, restaurantes y pequeños negocios, en español e inglés, de Torrevieja y Orihuela Costa a Pilar de la Horadada y Guardamar.</p>
             </Fragment>
           ) : (
             <Fragment>
-              <p>Aerocomfort is a local team of air conditioning specialists led by Gregorio. Now in our <strong>fifth year</strong>, with <strong>1000+ installations</strong> across the Costa Blanca, we have earned a <strong>5.0★ rating on Google</strong> from {reviewCountDisplay} customers.</p>
+              <p>Aerocomfort is a local team of air conditioning specialists led by Gregorio. Now in our <strong>fifth year</strong>, with <strong>1000+ installations</strong> across the Costa Blanca, we have earned a <strong>{ratingLabel('en')}★ rating on Google</strong> from {reviewCountDisplay} customers.</p>
               <p>Gregorio works on site alongside the team of specialists, from the first visit to the final test. You always know who you are talking to and who is responsible for the job.</p>
               <p>We are <strong>certified for refrigerant handling (gases fluorados)</strong> and back every installation with a <strong>3-year guarantee</strong>, plus the manufacturer's 3-year warranty on the equipment.</p>
               <p>We install, repair, clean and service all major brands, and also fit heat pumps (aerotermia) and ventilation. We work with homes, restaurants and small businesses, in English and Spanish, from Torrevieja and Orihuela Costa to Pilar de la Horadada and Guardamar.</p>

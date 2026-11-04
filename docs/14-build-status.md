@@ -1,6 +1,6 @@
 # Build status & handover
 
-> Snapshot to resume work in a new session. Updated: 2026-06-14.
+> Snapshot to resume work in a new session. Updated: 2026-06-14, so parts are out of date: since then the site was redesigned (see DESIGN.md), Costa Cálida was dropped, towns are 43, and `main` serves staging. Agent work: [15-agent-readiness.md](15-agent-readiness.md).
 > The plan lives in [03-master-plan.md](03-master-plan.md) and siblings (04–13); this file is **where we are against it**.
 
 ## TL;DR
