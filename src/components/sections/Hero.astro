@@ -5,7 +5,6 @@ import { business, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import CoolAir from '../ui/CoolAir.astro';
 
 interface Props {
   locale: Locale;
@@ -41,8 +40,6 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
   { icon: 'award', a: `${tr?.installs ?? '1000+'}`, b: es ? 'instalaciones' : 'installations' },
   { icon: 'ac-unit', a: es ? 'Frío y calor' : 'Cooling & heating', b: es ? 'todo el año' : 'all year round' },
 ];
-const pauseLabel = es ? 'Pausar' : 'Pause';
-const playLabel = es ? 'Reproducir' : 'Play';
 ---
 <section class="hero text-white" data-hero data-video={HERO_VIDEO || undefined}>
   <div class="hero__media" data-media aria-hidden="true">
@@ -62,7 +59,6 @@ const playLabel = es ? 'Reproducir' : 'Play';
     ))}
   </div>
   <div class="hero__shade" aria-hidden="true"></div>
-  <div class="hero__air" aria-hidden="true"><CoolAir /></div>
 
   <Container class="relative z-10 pt-9 pb-6 lg:pt-11 lg:pb-7">
     <div class="hero__grid">
@@ -107,10 +103,6 @@ const playLabel = es ? 'Reproducir' : 'Play';
             <img src={s.src} alt="" width="150" height="200" style={`object-position:${s.thumb}`} loading="lazy" decoding="async" />
           </button>
         ))}
-        <button class="hero__toggle" type="button" data-toggle aria-label={pauseLabel} data-pause-label={pauseLabel} data-play-label={playLabel}>
-          <span data-icon-pause><Icon name="pause" size={18} /></span>
-          <span data-icon-play hidden><Icon name="play" size={18} /></span>
-        </button>
       </div>
     </div>
   </Container>
@@ -136,15 +128,11 @@ const playLabel = es ? 'Reproducir' : 'Play';
     const slides = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
     const thumbs = [...hero.querySelectorAll<HTMLButtonElement>('[data-thumb]')];
     const controls = hero.querySelector<HTMLElement>('[data-controls]');
-    const toggle = hero.querySelector<HTMLButtonElement>('[data-toggle]');
-    const iconPause = hero.querySelector<HTMLElement>('[data-icon-pause]');
-    const iconPlay = hero.querySelector<HTMLElement>('[data-icon-play]');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const INTERVAL = 6000;
     let current = 0;
     let timer: number | undefined;
-    let paused = reduced; // the user's explicit choice (or their OS setting)
     let held = false; // pointer/focus is on the controls
     let video: HTMLVideoElement | null = null;
 
@@ -159,13 +147,9 @@ const playLabel = es ? 'Reproducir' : 'Play';
 
     const sync = () => {
       window.clearInterval(timer);
-      if (!paused && !held && !video && !document.hidden) {
+      if (!reduced && !held && !video && !document.hidden) {
         timer = window.setInterval(() => show(current + 1), INTERVAL);
       }
-      if (video) paused ? video.pause() : video.play().catch(() => {});
-      if (toggle) toggle.setAttribute('aria-label', (paused ? toggle.dataset.playLabel : toggle.dataset.pauseLabel) ?? '');
-      if (iconPause) iconPause.hidden = paused;
-      if (iconPlay) iconPlay.hidden = !paused;
     };
 
     thumbs.forEach((b, i) =>
@@ -177,10 +161,6 @@ const playLabel = es ? 'Reproducir' : 'Play';
         sync();
       }),
     );
-    toggle?.addEventListener('click', () => {
-      paused = !paused;
-      sync();
-    });
     const hold = (value: boolean) => () => {
       held = value;
       sync();
@@ -254,12 +234,6 @@ const playLabel = es ? 'Reproducir' : 'Play';
     z-index: -2;
     background: linear-gradient(180deg, rgb(17 48 92 / 0.8) 0%, rgb(17 48 92 / 0.72) 45%, rgb(17 48 92 / 0.92) 100%);
   }
-  .hero__air {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    mask-image: linear-gradient(90deg, #000 0%, #000 42%, transparent 60%);
-  }
 
   .hero__grid {
     display: grid;
@@ -325,25 +299,6 @@ const playLabel = es ? 'Reproducir' : 'Play';
   }
   .hero__thumb.is-active {
     border-color: #4cc9f0;
-  }
-  .hero__toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    flex: none;
-    cursor: pointer;
-    border-radius: var(--radius-pill);
-    background: rgb(255 255 255 / 0.92);
-    color: var(--brand-800);
-    box-shadow: var(--shadow-md);
-  }
-  .hero__toggle span {
-    display: inline-flex;
-  }
-  .hero__toggle span[hidden] {
-    display: none;
   }
 
   .hero__bar {

@@ -51,7 +51,7 @@ Rule: never gray text on a colored band — use a tint of the band's own hue or 
 
 ## Motion
 
-Ease-out only, 150–400ms. Signature motion lives in the hero (photo crossfade, slow push-in, cool-air streams). Elsewhere: photo zoom and arrow nudge on hover, nothing else. Every animation has a `prefers-reduced-motion` off-switch.
+Ease-out only, 150–400ms. Signature motion lives in the hero (photo crossfade, slow push-in). Elsewhere: photo zoom and arrow nudge on hover, nothing else. Every animation has a `prefers-reduced-motion` off-switch.
 
 ## Imagery & Iconography
 
