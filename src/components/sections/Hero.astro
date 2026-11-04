@@ -1,7 +1,7 @@
 ---
 import { type Locale, HERO_VIDEO } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
-import { business, reviewCountDisplay } from '../../data';
+import { business, ratingLabel, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
@@ -36,7 +36,7 @@ const logos = [
 const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: string; b: string }[] = [
   { icon: 'clock', a: es ? 'Respuesta en 1 hora' : 'Reply within the hour', b: es ? 'en horario laboral' : 'during working hours' },
   { icon: 'shield-check', a: es ? `Garantía de ${tr?.guaranteeYears ?? 3} años` : `${tr?.guaranteeYears ?? 3}-year guarantee`, b: es ? 'trabajo y equipo' : 'work & equipment' },
-  { icon: 'star', a: `${business.rating.value} ${es ? 'en' : 'on'} Google`, b: `${reviewCountDisplay} ${es ? 'reseñas' : 'reviews'}` },
+  { icon: 'star', a: `${ratingLabel(locale)} ${es ? 'en' : 'on'} Google`, b: `${reviewCountDisplay} ${es ? 'reseñas' : 'reviews'}` },
   { icon: 'award', a: `${tr?.installs ?? '1000+'}`, b: es ? 'instalaciones' : 'installations' },
   { icon: 'ac-unit', a: es ? 'Frío y calor' : 'Cooling & heating', b: es ? 'todo el año' : 'all year round' },
 ];

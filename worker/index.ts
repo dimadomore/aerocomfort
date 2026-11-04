@@ -23,6 +23,8 @@ import {
   unauthorizedResponse,
   NOINDEX_HEADERS,
 } from './lead-core.mjs';
+// @ts-expect-error: plain ESM module, not type-checked (worker/ is excluded in tsconfig)
+import { handleMcp } from './mcp.mjs';
 
 interface LeadRow {
   at: string;
@@ -74,7 +76,10 @@ const SITE_HEADERS: Record<string, string> = {
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
   Link:
     '</llms.txt>; rel="describedby"; type="text/markdown"; title="Site index for LLMs", ' +
-    '</sitemap-index.xml>; rel="sitemap"; type="application/xml"',
+    '</sitemap-index.xml>; rel="sitemap"; type="application/xml", ' +
+    '</.well-known/api-catalog>; rel="api-catalog", ' +
+    '</.well-known/mcp/server-card.json>; rel="mcp", ' +
+    '</.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"',
 };
 
 function withSiteHeaders(res: Response): Response {
@@ -99,6 +104,9 @@ async function route(request: Request, env: Env): Promise<Response> {
       persist: env.DB ? (lead: LeadRow) => insertLead(env.DB!, lead) : undefined,
     });
   }
+
+  // Public, read-only MCP server for agents outside the browser.
+  if (path === '/mcp') return handleMcp(request, env);
 
   if ((path === '/leads' || path === '/leads.csv') && request.method === 'GET') {
     return handleLeads(path, request, env);

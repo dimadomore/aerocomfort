@@ -1,4 +1,5 @@
 import businessRaw from './business.yml';
+import ratingRaw from './rating.json';
 import offersRaw from './offers.yml';
 import { businessSchema, offersSchema } from './schema';
 
@@ -6,16 +7,17 @@ import { businessSchema, offersSchema } from './schema';
  * Validated, typed business data. Import from here everywhere (header, footer,
  * <Seo>, schema.ts). zod parsing happens once at build — bad data fails the build.
  */
-export const business = businessSchema.parse(businessRaw);
+export const business = businessSchema.parse({ ...(businessRaw as object), rating: ratingRaw });
 export const offers = offersSchema.parse(offersRaw);
 
 /**
- * Grow-friendly review count for marketing copy: "160+". Lives in one place so the
- * visible number never goes stale (stays true as reviews grow); bump
- * business.yml `rating.count` to refresh, or automate via Google Places API later.
- * The exact live count is shown by the Elfsight widget in the Reviews section.
+ * Google rating, shown across the site. Update src/data/rating.json by hand from
+ * time to time. The copy rounds down to "200+" so it stays true as reviews grow;
+ * the exact live count is in the Elfsight widget.
  */
-export const reviewCountDisplay = `${business.rating.count}+`;
+export const reviewCountDisplay = `${Math.floor(business.rating.count / 10) * 10}+`;
+export const ratingLabel = (locale: 'en' | 'es') =>
+  locale === 'es' ? business.rating.value.replace('.', ',') : business.rating.value;
 
 export { galleryPhotos, type GalleryPhoto } from './gallery';
 

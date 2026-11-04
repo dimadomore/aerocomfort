@@ -1,6 +1,6 @@
 ---
 import { type Locale } from '../../config';
-import { reviewCountDisplay } from '../../data';
+import { ratingLabel, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 
 interface Props {
@@ -20,7 +20,7 @@ const items = [
     d: es ? 'En horario laboral, por teléfono o WhatsApp. Las instalaciones, normalmente en 24 a 72 horas.' : 'During working hours, by phone or WhatsApp. Installs usually follow within 24 to 72 hours.',
   },
   {
-    t: es ? '5,0 en Google' : '5.0 on Google',
+    t: `${ratingLabel(locale)} ${es ? 'en' : 'on'} Google`,
     d: es ? `${reviewCountDisplay} reseñas y más de 1000 instalaciones.` : `${reviewCountDisplay} reviews and 1000+ installations.`,
   },
   {

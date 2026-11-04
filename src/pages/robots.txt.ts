@@ -18,14 +18,28 @@ const EXCLUDE = ['/thank-you', '/es/gracias', '/leads', '/api/'];
 
 /** Named AI crawlers, explicitly welcomed (same exclusions as everyone else). */
 const AI_AGENTS = [
-  'GPTBot',
+  // Search and answer engines
   'OAI-SearchBot',
+  'Claude-SearchBot',
+  'PerplexityBot',
+  'Applebot',
+  'DuckAssistBot',
+  'Amzn-SearchBot',
+  'meta-webindexer',
+  // Fetches made because a person asked an assistant
   'ChatGPT-User',
+  'Claude-User',
+  'Perplexity-User',
+  'Google-Agent',
+  'meta-externalfetcher',
+  // Training and product tokens
+  'GPTBot',
   'ClaudeBot',
   'anthropic-ai',
   'Google-Extended',
   'Applebot-Extended',
-  'PerplexityBot',
+  'meta-externalagent',
+  'Amazonbot',
   'CCBot',
 ];
 

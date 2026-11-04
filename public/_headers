@@ -11,3 +11,27 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Link: </llms.txt>; rel="describedby"; type="text/markdown"; title="Site index for LLMs"
   Link: </sitemap-index.xml>; rel="sitemap"; type="application/xml"
+  Link: </.well-known/api-catalog>; rel="api-catalog"
+  Link: </.well-known/mcp/server-card.json>; rel="mcp"
+  Link: </.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"
+
+# Machine-readable files: open to browser-based agents.
+/.well-known/api-catalog
+  Access-Control-Allow-Origin: *
+  Content-Type: application/linkset+json
+/.well-known/mcp/*
+  Access-Control-Allow-Origin: *
+/.well-known/agent-skills/index.json
+  Access-Control-Allow-Origin: *
+/data/*
+  Access-Control-Allow-Origin: *
+/llms.txt
+  Access-Control-Allow-Origin: *
+/llms-full.txt
+  Access-Control-Allow-Origin: *
+
+# Markdown copies are for agents; the HTML page stays the one in search results.
+/*.md
+  Access-Control-Allow-Origin: *
+  Content-Type: text/markdown; charset=utf-8
+  X-Robots-Tag: noindex

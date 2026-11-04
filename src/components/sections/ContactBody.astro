@@ -1,7 +1,7 @@
 ---
 import { type Locale } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
-import { business, isPlaceholder, reviewCountDisplay } from '../../data';
+import { business, isPlaceholder, ratingLabel, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
@@ -63,7 +63,7 @@ const crumbs = [
         )}
         <div class="flex items-center gap-2 py-3">
           <Icon name="star" size={18} class="text-warning" />
-          <span class="font-semibold">{business.rating.value} {locale === 'es' ? 'en' : 'on'} Google</span>
+          <span class="font-semibold">{ratingLabel(locale)} {locale === 'es' ? 'en' : 'on'} Google</span>
           <span class="text-white/85">· {reviewCountDisplay} {locale === 'es' ? 'reseñas' : 'reviews'}</span>
         </div>
       </dl>

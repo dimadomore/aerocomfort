@@ -1,4 +1,5 @@
 ---
+import { ratingLabel } from '../data';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/sections/Hero.astro';
 import ServicesGrid from '../components/sections/ServicesGrid.astro';
@@ -16,7 +17,7 @@ import { FAQ } from '../data/faq';
 const locale = 'en' as const;
 const title = 'Air Conditioning Costa Blanca: Install & Repair | Aerocomfort';
 const description =
-  'AC installation, repair and servicing across Torrevieja, Orihuela Costa and 40+ towns. Rated 5.0 on Google. We reply within the hour during working hours.';
+  `AC installation, repair and servicing across Torrevieja, Orihuela Costa and 40+ towns. Rated ${ratingLabel('en')} on Google. We reply within the hour during working hours.`;
 const faq = faqLd(FAQ[locale].map((f) => ({ question: f.q, answer: f.a })));
 ---
 <Base

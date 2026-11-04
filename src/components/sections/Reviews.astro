@@ -3,6 +3,7 @@ import { type Locale, ELFSIGHT_ID } from '../../config';
 import { useTranslations } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
+import { ratingLabel } from '../../data';
 
 interface Props {
   locale: Locale;
@@ -16,7 +17,7 @@ const es = locale === 'es';
     <div class="flex items-center justify-center gap-1.5 text-warning">
       {Array.from({ length: 5 }).map(() => <Icon name="star" size={26} />)}
     </div>
-    <h2 class="mt-4 text-h2">{es ? 'Valorados 5,0 en Google' : 'Rated 5.0 on Google'}</h2>
+    <h2 class="mt-4 text-h2">{es ? `Valorados ${ratingLabel('es')} en Google` : `Rated ${ratingLabel('en')} on Google`}</h2>
 
     {
       ELFSIGHT_ID && (

@@ -1,4 +1,5 @@
 ---
+import { ratingLabel } from '../../data';
 import Base from '../../layouts/Base.astro';
 import AreaBody from '../../components/sections/AreaBody.astro';
 import { AREAS } from '../../data/areas';
@@ -15,10 +16,10 @@ const t = useTranslations(locale);
 const c = area.en;
 const path = `/areas/${area.slug}`;
 const title = `Air Conditioning in ${c.name} | Install & Repair | Aerocomfort`;
-const description = `AC installation, repair, servicing and cleaning in ${c.name}. Local team, 3-year guarantee, rated 5.0 on Google. We reply within the hour during working hours.`;
+const description = `AC installation, repair, servicing and cleaning in ${c.name}. Local team, 3-year guarantee, rated ${ratingLabel('en')} on Google. We reply within the hour during working hours.`;
 const jsonLd = [
   hvacBusinessLd(),
-  serviceLd(`Air conditioning in ${c.name}`, path),
+  serviceLd(`Air conditioning in ${c.name}`, path, c.name),
   breadcrumbLd([
     { name: t('breadcrumb.home'), url: localizedPath('/', locale) },
     { name: t('nav.areas'), url: localizedPath('/areas', locale) },

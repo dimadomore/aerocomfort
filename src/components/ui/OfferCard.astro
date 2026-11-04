@@ -42,6 +42,16 @@ const saving = offer.priceOld ? offer.priceOld - offer.priceNew : 0;
           <dd>{offer.coverage}</dd>
         </div>
       )}
+      <div>
+        <dt>{es ? 'Instalación' : 'Installation'}</dt>
+        <dd>{es ? 'Llave en mano' : 'Turnkey'}</dd>
+      </div>
+      {offer.wifi && (
+        <div>
+          <dt>Wi-Fi</dt>
+          <dd>{es ? 'Incluido' : 'Included'}</dd>
+        </div>
+      )}
       {warranty && (
         <div>
           <dt>{es ? 'Garantía del equipo' : 'Unit warranty'}</dt>

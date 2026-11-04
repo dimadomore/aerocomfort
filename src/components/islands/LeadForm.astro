@@ -19,6 +19,16 @@ const privacyHref = localizedPath('/privacy', locale);
 const thankYouHref = localizedPath('/thank-you', locale);
 const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] as const;
+
+// WebMCP declarative tool: an agent can fill this form, but it never submits
+// itself (no toolautosubmit). The person checks it, accepts the privacy policy and
+// presses the button. Spread because these attributes aren't in Astro's HTML types.
+const agentForm = {
+  toolname: 'request_quote',
+  tooldescription:
+    'Fill in a free quote or callback request for Aerocomfort, an air conditioning company on the Costa Blanca. The person reviews the form and submits it themselves.',
+};
+const param = (toolparamdescription: string) => ({ toolparamdescription });
 ---
 <form
   class="lead-form"
@@ -30,6 +40,7 @@ const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] 
   data-error={t('form.error')}
   data-unit-prefix={t('form.unitInterest')}
   novalidate
+  {...agentForm}
 >
   <input type="hidden" name="locale" value={locale} />
   <div class="lead-hp" aria-hidden="true">
@@ -39,14 +50,14 @@ const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] 
   <div class="lead-form__grid">
     <div>
       <label class="lead-label" for="lead-name">{t('form.name')}</label>
-      <input class="lead-control" type="text" id="lead-name" name="name" autocomplete="name" required placeholder={t('form.namePh')} />
+      <input class="lead-control" type="text" id="lead-name" name="name" autocomplete="name" required placeholder={t('form.namePh')} {...param('Full name of the person asking for the quote.')} />
     </div>
 
     <PhoneInput locale={locale} />
 
     <div>
       <label class="lead-label" for="lead-service">{t('form.service')}</label>
-      <select class="lead-control" id="lead-service" name="service">
+      <select class="lead-control" id="lead-service" name="service" {...param('The service needed.')}>
         <option value="" selected>{t('form.servicePick')}</option>
         {services.map((s) => <option value={s}>{t(`service.${s}` as 'service.installation')}</option>)}
       </select>
@@ -54,7 +65,7 @@ const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] 
 
     <div>
       <label class="lead-label" for="lead-message">{t('form.message')}</label>
-      <textarea class="lead-control" id="lead-message" name="message" rows="3" placeholder={t('form.messagePh')}></textarea>
+      <textarea class="lead-control" id="lead-message" name="message" rows="3" placeholder={t('form.messagePh')} {...param('What the person needs, including town and unit if known.')}></textarea>
     </div>
 
     <label class="lead-check">
@@ -118,12 +129,17 @@ const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] 
   document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
     // Pre-fill the message when arriving from an offer's "Request this unit"
     // (DIM-279): /contact?unit=Brand+Model → "I'm interested in this unit: …".
-    const unit = new URLSearchParams(window.location.search).get('unit');
+    const params = new URLSearchParams(window.location.search);
+    const unit = params.get('unit');
     const messageEl = form.querySelector<HTMLTextAreaElement>('[name="message"]');
-    if (unit && messageEl && !messageEl.value) {
+    const serviceEl = form.querySelector<HTMLSelectElement>('[name="service"]');
+    if (messageEl && !messageEl.value) {
       const prefix = form.dataset.unitPrefix || 'I am interested in this unit:';
-      messageEl.value = `${prefix} ${unit}`;
+      messageEl.value = [unit && `${prefix} ${unit}`, params.get('message')].filter(Boolean).join('\n');
     }
+    // Links from agents and service pages can choose the service (?service=repair).
+    const service = params.get('service');
+    if (serviceEl && service && [...serviceEl.options].some((o) => o.value === service)) serviceEl.value = service;
 
     const phoneRoot = form.querySelector<HTMLElement>('[data-phone-input]');
     const phoneInput = phoneRoot?.querySelector<HTMLInputElement>('[data-phone]');
@@ -142,6 +158,16 @@ const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] 
       if (state) status.dataset.state = state;
       else delete status.dataset.state;
     };
+
+    // An agent has filled the form: make sure that can't trip the spam trap, and
+    // validate the phone it typed, since no real keystrokes happened.
+    const context = (document as Document & { modelContext?: EventTarget }).modelContext;
+    context?.addEventListener('toolactivated', () => {
+      const trap = form.querySelector<HTMLInputElement>('[name="company"]');
+      if (trap) trap.value = '';
+      phoneInput?.dispatchEvent(new Event('input', { bubbles: true }));
+      phoneInput?.dispatchEvent(new Event('blur'));
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

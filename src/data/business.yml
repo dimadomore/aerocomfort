@@ -26,11 +26,13 @@ email: "info.aerocomfort@gmail.com"
 emailFuture: "info@aerocomfort.es"   # optional domain email via Cloudflare Routing (G4)
 
 # Location / service area
+addressLocality: "Pilar de la Horadada"
+postalCode: "03190"
 addressRegion: "Alicante"
 addressCountry: "ES"
 geo:
-  lat: "‹PLACEHOLDER: lat — C/geo›"
-  lng: "‹PLACEHOLDER: lng›"
+  lat: "37.8641807" # Google Business Profile pin
+  lng: "-0.7887288"
 hours: "‹PLACEHOLDER: opening hours — C7›"
 areasLead:
   - Torrevieja
@@ -38,15 +40,10 @@ areasLead:
   - Pilar de la Horadada
 areasCount: 40
 
-# Real Google rating (keep in sync with GBP — never invent; docs/06 §2)
-rating:
-  value: "5.0"
-  count: 160
-
 social:
   google: "https://maps.app.goo.gl/eTYVXAazTkRR2edJ9"
-  instagram: "‹PLACEHOLDER: Instagram URL — G3›"
-  facebook: "‹PLACEHOLDER: Facebook URL — G3›"
+  instagram: "https://www.instagram.com/_aerocomfort_/"
+  facebook: "https://www.facebook.com/profile.php?id=100093132750668"
 
 # Trust facts (John, 2026-06-14): 1000+ installs; 3-yr workmanship + 3-yr equipment
 # warranty; certified for fluorinated-gas handling (cert number withheld by owner).

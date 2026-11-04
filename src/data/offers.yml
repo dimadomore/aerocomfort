@@ -1,6 +1,7 @@
 # Seasonal offers (docs/05 §3.4). Edit this one file to update the offers page.
-# Prices/models from the current site (docs/00 §2). Old prices, exact coverage and
-# "supply only vs supply+install" to confirm with the owner (D5). Season 1 Oct–30 Apr.
+# Prices, models and "turnkey installation" match the live aerocomfort.es offers
+# (checked 2026-11-04). What a standard install covers is to confirm with the owner
+# (D5). Season 1 Oct–30 Apr.
 
 season:
   start: "10-01"
@@ -16,6 +17,7 @@ items:
     priceOld: 709             # previous price (aerocomfort.es)
     efficiency: "A+++"
     coverage: "25 m²"         # ‹confirm — D5›
+    wifi: true
     image: "/offers/giatsu-aroma-2e.webp"
   - brand: LG
     model: Connect S09EC
@@ -23,6 +25,7 @@ items:
     priceOld: 879
     efficiency: "A+++"
     coverage: "25 m²"
+    wifi: true
     image: "/offers/lg-s09ec.webp"
   - brand: Panasonic
     model: KIT-BZ25-XKE
@@ -33,10 +36,11 @@ items:
     image: "/offers/panasonic-bz25.jpg"
   - brand: Daikin
     model: TXF25F
-    priceNew: 859
+    priceNew: 879
     priceOld: 999
     efficiency: "A+++"
     coverage: "25 m²"
+    wifi: true
     image: "/offers/daikin-txf25.webp"
   - brand: Mitsubishi Electric
     model: MSZ-HR25VFK

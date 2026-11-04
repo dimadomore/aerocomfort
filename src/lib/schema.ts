@@ -1,5 +1,6 @@
 import { SITE_URL } from '../config';
 import { business, isPlaceholder, type OfferItem } from '../data';
+import { AREA_GROUPS } from '../data/areas';
 
 /** Absolute URL helper for schema (which requires fully-qualified URLs). */
 const abs = (path: string) => new URL(path, SITE_URL).href;
@@ -38,7 +39,14 @@ export function hvacBusinessLd() {
     currenciesAccepted: 'EUR',
     paymentAccepted: (business.payment ?? []).join(', '),
     knowsLanguage: ['en', 'es'],
-    areaServed: business.areasLead,
+    areaServed: AREA_GROUPS.flatMap((g) => g.towns).map((t) => ({ '@type': 'City', name: t.name })),
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      telephone: '+' + business.phoneE164.replace(/\D/g, ''),
+      email: business.email,
+      availableLanguage: ['English', 'Spanish'],
+    },
     knowsAbout: [
       'Air conditioning installation',
       'Air conditioning repair',
@@ -51,6 +59,8 @@ export function hvacBusinessLd() {
     ],
     address: {
       '@type': 'PostalAddress',
+      addressLocality: business.addressLocality,
+      postalCode: business.postalCode,
       addressRegion: business.addressRegion,
       addressCountry: business.addressCountry,
     },
@@ -112,13 +122,13 @@ export function websiteLd() {
 }
 
 /** Service schema for service pages (docs/11 §4.2). */
-export function serviceLd(serviceType: string, url: string) {
+export function serviceLd(serviceType: string, url: string, areaServed = 'Costa Blanca') {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
     serviceType,
     provider: { '@type': 'HVACBusiness', name: business.name, '@id': abs('/#business') },
-    areaServed: 'Costa Blanca',
+    areaServed,
     url: abs(url),
   };
 }
@@ -209,7 +219,7 @@ export function offerProductsLd(items: OfferItem[], priceValidUntil: string, off
       category: 'Air conditioner',
       description: `${o.brand} ${o.model} air conditioner${
         o.efficiency ? `, ${o.efficiency} energy rating` : ''
-      }${o.coverage ? `, suitable for ${o.coverage}` : ''} — supplied and installed by ${business.name}.`,
+      }${o.coverage ? `, suitable for ${o.coverage}` : ''}. Price includes standard turnkey installation by ${business.name}.`,
       offers: {
         '@type': 'Offer',
         price: o.priceNew,
