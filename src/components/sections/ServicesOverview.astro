@@ -26,14 +26,13 @@ const crumbs = [
 ---
 <PageHero
   crumbs={crumbs}
-  eyebrow={es ? 'Servicios' : 'Services'}
   title={es ? 'Servicios de aire acondicionado en la Costa Blanca' : 'Air conditioning services on the Costa Blanca'}
   intro={es
-    ? 'Instalación, reparación, mantenimiento y limpieza — un mismo profesional de confianza, de principio a fin.'
-    : 'Installation, repair, maintenance and cleaning — one trusted specialist, start to finish.'}
+    ? 'Instalación, reparación, mantenimiento y limpieza, con un mismo equipo local de principio a fin.'
+    : 'Installation, repair, maintenance and cleaning, from one local team, start to finish.'}
 >
   <div slot="cta" class="mt-7 flex flex-col gap-3 sm:flex-row">
-    <Button href={contactHref} variant="primary" size="lg" class="cta-attention">
+    <Button href={contactHref} variant="primary" size="lg">
       {t('cta.quote')}
       <Icon name="arrow-right" size={20} />
     </Button>
@@ -45,27 +44,32 @@ const crumbs = [
 </PageHero>
 
 <section class="py-16 lg:py-24">
-  <Container>
-    <div class="grid gap-6 md:grid-cols-2">
-      {SERVICES.map((s) => (
+  <Container class="space-y-14 lg:space-y-20">
+    {SERVICES.map((s, i) => (
+      <article class="grid gap-6 lg:grid-cols-12 lg:items-center lg:gap-16">
         <a
+          class:list={['group block aspect-[4/3] overflow-hidden rounded-md lg:col-span-6', i % 2 === 1 && 'lg:order-2']}
           href={localizedPath(`/services/${s.slug}`, locale)}
-          class="group card-cool flex gap-5 rounded-xl border border-line p-6 hover:border-blue-300"
+          tabindex="-1"
+          aria-hidden="true"
         >
-          <span class="icon-tile h-14 w-14 shrink-0 rounded-xl">
-            <Icon name={s.icon} size={28} />
-          </span>
-          <div>
-            <h2 class="text-h3">{s[locale].title}</h2>
-            <p class="mt-1.5 text-small text-ink-500">{s[locale].blurb}</p>
-            <span class="mt-3 inline-flex items-center gap-1.5 text-small font-bold text-brand-700">
-              {es ? 'Saber más' : 'Learn more'}
-              <Icon name="arrow-right" size={16} class="transition-transform duration-200 ease-out group-hover:translate-x-1" />
-            </span>
-          </div>
+          <img class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" src={s.image} alt="" width="900" height="1200" loading="lazy" decoding="async" />
         </a>
-      ))}
-    </div>
+        <div class="lg:col-span-6">
+          <h2 class="text-h2">{s[locale].title}</h2>
+          <p class="mt-3 text-body text-ink-700">{s[locale].intro}</p>
+          <ul class="mt-5 border-t border-line">
+            {s[locale].includes.slice(0, 3).map((item) => (
+              <li class="border-b border-line py-2.5 text-small text-ink-700">{item}</li>
+            ))}
+          </ul>
+          <a class="mt-5 inline-flex items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3" href={localizedPath(`/services/${s.slug}`, locale)}>
+            {es ? `Ver ${s[locale].title.toLowerCase()}` : `See ${s[locale].title.toLowerCase()}`}
+            <Icon name="arrow-right" size={18} />
+          </a>
+        </div>
+      </article>
+    ))}
   </Container>
 </section>
 

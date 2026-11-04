@@ -24,7 +24,6 @@ const intro = es
 ---
 <PageHero
   crumbs={crumbs}
-  eyebrow={es ? 'Ofertas de temporada' : 'Seasonal offers'}
   title={es ? 'Ofertas en aire acondicionado A+++' : 'A+++ air conditioning offers'}
   intro={intro}
 />
@@ -34,7 +33,7 @@ const intro = es
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {offers.items.map((o) => <OfferCard offer={o} locale={locale} />)}
     </div>
-    <p class="mt-8 max-w-2xl text-small text-ink-400">
+    <p class="mt-8 max-w-2xl text-small text-ink-700">
       {es
         ? 'Precios de suministro orientativos; la instalación depende del equipo y la vivienda. Pide presupuesto sin compromiso.'
         : 'Indicative supply prices; installation depends on the unit and the property. Ask for a no-obligation quote.'}

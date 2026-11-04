@@ -16,12 +16,11 @@ const t = useTranslations(locale);
 const es = locale === 'es';
 const offersHref = localizedPath('/offers', locale);
 ---
-<section class="border-y border-line bg-surface-cool py-16 lg:py-24">
+<section class="bg-surface-cool py-16 lg:py-24">
   <Container>
     <div class="flex flex-wrap items-end justify-between gap-6">
       <SectionHeading
-        eyebrow={es ? 'Ofertas de temporada' : 'Seasonal offers'}
-        title={es ? 'Equipos A+++ en oferta' : 'A+++ units on offer'}
+        title={es ? 'Equipos A+++ a precio de temporada' : 'A+++ units at season prices'}
         intro={offers.season.label[locale]}
       />
       <a

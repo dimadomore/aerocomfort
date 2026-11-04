@@ -1,9 +1,13 @@
 ---
 import { type Locale } from '../../config';
-import { type OfferItem } from '../../data';
+import { business, type OfferItem } from '../../data';
 import { localizedPath } from '../../i18n/utils';
 import Icon from './Icon.astro';
 
+/**
+ * A unit shown like its own rating plate: a plain spec table, the EU energy-label
+ * arrow, and the price. Reads as a product you can compare, not a promo tile.
+ */
 interface Props {
   offer: OfferItem;
   locale: Locale;
@@ -12,60 +16,102 @@ const { offer, locale } = Astro.props;
 const es = locale === 'es';
 // Pass the unit so the contact form can pre-fill the message (DIM-279).
 const contactHref = `${localizedPath('/contact', locale)}?unit=${encodeURIComponent(`${offer.brand} ${offer.model}`)}`;
-const cta = es ? 'Solicitar este equipo' : 'Request this unit';
+const warranty = business.trust?.equipmentWarrantyYears;
+const saving = offer.priceOld ? offer.priceOld - offer.priceNew : 0;
 ---
-<article class="group card-cool flex h-full flex-col overflow-hidden rounded-xl border border-line">
-  <div
-    class:list={[
-      'relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b border-line',
-      offer.image ? 'bg-white' : 'bg-linear-to-br from-sky-50 via-sky-100 to-sky-200',
-    ]}
-  >
-    {offer.image ? (
-      <img
-        src={offer.image}
-        alt={`${offer.brand} ${offer.model}`}
-        class="h-full w-full object-contain p-4"
-        loading="lazy"
-        decoding="async"
-      />
-    ) : (
-      <>
-        {/* faint cool-air currents behind the unit (signature motif) */}
-        <svg class="pointer-events-none absolute inset-0 h-full w-full text-brand-600/10" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
-          <path d="M-5 22 C 30 10, 60 32, 125 18" />
-          <path d="M-5 72 C 35 60, 70 82, 125 66" />
-        </svg>
-        {/* placeholder until a catalogue photo is set (docs/08 §2.6) */}
-        <svg viewBox="0 0 120 90" class="relative w-1/2 text-brand-600/70" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
-          <rect x="14" y="26" width="92" height="26" rx="8" fill="rgba(255,255,255,0.65)" />
-          <circle cx="24" cy="36" r="2.2" fill="var(--cyan-400)" stroke="none" />
-          <path d="M34 36h34M82 36h12" />
-          <path d="M40 60c2-2 2-4 2-6M60 64c2-2 2-4 2-6M80 60c2-2 2-4 2-6" stroke="var(--cyan-400)" />
-        </svg>
-      </>
-    )}
-    {offer.efficiency && (
-      <span class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-pill bg-brand-700 px-3 py-1 text-caption font-bold text-white shadow-[0_4px_10px_-3px_rgba(20,38,74,0.5)]">
-        <span class="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
-        {offer.efficiency}
-      </span>
-    )}
-  </div>
-  <div class="flex flex-1 flex-col p-5">
-    <p class="text-small font-semibold text-ink-500">{offer.brand}</p>
-    <h3 class="text-h3">{offer.model}</h3>
-    <div class="mt-2 flex items-baseline gap-2">
-      {offer.priceOld && <span class="text-body text-ink-400 line-through">€{offer.priceOld}</span>}
-      <span class="font-display text-h2 font-extrabold text-accent-600">€{offer.priceNew}</span>
+<article class="card offer flex h-full flex-col overflow-hidden">
+  {offer.image && (
+    <div class="offer__photo">
+      <img src={offer.image} alt={`${offer.brand} ${offer.model}`} loading="lazy" decoding="async" />
     </div>
-    {offer.coverage && <p class="mt-1 text-caption text-ink-400">{offer.coverage}</p>}
-    <a
-      href={contactHref}
-      class="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-[4px] bg-brand-700 px-5 font-display font-bold text-white shadow-[inset_0_-1px_3px_rgba(8,28,64,0.6),0_3px_6px_rgba(8,24,60,0.18)] transition-[background-color,box-shadow] duration-200 ease-out hover:bg-brand-800"
-    >
-      {cta}
-      <Icon name="arrow-right" size={16} />
-    </a>
+  )}
+  <div class="flex flex-1 flex-col p-5">
+    <p class="text-small font-semibold text-ink-700">{offer.brand}</p>
+    <h3 class="text-h3">{offer.model}</h3>
+
+    <dl class="offer__specs">
+      {offer.efficiency && (
+        <div>
+          <dt>{es ? 'Eficiencia' : 'Efficiency'}</dt>
+          <dd><span class="energy">{offer.efficiency}</span></dd>
+        </div>
+      )}
+      {offer.coverage && (
+        <div>
+          <dt>{es ? 'Superficie' : 'Room size'}</dt>
+          <dd>{offer.coverage}</dd>
+        </div>
+      )}
+      {warranty && (
+        <div>
+          <dt>{es ? 'Garantía del equipo' : 'Unit warranty'}</dt>
+          <dd>{es ? `${warranty} años` : `${warranty} years`}</dd>
+        </div>
+      )}
+    </dl>
+
+    <div class="mt-auto pt-5">
+      <p class="flex flex-wrap items-baseline gap-x-2.5">
+        <span class="font-display text-h2 font-extrabold text-brand-900">€{offer.priceNew}</span>
+        {offer.priceOld && <s class="text-small text-ink-500">€{offer.priceOld}</s>}
+        {saving > 0 && <span class="text-small font-semibold text-accent-700">{es ? `Ahorras €${saving}` : `Save €${saving}`}</span>}
+      </p>
+      <a
+        href={contactHref}
+        class="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[4px] bg-brand-900 px-5 font-display font-bold text-white no-underline transition-colors duration-200 ease-out hover:bg-brand-700"
+      >
+        {es ? 'Solicitar este equipo' : 'Request this unit'}
+        <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
   </div>
 </article>
+
+<style>
+  .offer__photo {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+  .offer__photo img {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    object-fit: contain;
+    transition: transform 0.4s ease-out;
+  }
+  .offer:hover .offer__photo img {
+    transform: scale(1.04);
+  }
+  .offer__specs {
+    margin-top: 1rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--text-caption);
+  }
+  .offer__specs div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .offer__specs dt {
+    color: var(--ink-700);
+  }
+  .offer__specs dd {
+    font-weight: 600;
+    color: var(--brand-900);
+  }
+  /* The arrow from the EU energy label, in the label's own green. */
+  .energy {
+    display: inline-block;
+    padding: 0.125rem 1.1rem 0.125rem 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: #fff;
+    background: #00803e;
+    clip-path: polygon(0 0, calc(100% - 0.7rem) 0, 100% 50%, calc(100% - 0.7rem) 100%, 0 100%);
+  }
+</style>

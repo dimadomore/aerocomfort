@@ -36,7 +36,7 @@ areasLead:
   - Torrevieja
   - Orihuela Costa
   - Pilar de la Horadada
-areasCount: 45
+areasCount: 40
 
 # Real Google rating (keep in sync with GBP — never invent; docs/06 §2)
 rating:

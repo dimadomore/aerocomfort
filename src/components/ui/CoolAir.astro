@@ -10,11 +10,6 @@
  * disabled under prefers-reduced-motion (the static composition still reads).
  * Text contrast: everything stays ≤ ~16% white / ≤ 35% cyan on brand blue.
  */
-interface Props {
-  /** 'hero' = full band with crystals + glow; 'panel' = quieter, for CTA cards. */
-  variant?: 'hero' | 'panel';
-}
-const { variant = 'hero' } = Astro.props;
 
 /* Seamless wave paths — wavelength 600 divides the 1200 tile; end slope equals
    start slope, so the duplicated tile joins with C1 continuity (no visible seam). */
@@ -52,7 +47,7 @@ const crystals = [
   { x: '48%', y: '12%', s: 10, o: 0.14, dur: '9.5s', delay: '-4s' },
 ];
 ---
-<div class:list={['coolair', `coolair--${variant}`]} aria-hidden="true">
+<div class="coolair" aria-hidden="true">
   <!-- 1 · cold glow + depth shading -->
   <div class="coolair__glow"></div>
 
@@ -100,7 +95,6 @@ const crystals = [
   </svg>
 
   <!-- 4 · frost crystals (hero only) -->
-  {variant === 'hero' && (
     <svg class="coolair__frost" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none">
       {crystals.map((c) => (
         <g
@@ -117,7 +111,6 @@ const crystals = [
         </g>
       ))}
     </svg>
-  )}
 </div>
 
 <style>
@@ -138,11 +131,6 @@ const crystals = [
       radial-gradient(40rem 30rem at 12% 108%, rgba(11, 26, 51, 0.5), transparent 70%),
       linear-gradient(to top, rgba(220, 239, 251, 0.07), transparent 22%);
   }
-  .coolair--panel .coolair__glow {
-    background:
-      radial-gradient(40rem 22rem at 80% 10%, rgba(41, 182, 230, 0.2), transparent 65%),
-      radial-gradient(30rem 20rem at 8% 115%, rgba(11, 26, 51, 0.45), transparent 70%);
-  }
 
   .coolair__flow {
     position: absolute;
@@ -157,12 +145,6 @@ const crystals = [
   }
   .coolair__flow--near {
     animation: coolair-drift 52s linear infinite;
-  }
-  .coolair--panel .coolair__flow--far {
-    animation-duration: 70s;
-  }
-  .coolair--panel .coolair__flow--near {
-    animation-duration: 40s;
   }
   /* The tile repeats at 50% of the svg width → -50% lands exactly on-period. */
   @keyframes coolair-drift {

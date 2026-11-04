@@ -42,7 +42,7 @@
   --ink-400: #6b7689; /* captions/hints — darkened to clear AA (≈4.6:1 on white) */
   --line: #e4eaf2; /* borders / dividers */
   --surface: #ffffff;
-  --surface-cool: #f4f9fd; /* alternating section bg */
+  --surface-cool: #f1f5f9; /* the one tinted section bg */
 
   /* Semantic */
   --success: #1fa971;

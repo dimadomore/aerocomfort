@@ -38,3 +38,8 @@ export const ELFSIGHT_ID = "elfsight-app-0a716faf-0e47-4d76-8692-1aba041cbae6";
  *  Get it: Google Maps → the Aerocomfort place → Share → Embed a map → copy src.
  *  Until set, the map button links out to the Google Business Profile. */
 export const MAP_EMBED_URL = "";
+
+/** Home hero background video (muted loop, e.g. "/hero/hero.mp4"). Empty = the
+ *  photo slideshow only. Loaded after the page, desktop only; photos stay as the
+ *  instant first paint and the mobile / reduced-motion fallback. */
+export const HERO_VIDEO = "";

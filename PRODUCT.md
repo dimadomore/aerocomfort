@@ -6,11 +6,11 @@ brand
 
 ## Users
 
-English-speaking expats and international homeowners (plus local Spanish residents) on the Costa Blanca and Costa Cálida — Torrevieja, Orihuela Costa and 45+ surrounding towns. Predominantly 40+, many retirees or second-home owners. They are hot, frequently non-Spanish-speaking, and wary of being overcharged or ghosted by a tradesperson. They arrive on a phone, in summer, wanting one thing: a trustworthy local air-conditioning specialist who speaks their language, quotes clearly, and shows up. Job to be done: *"find someone I can trust to install / repair / service my AC — fast, without language friction or pricing games — and reach them in one tap."*
+English-speaking expats and international homeowners (plus local Spanish residents) on the Costa Blanca — Torrevieja, Orihuela Costa and 40+ surrounding towns. Predominantly 40+, many retirees or second-home owners. They are hot, frequently non-Spanish-speaking, and wary of being overcharged or ghosted by a tradesperson. They arrive on a phone, in summer, wanting one thing: a trustworthy local air-conditioning specialist who speaks their language, quotes clearly, and shows up. Job to be done: *"find someone I can trust to install / repair / service my AC — fast, without language friction or pricing games — and reach them in one tap."*
 
 ## Product Purpose
 
-Marketing site for AeroComfort, an HVAC business (air conditioning, heat pumps / aerotermia, ventilation) run by an autónomo (Gregorio) on the Spanish costas. It converts search and referral traffic into leads — a WhatsApp message, a phone call, or a quote-form submission — by establishing trust faster than a Tilda template or a competitor can. Fully bilingual EN/ES, every page mirrored. Success = the visitor contacts AeroComfort instead of bouncing, already believing "these people are legit, local, and easy to deal with."
+Marketing site for AeroComfort, an HVAC business (air conditioning, heat pumps / aerotermia, ventilation) led by Gregorio (autónomo) with a team of specialists on the Costa Blanca. It converts search and referral traffic into leads — a WhatsApp message, a phone call, or a quote-form submission — by establishing trust faster than a Tilda template or a competitor can. Fully bilingual EN/ES, every page mirrored. Success = the visitor contacts AeroComfort instead of bouncing, already believing "these people are legit, local, and easy to deal with."
 
 ## Brand Personality
 

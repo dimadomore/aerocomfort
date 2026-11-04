@@ -5,6 +5,7 @@ import { SERVICES } from '../../data/services';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
+import ServiceRow from '../ui/ServiceRow.astro';
 
 interface Props {
   locale: Locale;
@@ -12,41 +13,65 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const es = locale === 'es';
+const [lead, ...rest] = SERVICES;
 ---
 <section class="py-16 lg:py-24">
   <Container>
-    <div class="flex flex-wrap items-end justify-between gap-6">
-      <SectionHeading
-        eyebrow={es ? 'Qué hacemos' : 'What we do'}
-        title={es ? 'Servicios de aire acondicionado' : 'Air conditioning services'}
-        intro={es ? 'Todo lo que tu aire acondicionado necesita, de principio a fin.' : 'Everything your air conditioning needs, start to finish.'}
-      />
-      <a
-        class="hidden items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3 sm:inline-flex"
-        href={localizedPath('/services', locale)}
-      >
-        {t('cta.services')}
-        <Icon name="arrow-right" size={18} />
-      </a>
-    </div>
+    <SectionHeading
+      title={es ? '¿Qué necesitas?' : 'What do you need done?'}
+      intro={es ? 'Del primer equipo a la limpieza anual: lo hacemos todo nosotros.' : 'From a first unit to the yearly clean, we do it all ourselves.'}
+    />
 
-    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      {SERVICES.map((s) => (
-        <a
-          href={localizedPath(`/services/${s.slug}`, locale)}
-          class="group card-cool rounded-xl border border-line p-6 hover:border-blue-300"
-        >
-          <span class="icon-tile h-12 w-12 rounded-xl">
-            <Icon name={s.icon} size={26} />
+    <div class="mt-10 grid gap-8 lg:grid-cols-2 lg:gap-12">
+      <a class="lead group" href={localizedPath(`/services/${lead.slug}`, locale)}>
+        <img src={lead.image} alt="" width="900" height="1200" loading="lazy" decoding="async" />
+        <span class="lead__text">
+          <span class="block font-display text-h2 font-extrabold text-white">{lead[locale].title}</span>
+          <span class="mt-1 block max-w-md text-small text-white/90">{lead[locale].blurb}</span>
+          <span class="mt-3 inline-flex items-center gap-2 text-small font-bold text-white">
+            {es ? 'Ver instalación' : 'See installation'}
+            <Icon name="arrow-right" size={18} class="transition-transform duration-200 ease-out group-hover:translate-x-1" />
           </span>
-          <h3 class="mt-5 text-h3">{s[locale].title}</h3>
-          <p class="mt-2 text-small text-ink-500">{s[locale].blurb}</p>
-          <span class="mt-4 inline-flex items-center gap-1.5 text-small font-bold text-brand-700">
-            {es ? 'Saber más' : 'Learn more'}
-            <Icon name="arrow-right" size={16} class="transition-transform duration-200 ease-out group-hover:translate-x-1" />
-          </span>
+        </span>
+      </a>
+
+      <div class="flex flex-col justify-between border-t border-line">
+        {rest.map((s) => <ServiceRow service={s} locale={locale} />)}
+        <a class="mt-5 inline-flex items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3" href={localizedPath('/services', locale)}>
+          {t('cta.services')}
+          <Icon name="arrow-right" size={18} />
         </a>
-      ))}
+      </div>
     </div>
   </Container>
 </section>
+
+<style>
+  .lead {
+    position: relative;
+    display: block;
+    min-height: 24rem;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--brand-900);
+    text-decoration: none;
+  }
+  .lead img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 45%;
+    transition: transform 0.5s ease-out;
+  }
+  .lead:hover img {
+    transform: scale(1.04);
+  }
+  .lead__text {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 4rem 1.5rem 1.5rem;
+    background: linear-gradient(0deg, rgb(17 48 92 / 0.95) 35%, rgb(17 48 92 / 0));
+  }
+</style>

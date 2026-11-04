@@ -1,5 +1,5 @@
 ---
-import { type Locale } from '../../config';
+import { type Locale, HERO_VIDEO } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import { business, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
@@ -12,76 +12,399 @@ interface Props {
 }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+const es = locale === 'es';
+const tr = business.trust;
 
-const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
 const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
 const contactHref = localizedPath('/contact', locale);
-const regionUpper = 'Costa Blanca · Costa Cálida';
+
+// Real Aerocomfort jobs. `pos` keeps the unit in frame when cropped to the band.
+const slides = [
+  { src: '/gallery/work-28.webp', pos: '50% 70%', thumb: '60% 38%', alt: es ? 'Unidades exteriores en una azotea con vistas al mar' : 'Outdoor units on a rooftop with a sea view' },
+  { src: '/gallery/work-29.webp', pos: '50% 55%', thumb: '55% 55%', alt: es ? 'Unidades LG instaladas por Aerocomfort en una cubierta de tejas' : 'LG units installed by Aerocomfort on a tiled roof' },
+  { src: '/gallery/work-04.webp', pos: '50% 60%', thumb: '70% 50%', alt: es ? 'Técnico de Aerocomfort instalando una unidad exterior' : 'Aerocomfort technician fitting an outdoor unit' },
+];
+
+const checks = es
+  ? ['Equipo certificado', 'Todas las marcas', 'Viviendas, restaurantes y negocios']
+  : ['Certified team', 'All major brands', 'Homes, restaurants and businesses'];
+const logos = [
+  { name: 'LG', src: '/brands/lg.svg' },
+  { name: 'Mitsubishi Electric', src: '/brands/mitsubishi-electric.svg' },
+  { name: 'Panasonic', src: '/brands/panasonic.svg' },
+  { name: 'Giatsu', src: '/brands/giatsu.png' },
+];
+const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: string; b: string }[] = [
+  { icon: 'clock', a: es ? 'Respuesta en 1 hora' : 'Reply within the hour', b: es ? 'en horario laboral' : 'during working hours' },
+  { icon: 'shield-check', a: es ? `Garantía de ${tr?.guaranteeYears ?? 3} años` : `${tr?.guaranteeYears ?? 3}-year guarantee`, b: es ? 'trabajo y equipo' : 'work & equipment' },
+  { icon: 'star', a: `${business.rating.value} ${es ? 'en' : 'on'} Google`, b: `${reviewCountDisplay} ${es ? 'reseñas' : 'reviews'}` },
+  { icon: 'award', a: `${tr?.installs ?? '1000+'}`, b: es ? 'instalaciones' : 'installations' },
+  { icon: 'ac-unit', a: es ? 'Frío y calor' : 'Cooling & heating', b: es ? 'todo el año' : 'all year round' },
+];
+const pauseLabel = es ? 'Pausar' : 'Pause';
+const playLabel = es ? 'Reproducir' : 'Play';
 ---
-<section class="hero-band relative overflow-hidden text-white">
-  <!-- Signature motif: animated cool-air currents + frost (docs/04 §7) -->
-  <CoolAir variant="hero" />
+<section class="hero text-white" data-hero data-video={HERO_VIDEO || undefined}>
+  <div class="hero__media" data-media aria-hidden="true">
+    {slides.map((s, i) => (
+      <img
+        class:list={['hero__slide', i === 0 && 'is-active']}
+        src={s.src}
+        alt=""
+        width="900"
+        height="1200"
+        style={`object-position:${s.pos}`}
+        fetchpriority={i === 0 ? 'high' : 'low'}
+        loading={i === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+        data-slide
+      />
+    ))}
+  </div>
+  <div class="hero__shade" aria-hidden="true"></div>
+  <div class="hero__air" aria-hidden="true"><CoolAir /></div>
 
-  <Container class="relative z-10 py-14 lg:py-24">
-    <div class="max-w-3xl">
-      <p class="inline-flex items-center gap-2 text-small font-semibold text-sky-200">
-        <Icon name="map-pin" size={16} class="text-cyan-400" />
-        {regionUpper}
-      </p>
+  <Container class="relative z-10 pt-9 pb-6 lg:pt-11 lg:pb-7">
+    <div class="hero__grid">
+      <div class="max-w-2xl">
+        <h1 class="text-display text-white">
+          {t('hero.h1.lead')} <span class="hero__place">{t('hero.h1.place')}</span>
+          <span class="mt-3 block font-display text-h3 font-semibold text-white/90">{t('hero.h1.tail')}</span>
+        </h1>
 
-      <h1 class="mt-5 text-display text-white">
-        {t('hero.h1.lead')} <span class="place">{t('hero.h1.place')}</span>
-        <span class="mt-3 block font-display text-h2 font-semibold text-white/85">
-          — {t('hero.h1.tail')}
-        </span>
-      </h1>
+        <p class="mt-4 hidden max-w-xl text-body text-white/90 sm:block">{t('hero.sub')}</p>
 
-      <p class="mt-6 max-w-xl text-body-lg text-white/85">{t('hero.sub')}</p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
+            <Icon name="whatsapp" size={20} />
+            {t('cta.whatsapp')}
+          </Button>
+          <Button href={contactHref} variant="primary" size="lg" class="cta-attention">
+            {t('cta.quote')}
+            <Icon name="arrow-right" size={20} />
+          </Button>
+        </div>
 
-      <div class="mt-7 inline-flex items-center gap-2.5 rounded-pill bg-white/12 px-4 py-2 ring-1 ring-white/20">
-        <Icon name="star" size={18} class="text-warning" />
-        <span class="text-small font-semibold">{business.rating.value} {locale === 'es' ? 'en' : 'on'} Google · {reviewCountDisplay} {locale === 'es' ? 'reseñas' : 'reviews'}</span>
+        <ul class="mt-6 hidden flex-wrap gap-x-6 gap-y-2 sm:flex">
+          {checks.map((c) => (
+            <li class="flex items-center gap-2.5 text-small font-medium">
+              <span class="hero__tick"><Icon name="check" size={13} /></span>
+              {c}
+            </li>
+          ))}
+        </ul>
+
+        <ul class="mt-5 hidden flex-wrap gap-2.5 lg:flex" aria-label={es ? 'Marcas que instalamos' : 'Brands we install'}>
+          {logos.map((l) => (
+            <li class="hero__chip"><img src={l.src} alt={l.name} width="88" height="24" loading="lazy" decoding="async" /></li>
+          ))}
+        </ul>
       </div>
 
-      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-        <Button href={contactHref} variant="primary" size="lg" class="cta-attention">
-          {t('cta.quote')}
-          <Icon name="arrow-right" size={20} />
-        </Button>
-        <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
-          <Icon name="whatsapp" size={20} />
-          {t('cta.whatsapp')}
-        </Button>
-        <Button href={telHref} variant="secondary" size="lg">
-          <Icon name="phone" size={18} />
-          {business.phone}
-        </Button>
+      <div class="hero__thumbs" data-controls role="group" aria-label={es ? 'Fotos de nuestros trabajos' : 'Photos of our work'}>
+        {slides.map((s, i) => (
+          <button class:list={['hero__thumb', i === 0 && 'is-active']} type="button" data-thumb={i} aria-pressed={i === 0 ? 'true' : 'false'} aria-label={s.alt}>
+            <img src={s.src} alt="" width="150" height="200" style={`object-position:${s.thumb}`} loading="lazy" decoding="async" />
+          </button>
+        ))}
+        <button class="hero__toggle" type="button" data-toggle aria-label={pauseLabel} data-pause-label={pauseLabel} data-play-label={playLabel}>
+          <span data-icon-pause><Icon name="pause" size={18} /></span>
+          <span data-icon-play hidden><Icon name="play" size={18} /></span>
+        </button>
       </div>
     </div>
+  </Container>
 
+  <Container class="relative z-10 pb-6">
+    <ul class="hero__bar">
+      {bar.map((item) => (
+        <li class="hero__bar-item">
+          <Icon name={item.icon} size={28} class={`size-6 shrink-0 lg:size-7 ${item.icon === 'star' ? 'text-warning' : 'text-brand-600'}`} />
+          <span class="leading-tight">
+            <strong class="block font-display text-caption font-bold text-brand-900 lg:text-small">{item.a}</strong>
+            <span class="block text-[0.8125rem] text-ink-700 lg:text-caption">{item.b}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
   </Container>
 </section>
 
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    const slides = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
+    const thumbs = [...hero.querySelectorAll<HTMLButtonElement>('[data-thumb]')];
+    const controls = hero.querySelector<HTMLElement>('[data-controls]');
+    const toggle = hero.querySelector<HTMLButtonElement>('[data-toggle]');
+    const iconPause = hero.querySelector<HTMLElement>('[data-icon-pause]');
+    const iconPlay = hero.querySelector<HTMLElement>('[data-icon-play]');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const INTERVAL = 6000;
+    let current = 0;
+    let timer: number | undefined;
+    let paused = reduced; // the user's explicit choice (or their OS setting)
+    let held = false; // pointer/focus is on the controls
+    let video: HTMLVideoElement | null = null;
+
+    const show = (n: number) => {
+      current = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
+      thumbs.forEach((b, i) => {
+        b.classList.toggle('is-active', i === current);
+        b.setAttribute('aria-pressed', String(i === current));
+      });
+    };
+
+    const sync = () => {
+      window.clearInterval(timer);
+      if (!paused && !held && !video && !document.hidden) {
+        timer = window.setInterval(() => show(current + 1), INTERVAL);
+      }
+      if (video) paused ? video.pause() : video.play().catch(() => {});
+      if (toggle) toggle.setAttribute('aria-label', (paused ? toggle.dataset.playLabel : toggle.dataset.pauseLabel) ?? '');
+      if (iconPause) iconPause.hidden = paused;
+      if (iconPlay) iconPlay.hidden = !paused;
+    };
+
+    thumbs.forEach((b, i) =>
+      b.addEventListener('click', () => {
+        // Choosing a photo drops the video for this visit: the choice must stick.
+        video?.remove();
+        video = null;
+        show(i);
+        sync();
+      }),
+    );
+    toggle?.addEventListener('click', () => {
+      paused = !paused;
+      sync();
+    });
+    const hold = (value: boolean) => () => {
+      held = value;
+      sync();
+    };
+    controls?.addEventListener('pointerenter', hold(true));
+    controls?.addEventListener('pointerleave', hold(false));
+    controls?.addEventListener('focusin', hold(true));
+    controls?.addEventListener('focusout', hold(false));
+    document.addEventListener('visibilitychange', sync);
+
+    const startVideo = () => {
+      const src = hero.dataset.video;
+      const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+      if (!src || reduced || saveData || !matchMedia('(min-width: 1024px)').matches) return;
+      const el = document.createElement('video');
+      Object.assign(el, { src, muted: true, loop: true, playsInline: true, autoplay: true, className: 'hero__video' });
+      el.setAttribute('aria-hidden', 'true');
+      el.addEventListener('playing', () => el.classList.add('is-active'), { once: true });
+      hero.querySelector('[data-media]')?.append(el);
+      video = el;
+      sync();
+    };
+    if (document.readyState === 'complete') startVideo();
+    else window.addEventListener('load', startVideo, { once: true });
+
+    sync();
+  }
+</script>
+
 <style>
-  /* Temperature gradient: deep "warm-side" blue upper-left cooling toward the
-     fresher brand blue lower-right — the band itself reads as air cooling down. */
-  .hero-band {
-    background: linear-gradient(150deg, var(--brand-800) 0%, var(--brand-700) 58%, #2170cd 100%);
+  .hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--brand-900);
   }
 
-  /* Accent underline on the place word — energy without hurting text contrast */
-  .place {
-    position: relative;
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+  }
+  .hero__slide,
+  .hero__media :global(.hero__video) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    filter: saturate(1.18) brightness(1.06);
+    transition: opacity 900ms ease-out;
+  }
+  .hero__slide.is-active,
+  .hero__media :global(.hero__video.is-active) {
+    opacity: 1;
+  }
+  /* A slow push-in keeps the photo alive between changes. */
+  .hero__slide.is-active {
+    animation: hero-drift 9s ease-out forwards;
+  }
+  @keyframes hero-drift {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+
+  /* Phones: the photo sits behind a full navy veil so text always clears AA. */
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: linear-gradient(180deg, rgb(17 48 92 / 0.8) 0%, rgb(17 48 92 / 0.72) 45%, rgb(17 48 92 / 0.92) 100%);
+  }
+  .hero__air {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    mask-image: linear-gradient(90deg, #000 0%, #000 42%, transparent 60%);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .hero__place {
+    color: #4cc9f0;
     white-space: nowrap;
   }
-  .place::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0.04em;
-    height: 0.16em;
+  .hero__tick {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
     border-radius: var(--radius-pill);
-    background: var(--accent-500);
+    background: var(--brand-600);
+    color: #fff;
+  }
+  .hero__chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    padding: 0 0.875rem;
+    border-radius: var(--radius-md);
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+  .hero__chip img {
+    height: 1.375rem;
+    width: auto;
+    max-width: 6rem;
+  }
+
+  .hero__thumbs {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.625rem;
+  }
+  .hero__thumb {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 4.75rem;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid rgb(255 255 255 / 0.75);
+    border-radius: var(--radius-md);
+    background: var(--brand-800);
+    box-shadow: var(--shadow-md);
+    transition: border-color 200ms ease-out, transform 200ms ease-out;
+  }
+  .hero__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero__thumb:hover {
+    transform: translateY(-2px);
+  }
+  .hero__thumb.is-active {
+    border-color: #4cc9f0;
+  }
+  .hero__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: none;
+    cursor: pointer;
+    border-radius: var(--radius-pill);
+    background: rgb(255 255 255 / 0.92);
+    color: var(--brand-800);
+    box-shadow: var(--shadow-md);
+  }
+  .hero__toggle span {
+    display: inline-flex;
+  }
+  .hero__toggle span[hidden] {
+    display: none;
+  }
+
+  .hero__bar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.875rem 1rem;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    background: rgb(255 255 255 / 0.94);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
+  }
+  .hero__bar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  .hero__bar-item:last-child {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__media {
+      left: 36%;
+    }
+    .hero__shade {
+      background:
+        linear-gradient(90deg, var(--brand-900) 38%, rgb(17 48 92 / 0.9) 50%, rgb(17 48 92 / 0.3) 64%, rgb(17 48 92 / 0) 76%),
+        linear-gradient(0deg, rgb(17 48 92 / 0.5) 0%, rgb(17 48 92 / 0) 24%);
+    }
+    .hero__grid {
+      grid-template-columns: minmax(0, 1fr) 24rem;
+      align-items: end;
+    }
+    .hero__thumb {
+      height: 7rem;
+    }
+    .hero__bar {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0;
+      padding: 1.125rem 0.5rem;
+    }
+    .hero__bar-item {
+      padding: 0 1rem;
+    }
+    .hero__bar-item + .hero__bar-item {
+      border-left: 1px solid var(--line);
+    }
+    .hero__bar-item:last-child {
+      grid-column: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__slide,
+    .hero__thumb {
+      transition: none;
+    }
+    .hero__slide.is-active {
+      animation: none;
+    }
   }
 </style>

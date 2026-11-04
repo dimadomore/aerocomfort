@@ -1,0 +1,193 @@
+---
+import { type Locale } from '../../config';
+import { business } from '../../data';
+import { AREA_GROUPS } from '../../data/areas';
+import { localizedPath } from '../../i18n/utils';
+import Icon from './Icon.astro';
+
+/**
+ * Searchable town list. Every town is a real link in the HTML (good for visitors
+ * and for organic search); `limit` only trims what's shown until "+N more".
+ */
+interface Props {
+  locale: Locale;
+  /** Towns shown before "+N more". Omit to show them all. */
+  limit?: number;
+  /** Slug to leave out (the current town on an area page). */
+  exclude?: string;
+}
+const { locale, limit, exclude } = Astro.props;
+const es = locale === 'es';
+
+// Where most of the work is, first (owner's brief); then the rest in list order.
+const PRIORITY = ['torrevieja', 'orihuela-costa', 'la-zenia', 'pilar-de-la-horadada', 'ciudad-quesada', 'guardamar-del-segura'];
+const rank = (slug?: string) => {
+  const i = PRIORITY.indexOf(slug ?? '');
+  return i === -1 ? PRIORITY.length : i;
+};
+const towns = AREA_GROUPS.flatMap((g) => g.towns)
+  .filter((town) => town.slug && town.slug !== exclude)
+  .sort((a, b) => rank(a.slug) - rank(b.slug));
+const key = (name: string) => name.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+const extra = limit ? Math.max(towns.length - limit, 0) : 0;
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
+---
+<div class="finder" data-finder data-collapsed={extra > 0 ? '' : undefined}>
+  <label class="finder__search">
+    <span class="sr-only">{es ? 'Busca tu localidad' : 'Find your town'}</span>
+    <Icon name="map-pin" size={20} class="shrink-0 text-brand-900" />
+    <input type="search" data-finder-input placeholder={es ? 'Escribe tu localidad' : 'Type your town'} autocomplete="off" />
+  </label>
+
+  <ul class="finder__list">
+    {towns.map((town, i) => (
+      <li data-town={key(town.name)} class:list={[limit !== undefined && i >= limit && 'is-extra']}>
+        <a href={localizedPath(`/areas/${town.slug}`, locale)}>
+          {town.name}
+          <Icon name="arrow-right" size={16} />
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <p class="mt-5 text-small text-ink-700" data-finder-empty hidden>
+    {es ? 'No está en la lista, pero puede que lleguemos.' : "Not on the list, but we may still reach you."}{' '}
+    <a href={waHref} target="_blank" rel="noopener">{es ? 'Pregúntanos por WhatsApp' : 'Ask us on WhatsApp'}</a>.
+  </p>
+
+  {extra > 0 && (
+    <a class="finder__more" data-finder-more href={localizedPath('/areas', locale)}>
+      {es ? `+${extra} zonas más` : `+${extra} more areas`}
+      <Icon name="chevron-down" size={18} />
+    </a>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-finder]').forEach((finder) => {
+    const input = finder.querySelector<HTMLInputElement>('[data-finder-input]');
+    const items = [...finder.querySelectorAll<HTMLElement>('[data-town]')];
+    const empty = finder.querySelector<HTMLElement>('[data-finder-empty]');
+    const more = finder.querySelector<HTMLElement>('[data-finder-more]');
+    const normalise = (v: string) => v.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim();
+
+    input?.addEventListener('input', () => {
+      const q = normalise(input.value);
+      let shown = 0;
+      items.forEach((li) => {
+        const match = !q || (li.dataset.town ?? '').includes(q);
+        li.hidden = !match;
+        if (match) shown += 1;
+      });
+      // While searching, look through every town, not just the first few.
+      finder.toggleAttribute('data-searching', q.length > 0);
+      if (empty) empty.hidden = shown > 0;
+    });
+
+    more?.addEventListener('click', (e) => {
+      e.preventDefault();
+      finder.removeAttribute('data-collapsed');
+    });
+  });
+</script>
+
+<style>
+  .finder__search {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 28rem;
+    min-height: 3.5rem;
+    padding: 0 1rem;
+    border: 1.5px solid var(--brand-900);
+    border-radius: var(--radius-md);
+    background: #fff;
+  }
+  .finder__search:focus-within {
+    outline: 3px solid var(--blue-500);
+    outline-offset: 2px;
+  }
+  .finder__search input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+    color: var(--ink-900);
+  }
+  .finder__search input::placeholder {
+    color: var(--ink-500);
+  }
+  .finder__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .finder__list li[hidden] {
+    display: none;
+  }
+  [data-collapsed]:not([data-searching]) .is-extra {
+    display: none;
+  }
+  .finder__list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    min-height: 3.25rem;
+    padding: 0.5rem 0;
+    line-height: 1.25;
+    border-bottom: 1px solid rgb(17 48 92 / 0.15);
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--brand-900);
+    text-decoration: none;
+    transition: color 0.15s ease-out, border-color 0.15s ease-out;
+  }
+  .finder__list a :global(svg) {
+    transition: transform 0.2s ease-out;
+  }
+  .finder__list a:hover {
+    color: var(--brand-700);
+    border-color: var(--brand-700);
+  }
+  .finder__list a:hover :global(svg) {
+    transform: translateX(4px);
+  }
+  @media (min-width: 768px) {
+    .finder__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: 2rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .finder__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .finder__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    margin-top: 1.25rem;
+    padding: 0 1.25rem;
+    border: 1.5px solid var(--brand-900);
+    border-radius: var(--radius-md);
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--brand-900);
+    text-decoration: none;
+    transition: background-color 0.15s ease-out, color 0.15s ease-out;
+  }
+  .finder__more:hover {
+    background: var(--brand-900);
+    color: #fff;
+  }
+  .finder:not([data-collapsed]) .finder__more,
+  [data-searching] .finder__more {
+    display: none;
+  }
+</style>

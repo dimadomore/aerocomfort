@@ -17,7 +17,7 @@ const c = service[locale];
 const path = `/services/${service.slug}`;
 const esUrl = localizedPath(path, locale);
 const title = `${c.title} de Aire Acondicionado en la Costa Blanca | Aerocomfort`;
-const description = `${c.title} de aire acondicionado en la Costa Blanca. Precios claros, garantía y valoración 5,0★. Presupuesto gratis — llama o WhatsApp.`;
+const description = c.meta;
 const crumbs = [
   { label: t('breadcrumb.home'), href: localizedPath('/', locale) },
   { label: t('nav.services'), href: localizedPath('/services', locale) },

@@ -27,7 +27,7 @@ export const AREAS: Area[] = [
       name: 'Torrevieja',
       intro: 'Air conditioning installation, repair and maintenance throughout Torrevieja.',
       body: [
-        'Torrevieja’s long, hot summers and dense apartment blocks make reliable air conditioning essential. We install, repair, clean and service AC across the town and its urbanisations — from the centre and the port to Los Balcones, La Mata and Aguas Nuevas.',
+        'Torrevieja’s long, hot summers and dense apartment blocks make reliable air conditioning essential. We install, repair, clean and service AC across the town and its urbanisations: from the centre and the port to Los Balcones, La Mata and Aguas Nuevas.',
         'Whether you need a new split fitted in a holiday apartment or a quick repair before the heat peaks, we work locally and respond fast.',
       ],
     },
@@ -35,7 +35,7 @@ export const AREAS: Area[] = [
       name: 'Torrevieja',
       intro: 'Instalación, reparación y mantenimiento de aire acondicionado en todo Torrevieja.',
       body: [
-        'Los veranos largos y calurosos de Torrevieja y sus bloques de apartamentos hacen imprescindible un buen aire acondicionado. Instalamos, reparamos, limpiamos y mantenemos equipos en toda la ciudad y sus urbanizaciones — del centro y el puerto a Los Balcones, La Mata y Aguas Nuevas.',
+        'Los veranos largos y calurosos de Torrevieja y sus bloques de apartamentos hacen imprescindible un buen aire acondicionado. Instalamos, reparamos, limpiamos y mantenemos equipos en toda la ciudad y sus urbanizaciones: del centro y el puerto a Los Balcones, La Mata y Aguas Nuevas.',
         'Tanto si necesitas instalar un split nuevo en un apartamento como una reparación rápida antes del pico de calor, trabajamos en la zona y respondemos rápido.',
       ],
     },
@@ -66,7 +66,7 @@ export const AREAS: Area[] = [
       intro: 'Installation and repair of air conditioning in Guardamar del Segura.',
       body: [
         'Guardamar’s pine-backed beaches and growing residential areas mean plenty of homes that need cooling through the long season. We fit new units and keep existing ones efficient, across the town and nearby El Raso and El Moncayo.',
-        'Coastal air can be hard on outdoor units — regular cleaning and servicing keeps them running well for longer.',
+        'Coastal air can be hard on outdoor units, regular cleaning and servicing keeps them running well for longer.',
       ],
     },
     es: {
@@ -74,7 +74,7 @@ export const AREAS: Area[] = [
       intro: 'Instalación y reparación de aire acondicionado en Guardamar del Segura.',
       body: [
         'Las playas con pinada de Guardamar y sus zonas residenciales en crecimiento suponen muchas viviendas que necesitan refrigeración durante la larga temporada. Instalamos equipos nuevos y mantenemos los existentes, en el pueblo y en El Raso y El Moncayo.',
-        'El aire de costa castiga las unidades exteriores — una limpieza y mantenimiento regulares las mantienen en forma más tiempo.',
+        'El aire de costa castiga las unidades exteriores, una limpieza y mantenimiento regulares las mantienen en forma más tiempo.',
       ],
     },
   },
@@ -84,7 +84,7 @@ export const AREAS: Area[] = [
       name: 'Santa Pola',
       intro: 'Air conditioning installation, repair and maintenance across Santa Pola.',
       body: [
-        'Santa Pola is a busy coastal town — fishing port, long beaches and plenty of holiday apartments — so reliable air conditioning is a must through the long summer. We install, repair, clean and service AC across the town and its urbanisations.',
+        'Santa Pola is a busy coastal town, fishing port, long beaches and plenty of holiday apartments, so reliable air conditioning is a must through the long summer. We install, repair, clean and service AC across the town and its urbanisations.',
         'Sea air is hard on outdoor units, so a regular clean and service keeps them efficient and trouble-free.',
       ],
     },
@@ -92,7 +92,7 @@ export const AREAS: Area[] = [
       name: 'Santa Pola',
       intro: 'Instalación, reparación y mantenimiento de aire acondicionado en Santa Pola.',
       body: [
-        'Santa Pola es un municipio costero con puerto pesquero, playas largas y muchos apartamentos de vacaciones — un buen aire acondicionado es imprescindible en el largo verano. Instalamos, reparamos, limpiamos y mantenemos equipos en el pueblo y sus urbanizaciones.',
+        'Santa Pola es un municipio costero con puerto pesquero, playas largas y muchos apartamentos de vacaciones, un buen aire acondicionado es imprescindible en el largo verano. Instalamos, reparamos, limpiamos y mantenemos equipos en el pueblo y sus urbanizaciones.',
         'El aire del mar castiga las unidades exteriores; una limpieza y un mantenimiento regulares las mantienen eficientes y sin averías.',
       ],
     },
@@ -123,7 +123,7 @@ export const AREAS: Area[] = [
       intro: 'Air conditioning installation, repair and maintenance in San Miguel de Salinas.',
       body: [
         'San Miguel de Salinas sits on the hills above Orihuela Costa, with a large international community and many villas and apartments. We install, repair and service air conditioning throughout the town and its urbanisations.',
-        'Its inland position brings hot, still summers — we help you size and fit a unit that cools efficiently without driving up the bills.',
+        'Its inland position brings hot, still summers, we help you size and fit a unit that cools efficiently without driving up the bills.',
       ],
     },
     es: {
@@ -131,7 +131,7 @@ export const AREAS: Area[] = [
       intro: 'Instalación, reparación y mantenimiento de aire acondicionado en San Miguel de Salinas.',
       body: [
         'San Miguel de Salinas se asienta en las lomas sobre Orihuela Costa, con una gran comunidad internacional y muchas villas y apartamentos. Instalamos, reparamos y mantenemos aire acondicionado en todo el municipio y sus urbanizaciones.',
-        'Su ubicación interior trae veranos calurosos y sin brisa — te ayudamos a dimensionar e instalar un equipo que enfríe de forma eficiente sin disparar la factura.',
+        'Su ubicación interior trae veranos calurosos y sin brisa, te ayudamos a dimensionar e instalar un equipo que enfríe de forma eficiente sin disparar la factura.',
       ],
     },
   },
@@ -160,7 +160,7 @@ export const AREAS: Area[] = [
       name: 'Pilar de la Horadada',
       intro: 'Trusted air conditioning services in Pilar de la Horadada and Torre de la Horadada.',
       body: [
-        'At the southern edge of the Costa Blanca, Pilar de la Horadada and the coastal Torre de la Horadada combine permanent homes and holiday properties — all needing dependable cooling in summer. We install, repair and maintain across the area.',
+        'At the southern edge of the Costa Blanca, Pilar de la Horadada and the coastal Torre de la Horadada combine permanent homes and holiday properties, all needing dependable cooling in summer. We install, repair and maintain across the area.',
         'Booking ahead of the season avoids the rush; off-season is the ideal time for installations and servicing.',
       ],
     },
@@ -168,7 +168,7 @@ export const AREAS: Area[] = [
       name: 'Pilar de la Horadada',
       intro: 'Servicios de aire acondicionado de confianza en Pilar de la Horadada y Torre de la Horadada.',
       body: [
-        'En el extremo sur de la Costa Blanca, Pilar de la Horadada y la costera Torre de la Horadada combinan viviendas habituales y de vacaciones — todas necesitan una refrigeración fiable en verano. Instalamos, reparamos y mantenemos en toda la zona.',
+        'En el extremo sur de la Costa Blanca, Pilar de la Horadada y la costera Torre de la Horadada combinan viviendas habituales y de vacaciones, todas necesitan una refrigeración fiable en verano. Instalamos, reparamos y mantenemos en toda la zona.',
         'Reservar antes de la temporada evita las prisas; la temporada baja es el momento ideal para instalaciones y mantenimientos.',
       ],
     },
@@ -179,7 +179,7 @@ export const AREAS: Area[] = [
       name: 'San Pedro del Pinatar',
       intro: 'Air conditioning across San Pedro del Pinatar and Lo Pagán.',
       body: [
-        'On the northern edge of the Mar Menor, San Pedro del Pinatar and Lo Pagán are busy year-round and packed in summer — so dependable cooling matters. We install, repair, clean and service air conditioning across the area.',
+        'On the northern edge of the Mar Menor, San Pedro del Pinatar and Lo Pagán are busy year-round and packed in summer, so dependable cooling matters. We install, repair, clean and service air conditioning across the area.',
         'Salt-laden coastal air is tough on outdoor units; regular servicing keeps them running well.',
       ],
     },
@@ -187,7 +187,7 @@ export const AREAS: Area[] = [
       name: 'San Pedro del Pinatar',
       intro: 'Aire acondicionado en San Pedro del Pinatar y Lo Pagán.',
       body: [
-        'En el extremo norte del Mar Menor, San Pedro del Pinatar y Lo Pagán tienen mucha actividad todo el año y se llenan en verano — la refrigeración fiable importa. Instalamos, reparamos, limpiamos y mantenemos equipos en toda la zona.',
+        'En el extremo norte del Mar Menor, San Pedro del Pinatar y Lo Pagán tienen mucha actividad todo el año y se llenan en verano, la refrigeración fiable importa. Instalamos, reparamos, limpiamos y mantenemos equipos en toda la zona.',
         'El aire salino de la costa castiga las unidades exteriores; un mantenimiento regular las mantiene en forma.',
       ],
     },
@@ -199,7 +199,7 @@ export const AREAS: Area[] = [
       intro: 'Air conditioning in San Javier and Santiago de la Ribera.',
       body: [
         'San Javier and its seafront Santiago de la Ribera sit on the Mar Menor, with homes, apartments and businesses that rely on good air conditioning each summer. We install, repair, clean and service all brands.',
-        'Coastal air is hard on equipment — a yearly clean and service keeps it efficient.',
+        'Coastal air is hard on equipment, a yearly clean and service keeps it efficient.',
       ],
     },
     es: {
@@ -207,7 +207,7 @@ export const AREAS: Area[] = [
       intro: 'Aire acondicionado en San Javier y Santiago de la Ribera.',
       body: [
         'San Javier y su paseo marítimo de Santiago de la Ribera se asoman al Mar Menor, con viviendas, apartamentos y negocios que dependen de un buen aire acondicionado cada verano. Instalamos, reparamos, limpiamos y mantenemos todas las marcas.',
-        'El aire de costa castiga los equipos — una limpieza y un mantenimiento anuales los mantienen eficientes.',
+        'El aire de costa castiga los equipos, una limpieza y un mantenimiento anuales los mantienen eficientes.',
       ],
     },
   },
@@ -218,7 +218,7 @@ export const AREAS: Area[] = [
       intro: 'AC installation, repair and maintenance in Los Alcázares.',
       body: [
         'Los Alcázares is a popular Mar Menor resort town packed with holiday and permanent homes that all need cooling through the long Murcia summer. We supply, install and service air conditioning across the town.',
-        'Book ahead of the season to avoid the rush — off-season is ideal for installs and servicing.',
+        'Book ahead of the season to avoid the rush, off-season is ideal for installs and servicing.',
       ],
     },
     es: {
@@ -226,7 +226,7 @@ export const AREAS: Area[] = [
       intro: 'Instalación, reparación y mantenimiento de aire acondicionado en Los Alcázares.',
       body: [
         'Los Alcázares es un popular municipio turístico del Mar Menor lleno de viviendas de vacaciones y habituales que necesitan refrigeración durante el largo verano murciano. Suministramos, instalamos y reparamos aire acondicionado en todo el municipio.',
-        'Reserva antes de la temporada para evitar las prisas — la temporada baja es ideal para instalar y mantener.',
+        'Reserva antes de la temporada para evitar las prisas, la temporada baja es ideal para instalar y mantener.',
       ],
     },
   },
@@ -255,7 +255,7 @@ export const AREAS: Area[] = [
       name: 'La Manga del Mar Menor',
       intro: 'Air conditioning across La Manga del Mar Menor.',
       body: [
-        'La Manga is a thin strip of apartments and holiday flats between the Mar Menor and the sea — and they all need efficient cooling in summer. We install, repair, clean and service air conditioning the length of La Manga.',
+        'La Manga is a thin strip of apartments and holiday flats between the Mar Menor and the sea, and they all need efficient cooling in summer. We install, repair, clean and service air conditioning the length of La Manga.',
         'Sea air on both sides is tough on outdoor units, so regular cleaning really pays off here.',
       ],
     },
@@ -263,27 +263,8 @@ export const AREAS: Area[] = [
       name: 'La Manga del Mar Menor',
       intro: 'Aire acondicionado en La Manga del Mar Menor.',
       body: [
-        'La Manga es una estrecha franja de apartamentos y pisos de vacaciones entre el Mar Menor y el mar — y todos necesitan una refrigeración eficiente en verano. Instalamos, reparamos, limpiamos y mantenemos aire acondicionado a lo largo de toda La Manga.',
+        'La Manga es una estrecha franja de apartamentos y pisos de vacaciones entre el Mar Menor y el mar, y todos necesitan una refrigeración eficiente en verano. Instalamos, reparamos, limpiamos y mantenemos aire acondicionado a lo largo de toda La Manga.',
         'El aire marino por ambos lados castiga las unidades exteriores, así que aquí una limpieza regular merece mucho la pena.',
-      ],
-    },
-  },
-  {
-    slug: 'mazarron',
-    en: {
-      name: 'Mazarrón',
-      intro: 'AC installation, repair and maintenance in Mazarrón and Puerto de Mazarrón.',
-      body: [
-        'At the southern end of our coverage on the Costa Cálida, Mazarrón and its coastal Puerto de Mazarrón combine local homes and holiday properties needing reliable summer cooling. We install, repair, clean and service all major brands.',
-        'We work in English and Spanish, with a clear, free quote before any job.',
-      ],
-    },
-    es: {
-      name: 'Mazarrón',
-      intro: 'Instalación, reparación y mantenimiento de aire acondicionado en Mazarrón y Puerto de Mazarrón.',
-      body: [
-        'En el extremo sur de nuestra cobertura, en la Costa Cálida, Mazarrón y su costero Puerto de Mazarrón combinan viviendas locales y de vacaciones que necesitan una refrigeración fiable en verano. Instalamos, reparamos, limpiamos y mantenemos todas las marcas.',
-        'Trabajamos en español e inglés, con un presupuesto claro y gratuito antes de cada trabajo.',
       ],
     },
   },
@@ -294,7 +275,7 @@ export const AREAS: Area[] = [
       intro: "Air conditioning installation, repair and maintenance in La Mata.",
       body: [
         "Sitting between Torrevieja’s salt lagoon and a long sandy beach, La Mata is a low-rise resort where seafront apartments and holiday lets bake through July and August. We fit new splits, recharge tired units and keep filters clean so the place stays cool the moment owners or guests arrive.",
-        "The salty air off the dunes is hard on outdoor condensers here, so we pay special attention to corrosion when we service. Call us in English or Spanish — we’re local and turn jobs around quickly.",
+        "The salty air off the dunes is hard on outdoor condensers here, so we pay special attention to corrosion when we service. Call us in English or Spanish, we’re local and turn jobs around quickly.",
       ],
     },
     es: {
@@ -369,7 +350,7 @@ export const AREAS: Area[] = [
       name: "Villamartín",
       intro: "Air conditioning installation, repair and maintenance in Villamartín.",
       body: [
-        "Built around one of the Costa Blanca’s best-known golf courses and the lively Villamartín Plaza, this is a settled community of villas and bungalows where many residents live all year. AC here does double duty — cooling through the long summers and warming on cooler winter evenings — so we install efficient heat pumps and keep them running with regular servicing.",
+        "Built around one of the Costa Blanca’s best-known golf courses and the lively Villamartín Plaza, this is a settled community of villas and bungalows where many residents live all year. AC here does double duty, cooling through the long summers and warming on cooler winter evenings, so we install efficient heat pumps and keep them running with regular servicing.",
         "From a single bedroom unit to a full villa system, we repair, clean and maintain whatever you’ve got. We’re based locally, speak English and Spanish, and don’t keep you waiting.",
       ],
     },
@@ -377,7 +358,7 @@ export const AREAS: Area[] = [
       name: "Villamartín",
       intro: "Instalación, reparación y mantenimiento de aire acondicionado en Villamartín.",
       body: [
-        "Levantada en torno a uno de los campos de golf más conocidos de la Costa Blanca y a la animada Villamartín Plaza, es una comunidad asentada de villas y bungalós donde muchos residentes viven todo el año. Aquí el aire trabaja doble — refresca durante los largos veranos y calienta en las tardes frías de invierno — por eso instalamos bombas de calor eficientes y las mantenemos a punto con revisiones periódicas.",
+        "Levantada en torno a uno de los campos de golf más conocidos de la Costa Blanca y a la animada Villamartín Plaza, es una comunidad asentada de villas y bungalós donde muchos residentes viven todo el año. Aquí el aire trabaja doble, refresca durante los largos veranos y calienta en las tardes frías de invierno, por eso instalamos bombas de calor eficientes y las mantenemos a punto con revisiones periódicas.",
         "Desde una unidad para un dormitorio hasta el sistema completo de una villa, reparamos, limpiamos y mantenemos lo que tengas. Somos de la zona, hablamos inglés y español y no te hacemos esperar.",
       ],
     },
@@ -407,7 +388,7 @@ export const AREAS: Area[] = [
       name: "Mil Palmeras",
       intro: "Air conditioning installation, repair and maintenance in Mil Palmeras.",
       body: [
-        "Mil Palmeras is a compact, family-friendly resort known for its shallow, palm-lined beach and clusters of modern apartments and townhouses. With so many properties used as holiday homes, owners want AC that cools fast on arrival and is simple to leave shut up safely between visits — exactly what we install and set up.",
+        "Mil Palmeras is a compact, family-friendly resort known for its shallow, palm-lined beach and clusters of modern apartments and townhouses. With so many properties used as holiday homes, owners want AC that cools fast on arrival and is simple to leave shut up safely between visits, exactly what we install and set up.",
         "We repair and clean systems too, and the salty seafront air means we always check outdoor units for wear. Reach out in English or Spanish for a prompt local appointment.",
       ],
     },
@@ -446,7 +427,7 @@ export const AREAS: Area[] = [
       intro: "Air conditioning installation, repair and maintenance in El Raso.",
       body: [
         "El Raso is a large, self-contained residential development near Guardamar del Segura, popular with international owners for its pools, bars and walkable layout. The homes are mostly modern apartments and bungalows, well suited to neat split installations that cool quickly and run cheaply.",
-        "We install new systems on new-builds and resales, fix faults and clean units across the whole urbanisation. Call in English or Spanish — we know the development well and respond fast.",
+        "We install new systems on new-builds and resales, fix faults and clean units across the whole urbanisation. Call in English or Spanish, we know the development well and respond fast.",
       ],
     },
     es: {
@@ -617,7 +598,7 @@ export const AREAS: Area[] = [
       intro: "Air conditioning installation, repair and maintenance in Vistabella.",
       body: [
         "Vistabella, near Jacarilla and the new Vistabella Golf development, blends a small original village with rows of modern villas and golf-side homes popular with international buyers. These newer properties suit clean, energy-efficient split installations, which we plan and fit to keep both summer and winter comfortable.",
-        "We repair, service and clean existing systems across the area too. Get in touch in English or Spanish — we work locally and don’t keep you waiting.",
+        "We repair, service and clean existing systems across the area too. Get in touch in English or Spanish, we work locally and don’t keep you waiting.",
       ],
     },
     es: {
@@ -674,7 +655,7 @@ export const AREAS: Area[] = [
       intro: "Air conditioning installation, repair and maintenance in Daya Vieja.",
       body: [
         "One of the tiniest villages in the Vega Baja, Daya Vieja is a sleepy spot among the orange groves with a small, close community of locals and overseas residents. Its handful of village houses and modern bungalows still need solid cooling against the heavy, breeze-free inland summer, and we install systems sized to each one.",
-        "We’re happy with the smaller jobs others overlook — a single repair, a filter clean or a one-room split. Reach us in English or Spanish for fast, friendly local service.",
+        "We’re happy with the smaller jobs others overlook, a single repair, a filter clean or a one-room split. Reach us in English or Spanish for fast, friendly local service.",
       ],
     },
     es: {
@@ -731,7 +712,7 @@ export const AREAS: Area[] = [
       intro: "Air conditioning installation, repair and maintenance in Roldán.",
       body: [
         "Roldán is a growing town in Torre-Pacheco country, close to the popular Hacienda del Álamo style golf resorts and within easy reach of the Mar Menor beaches. Its modern villas and apartments suit clean split installations, and we plan and fit them for efficient cooling through the dry, intense inland summers.",
-        "We also handle repairs, gas top-ups and the regular cleaning that keeps systems healthy. Get in touch in English or Spanish — we’re local and quick to respond.",
+        "We also handle repairs, gas top-ups and the regular cleaning that keeps systems healthy. Get in touch in English or Spanish, we’re local and quick to respond.",
       ],
     },
     es: {
@@ -826,7 +807,7 @@ export const AREAS: Area[] = [
       intro: "Air conditioning installation, repair and maintenance in Playa Honda.",
       body: [
         "Playa Honda lines the strip of coast at the base of La Manga, with high-rise apartment towers looking out over both the Mar Menor and the Mediterranean. Sea air hits from both sides here, so these holiday and rental flats need AC that copes with humidity and salt, which we install, repair and service.",
-        "Outdoor units in this exposed position need regular cleaning and corrosion checks to last, and that’s built into how we work. Call in English or Spanish — we’re local and fast to respond.",
+        "Outdoor units in this exposed position need regular cleaning and corrosion checks to last, and that’s built into how we work. Call in English or Spanish, we’re local and fast to respond.",
       ],
     },
     es: {
@@ -854,44 +835,6 @@ export const AREAS: Area[] = [
       body: [
         "Atamaría es el exclusivo enclave residencial y de golf dentro de La Manga Club, en las laderas sobre el resort, entre pinos y campos de campeonato. Las villas y apartamentos de alto nivel suelen contar con sistemas por zonas, y nosotros los diseñamos, instalamos y equilibramos para un confort silencioso y uniforme en toda la vivienda.",
         "Mantenemos y reparamos equipos de gama alta para que funcionen de forma discreta y eficiente temporada tras temporada. Nuestro equipo bilingüe conoce el resort y responde rápido.",
-      ],
-    },
-  },
-  {
-    slug: "puerto-de-mazarron",
-    en: {
-      name: "Puerto de Mazarrón",
-      intro: "Air conditioning installation, repair and maintenance in Puerto de Mazarrón.",
-      body: [
-        "Puerto de Mazarrón is a lively fishing port and beach resort on the Costa Cálida, with its marina, long beaches and a busy summer population swelling its apartments and villas. We install splits and ducted systems across the town, from seafront flats to inland urbanisations, and keep them serviced year-round.",
-        "The strong coastal sun and salt-laden air mean outdoor units need proper care, which is central to our maintenance. Call us in English or Spanish for fast, local service.",
-      ],
-    },
-    es: {
-      name: "Puerto de Mazarrón",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Puerto de Mazarrón.",
-      body: [
-        "Puerto de Mazarrón es un animado puerto pesquero y destino de playa de la Costa Cálida, con su puerto deportivo, largas playas y una población veraniega que llena sus apartamentos y villas. Instalamos splits y sistemas por conductos por toda la localidad, desde pisos de primera línea hasta urbanizaciones del interior, y los mantenemos durante todo el año.",
-        "El fuerte sol de la costa y el aire cargado de sal exigen cuidar bien las unidades exteriores, algo central en nuestro mantenimiento. Llámanos en inglés o español para un servicio local y rápido.",
-      ],
-    },
-  },
-  {
-    slug: "mazarron-country-club",
-    en: {
-      name: "Mazarrón Country Club",
-      intro: "Air conditioning installation, repair and maintenance in Mazarrón Country Club.",
-      body: [
-        "Mazarrón Country Club is a self-contained urbanisation of villas and apartments inland of the coast, popular with international owners for its pools, social club and relaxed pace. Many homes are second residences, so owners want AC that cools quickly on arrival and is easy to leave secure between stays — exactly what we install and configure.",
-        "We repair and clean systems across the development and keep them maintained for reliability. Our team speaks English and Spanish, knows the complex well, and responds fast.",
-      ],
-    },
-    es: {
-      name: "Mazarrón Country Club",
-      intro: "Instalación, reparación y mantenimiento de aire acondicionado en Mazarrón Country Club.",
-      body: [
-        "Mazarrón Country Club es una urbanización independiente de villas y apartamentos del interior de la costa, muy apreciada por propietarios internacionales por sus piscinas, su club social y su ritmo tranquilo. Muchas viviendas son segundas residencias, así que sus dueños quieren un aire que enfríe rápido al llegar y sea fácil de dejar cerrado entre estancias: justo lo que instalamos y configuramos.",
-        "Reparamos y limpiamos equipos por toda la urbanización y los mantenemos a punto para que sean fiables. Nuestro equipo habla inglés y español, conoce bien el complejo y responde rápido.",
       ],
     },
   },
@@ -943,7 +886,7 @@ export const AREA_GROUPS: AreaGroup[] = [
     ],
   },
   {
-    title: { en: 'Costa Cálida · Mar Menor · Murcia', es: 'Costa Cálida · Mar Menor · Murcia' },
+    title: { en: 'Mar Menor · Murcia', es: 'Mar Menor · Murcia' },
     towns: [
       { name: 'San Pedro del Pinatar', slug: 'san-pedro-del-pinatar' },
       { name: 'Santiago de la Ribera', slug: "santiago-de-la-ribera" },
@@ -959,9 +902,6 @@ export const AREA_GROUPS: AreaGroup[] = [
       { name: 'Playa Honda', slug: "playa-honda" },
       { name: 'La Manga del Mar Menor', slug: 'la-manga' },
       { name: 'Atamaría', slug: "atamaria" },
-      { name: 'Mazarrón', slug: 'mazarron' },
-      { name: 'Puerto de Mazarrón', slug: "puerto-de-mazarron" },
-      { name: 'Mazarrón Country Club', slug: "mazarron-country-club" },
     ],
   },
 ];

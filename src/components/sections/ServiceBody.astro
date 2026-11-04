@@ -1,11 +1,14 @@
 ---
 import { type Locale } from '../../config';
 import { SERVICES, type Service } from '../../data/services';
-import { business } from '../../data';
+import { business, galleryPhotos } from '../../data';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
+import FaqList from '../ui/FaqList.astro';
+import Prose from '../ui/Prose.astro';
+import ServiceRow from '../ui/ServiceRow.astro';
 import PageHero from './PageHero.astro';
 import FinalCta from './FinalCta.astro';
 
@@ -22,10 +25,13 @@ const c = service[locale];
 const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
 const contactHref = localizedPath('/contact', locale);
 const others = SERVICES.filter((s) => s.slug !== service.slug);
+// Three real jobs per service page, a different set on each.
+const start = SERVICES.findIndex((s) => s.slug === service.slug) * 7 + 2;
+const photos = galleryPhotos.slice(start, start + 3);
 ---
-<PageHero crumbs={crumbs} eyebrow={es ? 'Servicio' : 'Service'} title={c.h1} intro={c.intro}>
+<PageHero crumbs={crumbs} title={c.h1} intro={c.intro} image={service.image}>
   <div slot="cta" class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-    <Button href={contactHref} variant="primary" size="lg" class="cta-attention">
+    <Button href={contactHref} variant="primary" size="lg">
       {t('cta.quote')}
       <Icon name="arrow-right" size={20} />
     </Button>
@@ -37,47 +43,74 @@ const others = SERVICES.filter((s) => s.slug !== service.slug);
 </PageHero>
 
 <section class="py-16 lg:py-24">
-  <Container>
-    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
-      <div>
-        <h2 class="text-h2">{c.includesTitle}</h2>
-        <ul class="mt-6 space-y-3.5">
-          {c.includes.map((i) => (
-            <li class="flex gap-3">
-              <Icon name="check" size={22} class="mt-0.5 shrink-0 text-brand-700" />
-              <span class="text-body text-ink-700">{i}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h2 class="text-h2">{c.pointsTitle}</h2>
-        <ul class="mt-6 space-y-3.5">
-          {c.points.map((p) => (
-            <li class="flex gap-3">
-              <Icon name="arrow-right" size={20} class="mt-1 shrink-0 text-accent-600" />
-              <span class="text-body text-ink-700">{p}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+  <Container class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-7">
+      <h2 class="text-h2">{c.includesTitle}</h2>
+      <ul class="mt-6 border-t border-line">
+        {c.includes.map((i) => (
+          <li class="flex gap-3 border-b border-line py-3.5">
+            <Icon name="check" size={22} class="mt-0.5 shrink-0 text-brand-900" />
+            <span class="text-body text-ink-700">{i}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="lg:col-span-5">
+      <h2 class="text-h3">{c.pointsTitle}</h2>
+      <ul class="mt-4 space-y-3">
+        {c.points.map((p) => <li class="text-small text-ink-700">{p}</li>)}
+      </ul>
     </div>
   </Container>
 </section>
 
-<section class="border-y border-line bg-surface-cool py-16 lg:py-24">
-  <Container class="max-w-3xl">
-    <h2 class="text-center text-h2">{es ? 'Preguntas frecuentes' : 'Frequent questions'}</h2>
-    <div class="mt-8 divide-y divide-line border-y border-line">
-      {c.faq.map((f) => (
-        <details class="faq">
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-body-lg font-semibold text-ink-900">
-            {f.q}
-            <Icon name="chevron-down" size={22} class="faq__chev shrink-0 text-brand-700 transition-transform" />
-          </summary>
-          <p class="pb-5 text-body text-ink-500">{f.a}</p>
-        </details>
+<section class="bg-surface-cool py-16 lg:py-24">
+  <Container>
+    <h2 class="text-h2">{c.stepsTitle}</h2>
+    <ol class="steps mt-8 grid gap-8 sm:grid-cols-2 lg:grid-flow-col lg:auto-cols-fr lg:grid-cols-none">
+      {c.steps.map((step, i) => (
+        <li class="border-t-2 border-brand-900 pt-4">
+          <span class="block font-display text-h3 font-extrabold text-brand-900">{i + 1}</span>
+          <span class="mt-2 block text-small text-ink-700">{step}</span>
+        </li>
       ))}
+    </ol>
+  </Container>
+</section>
+
+<section class="py-16 lg:py-24">
+  <Container class="grid gap-6 lg:grid-cols-12 lg:gap-16">
+    <h2 class="text-h2 lg:col-span-4">{c.guideTitle}</h2>
+    <div class="lg:col-span-8">
+      <Prose>
+        {c.guide.map((p) => <p>{p}</p>)}
+      </Prose>
+    </div>
+  </Container>
+</section>
+
+<section class="pb-16 lg:pb-24">
+  <Container>
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2 class="text-h3">{es ? 'Trabajos recientes' : 'Recent jobs'}</h2>
+      <a class="inline-flex items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3" href={localizedPath('/gallery', locale)}>
+        {t('cta.gallery')}
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+    <div class="mt-5 grid gap-4 sm:grid-cols-3">
+      {photos.map((p) => (
+        <img class="aspect-[4/3] w-full rounded-md object-cover" src={p.src} alt={p.alt[locale]} width="900" height="1200" loading="lazy" decoding="async" />
+      ))}
+    </div>
+  </Container>
+</section>
+
+<section class="bg-surface-cool py-16 lg:py-24">
+  <Container class="grid gap-8 lg:grid-cols-12 lg:gap-16">
+    <h2 class="text-h2 lg:col-span-4">{es ? 'Preguntas frecuentes' : 'Frequent questions'}</h2>
+    <div class="lg:col-span-8">
+      <FaqList items={c.faq} />
     </div>
   </Container>
 </section>
@@ -85,30 +118,10 @@ const others = SERVICES.filter((s) => s.slug !== service.slug);
 <section class="py-16 lg:py-24">
   <Container>
     <h2 class="text-h2">{es ? 'Otros servicios' : 'Other services'}</h2>
-    <div class="mt-8 grid gap-5 sm:grid-cols-3">
-      {others.map((s) => (
-        <a
-          href={localizedPath(`/services/${s.slug}`, locale)}
-          class="group card-cool rounded-xl border border-line p-6 hover:border-blue-300"
-        >
-          <span class="icon-tile h-12 w-12 rounded-xl">
-            <Icon name={s.icon} size={26} />
-          </span>
-          <h3 class="mt-5 text-h3">{s[locale].title}</h3>
-          <p class="mt-2 text-small text-ink-500">{s[locale].blurb}</p>
-        </a>
-      ))}
+    <div class="mt-6 border-t border-line">
+      {others.map((s) => <ServiceRow service={s} locale={locale} />)}
     </div>
   </Container>
 </section>
 
 <FinalCta locale={locale} />
-
-<style>
-  .faq summary::-webkit-details-marker {
-    display: none;
-  }
-  .faq[open] .faq__chev {
-    transform: rotate(180deg);
-  }
-</style>
