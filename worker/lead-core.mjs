@@ -28,18 +28,12 @@
  * @property {string} [TURNSTILE_SECRET]
  */
 
+import { SOURCE_FIELDS, parseSource, sourceLabel, visitLabel, journeyLabel, renderClickStats } from './lead-source.mjs';
+
+export { sourceLabel } from './lead-source.mjs';
+
 /** CSV column order — keep in sync with leadToCsvRow(). */
-export const CSV_HEADER = [
-  'at',
-  'name',
-  'phone',
-  'whatsapp',
-  'service',
-  'message',
-  'locale',
-  'page',
-  'ip',
-];
+export const CSV_HEADER = ['at', 'name', 'phone', 'whatsapp', 'service', 'message', 'locale', 'page', 'ip', ...SOURCE_FIELDS];
 
 /**
  * Core request handler. Parses the lead, runs anti-spam, persists (via hook),
@@ -151,9 +145,12 @@ export async function handleLead(request, env, hooks = {}) {
     service: String(data.service || '').slice(0, 40),
     message: String(data.message || '').slice(0, 2000),
     locale,
-    // Where the lead came from: the page it was sent from, or the assistant that sent it.
+    // The form page (or the assistant's name). The real origin is in the source fields below.
     page: agent ? `agent: ${agent}` : request.headers.get('referer') || '',
     ip,
+    // Where the visitor came from and what they pressed (worker/lead-source.mjs).
+    channel: agent ? 'agent' : 'form',
+    ...parseSource(agent ? null : data.src),
     at: new Date().toISOString(),
   };
 
@@ -245,7 +242,7 @@ export function buildEmail(l) {
   };
   const service = serviceLabels[l.service] || l.service || '—';
   const when = new Date(l.at).toLocaleString('ru-RU', { timeZone: 'Europe/Madrid' });
-  const viaAgent = String(l.page || '').startsWith('agent: ');
+  const viaAgent = l.channel === 'agent' || String(l.page || '').startsWith('agent: ');
   const subject = `${viaAgent ? '🤖' : '🔔'} Новая заявка — ${l.name}${l.service ? ` (${service})` : ''}`;
 
   const rows = [
@@ -255,7 +252,9 @@ export function buildEmail(l) {
     ['Услуга', service],
     ['Сообщение', l.message || '—'],
     ['Язык заявки', l.locale === 'es' ? 'Испанский' : 'Английский'],
-    ['Источник', sourceLabel(l.page)],
+    ['Источник', sourceLabel(l)],
+    ...(visitLabel(l) ? [['Как попал на сайт', visitLabel(l)]] : []),
+    ...(journeyLabel(l) ? [['Путь по сайту', journeyLabel(l)]] : []),
     ['Время', when],
   ];
 
@@ -286,22 +285,6 @@ export function buildEmail(l) {
 }
 
 /**
- * Human-readable origin of a lead for the email and the /leads table: the
- * assistant that sent it, or the path of the page the form was sent from.
- * @param {string} page
- */
-export function sourceLabel(page) {
-  const value = String(page || '');
-  if (value.startsWith('agent: ')) return `ИИ-агент: ${value.slice(7)}`;
-  try {
-    const url = new URL(value);
-    return url.pathname + url.search;
-  } catch {
-    return value || '—';
-  }
-}
-
-/**
  * One CSV row for the lead, columns per CSV_HEADER. RFC-4180 quoting.
  * @param {Lead} l
  * @returns {string}
@@ -317,6 +300,7 @@ export function leadToCsvRow(l) {
     l.locale,
     l.page,
     l.ip,
+    ...SOURCE_FIELDS.map((f) => l[f] ?? ''),
   ];
   return cells.map(csvCell).join(',');
 }
@@ -359,9 +343,10 @@ export function leadsToCsv(leads) {
 /**
  * Render the leads table page. Leads must be newest-first already.
  * @param {Lead[]} leads
+ * @param {{ type: string, page: string, n: number }[]} [clicks] contact clicks of the last 30 days, grouped
  * @returns {string} HTML
  */
-export function renderLeadsPage(leads) {
+export function renderLeadsPage(leads, clicks = []) {
   const fmt = (iso) => {
     try {
       return new Date(iso).toLocaleString('ru-RU', { timeZone: 'Europe/Madrid' });
@@ -383,7 +368,7 @@ export function renderLeadsPage(leads) {
         </td>
         <td>${l.service ? `<span class="tag">${escapeHtml(SERVICE_RU[l.service] || l.service)}</span>` : '<span class="muted">—</span>'}</td>
         <td>${escapeHtml(l.message) || '<span class="muted">—</span>'}</td>
-        <td class="muted">${escapeHtml(sourceLabel(l.page))}</td>
+        <td><b class="src">${escapeHtml(sourceLabel(l))}</b>${visitLabel(l) ? `<span class="muted small">${escapeHtml(visitLabel(l))}</span>` : ''}${journeyLabel(l) ? `<span class="muted small" title="Путь по сайту">${escapeHtml(journeyLabel(l))}</span>` : ''}</td>
         <td class="muted">${l.locale === 'es' ? 'ES' : 'EN'}</td>
       </tr>`;
     })
@@ -404,14 +389,22 @@ export function renderLeadsPage(leads) {
     a{color:#1d4ed8} a.wa{margin-left:6px;text-decoration:none} .muted{color:#94a3b8} .nowrap{white-space:nowrap}
     .tag{display:inline-block;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;border-radius:6px;padding:1px 8px;font-size:13px}
     .empty{padding:60px 24px;text-align:center;color:#94a3b8}
+    .small{display:block;font-size:12.5px;line-height:1.4;margin-top:2px} .src{font-weight:600}
+    .stats{margin-bottom:28px} .stats h2{margin:0 0 4px;font-size:17px} .stats table{margin-top:14px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px}
+    .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px} .card b{display:block;font-size:24px} .card span{color:#475569;font-size:13px}
+    h2.sec{margin:0 0 12px;font-size:17px}
   </style></head><body>
   <header>
     <h1>📋 Заявки</h1><span class="count">${leads.length}</span>
     <span class="spacer"></span>
     <a class="btn light" href="/leads" title="Обновить">↻ Обновить</a>
-    <a class="btn" href="/leads.csv" download>⬇ Скачать CSV</a>
+    <a class="btn light" href="/leads/clicks.csv" download>⬇ Клики CSV</a>
+    <a class="btn" href="/leads.csv" download>⬇ Заявки CSV</a>
   </header>
   <div class="wrap">
+    ${renderClickStats(clicks)}
+    <h2 class="sec">Заявки с формы и от агентов</h2>
     ${
       leads.length
         ? `<table><thead><tr><th>Время</th><th>Имя</th><th>Телефон</th><th>Услуга</th><th>Сообщение</th><th>Источник</th><th>Язык</th></tr></thead><tbody>${rows}</tbody></table>`

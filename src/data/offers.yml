@@ -37,9 +37,11 @@ installation:
       - "Materiales y conexiones necesarios para la instalación estándar."
       - "Puesta en marcha y comprobación del funcionamiento del equipo."
 
+# Names follow the old site's style (brand + model code) and the wording of the
+# supplier's catalogue the owner sent, e.g. "OFERTA LG KIT WZ09AWN.SNU1 + WZ09AWU.SUU1 PRO".
 items:
   - brand: Giatsu
-    model: AROMA 3
+    model: AROMA 3 GIA-S09AR3
     code: GIA-S09AR3-R32
     priceNew: 609
     priceOld: 709
@@ -59,7 +61,7 @@ items:
     indoorSize: "723 × 286 × 199"   # width × height × depth, mm
     pipeMax: 25
   - brand: LG
-    model: WiFi Pro
+    model: WiFi Pro WZ09AWN
     code: WZ09AWN.SNU1 + WZ09AWU.SUU1
     priceNew: 699
     priceOld: 809
@@ -80,7 +82,7 @@ items:
     indoorSize: "781 × 274 × 197"
     pipeMax: 15
   - brand: LG
-    model: Infinity
+    model: Infinity EZ09CSN
     code: EZ09CSN.CSJ1 + EZ09CSU.CA31
     priceNew: 799
     priceOld: 909
@@ -99,7 +101,7 @@ items:
     indoorSize: "837 × 308 × 189"
     pipeMax: 15
   - brand: Panasonic
-    model: BZ Ultra-Compact
+    model: KIT-BZ25-CKE Split BZ
     code: KIT-BZ25-CKE
     priceNew: 829
     priceOld: 919
@@ -118,7 +120,7 @@ items:
     indoorSize: "765 × 290 × 214"
     pipeMax: 15
   - brand: Mitsubishi Electric
-    model: MSZ-HR25VFK
+    model: MSZ-HR25VFK Wi-Fi
     code: MSZ-HR25VFK + MUZ-HR25VF
     priceNew: 899
     priceOld: 1019
@@ -137,7 +139,7 @@ items:
     indoorSize: "838 × 280 × 228"
     pipeMax: 20
   - brand: Daikin
-    model: Sensira TXF25F
+    model: TXF25F Sensira
     code: FTXF25F + RXF25F
     priceNew: 909
     priceOld: 1029

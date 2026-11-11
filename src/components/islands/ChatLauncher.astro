@@ -21,7 +21,7 @@ const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
 const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
 const contactHref = localizedPath('/contact', locale);
 ---
-<div class="chat" data-chat>
+<div class="chat" data-chat data-cta="chat-launcher">
   <div class="chat__tip" data-chat-tip hidden>
     <button class="chat__tip-x" data-chat-tip-close type="button" aria-label={t('chat.close')}>
       <Icon name="close" size={14} />

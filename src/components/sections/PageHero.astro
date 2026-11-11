@@ -12,7 +12,7 @@ interface Props {
 }
 const { crumbs, title, intro, image } = Astro.props;
 ---
-<section class="page-hero bg-brand-900 text-white">
+<section class="page-hero bg-brand-900 text-white" data-cta="page-header">
   {image && <img class="page-hero__img" src={image} alt="" width="900" height="1200" fetchpriority="high" decoding="async" />}
   <Container class="relative py-10 lg:py-14">
     <Breadcrumbs items={crumbs} />

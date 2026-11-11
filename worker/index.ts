@@ -26,6 +26,8 @@ import {
 } from './lead-core.mjs';
 // @ts-expect-error: plain ESM module, not type-checked (worker/ is excluded in tsconfig)
 import { handleMcp } from './mcp.mjs';
+// @ts-expect-error: plain ESM module, not type-checked (worker/ is excluded in tsconfig)
+import { handleEvent, SOURCE_FIELDS, EVENT_FIELDS } from './lead-source.mjs';
 
 interface LeadRow {
   at: string;
@@ -37,7 +39,11 @@ interface LeadRow {
   locale: string;
   page: string;
   ip: string;
+  // Source fields (migrations/0002); absent on rows stored before it.
+  [field: string]: string | number | undefined;
 }
+
+type EventRow = Record<string, string>;
 
 interface Env {
   ASSETS: { fetch: (req: Request) => Promise<Response> };
@@ -121,7 +127,14 @@ async function route(request: Request, env: Env): Promise<Response> {
   // Public MCP server for agents outside the browser.
   if (path === '/mcp') return handleMcp(request, env, leadHooks);
 
-  if ((path === '/leads' || path === '/leads.csv') && request.method === 'GET') {
+  // Anonymous counter of WhatsApp / phone / email clicks (see worker/lead-source.mjs).
+  if (path === '/api/event' && request.method === 'POST') {
+    return handleEvent(request, {
+      persistEvent: env.DB ? (event: EventRow) => insertEvent(env.DB!, event) : undefined,
+    });
+  }
+
+  if ((path === '/leads' || path === '/leads.csv' || path === '/leads/clicks.csv') && request.method === 'GET') {
     return handleLeads(path, request, env);
   }
 
@@ -146,24 +159,37 @@ async function countRecentLeads(db: D1Database, ip: string): Promise<number> {
   return Number(results[0]?.n ?? 0);
 }
 
+const LEAD_BASE = ['at', 'name', 'phone', 'whatsapp', 'service', 'message', 'locale', 'page', 'ip'];
+
 async function insertLead(db: D1Database, lead: LeadRow): Promise<void> {
+  const value = (f: string) => (f === 'whatsapp' ? (lead.whatsapp ? 1 : 0) : (lead[f] ?? ''));
+  const insert = (fields: string[]) =>
+    db
+      .prepare(`INSERT INTO leads (${fields.join(', ')}) VALUES (${fields.map(() => '?').join(', ')})`)
+      .bind(...fields.map(value))
+      .run();
+  try {
+    await insert([...LEAD_BASE, ...(SOURCE_FIELDS as string[])]);
+  } catch (err) {
+    // The source columns are not there yet (migration 0002 not applied): never
+    // lose the lead over it, store what the old table can hold.
+    console.error('lead insert with source failed, storing without it', err);
+    await insert(LEAD_BASE);
+  }
+}
+
+async function insertEvent(db: D1Database, event: EventRow): Promise<void> {
+  const fields = EVENT_FIELDS as string[];
   await db
-    .prepare(
-      'INSERT INTO leads (at, name, phone, whatsapp, service, message, locale, page, ip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-    )
-    .bind(
-      lead.at,
-      lead.name,
-      lead.phone,
-      lead.whatsapp ? 1 : 0,
-      lead.service,
-      lead.message,
-      lead.locale,
-      lead.page,
-      lead.ip,
-    )
+    .prepare(`INSERT INTO events (${fields.join(', ')}) VALUES (${fields.map(() => '?').join(', ')})`)
+    .bind(...fields.map((f) => event[f] ?? ''))
     .run();
 }
+
+const csvCell = (v: unknown) => {
+  const s = String(v ?? '');
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+};
 
 async function handleLeads(path: string, request: Request, env: Env): Promise<Response> {
   // Gate: password required. Without LEADS_PASSWORD set, the page stays locked.
@@ -176,9 +202,26 @@ async function handleLeads(path: string, request: Request, env: Env): Promise<Re
     });
   }
 
-  const { results } = await env.DB.prepare(
-    'SELECT at, name, phone, whatsapp, service, message, locale, page, ip FROM leads ORDER BY id DESC LIMIT 1000',
-  ).all<LeadRow>();
+  if (path === '/leads/clicks.csv') {
+    const fields = EVENT_FIELDS as string[];
+    let rows: EventRow[] = [];
+    try {
+      rows = (await env.DB.prepare(`SELECT ${fields.join(', ')} FROM events ORDER BY id DESC LIMIT 20000`).all<EventRow>()).results;
+    } catch {
+      /* table not created yet */
+    }
+    const csv = [fields.join(','), ...rows.map((r) => fields.map((f) => csvCell(r[f])).join(','))].join('\n') + '\n';
+    return new Response(csv, {
+      headers: {
+        'content-type': 'text/csv; charset=utf-8',
+        'content-disposition': 'attachment; filename="clicks.csv"',
+        ...NOINDEX_HEADERS,
+      },
+    });
+  }
+
+  // SELECT * so the page works before and after the source columns exist.
+  const { results } = await env.DB.prepare('SELECT * FROM leads ORDER BY id DESC LIMIT 1000').all<LeadRow>();
   const leads = results.map((r) => ({ ...r, whatsapp: Boolean(r.whatsapp) }));
 
   if (path === '/leads.csv') {
@@ -191,7 +234,20 @@ async function handleLeads(path: string, request: Request, env: Env): Promise<Re
     });
   }
 
-  return new Response(renderLeadsPage(leads), {
+  // Contact clicks of the last 30 days, grouped by type and page.
+  let clicks: { type: string; page: string; n: number }[] = [];
+  try {
+    const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    clicks = (
+      await env.DB.prepare('SELECT type, page, COUNT(*) AS n FROM events WHERE at > ? GROUP BY type, page ORDER BY n DESC LIMIT 500')
+        .bind(since)
+        .all<{ type: string; page: string; n: number }>()
+    ).results;
+  } catch {
+    /* table not created yet */
+  }
+
+  return new Response(renderLeadsPage(leads, clicks), {
     headers: { 'content-type': 'text/html; charset=utf-8', ...NOINDEX_HEADERS },
   });
 }

@@ -11,6 +11,7 @@ import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import ChatLauncher from '../components/islands/ChatLauncher.astro';
 import StickyMobileBar from '../components/islands/StickyMobileBar.astro';
+import Journey from '../components/analytics/Journey.astro';
 import CookieConsent from '../components/islands/CookieConsent.astro';
 
 interface Props {
@@ -66,5 +67,6 @@ const t = useTranslations(locale);
     <ChatLauncher locale={locale} />
     <StickyMobileBar locale={locale} />
     <CookieConsent locale={locale} />
+    <Journey />
   </body>
 </html>

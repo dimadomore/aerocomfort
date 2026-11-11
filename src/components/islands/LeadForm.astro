@@ -43,6 +43,8 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
   {...agentForm}
 >
   <input type="hidden" name="locale" value={locale} />
+  {/* Where the visitor came from; filled by the script from src/lib/journey.ts. */}
+  <input type="hidden" name="src" data-lead-src />
   <div class="lead-hp" aria-hidden="true">
     <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
   </div>
@@ -126,6 +128,8 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
 </style>
 
 <script>
+  import { source } from '../../lib/journey';
+
   document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
     // Pre-fill the message when arriving from an offer's "Request this unit"
     // (DIM-279): /contact?unit=Brand+Model → "I'm interested in this unit: …".
@@ -192,6 +196,10 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
       if (label) label.textContent = sendingText;
       setStatus('');
 
+      // Attach the lead source at the last moment, so it reflects this visit.
+      const srcField = form.querySelector<HTMLInputElement>('[data-lead-src]');
+      if (srcField) srcField.value = JSON.stringify(source());
+
       try {
         const res = await fetch(form.action, {
           method: 'POST',
@@ -199,6 +207,10 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
           body: new FormData(form),
         });
         if (!res.ok) throw new Error('bad status');
+        // Google Analytics conversion, once it is switched on.
+        (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag?.('event', 'generate_lead', {
+          service: serviceEl?.value || 'not_set',
+        });
         window.location.href = redirect;
       } catch {
         if (submit) submit.disabled = false;

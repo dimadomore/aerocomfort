@@ -27,6 +27,7 @@ All project documentation lives in [`docs/`](docs/):
 - [docs/13-build-checklist.md](docs/13-build-checklist.md) — Phase 0/1 tasks, Definition of Done, QA
 - [docs/14-build-status.md](docs/14-build-status.md) — **build status & handover: what's done, what's left, how to resume**
 - [docs/15-agent-readiness.md](docs/15-agent-readiness.md) — WebMCP, MCP server and files for AI agents, with a cutover checklist
+- [docs/16-lead-tracking.md](docs/16-lead-tracking.md) — where each request came from, and the count of WhatsApp and phone clicks
 
 ## Stack & deploy
 

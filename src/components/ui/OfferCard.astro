@@ -68,7 +68,7 @@ const details: [string, string][] = (
 
 const inst = offers.installation;
 ---
-<article class="card offer flex h-full flex-col overflow-hidden">
+<article class="card offer flex h-full flex-col overflow-hidden" data-cta="offer-card">
   {offer.image && (
     <div class="offer__photo">
       <img src={offer.image} alt={name} loading="lazy" decoding="async" />
