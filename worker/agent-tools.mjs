@@ -1,8 +1,13 @@
 /**
  * Agent tools, one definition for every channel: WebMCP in the browser
- * (src/lib/webmcp.ts) and the remote MCP server (worker/mcp.mjs). Everything here
- * is read-only and works on the public /data/business.json, so a tool can never
- * say something the site doesn't. Names are a public interface: don't rename.
+ * (src/lib/webmcp.ts) and the remote MCP server (worker/mcp.mjs). The read tools
+ * work on the public /data/business.json, so a tool can never say something the
+ * site doesn't. Names are a public interface: don't rename.
+ *
+ * One tool writes: `send_quote_request` (owner's decision, Nov 2026: an assistant
+ * may leave a request for the person it is helping). It has `write: true` and a
+ * `prepare` step instead of `run`: prepare checks the input and builds the body
+ * for POST /api/lead, and each channel sends it. The server checks it all again.
  */
 
 const LANGUAGE = { type: 'string', enum: ['en', 'es'], description: 'Reply language. Defaults to en.' };
@@ -83,7 +88,7 @@ export const TOOLS = [
     name: 'list_offers',
     title: 'Seasonal offers',
     description:
-      'List the current seasonal air conditioning units with prices. Prices include a standard turnkey installation; the free quote confirms the final price, so always mention that.',
+      'List the current seasonal air conditioning units with prices. Prices include basic installation (up to 3 m of pipework); the free quote confirms the final price, so always mention that.',
     inputSchema: { type: 'object', properties: { language: LANGUAGE } },
     run: (data, args) => {
       const l = lang(args);
@@ -145,4 +150,81 @@ export const TOOLS = [
       };
     },
   },
+  {
+    name: 'send_quote_request',
+    title: 'Send a quote request',
+    write: true,
+    description:
+      'Send a quote or callback request to Aerocomfort for the person you are helping. Aerocomfort replies by phone or WhatsApp, within the hour during working hours. Call this only when the person has asked you to send it and has agreed that Aerocomfort may use these details to contact them (privacy policy: https://aerocomfort.es/privacy). Every call reaches the business, so never use it to test.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', description: 'Full name of the person.' },
+        phone: {
+          type: 'string',
+          pattern: '^\\+[1-9][0-9]{6,14}$',
+          description: 'Their mobile number in international format with the country code, for example +34612345678.',
+        },
+        has_whatsapp: { type: 'boolean', description: 'True if they use WhatsApp on this number.' },
+        service: { type: 'string', enum: ['installation', 'repair', 'maintenance', 'cleaning', 'other'], description: 'What they need.' },
+        town: { type: 'string', description: 'Town or urbanisation of the property.' },
+        unit: { type: 'string', description: 'Brand and model, if they want a specific unit from the offers.' },
+        message: { type: 'string', description: 'Anything else: number of rooms, the fault, error code, preferred time to call.' },
+        consent: {
+          type: 'boolean',
+          description: 'Must be true: the person agreed to the privacy policy and to being contacted about this request.',
+        },
+        agent: { type: 'string', description: 'Name of the assistant sending this, for example "ChatGPT" or "Claude".' },
+        language: LANGUAGE,
+      },
+      required: ['name', 'phone', 'consent'],
+    },
+    prepare: (data, args) => {
+      const l = lang(args);
+      const name = String(args?.name ?? '').trim();
+      const phone = String(args?.phone ?? '').replace(/[\s().-]/g, '');
+      if (args?.consent !== true) {
+        return {
+          error: 'The person must agree first. Ask them, then call again with consent: true.',
+          code: 'consent_required',
+          retryable: true,
+          privacyPolicy: data.privacyUrl?.[l],
+        };
+      }
+      if (!name) return { error: 'Name is required', code: 'invalid_name', retryable: true };
+      if (!/^\+[1-9][0-9]{6,14}$/.test(phone)) {
+        return { error: 'Phone must be in international format, for example +34612345678', code: 'invalid_phone', retryable: true };
+      }
+      const labels = l === 'es' ? ['Localidad', 'Equipo'] : ['Town', 'Unit'];
+      const message = [
+        ...[args?.town, args?.unit].map((v, i) => (v ? `${labels[i]}: ${String(v).trim()}.` : '')),
+        String(args?.message ?? '').trim(),
+      ]
+        .filter(Boolean)
+        .join(' ');
+      return {
+        body: {
+          name,
+          phone_e164: phone,
+          has_whatsapp: args?.has_whatsapp ? 'yes' : '',
+          service: ['installation', 'repair', 'maintenance', 'cleaning', 'other'].includes(args?.service) ? args.service : '',
+          message,
+          locale: l,
+          consent: 'yes',
+          agent: String(args?.agent ?? '').trim() || 'assistant',
+        },
+        sent: { sent: true, replyTime: data.replyTime[l], phone: data.phone, whatsapp: `https://wa.me/${data.phoneE164.replace(/\D/g, '')}` },
+      };
+    },
+  },
 ];
+
+/** Turns the answer of POST /api/lead into a tool result. Shared by every channel. */
+export function leadResult(prepared, response) {
+  if (response?.ok) return prepared.sent;
+  return {
+    error: response?.message || 'The request could not be sent. Offer the phone or WhatsApp instead.',
+    code: response?.error || 'unavailable',
+    retryable: response?.error !== 'rate_limited',
+  };
+}

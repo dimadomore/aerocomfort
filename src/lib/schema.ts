@@ -29,8 +29,8 @@ export function hvacBusinessLd() {
     url: SITE_URL + '/',
     description:
       'Air conditioning installation, repair, maintenance and cleaning across ' +
-      'the Costa Blanca (Alicante), Spain, by a local team of specialists. Also heat pumps ' +
-      '(aerotermia) and ventilation. English and Spanish spoken.',
+      'the Costa Blanca (Alicante), Spain, by a local team of specialists. Also ventilation. ' +
+      'English and Spanish spoken.',
     image: abs('/og/aerocomfort-default.jpg'),
     logo: abs('/logo.png'),
     telephone: '+' + business.phoneE164.replace(/\D/g, ''),
@@ -52,18 +52,18 @@ export function hvacBusinessLd() {
       'Air conditioning repair',
       'Air conditioning maintenance',
       'Air conditioning cleaning',
-      'Heat pumps',
-      'Aerothermal systems',
       'Ventilation',
       'Inverter air conditioning',
     ],
     address: {
       '@type': 'PostalAddress',
+      ...(business.streetAddress ? { streetAddress: business.streetAddress } : {}),
       addressLocality: business.addressLocality,
       postalCode: business.postalCode,
       addressRegion: business.addressRegion,
       addressCountry: business.addressCountry,
     },
+    hasMap: business.social.google,
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: business.rating.value,
@@ -77,7 +77,6 @@ export function hvacBusinessLd() {
         { type: 'Air conditioning repair', url: '/services/repair' },
         { type: 'Air conditioning maintenance', url: '/services/maintenance' },
         { type: 'Air conditioning cleaning', url: '/services/cleaning' },
-        { type: 'Heat pumps (aerotermia)' },
         { type: 'Ventilation' },
       ].map((s) => ({
         '@type': 'Offer',
@@ -218,8 +217,8 @@ export function offerProductsLd(items: OfferItem[], priceValidUntil: string, off
       brand: { '@type': 'Brand', name: o.brand },
       category: 'Air conditioner',
       description: `${o.brand} ${o.model} air conditioner${
-        o.efficiency ? `, ${o.efficiency} energy rating` : ''
-      }${o.coverage ? `, suitable for ${o.coverage}` : ''}. Price includes standard turnkey installation by ${business.name}.`,
+        o.energyCool ? `, ${o.energyCool} energy class in cooling` : ''
+      }${o.coolKw ? `, ${o.coolKw} kW` : ''}. Price includes basic installation by ${business.name}, with up to 3 m of pipework.`,
       offers: {
         '@type': 'Offer',
         price: o.priceNew,

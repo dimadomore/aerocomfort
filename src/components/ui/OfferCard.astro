@@ -1,12 +1,17 @@
 ---
 import { type Locale } from '../../config';
-import { business, type OfferItem } from '../../data';
+import { business, offers, type OfferItem } from '../../data';
 import { localizedPath } from '../../i18n/utils';
 import Icon from './Icon.astro';
 
 /**
- * A unit shown like its own rating plate: a plain spec table, the EU energy-label
- * arrow, and the price. Reads as a product you can compare, not a promo tile.
+ * A unit shown like its own rating plate: a plain spec table read from the
+ * manufacturer's data sheet, the EU energy-label arrow, and the price.
+ *
+ * "Read more" opens a popover with what the basic installation covers and the
+ * full data-sheet figures, so nobody has to leave the page. It is a native
+ * popover: a tap or click works without JS; the script below adds hover on
+ * desktop and places it next to the button.
  */
 interface Props {
   offer: OfferItem;
@@ -14,15 +19,59 @@ interface Props {
 }
 const { offer, locale } = Astro.props;
 const es = locale === 'es';
+const name = `${offer.brand} ${offer.model}`;
 // Pass the unit so the contact form can pre-fill the message (DIM-279).
-const contactHref = `${localizedPath('/contact', locale)}?unit=${encodeURIComponent(`${offer.brand} ${offer.model}`)}`;
+const contactHref = `${localizedPath('/contact', locale)}?unit=${encodeURIComponent(name)}`;
 const warranty = business.trust?.equipmentWarrantyYears;
 const saving = offer.priceOld ? offer.priceOld - offer.priceNew : 0;
+
+// The same unit appears in the home carousel and on /offers, so ids must be unique per card.
+const popId = `offer-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Math.random().toString(36).slice(2, 7)}`;
+const num = (n: number) => (es ? String(n).replace('.', ',') : String(n));
+const range = (r?: string) => (r ? (es ? r.replace(/\./g, ',') : r) : '');
+
+const power =
+  offer.coolKw && offer.heatKw ? `${num(offer.coolKw)} / ${num(offer.heatKw)} kW` : offer.coolKw ? `${num(offer.coolKw)} kW` : '';
+
+// Full figures for the popover. Only rows the data sheet gives are shown.
+const details: [string, string][] = (
+  [
+    [es ? 'Referencia' : 'Model code', offer.code],
+    [
+      es ? 'Potencia en frío' : 'Cooling capacity',
+      offer.coolKw && `${num(offer.coolKw)} kW${offer.coolRange ? ` (${range(offer.coolRange)})` : ''}`,
+    ],
+    [
+      es ? 'Potencia en calor' : 'Heating capacity',
+      offer.heatKw && `${num(offer.heatKw)} kW${offer.heatRange ? ` (${range(offer.heatRange)})` : ''}`,
+    ],
+    [
+      es ? 'Clase energética' : 'Energy class',
+      offer.energyCool && `${offer.energyCool} ${es ? 'frío' : 'cooling'}${offer.energyHeat ? ` · ${offer.energyHeat} ${es ? 'calor' : 'heating'}` : ''}`,
+    ],
+    ['SEER', offer.seer && num(offer.seer)],
+    [
+      offer.scopNote === 'warm' ? (es ? 'SCOP (clima cálido)' : 'SCOP (warm climate)') : 'SCOP',
+      offer.scop && num(offer.scop),
+    ],
+    [es ? 'Ruido unidad interior' : 'Indoor unit noise', offer.noiseIndoorMin && `${es ? 'desde' : 'from'} ${num(offer.noiseIndoorMin)} dB(A)`],
+    [es ? 'Ruido unidad exterior' : 'Outdoor unit noise', offer.noiseOutdoor && `${num(offer.noiseOutdoor)} dB(A)`],
+    [
+      es ? 'Unidad interior (ancho × alto × fondo)' : 'Indoor unit (width × height × depth)',
+      offer.indoorSize && `${offer.indoorSize} mm`,
+    ],
+    [es ? 'Longitud máxima de tubería' : 'Longest pipe run allowed', offer.pipeMax && `${offer.pipeMax} m`],
+    ['Wi-Fi', offer.wifi && (es ? 'Incluido' : 'Included')],
+    [es ? 'Garantía del equipo' : 'Unit warranty', warranty && (es ? `${warranty} años` : `${warranty} years`)],
+  ] as [string, string | number | false | undefined][]
+).filter((row): row is [string, string] => Boolean(row[1]));
+
+const inst = offers.installation;
 ---
 <article class="card offer flex h-full flex-col overflow-hidden">
   {offer.image && (
     <div class="offer__photo">
-      <img src={offer.image} alt={`${offer.brand} ${offer.model}`} loading="lazy" decoding="async" />
+      <img src={offer.image} alt={name} loading="lazy" decoding="async" />
     </div>
   )}
   <div class="flex flex-1 flex-col p-5">
@@ -30,10 +79,16 @@ const saving = offer.priceOld ? offer.priceOld - offer.priceNew : 0;
     <h3 class="text-h3">{offer.model}</h3>
 
     <dl class="offer__specs">
-      {offer.efficiency && (
+      {offer.energyCool && (
         <div>
-          <dt>{es ? 'Eficiencia' : 'Efficiency'}</dt>
-          <dd><span class="energy">{offer.efficiency}</span></dd>
+          <dt>{es ? 'Clase energética' : 'Energy class'}</dt>
+          <dd><span class="energy">{offer.energyCool}</span></dd>
+        </div>
+      )}
+      {power && (
+        <div>
+          <dt>{es ? 'Frío / calor' : 'Cooling / heating'}</dt>
+          <dd>{power}</dd>
         </div>
       )}
       {offer.coverage && (
@@ -42,10 +97,12 @@ const saving = offer.priceOld ? offer.priceOld - offer.priceNew : 0;
           <dd>{offer.coverage}</dd>
         </div>
       )}
-      <div>
-        <dt>{es ? 'Instalación' : 'Installation'}</dt>
-        <dd>{es ? 'Llave en mano' : 'Turnkey'}</dd>
-      </div>
+      {offer.noiseIndoorMin && (
+        <div>
+          <dt>{es ? 'Ruido interior' : 'Indoor noise'}</dt>
+          <dd>{es ? 'desde' : 'from'} {num(offer.noiseIndoorMin)} dB(A)</dd>
+        </div>
+      )}
       {offer.wifi && (
         <div>
           <dt>Wi-Fi</dt>
@@ -58,7 +115,16 @@ const saving = offer.priceOld ? offer.priceOld - offer.priceNew : 0;
           <dd>{es ? `${warranty} años` : `${warranty} years`}</dd>
         </div>
       )}
+      <div>
+        <dt>{es ? 'Instalación básica' : 'Basic installation'}</dt>
+        <dd>{es ? 'Incluida' : 'Included'}</dd>
+      </div>
     </dl>
+
+    <button class="offer__more" type="button" popovertarget={popId} data-offer-more>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 7.5v.5" /></svg>
+      <span>{es ? 'Qué incluye la instalación' : 'What the installation includes'}</span>
+    </button>
 
     <div class="mt-auto pt-5">
       <p class="flex flex-wrap items-baseline gap-x-2.5">
@@ -75,7 +141,125 @@ const saving = offer.priceOld ? offer.priceOld - offer.priceNew : 0;
       </a>
     </div>
   </div>
+
+  <div class="offer-pop" id={popId} popover data-offer-pop aria-label={es ? `Detalles de ${name}` : `${name} details`}>
+    <div class="offer-pop__head">
+      <p class="offer-pop__name">{name}</p>
+      <button class="offer-pop__close" type="button" popovertarget={popId} popovertargetaction="hide" aria-label={es ? 'Cerrar' : 'Close'}>
+        <Icon name="close" size={20} />
+      </button>
+    </div>
+
+    <p class="offer-pop__title">{inst.title[locale]}</p>
+    <ul class="offer-pop__list">
+      {inst.items[locale].map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="offer-pop__note">
+      {es
+        ? 'Si tu vivienda necesita más tubería u otros trabajos, te lo indicamos en el presupuesto gratuito antes de empezar.'
+        : 'If your home needs a longer pipe run or extra work, we tell you in the free quote before we start.'}
+    </p>
+
+    {details.length > 0 && (
+      <Fragment>
+        <p class="offer-pop__title offer-pop__title--data">{es ? 'Datos técnicos' : 'Technical data'}</p>
+        <dl class="offer-pop__data">
+          {details.map(([k, v]) => (
+            <div>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="offer-pop__note">{es ? 'Datos de la ficha técnica del fabricante.' : 'Figures from the manufacturer’s data sheet.'}</p>
+      </Fragment>
+    )}
+  </div>
 </article>
+
+<script>
+  // Hover opens the popover on desktop; a click pins it. Phones get a bottom sheet
+  // from CSS alone. Without this script the button still toggles the popover.
+  const desktop = matchMedia('(min-width: 768px) and (hover: hover)');
+
+  document.querySelectorAll<HTMLElement>('[data-offer-pop]').forEach((pop) => {
+    const trigger = document.querySelector<HTMLElement>(`[data-offer-more][popovertarget="${pop.id}"]`);
+    if (!trigger || typeof pop.showPopover !== 'function') return;
+
+    let pinned = false;
+    let timer: number | undefined;
+    const isOpen = () => pop.matches(':popover-open');
+
+    const place = () => {
+      if (!desktop.matches) {
+        pop.style.removeProperty('left');
+        pop.style.removeProperty('top');
+        return;
+      }
+      const r = trigger.getBoundingClientRect();
+      const card = (trigger.closest('.offer') ?? trigger).getBoundingClientRect();
+      const w = pop.offsetWidth;
+      const h = pop.offsetHeight;
+      const gap = 12;
+      const edge = 12;
+      // Beside the card, so the card itself stays readable: right if it fits, else left.
+      let left = card.right + gap;
+      if (left + w > window.innerWidth - edge) left = card.left - gap - w;
+      if (left < edge) left = Math.min(Math.max(edge, r.left), window.innerWidth - w - edge);
+      // Level with the button, kept inside the viewport.
+      const top = Math.min(Math.max(edge, r.top + r.height / 2 - h / 2), window.innerHeight - h - edge);
+      pop.style.left = `${Math.round(left)}px`;
+      pop.style.top = `${Math.round(Math.max(edge, top))}px`;
+    };
+
+    const open = () => {
+      if (!isOpen()) pop.showPopover();
+    };
+    const close = () => {
+      if (isOpen()) pop.hidePopover();
+    };
+
+    pop.addEventListener('toggle', (e) => {
+      const opened = (e as ToggleEvent).newState === 'open';
+      trigger.setAttribute('aria-expanded', String(opened));
+      if (opened) place();
+      else pinned = false;
+    });
+
+    // Click: a hover-opened popover gets pinned instead of closing under the pointer.
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.clearTimeout(timer);
+      if (isOpen() && pinned) {
+        close();
+      } else {
+        pinned = true;
+        open();
+      }
+    });
+
+    const enter = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse' || !desktop.matches) return;
+      window.clearTimeout(timer);
+      if (e.currentTarget === trigger) timer = window.setTimeout(open, 140);
+    };
+    const leave = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse' || !desktop.matches || pinned) return;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(close, 380);
+    };
+    [trigger, pop].forEach((el) => {
+      el.addEventListener('pointerenter', enter);
+      el.addEventListener('pointerleave', leave);
+    });
+
+    const follow = () => {
+      if (isOpen()) place();
+    };
+    window.addEventListener('scroll', follow, { passive: true });
+    window.addEventListener('resize', follow);
+  });
+</script>
 
 <style>
   .offer__photo {
@@ -113,6 +297,7 @@ const saving = offer.priceOld ? offer.priceOld - offer.priceNew : 0;
   .offer__specs dd {
     font-weight: 600;
     color: var(--brand-900);
+    text-align: right;
   }
   /* The arrow from the EU energy label, in the label's own green. */
   .energy {
@@ -123,5 +308,170 @@ const saving = offer.priceOld ? offer.priceOld - offer.priceNew : 0;
     color: #fff;
     background: #00803e;
     clip-path: polygon(0 0, calc(100% - 0.7rem) 0, 100% 50%, calc(100% - 0.7rem) 100%, 0 100%);
+  }
+
+  .offer__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: flex-start;
+    min-height: 2.75rem;
+    margin-top: 0.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: var(--text-caption);
+    font-weight: 600;
+    color: var(--brand-700);
+    text-align: left;
+    cursor: pointer;
+  }
+  .offer__more span {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 0.25em;
+  }
+  .offer__more:hover span,
+  .offer__more[aria-expanded='true'] span {
+    text-decoration-style: solid;
+  }
+
+  /* Phones: a sheet that rises from the bottom, above the sticky contact bar. */
+  .offer-pop {
+    position: fixed;
+    inset: auto 0 0 0;
+    width: 100%;
+    max-width: none;
+    max-height: 82dvh;
+    margin: 0;
+    padding: 1.25rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 12px 12px 0 0;
+    background: #fff;
+    color: var(--ink-900);
+    box-shadow: 0 -12px 40px rgb(20 38 74 / 0.18);
+  }
+  .offer-pop::backdrop {
+    background: rgb(17 48 92 / 0.4);
+  }
+  .offer-pop:popover-open {
+    animation: offer-pop-in 200ms ease-out;
+  }
+  @keyframes offer-pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+  .offer-pop__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .offer-pop__name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--brand-900);
+  }
+  .offer-pop__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: -0.5rem -0.5rem 0 0;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: var(--ink-700);
+    cursor: pointer;
+  }
+  .offer-pop__close:hover {
+    background: var(--surface-cool);
+    color: var(--brand-900);
+  }
+  .offer-pop__title {
+    margin-top: 1rem;
+    font-size: var(--text-small);
+    font-weight: 700;
+    color: var(--brand-900);
+  }
+  .offer-pop__title--data {
+    margin-top: 1.5rem;
+  }
+  .offer-pop__list {
+    margin-top: 0.5rem;
+    padding-left: 1.1rem;
+    list-style: disc;
+    font-size: var(--text-caption);
+    color: var(--ink-700);
+  }
+  .offer-pop__list li + li {
+    margin-top: 0.3rem;
+  }
+  .offer-pop__list li::marker {
+    color: var(--brand-600);
+  }
+  .offer-pop__note {
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--ink-700);
+  }
+  .offer-pop__data {
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--text-caption);
+  }
+  .offer-pop__data div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .offer-pop__data dt {
+    color: var(--ink-700);
+  }
+  .offer-pop__data dd {
+    font-weight: 600;
+    color: var(--brand-900);
+    text-align: right;
+  }
+
+  /* Desktop: a card next to the button (the script sets left/top), no backdrop. */
+  @media (min-width: 768px) and (hover: hover) {
+    .offer-pop {
+      inset: auto;
+      left: calc(50% - 13.5rem);
+      top: 12%;
+      width: 27rem;
+      max-width: calc(100vw - 1.5rem);
+      max-height: min(40rem, calc(100dvh - 1.5rem));
+      padding: 1.25rem 1.5rem 1.5rem;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      box-shadow: var(--shadow-lg);
+    }
+    .offer-pop::backdrop {
+      background: transparent;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .offer__photo img {
+      transition: none;
+    }
+    .offer-pop:popover-open {
+      animation: none;
+    }
   }
 </style>

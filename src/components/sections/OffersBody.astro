@@ -19,12 +19,12 @@ const crumbs = [
   { label: t('nav.offers') },
 ];
 const intro = es
-  ? `Equipos A+++ de marcas líderes con instalación llave en mano a precios de temporada. ${offers.season.label.es}.`
-  : `A+++ units from leading brands, with turnkey installation at seasonal prices. ${offers.season.label.en}.`;
+  ? `Equipos inverter de marcas líderes, con la instalación básica incluida y a precio de temporada. ${offers.season.label.es}.`
+  : `Inverter units from leading brands, with basic installation included, at seasonal prices. ${offers.season.label.en}.`;
 ---
 <PageHero
   crumbs={crumbs}
-  title={es ? 'Ofertas en aire acondicionado A+++' : 'A+++ air conditioning offers'}
+  title={es ? 'Ofertas de aire acondicionado con instalación' : 'Air conditioning offers, installation included'}
   intro={intro}
 />
 
@@ -35,8 +35,8 @@ const intro = es
     </div>
     <p class="mt-8 max-w-2xl text-small text-ink-700">
       {es
-        ? 'Los precios incluyen una instalación estándar llave en mano. Tu presupuesto gratuito confirma el precio final para tu vivienda.'
-        : 'Prices include a standard turnkey installation. Your free quote confirms the final price for your home.'}
+        ? 'Los precios incluyen la instalación básica, con hasta 3 metros de tubería. Tu presupuesto gratuito confirma el precio final para tu vivienda.'
+        : 'Prices include basic installation, with up to 3 metres of pipework. Your free quote confirms the final price for your home.'}
     </p>
   </Container>
 </section>

@@ -16,8 +16,8 @@ export interface Brand {
 }
 
 /**
- * Brands we install and service (owner-confirmed, John 2026-06-14):
- * Mitsubishi Electric, Panasonic, LG, Giatsu, Haier, Samsung, Gree.
+ * Brands we install and service (owner-confirmed, 2026-06-14; Daikin and Fujitsu
+ * added Nov 2026).
  * No official dealership — we don't claim "official installer".
  */
 export const BRANDS: Brand[] = [
@@ -35,6 +35,19 @@ export const BRANDS: Brand[] = [
     },
   },
   {
+    slug: 'daikin',
+    name: 'Daikin',
+    logo: '/brands/daikin.svg',
+    en: {
+      intro: 'Daikin is a Japanese air conditioning specialist, known for quiet, efficient units that last.',
+      why: 'A strong choice if you want a premium unit with app control as standard. The Sensira is often in our seasonal offers, and we install and service the Daikin range.',
+    },
+    es: {
+      intro: 'Daikin es un especialista japonés en climatización, conocido por sus equipos silenciosos, eficientes y duraderos.',
+      why: 'Una buena elección si buscas un equipo de gama alta con control por app de serie. El Sensira suele estar en nuestras ofertas de temporada, e instalamos y mantenemos la gama Daikin.',
+    },
+  },
+  {
     slug: 'panasonic',
     name: 'Panasonic',
     logo: '/brands/panasonic.svg',
@@ -45,6 +58,19 @@ export const BRANDS: Brand[] = [
     es: {
       intro: 'Panasonic destaca por su tecnología de aire limpio y su rendimiento fiable en el día a día.',
       why: 'Una opción equilibrada, sobre todo si te importa la calidad del aire. Suministramos, instalamos y mantenemos equipos Panasonic.',
+    },
+  },
+  {
+    slug: 'fujitsu',
+    name: 'Fujitsu',
+    logo: '/brands/fujitsu.svg',
+    en: {
+      intro: 'Fujitsu is a long-established Japanese brand with a reputation for reliable, quiet air conditioning.',
+      why: 'A dependable option for bedrooms and living rooms alike. We install and service Fujitsu systems across the Costa Blanca.',
+    },
+    es: {
+      intro: 'Fujitsu es una marca japonesa veterana, con fama de aire acondicionado fiable y silencioso.',
+      why: 'Una opción de confianza tanto para dormitorios como para salones. Instalamos y mantenemos equipos Fujitsu en toda la Costa Blanca.',
     },
   },
   {
@@ -66,11 +92,11 @@ export const BRANDS: Brand[] = [
     logo: '/brands/giatsu.png',
     en: {
       intro: 'Giatsu offers good-value air conditioning that is popular across Spain.',
-      why: 'An affordable way to get an efficient A+++ unit, and often in our seasonal offers. We install and service Giatsu units.',
+      why: 'An affordable way to get an efficient inverter unit, and often in our seasonal offers. We install and service Giatsu units.',
     },
     es: {
       intro: 'Giatsu ofrece aire acondicionado con buena relación calidad-precio, muy popular en España.',
-      why: 'Una forma asequible de tener un equipo eficiente A+++, habitual en nuestras ofertas de temporada. Instalamos y mantenemos equipos Giatsu.',
+      why: 'Una forma asequible de tener un equipo inverter eficiente, habitual en nuestras ofertas de temporada. Instalamos y mantenemos equipos Giatsu.',
     },
   },
   {

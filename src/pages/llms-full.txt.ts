@@ -32,7 +32,7 @@ export const GET: APIRoute = () => {
   );
 
   page(`About ${business.name}`, '/about', [
-    `${business.name} is a local air-conditioning business led by ${business.manager} (self-employed / autónomo), with a team of specialists, serving the Costa Blanca, Spain — ${business.areasCount}+ towns.`,
+    `${business.name} is a local air-conditioning business with a team of specialists, serving the Costa Blanca, Spain — ${business.areasCount}+ towns.`,
     '',
     'Key facts:',
     `- ${trust.installs} installations completed; ${trust.years}th year on the market.`,
@@ -41,7 +41,7 @@ export const GET: APIRoute = () => {
     '- Certified for fluorinated-gas handling.',
     '- Replies within the hour during working hours; installs usually within 24 to 72 hours of the request.',
     '- Works with homes, restaurants and small businesses.',
-    '- Also installs heat pumps (aerotermia) and ventilation systems (no refrigeration).',
+    '- Also installs ventilation systems. Does not work on commercial refrigeration or aerothermal heating.',
     `- Payment: ${(business.payment ?? []).join(', ')} — no instalments.`,
     '- English and Spanish spoken; most clients are international homeowners.',
     '',
@@ -63,13 +63,16 @@ export const GET: APIRoute = () => {
     ]);
   }
 
-  page('Seasonal offers: A+++ units', '/offers', [
-    `${offers.season.label.en}. From €${fromPrice}, including a standard turnkey installation. The free quote confirms the final price.`,
+  page('Seasonal offers', '/offers', [
+    `${offers.season.label.en}. From €${fromPrice}, with basic installation included. The free quote confirms the final price.`,
     '',
     ...offers.items.map(
       (o) =>
-        `- ${o.brand} ${o.model}: €${o.priceNew}${o.priceOld ? ` (was €${o.priceOld})` : ''}${o.efficiency ? `, ${o.efficiency}` : ''}${o.coverage ? `, coverage ~${o.coverage}` : ''}`,
+        `- ${o.brand} ${o.model}${o.code ? ` (${o.code})` : ''}: €${o.priceNew}${o.priceOld ? ` (was €${o.priceOld})` : ''}${o.energyCool ? `, energy class ${o.energyCool} cooling` : ''}${o.energyHeat ? ` / ${o.energyHeat} heating` : ''}${o.coolKw ? `, ${o.coolKw} kW cooling` : ''}${o.heatKw ? ` / ${o.heatKw} kW heating` : ''}${o.noiseIndoorMin ? `, indoor noise from ${o.noiseIndoorMin} dB(A)` : ''}${o.wifi ? ', Wi-Fi included' : ''}`,
     ),
+    '',
+    offers.installation.title.en,
+    ...offers.installation.items.en.map((i) => `- ${i}`),
   ]);
 
   page('Frequently asked questions', '/faq', [

@@ -3,7 +3,7 @@ import { type Locale } from '../../config';
 import { galleryPhotos } from '../../data';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
-import Icon from '../ui/Icon.astro';
+import MoreLink from '../ui/MoreLink.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 import Carousel from '../ui/Carousel.astro';
 
@@ -19,18 +19,12 @@ const preview = galleryPhotos.slice(0, 12);
 ---
 <section class="py-16 lg:py-24">
   <Container>
-    <div class="flex flex-wrap items-end justify-between gap-6">
+    <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-5">
       <SectionHeading
         title={t('gallery.title')}
         intro={t('gallery.intro')}
       />
-      <a
-        class="hidden items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3 sm:inline-flex"
-        href={galleryHref}
-      >
-        {t('cta.gallery')}
-        <Icon name="arrow-right" size={18} />
-      </a>
+      <MoreLink href={galleryHref}>{t('cta.gallery')}</MoreLink>
     </div>
 
     <Carousel locale={locale} label={t('gallery.eyebrow')} class="mt-10">
@@ -48,13 +42,5 @@ const preview = galleryPhotos.slice(0, 12);
         </figure>
       ))}
     </Carousel>
-
-    <a
-      class="mt-8 inline-flex items-center gap-2 text-small font-bold text-brand-700 sm:hidden"
-      href={galleryHref}
-    >
-      {t('cta.gallery')}
-      <Icon name="arrow-right" size={18} />
-    </a>
   </Container>
 </section>

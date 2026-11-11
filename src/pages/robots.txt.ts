@@ -14,7 +14,7 @@ import { SITE_URL, SITE_INDEXABLE } from '../config';
  */
 
 /** Private/duplicate paths — excluded for every crawler. */
-const EXCLUDE = ['/thank-you', '/es/gracias', '/leads', '/api/'];
+const EXCLUDE = ['/thank-you', '/es/gracias', '/leads'];
 
 /** Named AI crawlers, explicitly welcomed (same exclusions as everyone else). */
 const AI_AGENTS = [
@@ -32,6 +32,7 @@ const AI_AGENTS = [
   'Perplexity-User',
   'Google-Agent',
   'meta-externalfetcher',
+  'MistralAI-User',
   // Training and product tokens
   'GPTBot',
   'ClaudeBot',

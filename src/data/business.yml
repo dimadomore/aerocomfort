@@ -9,11 +9,10 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 name: Aerocomfort
-# Autónomo. NIE confirmed; full legal first+last name still needed for the Aviso Legal.
+# Autónomo. Legal name and address are shown on the legal pages only (src/data/legal.ts).
 legalForm: "autónomo"
-legalName: "Gregorio ‹apellidos — por confirmar›"
+legalName: "Gregorio Camendo"
 taxId: "Y9274595C" # NIE
-manager: "Gregorio"
 
 # Contact channels — WhatsApp is the hero channel (docs/03 §2.1).
 phone: "+34 643 265 007"        # human-readable, used in tel: as digits below
@@ -26,6 +25,7 @@ email: "info.aerocomfort@gmail.com"
 emailFuture: "info@aerocomfort.es"   # optional domain email via Cloudflare Routing (G4)
 
 # Location / service area
+streetAddress: "C. Zaragoza"      # as shown on the Google Business Profile
 addressLocality: "Pilar de la Horadada"
 postalCode: "03190"
 addressRegion: "Alicante"
@@ -41,7 +41,7 @@ areasLead:
 areasCount: 40
 
 social:
-  google: "https://maps.app.goo.gl/eTYVXAazTkRR2edJ9"
+  google: "https://maps.app.goo.gl/a4ZAcn2YzJqvhThi9" # owner's link, Nov 2026 (same place as before)
   instagram: "https://www.instagram.com/_aerocomfort_/"
   facebook: "https://www.facebook.com/profile.php?id=100093132750668"
 
@@ -59,4 +59,3 @@ payment:
   - Cash
   - Card
   - Transfer
-  - Bizum

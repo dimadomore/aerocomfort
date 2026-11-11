@@ -1,6 +1,7 @@
 ---
 import { type Locale } from '../../config';
 import { useTranslations } from '../../i18n/utils';
+import { getCountryCallingCode, type CountryCode } from 'libphonenumber-js';
 
 /**
  * Phone field with real per-country validation (libphonenumber-js) → solves the
@@ -15,23 +16,27 @@ interface Props {
 const { locale, id = 'phone' } = Astro.props;
 const t = useTranslations(locale);
 
-// Curated to the audience (docs/00 §3): UK/IE/ES/DE first, then nearby Europe.
-const countries = [
-  { iso: 'GB', name: 'United Kingdom', dial: '44', flag: '🇬🇧' },
-  { iso: 'ES', name: 'Spain', dial: '34', flag: '🇪🇸' },
-  { iso: 'IE', name: 'Ireland', dial: '353', flag: '🇮🇪' },
-  { iso: 'DE', name: 'Germany', dial: '49', flag: '🇩🇪' },
-  { iso: 'FR', name: 'France', dial: '33', flag: '🇫🇷' },
-  { iso: 'NL', name: 'Netherlands', dial: '31', flag: '🇳🇱' },
-  { iso: 'BE', name: 'Belgium', dial: '32', flag: '🇧🇪' },
-  { iso: 'NO', name: 'Norway', dial: '47', flag: '🇳🇴' },
-  { iso: 'SE', name: 'Sweden', dial: '46', flag: '🇸🇪' },
-  { iso: 'DK', name: 'Denmark', dial: '45', flag: '🇩🇰' },
-  { iso: 'CH', name: 'Switzerland', dial: '41', flag: '🇨🇭' },
-  { iso: 'IT', name: 'Italy', dial: '39', flag: '🇮🇹' },
-  { iso: 'PT', name: 'Portugal', dial: '351', flag: '🇵🇹' },
-  { iso: 'PL', name: 'Poland', dial: '48', flag: '🇵🇱' },
-  { iso: 'US', name: 'United States', dial: '1', flag: '🇺🇸' },
+// Most common first (docs/00 §3): UK, Spain, Ireland, nearby northern Europe, the
+// Nordics, the USA and Canada. Then a short list of other European countries with
+// residents on the Costa Blanca, nearest to Spain first. Kept short on purpose
+// (owner, Nov 2026): a number from any other country can still be typed with +code.
+const common = ['GB', 'ES', 'IE', 'DE', 'NL', 'BE', 'FR', 'NO', 'SE', 'DK', 'FI', 'IS', 'US', 'CA'];
+const others = ['PT', 'IT', 'CH', 'LU', 'AT', 'CZ', 'PL', 'RO', 'LT', 'UA'] as const;
+
+const regionNames = new Intl.DisplayNames([locale], { type: 'region' });
+const flag = (iso: string) => String.fromCodePoint(...[...iso].map((c) => 0x1f1a5 + c.charCodeAt(0)));
+const country = (iso: string) => ({
+  iso,
+  name: iso === 'XK' ? 'Kosovo' : (regionNames.of(iso) ?? iso),
+  dial: getCountryCallingCode(iso as CountryCode),
+  flag: flag(iso),
+});
+const groups = [
+  { label: locale === 'es' ? 'Más habituales' : 'Most common', countries: common.map(country) },
+  {
+    label: locale === 'es' ? 'Más países' : 'More countries',
+    countries: others.map(country),
+  },
 ];
 const defaultIso = locale === 'es' ? 'ES' : 'GB';
 ---
@@ -44,8 +49,14 @@ const defaultIso = locale === 'es' ? 'ES' : 'GB';
   <label class="lead-label" for={id}>{t('form.phone')}</label>
   <div class="lead-phone__combo">
     <select class="lead-control lead-phone__country" data-country aria-label={t('form.country')}>
-      {countries.map((c) => (
-        <option value={c.iso} selected={c.iso === defaultIso}>{c.flag} {c.iso} +{c.dial}</option>
+      {groups.map((g) => (
+        <optgroup label={g.label}>
+          {g.countries.map((c) => (
+            <option value={c.iso} selected={c.iso === defaultIso} data-short={`${c.flag} +${c.dial}`} data-long={`${c.flag} ${c.name} +${c.dial}`}>
+              {c.flag} {c.name} +{c.dial}
+            </option>
+          ))}
+        </optgroup>
       ))}
     </select>
     <input
@@ -69,10 +80,11 @@ const defaultIso = locale === 'es' ? 'ES' : 'GB';
 <style>
   .lead-phone__combo {
     display: grid;
-    grid-template-columns: minmax(112px, max-content) 1fr;
+    grid-template-columns: 8.25rem minmax(0, 1fr);
     gap: 0.5rem;
   }
   .lead-phone__country {
+    width: 100%;
     min-width: 0;
     padding-inline: 0.6rem;
   }
@@ -137,6 +149,18 @@ const defaultIso = locale === 'es' ? 'ES' : 'GB';
       validate(false);
     });
     input.addEventListener('blur', () => validate(true));
-    sel.addEventListener('change', () => validate(Boolean(input.value)));
+    // The list shows full country names; the closed field only has room for the
+    // flag and code, so the chosen option gets its short label.
+    const syncLabels = () => {
+      [...sel.options].forEach((o) => {
+        const label = o.selected ? o.dataset.short : o.dataset.long;
+        if (label) o.textContent = label;
+      });
+    };
+    syncLabels();
+    sel.addEventListener('change', () => {
+      syncLabels();
+      validate(Boolean(input.value));
+    });
   });
 </script>

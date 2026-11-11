@@ -3,7 +3,7 @@ import { type Locale } from '../../config';
 import { BRANDS } from '../../data/brands';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
-import Icon from '../ui/Icon.astro';
+import MoreLink from '../ui/MoreLink.astro';
 
 interface Props {
   locale: Locale;
@@ -18,7 +18,10 @@ const brandsHref = localizedPath('/brands', locale);
     <p class="text-center text-body font-semibold text-ink-500">
       {es ? 'Instalamos y reparamos todas las marcas principales' : 'We install and service all major brands'}
     </p>
-    <ul class="mt-8 grid grid-cols-3 items-center justify-items-center gap-x-8 gap-y-7 sm:grid-cols-4 lg:grid-cols-7">
+    <div class="mt-5 text-center">
+      <MoreLink href={brandsHref}>{t('cta.allBrands')}</MoreLink>
+    </div>
+    <ul class="mt-8 grid grid-cols-3 items-center justify-items-center gap-x-8 gap-y-7 sm:grid-cols-5 lg:grid-cols-9">
       {BRANDS.map((b) => (
         <li class="flex w-full justify-center">
           <a href={brandsHref} class:list={['brand-logo', b.slug === 'lg' && 'brand-logo--lg']} aria-label={b.name}>
@@ -27,15 +30,6 @@ const brandsHref = localizedPath('/brands', locale);
         </li>
       ))}
     </ul>
-    <div class="mt-8 text-center">
-      <a
-        class="inline-flex items-center gap-1.5 text-small font-bold text-brand-700 transition-all hover:gap-3"
-        href={brandsHref}
-      >
-        {t('cta.allBrands')}
-        <Icon name="arrow-right" size={16} />
-      </a>
-    </div>
   </Container>
 </section>
 
