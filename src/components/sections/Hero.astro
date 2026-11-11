@@ -19,7 +19,7 @@ const tr = business.trust;
 const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
 const contactHref = localizedPath('/contact', locale);
 
-// The first screen in pictures: installation first, then the team, then the other
+// The first screen in pictures: the team first, then installation, then the other
 // two services. Photos are the ones the owner chose for the home page (Nov 2026).
 // `pos` crops the wide desktop band, `mpos` the phone photo, `thumb` the thumbnail.
 interface Slide {
@@ -40,14 +40,6 @@ const service = (slug: string) => {
 };
 const slides: Slide[] = [
   {
-    src: '/gallery/work-42.webp',
-    pos: '100% 45%',
-    mpos: '80% 45%',
-    thumb: '85% 45%',
-    alt: es ? 'Unidad exterior LG instalada junto a un termo en una terraza' : 'LG outdoor unit installed beside a water heater on a terrace',
-    ...service('installation'),
-  },
-  {
     // The tall original, so the vans sit clear of the caption and the desktop panels.
     src: '/hero/vans.webp',
     pos: '50% 60%',
@@ -57,6 +49,14 @@ const slides: Slide[] = [
     title: es ? 'Nuestro equipo' : 'Our team',
     blurb: es ? 'Especialistas locales, en ruta por toda la Costa Blanca.' : 'Local specialists, on the road across the Costa Blanca.',
     href: localizedPath('/about', locale),
+  },
+  {
+    src: '/gallery/work-42.webp',
+    pos: '100% 45%',
+    mpos: '80% 45%',
+    thumb: '85% 45%',
+    alt: es ? 'Unidad exterior LG instalada junto a un termo en una terraza' : 'LG outdoor unit installed beside a water heater on a terrace',
+    ...service('installation'),
   },
   {
     src: '/gallery/work-41.webp',
