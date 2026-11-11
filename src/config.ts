@@ -43,10 +43,12 @@ export const ELFSIGHT_ID = "elfsight-app-0a716faf-0e47-4d76-8692-1aba041cbae6";
 export const MAP_EMBED_URL =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12600!2d-0.7887288!3d37.8641807!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x43271761bb557477%3A0x4f97ec230490a29f!2sAEROCOMFORT%20-%20installation%20air%20conditioner%20TORREVIEJA!5e0!3m2!1sen!2ses!4v1794400000000";
 
-/** Home hero background video (muted loop, e.g. "/hero/hero.mp4"). Empty = the
- *  photo slideshow only. Loaded after the page, desktop only; photos stay as the
- *  instant first paint and the mobile / reduced-motion fallback. */
-export const HERO_VIDEO = "";
+/** Short muted clip for the home hero slide marked `clip` in Hero.astro. Empty =
+ *  photos only. It loads after the page and plays while that slide is shown, on phones
+ *  and tablets only (the current clip is a tall phone video, too soft for the wide
+ *  desktop band). The slide's photo stays as the first paint and as the fallback
+ *  for desktop, reduced motion and data saver. */
+export const HERO_VIDEO = "/hero/lg-unit.mp4";
 
 /** Chrome origin-trial token for WebMCP. Tokens are tied to one origin, so register
  *  aerocomfort.es at cutover: developer.chrome.com/origintrials. Empty = tools only

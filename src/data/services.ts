@@ -38,7 +38,7 @@ export const SERVICES: Service[] = [
     slug: 'installation',
     esSlug: 'instalacion',
     icon: 'ac-unit',
-    image: '/gallery/work-04.webp',
+    image: '/gallery/work-43.webp',
     en: {
       title: 'Installation',
       blurb: 'New units sized for your rooms, fitted cleanly and guaranteed for 3 years.',

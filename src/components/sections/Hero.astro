@@ -19,40 +19,65 @@ const tr = business.trust;
 const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
 const contactHref = localizedPath('/contact', locale);
 
-// One slide per service, so the first screen shows what the team does. Photos
-// are real Aerocomfort jobs; swap `src` here when better ones are chosen.
+// The first screen in pictures: installation first, then the team, then the other
+// two services. Photos are the ones the owner chose for the home page (Nov 2026).
 // `pos` crops the wide desktop band, `mpos` the phone photo, `thumb` the thumbnail.
-const photo: Record<string, { src: string; pos: string; mpos: string; thumb: string; alt: string }> = {
-  installation: {
-    src: '/gallery/work-28.webp',
-    pos: '50% 70%',
-    mpos: '50% 64%',
-    thumb: '60% 38%',
-    alt: es ? 'Unidades exteriores instaladas en una azotea con vistas al mar' : 'Outdoor units installed on a rooftop with a sea view',
+interface Slide {
+  src: string;
+  pos: string;
+  mpos: string;
+  thumb: string;
+  alt: string;
+  title: string;
+  blurb: string;
+  href: string;
+  /** The short clip (HERO_VIDEO) plays over this slide on phones and tablets. */
+  clip?: boolean;
+}
+const service = (slug: string) => {
+  const sv = SERVICES.find((x) => x.slug === slug)!;
+  return { title: sv[locale].title, blurb: sv[locale].blurb, href: localizedPath(`/services/${slug}`, locale) };
+};
+const slides: Slide[] = [
+  {
+    src: '/gallery/work-42.webp',
+    pos: '100% 45%',
+    mpos: '80% 45%',
+    thumb: '85% 45%',
+    alt: es ? 'Unidad exterior LG instalada junto a un termo en una terraza' : 'LG outdoor unit installed beside a water heater on a terrace',
+    ...service('installation'),
   },
-  repair: {
-    src: '/gallery/work-04.webp',
+  {
+    // The tall original, so the vans sit clear of the caption and the desktop panels.
+    src: '/hero/vans.webp',
     pos: '50% 60%',
-    mpos: '50% 58%',
-    thumb: '70% 50%',
-    alt: es ? 'Técnico de Aerocomfort trabajando en una unidad exterior' : 'Aerocomfort technician working on an outdoor unit',
+    mpos: '50% 72%',
+    thumb: '50% 62%',
+    alt: es ? 'Dos furgonetas de Aerocomfort' : 'Two Aerocomfort vans',
+    title: es ? 'Nuestro equipo' : 'Our team',
+    blurb: es ? 'Especialistas locales, en ruta por toda la Costa Blanca.' : 'Local specialists, on the road across the Costa Blanca.',
+    href: localizedPath('/about', locale),
   },
-  maintenance: {
-    src: '/gallery/work-01.webp',
-    pos: '50% 35%',
+  {
+    src: '/gallery/work-41.webp',
+    pos: '50% 40%',
     mpos: '50% 30%',
     thumb: '50% 35%',
-    alt: es ? 'Técnico de Aerocomfort revisando un equipo de techo' : 'Aerocomfort technician servicing a ceiling unit',
+    alt: es ? 'Unidad exterior LG de gran potencia junto a un cuadro eléctrico' : 'Large LG outdoor unit beside an electrical panel',
+    clip: true,
+    ...service('repair'),
   },
-};
-const slides = SERVICES.filter((sv) => sv.slug in photo).map((sv) => ({
-  ...photo[sv.slug],
-  title: sv[locale].title,
-  blurb: sv[locale].blurb,
-  href: localizedPath(`/services/${sv.slug}`, locale),
-}));
+  {
+    src: '/gallery/work-43.webp',
+    pos: '62% 45%',
+    mpos: '55% 40%',
+    thumb: '60% 42%',
+    alt: es ? 'Cuatro unidades exteriores LG en una terraza' : 'Four LG outdoor units on a roof terrace',
+    ...service('maintenance'),
+  },
+];
 
-// Phones only: the brands as a fourth slide. Desktop shows them as chips instead.
+// Phones only: the brands as a last slide. Desktop shows them as chips instead.
 const brandsSlide = {
   title: es ? 'Marcas que instalamos' : 'Brands we install',
   blurb: es ? 'También reparamos todas las marcas.' : 'We repair all major brands too.',
@@ -124,6 +149,7 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
         {slides.map((s, i) => (
           <img
             class:list={['hero__slide', i === 0 && 'is-active']}
+            data-clip={s.clip ? '' : undefined}
             src={s.src}
             alt=""
             width="900"
@@ -205,13 +231,36 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
     const wide = matchMedia('(min-width: 1024px)');
     const count = () => slides.filter((s) => !(wide.matches && s.hasAttribute('data-mobile-only'))).length;
 
-    const INTERVAL = 6000;
+    const PHOTO_MS = 6000;
     let current = 0;
     let timer: number | undefined;
     let held = false; // pointer/focus is on the controls
+    // A short clip that plays over one slide (the one marked data-clip) once it has loaded.
+    const clipSlide = slides.findIndex((s) => s.hasAttribute('data-clip'));
     let video: HTMLVideoElement | null = null;
+    let videoReady = false;
 
-    const show = (n: number) => {
+    const playVideo = () => {
+      if (!video) return;
+      const on = videoReady && current === clipSlide && !wide.matches;
+      video.classList.toggle('is-active', on);
+      if (on) {
+        video.currentTime = 0;
+        void video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    };
+
+    // Each slide stays for a few seconds; the one with the clip for as long as it runs.
+    const sync = () => {
+      window.clearTimeout(timer);
+      if (reduced || held || document.hidden) return;
+      const clip = current === clipSlide && videoReady && video && !wide.matches && Number.isFinite(video.duration) ? video.duration * 1000 : 0;
+      timer = window.setTimeout(() => show(current + 1), Math.max(PHOTO_MS, clip));
+    };
+
+    function show(n: number) {
       current = (n + count()) % count();
       slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
       thumbs.forEach((b, i) => {
@@ -219,23 +268,12 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
         b.setAttribute('aria-pressed', String(i === current));
       });
       captions.forEach((c, i) => c.classList.toggle('is-active', i === current));
-    };
-
-    const sync = () => {
-      window.clearInterval(timer);
-      if (!reduced && !held && !video && !document.hidden) {
-        timer = window.setInterval(() => show(current + 1), INTERVAL);
-      }
-    };
+      playVideo();
+      sync();
+    }
 
     thumbs.forEach((b, i) =>
-      b.addEventListener('click', () => {
-        // Choosing a photo drops the video for this visit: the choice must stick.
-        video?.remove();
-        video = null;
-        show(i);
-        sync();
-      }),
+      b.addEventListener('click', () => show(i)),
     );
     // Phones: swipe the photo to change service. A swipe must not follow the link.
     let startX = 0;
@@ -249,7 +287,6 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
       if (Math.abs(dx) < 40) return;
       swiped = true;
       show(current + (dx < 0 ? 1 : -1));
-      sync();
     }, { passive: true });
     media?.addEventListener('click', (e) => {
       if (swiped) e.preventDefault();
@@ -269,17 +306,31 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
       if (current >= count()) show(0);
     });
 
+    // Loaded after the page, so the photo is always the first paint. Skipped for
+    // visitors who ask for less motion or less data. Phones and tablets only: the
+    // clip is a tall phone video (576 px wide) and turns soft when stretched over
+    // the wide desktop band, where the photo looks better.
     const startVideo = () => {
       const src = hero.dataset.video;
       const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-      if (!src || reduced || saveData || !matchMedia('(min-width: 1024px)').matches) return;
+      if (!src || reduced || saveData || !media || wide.matches || clipSlide < 0) return;
       const el = document.createElement('video');
-      Object.assign(el, { src, muted: true, loop: true, playsInline: true, autoplay: true, className: 'hero__video' });
+      Object.assign(el, { src, muted: true, loop: true, playsInline: true, preload: 'auto', className: 'hero__video' });
+      el.setAttribute('muted', '');
+      el.setAttribute('playsinline', '');
       el.setAttribute('aria-hidden', 'true');
-      el.addEventListener('playing', () => el.classList.add('is-active'), { once: true });
-      hero.querySelector('[data-media]')?.append(el);
+      el.addEventListener(
+        'canplay',
+        () => {
+          videoReady = true;
+          playVideo();
+          if (current === clipSlide) sync();
+        },
+        { once: true },
+      );
+      // Above the photos, below the caption.
+      media.insertBefore(el, media.querySelector('.hero__captions'));
       video = el;
-      sync();
     };
     if (document.readyState === 'complete') startVideo();
     else window.addEventListener('load', startVideo, { once: true });
@@ -320,6 +371,11 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
   .hero__slide.is-active,
   .hero__media :global(.hero__video.is-active) {
     opacity: 1;
+  }
+  /* The clip is a tall phone video: keep its top (logo and upper fan) in the frame. */
+  .hero__media :global(.hero__video) {
+    object-position: 50% 14%;
+    filter: none;
   }
   /* A slow push-in keeps the photo alive between changes. */
   .hero__slide.is-active {
@@ -514,8 +570,7 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
       border-radius: 0;
       box-shadow: none;
     }
-    .hero__slide,
-    .hero__media :global(.hero__video) {
+    .hero__slide {
       object-position: var(--pos, 50% 50%);
     }
     .hero__captions,
@@ -533,7 +588,7 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
         linear-gradient(0deg, rgb(17 48 92 / 0.5) 0%, rgb(17 48 92 / 0) 24%);
     }
     .hero__grid {
-      grid-template-columns: minmax(0, 1fr) 24rem;
+      grid-template-columns: minmax(0, 1fr) 27rem;
       align-items: end;
       gap: 1.75rem;
     }
@@ -578,8 +633,8 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
       width: auto;
       height: auto;
       clip-path: none;
-      padding: 1.25rem 0.25rem 0.375rem;
-      font-size: 0.8125rem;
+      padding: 1.25rem 0.125rem 0.375rem;
+      font-size: 0.75rem;
       color: #fff;
       background: linear-gradient(180deg, rgb(17 48 92 / 0) 0%, rgb(17 48 92 / 0.9) 70%);
     }
