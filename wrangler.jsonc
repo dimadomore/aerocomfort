@@ -7,7 +7,10 @@
 	"main": "worker/index.ts",
 	"assets": {
 		"directory": "./dist",
-		"binding": "ASSETS"
+		"binding": "ASSETS",
+		// Unknown addresses get the site's own 404 page (dist/404.html) with a 404
+		// status, instead of an empty response.
+		"not_found_handling": "404-page"
 	},
 	// Production domain: aero.dimadomore.com (temporary, until switching to aerocomfort.es).
 	// The custom domain is attached at the account level via the Workers Domains API,
