@@ -1,6 +1,8 @@
 import { SITE_URL } from '../config';
 import { business, isPlaceholder, type OfferItem } from '../data';
 import { AREA_GROUPS } from '../data/areas';
+import { PROMO } from '../data/promo';
+import { localizedPath } from '../i18n/utils';
 
 /** Absolute URL helper for schema (which requires fully-qualified URLs). */
 const abs = (path: string) => new URL(path, SITE_URL).href;
@@ -253,5 +255,30 @@ export function imageGalleryLd(
       contentUrl: abs(p.src),
       caption: p.caption,
     })),
+  };
+}
+
+/** Product/Offer schema for the running promotion (src/data/promo.ts). */
+export function promoProductLd(locale: 'en' | 'es') {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: `${PROMO.brand} ${PROMO.model}`,
+    sku: PROMO.code,
+    brand: { '@type': 'Brand', name: PROMO.brand },
+    category: 'Air conditioner',
+    image: abs(PROMO.image),
+    description: `${PROMO.brand} ${PROMO.model} air conditioner, ${PROMO.kw} kW, ${PROMO.energyCool} energy class in cooling, Wi-Fi included.${
+      PROMO.installationIncluded ? ` Price includes basic installation by ${business.name}, with up to 3 m of pipework.` : ''
+    }`,
+    offers: {
+      '@type': 'Offer',
+      price: PROMO.price,
+      priceCurrency: 'EUR',
+      itemCondition: 'https://schema.org/NewCondition',
+      availability: 'https://schema.org/LimitedAvailability',
+      url: abs(localizedPath(PROMO.path, locale)),
+      seller: { '@id': abs('/#business') },
+    },
   };
 }

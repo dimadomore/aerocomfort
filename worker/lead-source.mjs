@@ -84,6 +84,7 @@ const SERVICE_NAMES = {
 const PAGE_NAMES = [
   [/^\/(es)?$/, () => 'Главная'],
   [/^\/(?:offers|es\/ofertas)$/, () => 'Оферты'],
+  [/^\/(?:es\/)?black-friday$/, () => 'Black Friday'],
   [/^\/(?:services|es\/servicios)$/, () => 'Услуги'],
   [/^\/(?:services|es\/servicios)\/([^/]+)$/, (m) => `Услуга: ${SERVICE_NAMES[m[1]] ?? m[1]}`],
   [/^\/(?:areas|es\/zonas)$/, () => 'Зоны'],
@@ -121,6 +122,10 @@ const CTA_NAMES = {
   'sticky-bar': 'нижняя панель',
   'final-cta': 'блок внизу страницы',
   'offer-card': 'карточка оферты',
+  'promo-hero': 'лендинг акции, верх',
+  'promo-closing': 'лендинг акции, низ',
+  'promo-badge': 'значок акции в шапке',
+  'promo-bar': 'полоса акции под шапкой',
   'contact-panel': 'панель контактов',
   'chat-launcher': 'кнопка чата',
   footer: 'футер',

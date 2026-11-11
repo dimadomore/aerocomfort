@@ -12,6 +12,7 @@ import Footer from '../components/layout/Footer.astro';
 import ChatLauncher from '../components/islands/ChatLauncher.astro';
 import StickyMobileBar from '../components/islands/StickyMobileBar.astro';
 import Journey from '../components/analytics/Journey.astro';
+import PromoBar from '../components/layout/PromoBar.astro';
 import CookieConsent from '../components/islands/CookieConsent.astro';
 
 interface Props {
@@ -60,6 +61,7 @@ const t = useTranslations(locale);
       {t('common.skipToContent')}
     </a>
     <Header locale={locale} path={path} />
+    <PromoBar locale={locale} path={path} />
     <main id="main" class="flex-1">
       <slot />
     </main>

@@ -71,8 +71,10 @@ const onContact = Astro.url.pathname.replace(/\/$/, '') === contactHref.replace(
   .stickybar.is-visible {
     transform: translateY(0);
   }
-  /* The cookie dialog comes first: the bar waits underneath until a choice is made. */
-  :global(html.cc-open) .stickybar {
+  /* The cookie dialog comes first: the bar waits underneath until a choice is made.
+     It also steps aside while the mobile menu is open, and returns when it closes. */
+  :global(html.cc-open) .stickybar,
+  :global(html.menu-open) .stickybar {
     visibility: hidden;
   }
   .stickybar--two {

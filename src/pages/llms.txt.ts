@@ -3,6 +3,7 @@ import { SITE_URL } from '../config';
 import { business, offers, reviewCountDisplay } from '../data';
 import { SERVICES } from '../data/services';
 import { BRANDS } from '../data/brands';
+import { PROMO } from '../data/promo';
 
 const abs = (path: string) => new URL(path, SITE_URL).href;
 
@@ -31,6 +32,9 @@ export const GET: APIRoute = () => {
     `- [All services](${abs('/services')}): Overview — also ventilation.`,
     '',
     '## Key pages',
+    ...(PROMO.active
+      ? [`- [${PROMO.label}](${abs(PROMO.path)}): Limited offer, ${PROMO.brand} ${PROMO.model} (${PROMO.kw} kW) for €${PROMO.price}${PROMO.installationIncluded ? ' with basic installation' : ''}.`]
+      : []),
     `- [Offers](${abs('/offers')}): Seasonal inverter units from €${fromPrice} with basic installation included (${offers.season.label.en}).`,
     `- [Service areas](${abs('/areas')}): ${business.areasCount}+ towns, each with a dedicated page.`,
     `- [Brands](${abs('/brands')}): ${BRANDS.map((b) => b.name).join(', ')}.`,

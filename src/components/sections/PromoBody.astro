@@ -1,0 +1,382 @@
+---
+import { type Locale } from '../../config';
+import { business, offers } from '../../data';
+import { PROMO } from '../../data/promo';
+import { localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+
+/**
+ * Landing page for the one temporary offer (src/data/promo.ts). One unit, one
+ * price, and two ways to act: call or write. The price is the page: everything
+ * else is there to back it up. Black stands in for the usual navy on this page only.
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const es = locale === 'es';
+const p = PROMO;
+const name = `${p.brand} ${p.model}`;
+const num = (n: number) => (es ? String(n).replace('.', ',') : String(n));
+
+const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
+const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(p.whatsapp[locale])}`;
+const formHref = `${localizedPath('/contact', locale)}?unit=${encodeURIComponent(`${p.label}: ${name}, €${p.price}`)}&service=installation`;
+const offersHref = localizedPath('/offers', locale);
+
+const facts: { value: string; label: string }[] = [
+  { value: `${num(p.kw)} kW`, label: es ? 'frío y calor' : 'cooling and heating' },
+  { value: p.energyCool, label: es ? 'clase energética' : 'energy class' },
+  { value: `${p.noiseIndoorMin} dB`, label: es ? 'desde, en interior' : 'from, indoors' },
+  { value: 'Wi-Fi', label: es ? 'incluido' : 'included' },
+  { value: es ? `${p.warrantyYears} años` : `${p.warrantyYears} years`, label: es ? 'de garantía' : 'warranty' },
+];
+
+const copy = es
+  ? {
+      title: `Aire acondicionado ${name} de ${num(p.kw)} kW`,
+      terms: p.installationIncluded ? 'Con instalación básica incluida' : 'Precio del equipo',
+      limited: 'Oferta limitada. Escríbenos o llámanos hoy para reservar el tuyo.',
+      whatsapp: 'Escribir por WhatsApp',
+      form: 'Solicitar esta oferta',
+      factsTitle: 'Lo que te llevas',
+      includedTitle: 'Qué incluye la instalación',
+      note: 'Si tu vivienda necesita más tubería u otros trabajos, te lo indicamos antes de empezar.',
+      closing: '¿Lo quieres?',
+      closingText: 'Respondemos en menos de una hora en horario laboral.',
+      ended: 'Esta oferta ha terminado.',
+      endedLink: 'Ver las ofertas actuales',
+    }
+  : {
+      title: `${name} air conditioning, ${num(p.kw)} kW`,
+      terms: p.installationIncluded ? 'Basic installation included' : 'Unit price',
+      limited: 'Limited offer. Message or call us today to reserve yours.',
+      whatsapp: 'Message us on WhatsApp',
+      form: 'Request this offer',
+      factsTitle: 'What you get',
+      includedTitle: 'What the installation includes',
+      note: 'If your home needs a longer pipe run or extra work, we tell you before we start.',
+      closing: 'Want it?',
+      closingText: 'We reply within the hour during working hours.',
+      ended: 'This offer has ended.',
+      endedLink: 'See the current offers',
+    };
+---
+{
+  !p.active ? (
+    <section class="bf">
+      <Container class="py-20 text-center">
+        <p class="bf__tag"><span>Black</span><span>Friday</span></p>
+        <h1 class="mt-6 font-display text-h1 font-extrabold text-white">{copy.ended}</h1>
+        <a class="bf__btn bf__btn--form mt-8" href={offersHref}>
+          {copy.endedLink}
+          <Icon name="arrow-right" size={20} />
+        </a>
+      </Container>
+    </section>
+  ) : (
+    <Fragment>
+      <section class="bf" data-cta="promo-hero">
+        <Container>
+          {/* Own element: a class passed to <Container> would not get this file's scoped styles. */}
+          <div class="bf__grid">
+          <div class="bf__main">
+            <p class="bf__tag"><span>Black</span><span>Friday</span></p>
+            <h1 class="bf__title">{copy.title}</h1>
+
+            <p class="bf__price">
+              <span class="bf__euro">€</span>{p.price}
+            </p>
+            <p class="bf__terms">{copy.terms}</p>
+            <p class="bf__limited">{copy.limited}</p>
+
+            <div class="bf__cta">
+              <a class="bf__btn bf__btn--wa" href={waHref} target="_blank" rel="noopener">
+                <Icon name="whatsapp" size={22} />
+                {copy.whatsapp}
+              </a>
+              <a class="bf__btn bf__btn--call" href={telHref}>
+                <Icon name="phone" size={20} />
+                {business.phone}
+              </a>
+            </div>
+          </div>
+
+          <div class="bf__photo">
+            <img src={p.image} alt={`${name}: ${es ? 'unidad interior, unidad exterior y mando' : 'indoor unit, outdoor unit and remote'}`} width="670" height="523" fetchpriority="high" decoding="async" />
+          </div>
+          </div>
+        </Container>
+      </section>
+
+      <section class="py-14 lg:py-20">
+        <Container>
+          <h2 class="text-h2">{copy.factsTitle}</h2>
+          <dl class="bf-facts">
+            {facts.map((f) => (
+              <div>
+                <dd>{f.value}</dd>
+                <dt>{f.label}</dt>
+              </div>
+            ))}
+          </dl>
+
+          {p.installationIncluded && (
+            <div class="mt-12 max-w-2xl">
+              <h2 class="text-h3">{copy.includedTitle}</h2>
+              <ul class="bf-list">
+                {offers.installation.items[locale].map((item) => <li>{item}</li>)}
+              </ul>
+              <p class="mt-4 text-small text-ink-700">{copy.note}</p>
+            </div>
+          )}
+        </Container>
+      </section>
+
+      <section class="bf bf--closing" data-cta="promo-closing">
+        <Container class="py-14 lg:py-16">
+          <div class="bf__closing">
+            <div>
+              <h2 class="font-display text-h2 font-extrabold text-white">
+                {copy.closing} <span class="bf__closing-price">€{p.price}</span>
+              </h2>
+              <p class="mt-2 text-body text-white/85">{copy.closingText}</p>
+            </div>
+            <div class="bf__cta bf__cta--closing">
+              <a class="bf__btn bf__btn--wa" href={waHref} target="_blank" rel="noopener">
+                <Icon name="whatsapp" size={22} />
+                {copy.whatsapp}
+              </a>
+              <a class="bf__btn bf__btn--call" href={telHref}>
+                <Icon name="phone" size={20} />
+                {business.phone}
+              </a>
+              <a class="bf__btn bf__btn--form" href={formHref}>
+                {copy.form}
+                <Icon name="arrow-right" size={20} />
+              </a>
+            </div>
+          </div>
+        </Container>
+      </section>
+    </Fragment>
+  )
+}
+
+<style>
+  .bf {
+    background: #0a0c10;
+    color: #fff;
+  }
+  .bf__grid {
+    display: grid;
+    gap: 2rem;
+    padding-block: 2.25rem 2.75rem;
+  }
+
+  /* The label: two stacked words, the second in the yellow of a price sticker. */
+  .bf__tag {
+    display: inline-flex;
+    gap: 0.4em;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .bf__tag span:last-child {
+    color: var(--warning);
+  }
+  .bf__title {
+    max-width: 22ch;
+    margin-top: 0.875rem;
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: rgb(255 255 255 / 0.92);
+  }
+
+  /* The price is the page. It scales with the screen and never wraps. */
+  .bf__price {
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-size: min(37vw, 15rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+    white-space: nowrap;
+    color: #fff;
+  }
+  .bf__euro {
+    margin-right: 0.04em;
+    font-size: 0.5em;
+    vertical-align: 0.62em;
+    color: var(--warning);
+  }
+  .bf__terms {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+  .bf__limited {
+    max-width: 34ch;
+    margin-top: 0.5rem;
+    font-size: var(--text-small);
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  .bf__cta {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+  .bf__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.5rem;
+    padding: 0 1.5rem;
+    border-radius: 4px;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
+  }
+  .bf__btn--wa {
+    background: var(--wa-600);
+    color: #fff;
+  }
+  .bf__btn--wa:hover {
+    background: var(--wa-500);
+  }
+  .bf__btn--call {
+    border: 1.5px solid rgb(255 255 255 / 0.55);
+    color: #fff;
+  }
+  .bf__btn--call:hover {
+    border-color: #fff;
+    background: #fff;
+    color: #0a0c10;
+  }
+  .bf__btn--form {
+    background: var(--accent-600);
+    color: #fff;
+  }
+  .bf__btn--form:hover {
+    background: var(--accent-700);
+  }
+
+  .bf__photo {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: #c23030;
+  }
+  .bf__photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Five facts, set like the rating plate on a unit: big value, small label. */
+  .bf-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.75rem;
+    border-top: 1px solid var(--line);
+  }
+  .bf-facts div {
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .bf-facts div:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  .bf-facts dd {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--brand-900);
+  }
+  .bf-facts dt {
+    margin-top: 0.2rem;
+    font-size: var(--text-small);
+    color: var(--ink-700);
+  }
+  .bf-list {
+    margin-top: 0.875rem;
+    padding-left: 1.2rem;
+    list-style: disc;
+    color: var(--ink-700);
+  }
+  .bf-list li + li {
+    margin-top: 0.4rem;
+  }
+  .bf-list li::marker {
+    color: var(--accent-600);
+  }
+
+  .bf__closing {
+    display: grid;
+    gap: 1.75rem;
+  }
+  .bf__closing-price {
+    color: var(--warning);
+    white-space: nowrap;
+  }
+  .bf__cta--closing {
+    margin-top: 0;
+  }
+
+  @media (min-width: 640px) {
+    .bf__cta {
+      grid-auto-flow: column;
+      justify-content: start;
+    }
+    .bf-facts {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border-bottom: 1px solid var(--line);
+    }
+    .bf-facts div {
+      padding: 1.5rem 1rem 1.5rem 0;
+      border-bottom: 0;
+    }
+    .bf-facts div:last-child:nth-child(odd) {
+      grid-column: auto;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bf__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      align-items: center;
+      gap: 3rem;
+      padding-block: 3.5rem 4rem;
+    }
+    .bf__tag {
+      font-size: 1.375rem;
+    }
+    .bf__title {
+      font-size: 1.75rem;
+    }
+    /* The left column is 7/12 of the container: size the price to it, not the screen. */
+    .bf__price {
+      font-size: min(19vw, 15rem);
+    }
+    .bf__closing {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 3rem;
+    }
+    .bf-facts dd {
+      font-size: 2.5rem;
+    }
+  }
+</style>
