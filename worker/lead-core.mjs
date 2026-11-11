@@ -46,11 +46,28 @@ export const CSV_HEADER = [
  * sends the notification email, and returns the right Response for JS (JSON)
  * and no-JS (303 redirect) clients.
  *
+ * JSON clients (assistants and other agents) get a reason with every refusal:
+ * `{ ok: false, error: 'consent_required' | 'invalid_name' | 'invalid_phone' |
+ * 'rate_limited' | 'verification_failed', message }`. The API is described in
+ * /openapi.json, which scripts/gen-agent-files.mjs writes.
+ *
  * @param {Request} request
  * @param {LeadEnv} env
- * @param {{ persist?: (lead: Lead) => Promise<void> | void }} [hooks]
+ * @param {{ persist?: (lead: Lead) => Promise<void> | void, recentCount?: (ip: string) => Promise<number> | number }} [hooks]
  * @returns {Promise<Response>}
  */
+
+/** Requests accepted per IP address per hour. The form and agents share it. */
+export const LEADS_PER_HOUR = 5;
+
+const REFUSALS = {
+  consent_required: 'The person must agree to the privacy policy and to being contacted. Send consent: true once they have.',
+  invalid_name: 'A name is required.',
+  invalid_phone: 'A valid phone number is required, in international format, for example +34612345678.',
+  rate_limited: 'Too many requests from this address. Try again in an hour, or use WhatsApp or the phone.',
+  verification_failed: 'The anti-spam check failed.',
+};
+
 export async function handleLead(request, env, hooks = {}) {
   const wantsJson = (request.headers.get('accept') || '').includes('application/json');
 
@@ -74,11 +91,12 @@ export async function handleLead(request, env, hooks = {}) {
   const thankYou = locale === 'es' ? '/es/gracias' : '/thank-you';
   const contact = locale === 'es' ? '/es/contacto' : '/contact';
 
-  /** @param {boolean} ok */
-  const respond = (ok) => {
+  /** @param {boolean} ok @param {keyof typeof REFUSALS} [error] */
+  const respond = (ok, error) => {
     if (wantsJson) {
-      return new Response(JSON.stringify({ ok }), {
-        status: ok ? 200 : 400,
+      const body = ok ? { ok } : { ok, error: error ?? 'invalid_request', message: error ? REFUSALS[error] : 'Invalid request.' };
+      return new Response(JSON.stringify(body), {
+        status: ok ? 200 : error === 'rate_limited' ? 429 : 400,
         headers: { 'content-type': 'application/json' },
       });
     }
@@ -92,30 +110,50 @@ export async function handleLead(request, env, hooks = {}) {
   // Honeypot — silently accept (don't tip off bots), don't deliver.
   if (data.company) return respond(true);
 
+  // A request sent by an assistant for someone names itself in `agent`. It cannot
+  // solve a Turnstile widget, so it is held to the consent flag and the hourly
+  // limit instead, and the lead is labelled so the owner can tell it apart.
+  const agent = String(data.agent || '').replace(/[\r\n]+/g, ' ').trim().slice(0, 60);
+  const ip = request.headers.get('cf-connecting-ip') || '';
+
   // Turnstile (only enforced once configured).
-  if (env.TURNSTILE_SECRET) {
-    const ok = await verifyTurnstile(
-      env.TURNSTILE_SECRET,
-      data['cf-turnstile-response'],
-      request.headers.get('cf-connecting-ip'),
-    );
-    if (!ok) return respond(false);
+  if (env.TURNSTILE_SECRET && !agent) {
+    const ok = await verifyTurnstile(env.TURNSTILE_SECRET, data['cf-turnstile-response'], ip);
+    if (!ok) return respond(false, 'verification_failed');
   }
 
-  const name = (data.name || '').trim();
-  const phone = (data.phone_e164 || data.phone || '').trim();
-  if (!name || !phone) return respond(false);
+  // RGPD: no lead without the person's agreement. The form sends its checkbox,
+  // an agent sends consent: true after asking the person.
+  const consent = data.consent;
+  if (!(consent === true || consent === 'yes' || consent === 'true' || consent === 'on')) {
+    return respond(false, 'consent_required');
+  }
+
+  const name = String(data.name || '').trim().slice(0, 120);
+  const phone = String(data.phone_e164 || data.phone || '').trim();
+  if (!name) return respond(false, 'invalid_name');
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length < 7 || digits.length > 15 || !/^\+?[\d\s().-]+$/.test(phone)) return respond(false, 'invalid_phone');
+
+  if (hooks.recentCount && ip) {
+    try {
+      if ((await hooks.recentCount(ip)) >= LEADS_PER_HOUR) return respond(false, 'rate_limited');
+    } catch (err) {
+      console.error('lead rate check failed', err);
+    }
+  }
 
   /** @type {Lead} */
   const lead = {
     name,
     phone,
-    whatsapp: data.has_whatsapp === 'yes',
-    service: data.service || '',
-    message: data.message || '',
+    whatsapp: data.has_whatsapp === 'yes' || data.has_whatsapp === true,
+    service: String(data.service || '').slice(0, 40),
+    message: String(data.message || '').slice(0, 2000),
     locale,
-    page: request.headers.get('referer') || '',
-    ip: request.headers.get('cf-connecting-ip') || '',
+    // Where the lead came from: the page it was sent from, or the assistant that sent it.
+    page: agent ? `agent: ${agent}` : request.headers.get('referer') || '',
+    ip,
     at: new Date().toISOString(),
   };
 
@@ -207,7 +245,8 @@ export function buildEmail(l) {
   };
   const service = serviceLabels[l.service] || l.service || '—';
   const when = new Date(l.at).toLocaleString('ru-RU', { timeZone: 'Europe/Madrid' });
-  const subject = `🔔 Новая заявка — ${l.name}${l.service ? ` (${service})` : ''}`;
+  const viaAgent = String(l.page || '').startsWith('agent: ');
+  const subject = `${viaAgent ? '🤖' : '🔔'} Новая заявка — ${l.name}${l.service ? ` (${service})` : ''}`;
 
   const rows = [
     ['Имя', l.name],
@@ -216,6 +255,7 @@ export function buildEmail(l) {
     ['Услуга', service],
     ['Сообщение', l.message || '—'],
     ['Язык заявки', l.locale === 'es' ? 'Испанский' : 'Английский'],
+    ['Источник', sourceLabel(l.page)],
     ['Время', when],
   ];
 
@@ -243,6 +283,22 @@ export function buildEmail(l) {
   </div>`;
 
   return { subject, text, html };
+}
+
+/**
+ * Human-readable origin of a lead for the email and the /leads table: the
+ * assistant that sent it, or the path of the page the form was sent from.
+ * @param {string} page
+ */
+export function sourceLabel(page) {
+  const value = String(page || '');
+  if (value.startsWith('agent: ')) return `ИИ-агент: ${value.slice(7)}`;
+  try {
+    const url = new URL(value);
+    return url.pathname + url.search;
+  } catch {
+    return value || '—';
+  }
 }
 
 /**
@@ -327,6 +383,7 @@ export function renderLeadsPage(leads) {
         </td>
         <td>${l.service ? `<span class="tag">${escapeHtml(SERVICE_RU[l.service] || l.service)}</span>` : '<span class="muted">—</span>'}</td>
         <td>${escapeHtml(l.message) || '<span class="muted">—</span>'}</td>
+        <td class="muted">${escapeHtml(sourceLabel(l.page))}</td>
         <td class="muted">${l.locale === 'es' ? 'ES' : 'EN'}</td>
       </tr>`;
     })
@@ -357,7 +414,7 @@ export function renderLeadsPage(leads) {
   <div class="wrap">
     ${
       leads.length
-        ? `<table><thead><tr><th>Время</th><th>Имя</th><th>Телефон</th><th>Услуга</th><th>Сообщение</th><th>Язык</th></tr></thead><tbody>${rows}</tbody></table>`
+        ? `<table><thead><tr><th>Время</th><th>Имя</th><th>Телефон</th><th>Услуга</th><th>Сообщение</th><th>Источник</th><th>Язык</th></tr></thead><tbody>${rows}</tbody></table>`
         : `<div class="empty">Заявок пока нет.<br>Отправь форму на странице контактов — появится здесь.</div>`
     }
   </div>

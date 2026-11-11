@@ -7,7 +7,7 @@ Website for Aerocomfort — HVAC / air conditioning services in Costa Blanca, Al
 
 ## Status
 
-🛠️ Staging is live at aero.dimadomore.com (bilingual site, 135 pages, not indexed yet). Latest work: redesign, owner feedback and agent readiness. **Current status, what's left, and how to resume: [docs/14-build-status.md](docs/14-build-status.md).**
+🛠️ Staging is live at aero.dimadomore.com (bilingual site, 137 pages, not indexed yet). Latest work: redesign, owner feedback and agent readiness. **Current status, what's left, and how to resume: [docs/14-build-status.md](docs/14-build-status.md).**
 
 All project documentation lives in [`docs/`](docs/):
 

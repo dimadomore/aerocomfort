@@ -1,7 +1,7 @@
 ---
 import { type Locale } from '../../config';
 import { useTranslations, getNav, localizedPath } from '../../i18n/utils';
-import { business, isPlaceholder, ratingLabel, reviewCountDisplay } from '../../data';
+import { business, ratingLabel, reviewCountDisplay } from '../../data';
 import Container from '../ui/Container.astro';
 import Logo from '../ui/Logo.astro';
 import Icon from '../ui/Icon.astro';
@@ -31,7 +31,6 @@ const exploreLinks = [
   { label: locale === 'es' ? 'Nuestros trabajos' : 'Our work', href: localizedPath('/gallery', locale) },
 ];
 
-const hasReg = !isPlaceholder(business.legalName) && !isPlaceholder(business.taxId);
 const areaWord = locale === 'es' ? 'zonas' : 'areas';
 const linkCls = 'inline-flex items-center gap-3 text-small text-white/80 transition-colors hover:text-white';
 ---
@@ -84,7 +83,6 @@ const linkCls = 'inline-flex items-center gap-3 text-small text-white/80 transit
         </button>
       </div>
     </div>
-    {hasReg && <p class="mt-3 text-caption text-white/65">{`${business.legalName} · NIF ${business.taxId}`}</p>}
   </Container>
 </footer>
 

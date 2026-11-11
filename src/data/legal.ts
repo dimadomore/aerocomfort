@@ -17,9 +17,8 @@ interface LegalDoc {
  * Legal documents (Spain: RGPD/GDPR + LOPDGDD + LSSI-CE), production copy.
  * {EMAIL} / {NAME} / {PHONE} are substituted from business data in LegalBody.astro.
  *
- * Still ‹por confirmar› (blocks nothing, but complete before launch):
- *   - the owner's full legal surname (Identity sections)
- *   - the registered address (LSSI requires a domicilio)
+ * Owner name and registered address confirmed by Dima, Nov 2026. The owner's
+ * name appears here only: public copy speaks of the team, not one person.
  * Everything else states what the site actually does — if data flows change
  * (new analytics, new processors), update BOTH languages here.
  */
@@ -33,7 +32,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Who is responsible for your data',
           p: [
-            '{NAME} is the trading name of Gregorio ‹surname — to be confirmed›, a self-employed professional (autónomo) registered in Spain, NIE Y9274595C, providing air-conditioning, heat-pump and ventilation services on the Costa Blanca (province of Alicante) and nearby areas.',
+            '{NAME} is the trading name of Gregorio Camendo, a self-employed professional (autónomo) registered in Spain, NIE Y9274595C, providing air-conditioning, heat-pump and ventilation services on the Costa Blanca (province of Alicante) and nearby areas.',
             'Contact for anything related to your data: {EMAIL} or {PHONE}.',
           ],
         },
@@ -125,7 +124,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Responsable del tratamiento',
           p: [
-            '{NAME} es el nombre comercial de Gregorio ‹apellidos — por confirmar›, profesional autónomo registrado en España, NIE Y9274595C, que presta servicios de aire acondicionado, aerotermia y ventilación en la Costa Blanca (provincia de Alicante) y zonas cercanas.',
+            '{NAME} es el nombre comercial de Gregorio Camendo, profesional autónomo registrado en España, NIE Y9274595C, que presta servicios de aire acondicionado y ventilación en la Costa Blanca (provincia de Alicante) y zonas cercanas.',
             'Contacto para cualquier cuestión sobre tus datos: {EMAIL} o {PHONE}.',
           ],
         },
@@ -309,11 +308,11 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Identity of the owner',
           ul: [
-            'Owner: Gregorio ‹surname — to be confirmed›, self-employed professional (autónomo).',
+            'Owner: Gregorio Camendo, self-employed professional (autónomo).',
             'NIE: Y9274595C.',
-            'Registered address: ‹address — to be confirmed›, province of Alicante, Spain.',
+            'Registered address: C. Zaragoza, 03190 Pilar de la Horadada, Alicante, Spain.',
             'Email: {EMAIL} · Phone / WhatsApp: {PHONE}.',
-            'Activity: installation, repair, maintenance and cleaning of air-conditioning systems; heat pumps (aerotermia) and ventilation. Certified for the handling of fluorinated gases.',
+            'Activity: installation, repair, maintenance and cleaning of air-conditioning systems; ventilation. Certified for the handling of fluorinated gases.',
           ],
         },
         {
@@ -356,11 +355,11 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Identidad del titular',
           ul: [
-            'Titular: Gregorio ‹apellidos — por confirmar›, profesional autónomo.',
+            'Titular: Gregorio Camendo, profesional autónomo.',
             'NIE: Y9274595C.',
-            'Domicilio: ‹dirección — por confirmar›, provincia de Alicante, España.',
+            'Domicilio: C. Zaragoza, 03190 Pilar de la Horadada, Alicante, España.',
             'Correo: {EMAIL} · Teléfono / WhatsApp: {PHONE}.',
-            'Actividad: instalación, reparación, mantenimiento y limpieza de sistemas de aire acondicionado; aerotermia y ventilación. Certificado para la manipulación de gases fluorados.',
+            'Actividad: instalación, reparación, mantenimiento y limpieza de sistemas de aire acondicionado; ventilación. Certificado para la manipulación de gases fluorados.',
           ],
         },
         {

@@ -301,6 +301,8 @@ const categories = [
     // with position:fixed and restore the exact scroll position on release.
     const lockScroll = (on: boolean) => {
       const b = document.body;
+      // Lets the phone contact bar step aside while the dialog is up.
+      document.documentElement.classList.toggle('cc-open', on);
       if (on) {
         lockedY = window.scrollY;
         b.style.position = 'fixed';

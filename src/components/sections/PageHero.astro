@@ -19,7 +19,13 @@ const { crumbs, title, intro, image } = Astro.props;
     <div class="mt-6 max-w-xl">
       <h1 class="text-h1 text-white">{title}</h1>
       {intro && <p class="mt-4 text-body-lg text-white/90">{intro}</p>}
-      <slot name="cta" />
+      {/* Shown from desktop up. On phones and tablets the bottom bar and the closing
+          call-to-action block carry these buttons, so the header stays short. */}
+      {Astro.slots.has('cta') && (
+        <div class="page-hero__cta">
+          <slot name="cta" />
+        </div>
+      )}
     </div>
   </Container>
 </section>
@@ -40,7 +46,13 @@ const { crumbs, title, intro, image } = Astro.props;
     object-fit: cover;
     opacity: 0.18;
   }
+  .page-hero__cta {
+    display: none;
+  }
   @media (min-width: 1024px) {
+    .page-hero__cta {
+      display: block;
+    }
     .page-hero__img {
       left: 48%;
       width: 52%;

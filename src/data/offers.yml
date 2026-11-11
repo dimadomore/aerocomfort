@@ -1,7 +1,13 @@
 # Seasonal offers (docs/05 §3.4). Edit this one file to update the offers page.
-# Prices, models and "turnkey installation" match the live aerocomfort.es offers
-# (checked 2026-11-04). What a standard install covers is to confirm with the owner
-# (D5). Season 1 Oct–30 Apr.
+#
+# Prices: owner's list, Nov 2026. Specs: the manufacturers' data sheets the owner
+# sent in Nov 2026 (Giatsu AROMA 3, LG WiFi Pro, LG Infinity, Panasonic BZ,
+# Mitsubishi MSZ-HR, Daikin Sensira 2026 price list). Every number below is read
+# from those sheets; do not add a spec that is not on the sheet.
+#
+# priceOld keeps each unit's earlier saving on top of the new price (owner's rule,
+# Nov 2026): Giatsu 100, LG 110, Panasonic 90, Mitsubishi 120, Daikin 120.
+# All six units have Wi-Fi (owner, Nov 2026).
 
 season:
   start: "10-01"
@@ -10,42 +16,142 @@ season:
     en: "Valid 1 Oct – 30 Apr"
     es: "Válido del 1 oct al 30 abr"
 
+# What the offer price covers. Owner's wording (Nov 2026), EN and ES as supplied.
+installation:
+  title:
+    en: "Basic installation of a split air conditioning system includes:"
+    es: "La instalación básica de un aire acondicionado tipo Split incluye:"
+  items:
+    en:
+      - "Up to 3 metres of copper refrigerant pipes connecting the indoor and outdoor units."
+      - "Electrical power supply cable."
+      - "Interconnecting electrical and communication cable between the indoor and outdoor units."
+      - "Mounting brackets for the outdoor unit."
+      - "Standard installation materials and connections."
+      - "System commissioning and operation check."
+    es:
+      - "Hasta 3 metros de tuberías de cobre frigorífico para conectar la unidad interior con la unidad exterior."
+      - "Cable de alimentación eléctrica."
+      - "Cable de interconexión eléctrica y comunicación entre la unidad interior y la unidad exterior."
+      - "Soportes de fijación para la unidad exterior."
+      - "Materiales y conexiones necesarios para la instalación estándar."
+      - "Puesta en marcha y comprobación del funcionamiento del equipo."
+
 items:
   - brand: Giatsu
-    model: AROMA 2E
+    model: AROMA 3
+    code: GIA-S09AR3-R32
     priceNew: 609
-    priceOld: 709             # previous price (aerocomfort.es)
-    efficiency: "A+++"
-    coverage: "25 m²"         # ‹confirm — D5›
+    priceOld: 709
     wifi: true
-    image: "/offers/giatsu-aroma-2e.webp"
+    image: "/offers/giatsu-aroma-3.webp"
+    energyCool: "A++"
+    energyHeat: "A+"
+    coolKw: 2.6
+    coolRange: "1.1–3.2"
+    heatKw: 2.93
+    heatRange: "0.83–3.6"
+    seer: 7.0
+    scop: 5.1
+    scopNote: warm            # the sheet gives SCOP for the warmer climate zone
+    noiseIndoorMin: 19
+    noiseOutdoor: 54.5
+    indoorSize: "723 × 286 × 199"   # width × height × depth, mm
+    pipeMax: 25
   - brand: LG
-    model: Connect S09EC
-    priceNew: 769
-    priceOld: 879
-    efficiency: "A+++"
-    coverage: "25 m²"
+    model: WiFi Pro
+    code: WZ09AWN.SNU1 + WZ09AWU.SUU1
+    priceNew: 699
+    priceOld: 809
     wifi: true
-    image: "/offers/lg-s09ec.webp"
+    image: "/offers/lg-wifi-pro-09.webp"
+    # The sheet's table prints A+++ for cooling, but its own label and SEER 6.10
+    # are A++ (A+++ starts at SEER 8.5). A++ is used here.
+    energyCool: "A++"
+    energyHeat: "A+"
+    coolKw: 2.5
+    coolRange: "0.94–3.4"
+    heatKw: 2.75
+    heatRange: "0.94–3.5"
+    seer: 6.1
+    scop: 4.0
+    noiseIndoorMin: 27
+    noiseOutdoor: 54
+    indoorSize: "781 × 274 × 197"
+    pipeMax: 15
+  - brand: LG
+    model: Infinity
+    code: EZ09CSN.CSJ1 + EZ09CSU.CA31
+    priceNew: 799
+    priceOld: 909
+    wifi: true
+    image: "/offers/lg-infinity-09.webp"
+    energyCool: "A++"
+    energyHeat: "A+"
+    coolKw: 2.5
+    coolRange: "0.89–3.7"
+    heatKw: 2.8
+    heatRange: "0.89–4.1"
+    seer: 7.0
+    scop: 4.0
+    noiseIndoorMin: 19
+    noiseOutdoor: 48
+    indoorSize: "837 × 308 × 189"
+    pipeMax: 15
   - brand: Panasonic
-    model: KIT-BZ25-XKE
-    priceNew: 769
-    priceOld: 859
-    efficiency: "A+++"
-    coverage: "25 m²"
-    image: "/offers/panasonic-bz25.jpg"
-  - brand: Daikin
-    model: TXF25F
-    priceNew: 879
-    priceOld: 999
-    efficiency: "A+++"
-    coverage: "25 m²"
+    model: BZ Ultra-Compact
+    code: KIT-BZ25-CKE
+    priceNew: 829
+    priceOld: 919
     wifi: true
-    image: "/offers/daikin-txf25.webp"
+    image: "/offers/panasonic-bz25.jpg"
+    energyCool: "A++"
+    energyHeat: "A+"
+    coolKw: 2.5
+    coolRange: "0.85–3.0"
+    heatKw: 3.15
+    heatRange: "0.8–3.6"
+    seer: 6.5
+    scop: 4.4
+    noiseIndoorMin: 20
+    noiseOutdoor: 48
+    indoorSize: "765 × 290 × 214"
+    pipeMax: 15
   - brand: Mitsubishi Electric
     model: MSZ-HR25VFK
-    priceNew: 879
-    priceOld: 999
-    efficiency: "A+++"
-    coverage: "25 m²"
+    code: MSZ-HR25VFK + MUZ-HR25VF
+    priceNew: 899
+    priceOld: 1019
+    wifi: true
     image: "/offers/mitsubishi-msz-hr25.jpg"
+    energyCool: "A++"
+    energyHeat: "A+"
+    coolKw: 2.5
+    coolRange: "0.5–2.9"
+    heatKw: 3.15
+    heatRange: "0.5–3.5"
+    seer: 6.2
+    scop: 4.3
+    noiseIndoorMin: 21
+    noiseOutdoor: 50
+    indoorSize: "838 × 280 × 228"
+    pipeMax: 20
+  - brand: Daikin
+    model: Sensira TXF25F
+    code: FTXF25F + RXF25F
+    priceNew: 909
+    priceOld: 1029
+    wifi: true
+    image: "/offers/daikin-txf25.webp"
+    energyCool: "A++"
+    energyHeat: "A+"
+    coolKw: 2.5
+    coolRange: "1.3–2.8"
+    heatKw: 2.8
+    heatRange: "1.3–3.7"
+    seer: 6.5
+    scop: 4.2
+    noiseIndoorMin: 20
+    noiseOutdoor: 46
+    indoorSize: "770 × 286 × 225"
+    pipeMax: 20

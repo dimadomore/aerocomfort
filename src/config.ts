@@ -34,10 +34,14 @@ export const ANALYTICS = {
 /** Elfsight Google-reviews widget id, e.g. 'elfsight-app-1a2b3c4d-...' (docs/00 §6). */
 export const ELFSIGHT_ID = "elfsight-app-0a716faf-0e47-4d76-8692-1aba041cbae6";
 
-/** Google Maps "Embed a map" iframe `src` for the service-area map (click-to-load).
- *  Get it: Google Maps → the Aerocomfort place → Share → Embed a map → copy src.
- *  Until set, the map button links out to the Google Business Profile. */
-export const MAP_EMBED_URL = "";
+/** Google Maps embed `src` for the map on /areas and /contact. It shows the
+ *  Aerocomfort place from the Google Business Profile (owner's link, Nov 2026:
+ *  maps.app.goo.gl/a4ZAcn2YzJqvhThi9), pin 37.8641807, -0.7887288.
+ *  To change the place: Google Maps → the place → Share → Embed a map → copy src.
+ *  The map loads only after the visitor allows third-party content or clicks
+ *  "Show map". Empty = the button links out to Google Maps instead. */
+export const MAP_EMBED_URL =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12600!2d-0.7887288!3d37.8641807!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x43271761bb557477%3A0x4f97ec230490a29f!2sAEROCOMFORT%20-%20installation%20air%20conditioner%20TORREVIEJA!5e0!3m2!1sen!2ses!4v1794400000000";
 
 /** Home hero background video (muted loop, e.g. "/hero/hero.mp4"). Empty = the
  *  photo slideshow only. Loaded after the page, desktop only; photos stay as the

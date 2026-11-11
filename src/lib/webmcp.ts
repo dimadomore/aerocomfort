@@ -1,9 +1,10 @@
-import { TOOLS } from '../../worker/agent-tools.mjs';
+import { TOOLS, leadResult } from '../../worker/agent-tools.mjs';
 
 /**
- * WebMCP (document.modelContext): the shared read-only tools, plus one helper that
- * opens the quote form. Loaded only in browsers that expose the API (see WebMcp.astro).
- * The form itself is a separate declarative tool, `request_quote`, on LeadForm.
+ * WebMCP (document.modelContext): the shared tools, plus one helper that opens the
+ * quote form. Loaded only in browsers that expose the API (see WebMcp.astro).
+ * `send_quote_request` posts to /api/lead, the same endpoint as the form. The form
+ * itself is a separate declarative tool, `request_quote`, on LeadForm.
  */
 interface ModelContext {
   registerTool: (tool: Record<string, unknown>) => Promise<void> | void;
@@ -13,7 +14,18 @@ interface AgentTool {
   title: string;
   description: string;
   inputSchema: Record<string, unknown>;
-  run: (data: unknown, args: unknown) => unknown;
+  write?: boolean;
+  run?: (data: unknown, args: unknown) => unknown;
+  prepare?: (data: unknown, args: unknown) => { error?: string; body?: Record<string, unknown>; sent?: unknown };
+}
+
+async function sendLead(prepared: { body?: Record<string, unknown>; sent?: unknown }) {
+  const res = await fetch('/api/lead', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', accept: 'application/json' },
+    body: JSON.stringify(prepared.body),
+  });
+  return leadResult(prepared, await res.json().catch(() => null));
 }
 
 let data: Promise<unknown> | undefined;
@@ -26,10 +38,15 @@ export function register(context: ModelContext, locale: string, contactPath: str
       title: tool.title,
       description: tool.description,
       inputSchema: tool.inputSchema,
-      annotations: { readOnlyHint: true },
+      annotations: tool.write ? { readOnlyHint: false } : { readOnlyHint: true },
       execute: async (args: Record<string, unknown>) => {
         try {
-          return JSON.stringify(tool.run(await loadData(), { language: locale, ...args }));
+          const input = { language: locale, ...args };
+          if (tool.write && tool.prepare) {
+            const prepared = tool.prepare(await loadData(), input);
+            return JSON.stringify(prepared.error ? prepared : await sendLead(prepared));
+          }
+          return JSON.stringify(tool.run?.(await loadData(), input));
         } catch {
           return JSON.stringify({ error: 'Temporarily unavailable', code: 'unavailable', retryable: true });
         }

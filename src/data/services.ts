@@ -49,7 +49,7 @@ export const SERVICES: Service[] = [
       includesTitle: "What's included",
       includes: [
         'A free visit to check the rooms and advise on the right unit and power',
-        'A+++ units from leading brands, or your own unit if you already have one',
+        'Efficient inverter units from leading brands, or your own unit if you already have one',
         'Neat pipework, drainage and electrical connection',
         'Testing, start-up and a walkthrough of the controls',
         '3-year guarantee on our work, plus the 3-year manufacturer warranty on the unit',
@@ -76,8 +76,8 @@ export const SERVICES: Service[] = [
       faq: [
         { q: 'How long does an installation take?', a: 'Most single-split installations are finished in a few hours, usually the same day. Larger multi-split or ducted systems take longer, and we tell you how long when we quote.' },
         { q: 'How soon can you fit my air conditioning?', a: 'Usually within 24 to 72 hours of your request. In peak summer it can take a little longer, so ask us for the soonest slot.' },
-        { q: 'Do you supply the unit or just install it?', a: 'Both. We can supply an A+++ unit from our seasonal offers or fit one you already bought.' },
-        { q: 'How much does installation cost?', a: 'It depends on the unit and the property, so we give you a clear, free quote first. Seasonal offers with turnkey installation start from €609.' },
+        { q: 'Do you supply the unit or just install it?', a: 'Both. We can supply a unit from our seasonal offers or fit one you already bought.' },
+        { q: 'How much does installation cost?', a: 'It depends on the unit and the property, so we give you a clear, free quote first. Seasonal offers with basic installation included start from €609.' },
       ],
     },
     es: {
@@ -90,7 +90,7 @@ export const SERVICES: Service[] = [
       includesTitle: 'Qué incluye',
       includes: [
         'Visita gratuita para ver las estancias y aconsejarte el equipo y la potencia',
-        'Equipos A+++ de marcas líderes, o el tuyo si ya lo tienes',
+        'Equipos inverter eficientes de marcas líderes, o el tuyo si ya lo tienes',
         'Tubería, desagüe y conexión eléctrica bien rematados',
         'Pruebas, puesta en marcha y explicación del mando',
         '3 años de garantía en nuestro trabajo, más los 3 años del fabricante en el equipo',
@@ -117,8 +117,8 @@ export const SERVICES: Service[] = [
       faq: [
         { q: '¿Cuánto tarda una instalación?', a: 'La mayoría de splits se instalan en unas horas, normalmente en el mismo día. Los multisplit o por conductos llevan más tiempo y te lo decimos al presupuestar.' },
         { q: '¿Cuándo podéis instalarlo?', a: 'Normalmente entre 24 y 72 horas después de tu solicitud. En pleno verano puede ser algo más, pregúntanos por la cita más próxima.' },
-        { q: '¿Suministráis el equipo o solo lo instaláis?', a: 'Las dos cosas. Podemos suministrar un equipo A+++ de nuestras ofertas o instalar el que ya hayas comprado.' },
-        { q: '¿Cuánto cuesta la instalación?', a: 'Depende del equipo y de la vivienda, por eso primero te damos un presupuesto claro y gratuito. Las ofertas de temporada con instalación llave en mano empiezan en 609 €.' },
+        { q: '¿Suministráis el equipo o solo lo instaláis?', a: 'Las dos cosas. Podemos suministrar un equipo de nuestras ofertas o instalar el que ya hayas comprado.' },
+        { q: '¿Cuánto cuesta la instalación?', a: 'Depende del equipo y de la vivienda, por eso primero te damos un presupuesto claro y gratuito. Las ofertas de temporada con instalación básica incluida empiezan en 609 €.' },
       ],
     },
   },

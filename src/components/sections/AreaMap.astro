@@ -5,10 +5,10 @@ import { useTranslations } from '../../i18n/utils';
 import Icon from '../ui/Icon.astro';
 
 /**
- * Service-area map. Click-to-load Google Maps embed (privacy-friendly: no Google
- * request until the user clicks; zero CLS via reserved aspect-ratio). Set
- * MAP_EMBED_URL in config to enable the inline map; until then the button opens
- * the Google Business Profile (which already carries the Aerocomfort marker).
+ * Google map of the Aerocomfort place (MAP_EMBED_URL in config). Privacy first:
+ * no request to Google until the visitor has allowed third-party content in the
+ * cookie dialog, or clicks "Show map". Then it loads when scrolled near. Zero CLS
+ * via the reserved aspect-ratio. Without MAP_EMBED_URL the button opens Google Maps.
  */
 interface Props {
   locale: Locale;
@@ -18,8 +18,10 @@ const { locale, class: cls = '' } = Astro.props;
 const t = useTranslations(locale);
 const gbp = business.social.google;
 const hasEmbed = Boolean(MAP_EMBED_URL);
+// Map labels in the page language.
+const embedSrc = locale === 'es' ? MAP_EMBED_URL.replace('!1sen!2ses', '!1ses!2ses') : MAP_EMBED_URL;
 ---
-<div class:list={['aero-map', cls]} data-map data-embed={MAP_EMBED_URL}>
+<div class:list={['aero-map', cls]} data-map data-embed={embedSrc} data-title={locale === 'es' ? 'Aerocomfort en Google Maps' : 'Aerocomfort on Google Maps'}>
   <svg class="aero-map__bg" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true" fill="none" stroke="#fff" stroke-opacity="0.1" stroke-width="2">
     <path d="M-20 110 C 220 50, 420 170, 620 110 S 860 60, 860 110" />
     <path d="M-20 250 C 200 190, 460 320, 660 250 S 860 200, 860 250" />
@@ -112,19 +114,50 @@ const hasEmbed = Boolean(MAP_EMBED_URL);
 </style>
 
 <script>
+  const allowed = () => {
+    try {
+      return Boolean(JSON.parse(localStorage.getItem('aero-consent') || 'null')?.thirdparty);
+    } catch {
+      return false;
+    }
+  };
+
   document.querySelectorAll<HTMLElement>('[data-map]').forEach((map) => {
+    const src = map.getAttribute('data-embed');
     const btn = map.querySelector<HTMLButtonElement>('[data-map-load]');
-    btn?.addEventListener('click', () => {
-      const src = map.getAttribute('data-embed');
-      if (!src) return;
+    if (!src) return;
+
+    const load = () => {
+      if (map.querySelector('iframe')) return;
       const f = document.createElement('iframe');
       f.src = src;
       f.loading = 'lazy';
-      f.title = 'Aerocomfort, service area map';
+      f.title = map.dataset.title || 'Aerocomfort on Google Maps';
       f.referrerPolicy = 'no-referrer-when-downgrade';
       f.allowFullscreen = true;
       map.querySelector('[data-map-facade]')?.remove();
       map.appendChild(f);
+    };
+
+    // With consent the map appears on its own, but only once it is near the screen.
+    const auto = () => {
+      if (!('IntersectionObserver' in window)) return load();
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            io.disconnect();
+            load();
+          }
+        },
+        { rootMargin: '300px' },
+      );
+      io.observe(map);
+    };
+
+    btn?.addEventListener('click', load);
+    if (allowed()) auto();
+    window.addEventListener('aero-consent-change', (e) => {
+      if ((e as CustomEvent<{ thirdparty?: boolean }>).detail?.thirdparty) auto();
     });
   });
 </script>

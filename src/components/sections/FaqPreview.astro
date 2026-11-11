@@ -3,7 +3,7 @@ import { type Locale } from '../../config';
 import { FAQ } from '../../data/faq';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
-import Icon from '../ui/Icon.astro';
+import MoreLink from '../ui/MoreLink.astro';
 import FaqList from '../ui/FaqList.astro';
 
 interface Props {
@@ -17,10 +17,7 @@ const es = locale === 'es';
   <Container class="grid gap-8 lg:grid-cols-12 lg:gap-16">
     <div class="lg:col-span-4">
       <h2 class="text-h2">{es ? 'Antes de llamar' : 'Before you call'}</h2>
-      <a class="mt-5 inline-flex items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3" href={localizedPath('/faq', locale)}>
-        {t('cta.allFaqs')}
-        <Icon name="arrow-right" size={18} />
-      </a>
+      <MoreLink href={localizedPath('/faq', locale)} class="mt-5">{t('cta.allFaqs')}</MoreLink>
     </div>
     <div class="lg:col-span-8">
       <FaqList items={FAQ[locale]} />

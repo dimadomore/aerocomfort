@@ -1,6 +1,7 @@
 /**
- * Cloudflare Worker: serves the static site (assets binding), handles the lead
- * form POST at /api/lead, and exposes a private read-only CRM at /leads.
+ * Cloudflare Worker: serves the static site (assets binding), handles leads at
+ * /api/lead (the website form, and JSON from assistants: see /openapi.json),
+ * serves the MCP server at /mcp, and exposes a private read-only CRM at /leads.
  *
  * Lead logic (parse, anti-spam, email, table render, auth) lives in
  * ./lead-core.mjs so the SAME code runs here and in the local Astro dev
@@ -78,6 +79,7 @@ const SITE_HEADERS: Record<string, string> = {
     '</llms.txt>; rel="describedby"; type="text/markdown"; title="Site index for LLMs", ' +
     '</sitemap-index.xml>; rel="sitemap"; type="application/xml", ' +
     '</.well-known/api-catalog>; rel="api-catalog", ' +
+    '</openapi.json>; rel="service-desc"; type="application/openapi+json", ' +
     '</.well-known/mcp/server-card.json>; rel="mcp", ' +
     '</.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"',
 };
@@ -98,15 +100,26 @@ async function route(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
   const path = url.pathname;
 
-  if (path === '/api/lead' && request.method === 'POST') {
-    // Persist to D1 (when bound); email delivery runs when Resend secrets set.
-    return handleLead(request, env, {
-      persist: env.DB ? (lead: LeadRow) => insertLead(env.DB!, lead) : undefined,
-    });
+  // Persist to D1 (when bound); email delivery runs when Resend secrets are set.
+  // The same hooks serve the form, the JSON API and the MCP tool.
+  const leadHooks = {
+    persist: env.DB ? (lead: LeadRow) => insertLead(env.DB!, lead) : undefined,
+    recentCount: env.DB ? (ip: string) => countRecentLeads(env.DB!, ip) : undefined,
+  };
+
+  if (path === '/api/lead') {
+    // Open to other origins so an assistant running in a browser can send a request.
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: LEAD_CORS });
+    if (request.method === 'POST') {
+      const res = await handleLead(request, env, leadHooks);
+      const out = new Response(res.body, res);
+      for (const [k, v] of Object.entries(LEAD_CORS)) out.headers.set(k, v);
+      return out;
+    }
   }
 
-  // Public, read-only MCP server for agents outside the browser.
-  if (path === '/mcp') return handleMcp(request, env);
+  // Public MCP server for agents outside the browser.
+  if (path === '/mcp') return handleMcp(request, env, leadHooks);
 
   if ((path === '/leads' || path === '/leads.csv') && request.method === 'GET') {
     return handleLeads(path, request, env);
@@ -114,6 +127,23 @@ async function route(request: Request, env: Env): Promise<Response> {
 
   // Everything else → static assets (pages, css, js, 404).
   return env.ASSETS.fetch(request);
+}
+
+const LEAD_CORS: Record<string, string> = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'content-type, accept',
+  'Access-Control-Max-Age': '86400',
+};
+
+/** Leads stored from one IP address in the last hour (the anti-spam limit). */
+async function countRecentLeads(db: D1Database, ip: string): Promise<number> {
+  const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const { results } = await db
+    .prepare('SELECT COUNT(*) AS n FROM leads WHERE ip = ? AND at > ?')
+    .bind(ip, since)
+    .all<{ n: number }>();
+  return Number(results[0]?.n ?? 0);
 }
 
 async function insertLead(db: D1Database, lead: LeadRow): Promise<void> {

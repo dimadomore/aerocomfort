@@ -2,7 +2,7 @@
 import { type Locale } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
-import Icon from '../ui/Icon.astro';
+import MoreLink from '../ui/MoreLink.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 import AreaFinder from '../ui/AreaFinder.astro';
 
@@ -15,15 +15,12 @@ const es = locale === 'es';
 ---
 <section class="bg-surface-cool py-16 lg:py-24">
   <Container>
-    <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-5">
       <SectionHeading
         title={es ? 'Busca tu localidad' : 'Find your town'}
         intro={es ? 'Trabajamos en toda la Costa Blanca. ¿No sabes si llegamos a tu zona? Pregúntanos.' : 'We work across the Costa Blanca. Not sure if we reach you? Just ask.'}
       />
-      <a class="inline-flex items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3" href={localizedPath('/areas', locale)}>
-        {t('cta.allAreas')}
-        <Icon name="arrow-right" size={18} />
-      </a>
+      <MoreLink href={localizedPath('/areas', locale)}>{t('cta.allAreas')}</MoreLink>
     </div>
     <AreaFinder locale={locale} limit={12} />
   </Container>

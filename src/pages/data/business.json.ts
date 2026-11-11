@@ -3,6 +3,7 @@ import { SITE_URL } from '../../config';
 import { business, offers } from '../../data';
 import { SERVICES } from '../../data/services';
 import { AREA_GROUPS } from '../../data/areas';
+import { BRANDS } from '../../data/brands';
 import { FAQ_GROUPS } from '../../data/faq';
 import { localizedPath } from '../../i18n/utils';
 
@@ -39,14 +40,30 @@ export const GET: APIRoute = () => {
     url: SITE_URL + '/',
     region: 'Costa Blanca (province of Alicante), Spain',
     baseLocation: `${business.addressLocality}, ${business.addressRegion}, Spain`,
+    address: {
+      street: business.streetAddress,
+      postalCode: business.postalCode,
+      locality: business.addressLocality,
+      region: business.addressRegion,
+      country: business.addressCountry,
+    },
+    mapUrl: business.social.google,
+    privacyUrl: both('/privacy'),
+    requestQuote: {
+      mcpTool: 'send_quote_request',
+      mcpServer: abs('/mcp'),
+      api: { method: 'POST', url: abs('/api/lead'), contentType: 'application/json', description: abs('/openapi.json') },
+      form: both('/contact'),
+      rule: 'Send a request only when the person asked for it and agreed to the privacy policy and to being contacted (consent: true).',
+    },
     phone: business.phone,
     phoneE164: business.phoneE164,
     email: business.email,
     languages: ['en', 'es'],
     payment: business.payment,
-    leadership: 'A local team of specialists led by Gregorio, who also works on site.',
+    team: 'A local team of air conditioning specialists.',
     customers: ['homes', 'restaurants', 'small businesses'],
-    brandsInstalled: ['Mitsubishi Electric', 'Panasonic', 'LG', 'Giatsu', 'Haier', 'Samsung', 'Gree'],
+    brandsInstalled: BRANDS.map((b) => b.name),
     brandsRepaired: 'All major brands',
     rating: { value: business.rating.value, count: business.rating.count, source: 'Google', url: business.social.google },
     installationsCompleted: trust?.installs,
@@ -63,8 +80,8 @@ export const GET: APIRoute = () => {
       es: `${trust?.guaranteeYears} años de garantía en el trabajo, más ${trust?.equipmentWarrantyYears} años del fabricante en el equipo.`,
     },
     alsoOffered: {
-      en: ['Heat pumps (aerotermia)', 'Ventilation', 'Pre-installation during builds and reforms'],
-      es: ['Bombas de calor (aerotermia)', 'Ventilación', 'Preinstalación durante obras y reformas'],
+      en: ['Ventilation', 'Pre-installation during builds and reforms'],
+      es: ['Ventilación', 'Preinstalación durante obras y reformas'],
     },
     whatsappMessage: business.whatsappMessage,
     contactUrl: both('/contact'),
@@ -78,17 +95,23 @@ export const GET: APIRoute = () => {
       url: both('/offers'),
       validity: offers.season.label,
       note: {
-        en: 'Prices include a standard turnkey installation. Your free quote confirms the final price for your home.',
-        es: 'Los precios incluyen una instalación estándar llave en mano. Tu presupuesto gratuito confirma el precio final para tu vivienda.',
+        en: 'Prices include basic installation with up to 3 m of pipework. Your free quote confirms the final price for your home.',
+        es: 'Los precios incluyen la instalación básica con hasta 3 m de tubería. Tu presupuesto gratuito confirma el precio final para tu vivienda.',
       },
+      basicInstallation: { title: offers.installation.title, includes: offers.installation.items },
       units: offers.items.map((o) => ({
         brand: o.brand,
         model: o.model,
         price: o.priceNew,
         previousPrice: o.priceOld,
-        efficiency: o.efficiency,
+        modelCode: o.code,
+        energyClassCooling: o.energyCool,
+        energyClassHeating: o.energyHeat,
+        coolingKw: o.coolKw,
+        heatingKw: o.heatKw,
+        indoorNoiseFromDb: o.noiseIndoorMin,
         roomSize: o.coverage,
-        installation: 'Standard turnkey installation included',
+        installation: 'Basic installation included',
         wifiIncluded: Boolean(o.wifi),
       })),
     },

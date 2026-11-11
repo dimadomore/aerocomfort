@@ -4,6 +4,7 @@ import { useTranslations, localizedPath } from '../../i18n/utils';
 import { SERVICES } from '../../data/services';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
+import MoreLink from '../ui/MoreLink.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 import ServiceRow from '../ui/ServiceRow.astro';
 
@@ -17,10 +18,13 @@ const [lead, ...rest] = SERVICES;
 ---
 <section class="py-16 lg:py-24">
   <Container>
-    <SectionHeading
-      title={es ? '¿Qué necesitas?' : 'What do you need done?'}
-      intro={es ? 'Del primer equipo a la limpieza anual: lo hacemos todo nosotros.' : 'From a first unit to the yearly clean, we do it all ourselves.'}
-    />
+    <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-5">
+      <SectionHeading
+        title={es ? '¿Qué necesitas?' : 'What do you need done?'}
+        intro={es ? 'Del primer equipo a la limpieza anual: lo hacemos todo nosotros.' : 'From a first unit to the yearly clean, we do it all ourselves.'}
+      />
+      <MoreLink href={localizedPath('/services', locale)}>{t('cta.services')}</MoreLink>
+    </div>
 
     <div class="mt-10 grid gap-8 lg:grid-cols-2 lg:gap-12">
       <a class="lead group" href={localizedPath(`/services/${lead.slug}`, locale)}>
@@ -37,10 +41,6 @@ const [lead, ...rest] = SERVICES;
 
       <div class="flex flex-col justify-between border-t border-line">
         {rest.map((s) => <ServiceRow service={s} locale={locale} />)}
-        <a class="mt-5 inline-flex items-center gap-2 text-small font-bold text-brand-700 transition-all hover:gap-3" href={localizedPath('/services', locale)}>
-          {t('cta.services')}
-          <Icon name="arrow-right" size={18} />
-        </a>
       </div>
     </div>
   </Container>

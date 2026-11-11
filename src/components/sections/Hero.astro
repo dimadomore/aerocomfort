@@ -2,6 +2,8 @@
 import { type Locale, HERO_VIDEO } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import { business, ratingLabel, reviewCountDisplay } from '../../data';
+import { SERVICES } from '../../data/services';
+import { BRANDS } from '../../data/brands';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
@@ -17,20 +19,55 @@ const tr = business.trust;
 const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
 const contactHref = localizedPath('/contact', locale);
 
-// Real Aerocomfort jobs. `pos` keeps the unit in frame when cropped to the band.
-const slides = [
-  { src: '/gallery/work-28.webp', pos: '50% 70%', thumb: '60% 38%', alt: es ? 'Unidades exteriores en una azotea con vistas al mar' : 'Outdoor units on a rooftop with a sea view' },
-  { src: '/gallery/work-29.webp', pos: '50% 55%', thumb: '55% 55%', alt: es ? 'Unidades LG instaladas por Aerocomfort en una cubierta de tejas' : 'LG units installed by Aerocomfort on a tiled roof' },
-  { src: '/gallery/work-04.webp', pos: '50% 60%', thumb: '70% 50%', alt: es ? 'Técnico de Aerocomfort instalando una unidad exterior' : 'Aerocomfort technician fitting an outdoor unit' },
-];
+// One slide per service, so the first screen shows what the team does. Photos
+// are real Aerocomfort jobs; swap `src` here when better ones are chosen.
+// `pos` crops the wide desktop band, `mpos` the phone photo, `thumb` the thumbnail.
+const photo: Record<string, { src: string; pos: string; mpos: string; thumb: string; alt: string }> = {
+  installation: {
+    src: '/gallery/work-28.webp',
+    pos: '50% 70%',
+    mpos: '50% 64%',
+    thumb: '60% 38%',
+    alt: es ? 'Unidades exteriores instaladas en una azotea con vistas al mar' : 'Outdoor units installed on a rooftop with a sea view',
+  },
+  repair: {
+    src: '/gallery/work-04.webp',
+    pos: '50% 60%',
+    mpos: '50% 58%',
+    thumb: '70% 50%',
+    alt: es ? 'Técnico de Aerocomfort trabajando en una unidad exterior' : 'Aerocomfort technician working on an outdoor unit',
+  },
+  maintenance: {
+    src: '/gallery/work-01.webp',
+    pos: '50% 35%',
+    mpos: '50% 30%',
+    thumb: '50% 35%',
+    alt: es ? 'Técnico de Aerocomfort revisando un equipo de techo' : 'Aerocomfort technician servicing a ceiling unit',
+  },
+};
+const slides = SERVICES.filter((sv) => sv.slug in photo).map((sv) => ({
+  ...photo[sv.slug],
+  title: sv[locale].title,
+  blurb: sv[locale].blurb,
+  href: localizedPath(`/services/${sv.slug}`, locale),
+}));
+
+// Phones only: the brands as a fourth slide. Desktop shows them as chips instead.
+const brandsSlide = {
+  title: es ? 'Marcas que instalamos' : 'Brands we install',
+  blurb: es ? 'También reparamos todas las marcas.' : 'We repair all major brands too.',
+  href: localizedPath('/brands', locale),
+};
 
 const checks = es
   ? ['Equipo certificado', 'Todas las marcas', 'Viviendas, restaurantes y negocios']
   : ['Certified team', 'All major brands', 'Homes, restaurants and businesses'];
 const logos = [
-  { name: 'LG', src: '/brands/lg.svg' },
+  { name: 'Daikin', src: '/brands/daikin.svg' },
   { name: 'Mitsubishi Electric', src: '/brands/mitsubishi-electric.svg' },
+  { name: 'LG', src: '/brands/lg.svg' },
   { name: 'Panasonic', src: '/brands/panasonic.svg' },
+  { name: 'Fujitsu', src: '/brands/fujitsu.svg' },
   { name: 'Giatsu', src: '/brands/giatsu.png' },
 ];
 const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: string; b: string }[] = [
@@ -42,27 +79,11 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
 ];
 ---
 <section class="hero text-white" data-hero data-video={HERO_VIDEO || undefined}>
-  <div class="hero__media" data-media aria-hidden="true">
-    {slides.map((s, i) => (
-      <img
-        class:list={['hero__slide', i === 0 && 'is-active']}
-        src={s.src}
-        alt=""
-        width="900"
-        height="1200"
-        style={`object-position:${s.pos}`}
-        fetchpriority={i === 0 ? 'high' : 'low'}
-        loading={i === 0 ? 'eager' : 'lazy'}
-        decoding="async"
-        data-slide
-      />
-    ))}
-  </div>
   <div class="hero__shade" aria-hidden="true"></div>
 
-  <Container class="relative z-10 pt-9 pb-6 lg:pt-11 lg:pb-7">
+  <Container class="pt-7 pb-5 lg:pt-11 lg:pb-7">
     <div class="hero__grid">
-      <div class="max-w-2xl">
+      <div class="hero__copy max-w-2xl">
         <h1 class="text-display text-white">
           {t('hero.h1.lead')} <span class="hero__place">{t('hero.h1.place')}</span>
           <span class="mt-3 block font-display text-h3 font-semibold text-white/90">{t('hero.h1.tail')}</span>
@@ -70,7 +91,8 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
 
         <p class="mt-4 hidden max-w-xl text-body text-white/90 sm:block">{t('hero.sub')}</p>
 
-        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        {/* Desktop only. Phones and tablets use the bottom bar and the header icons. */}
+        <div class="hero__cta">
           <Button href={waHref} variant="whatsapp" size="lg" target="_blank" rel="noopener">
             <Icon name="whatsapp" size={20} />
             {t('cta.whatsapp')}
@@ -90,24 +112,71 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
           ))}
         </ul>
 
-        <ul class="mt-5 hidden flex-wrap gap-2.5 lg:flex" aria-label={es ? 'Marcas que instalamos' : 'Brands we install'}>
+        <ul class="hero__logos mt-5 hidden lg:grid" aria-label={es ? 'Marcas que instalamos' : 'Brands we install'}>
           {logos.map((l) => (
             <li class="hero__chip"><img src={l.src} alt={l.name} width="88" height="24" loading="lazy" decoding="async" /></li>
           ))}
         </ul>
       </div>
 
-      <div class="hero__thumbs" data-controls role="group" aria-label={es ? 'Fotos de nuestros trabajos' : 'Photos of our work'}>
+      {/* Phones: a bright photo card in the flow. Desktop: the band behind the right half. */}
+      <div class="hero__media" data-media>
         {slides.map((s, i) => (
-          <button class:list={['hero__thumb', i === 0 && 'is-active']} type="button" data-thumb={i} aria-pressed={i === 0 ? 'true' : 'false'} aria-label={s.alt}>
+          <img
+            class:list={['hero__slide', i === 0 && 'is-active']}
+            src={s.src}
+            alt=""
+            width="900"
+            height="1200"
+            style={`--pos:${s.pos};--mpos:${s.mpos}`}
+            fetchpriority={i === 0 ? 'high' : 'low'}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+            data-slide
+          />
+        ))}
+        <div class="hero__slide hero__slide--brands" data-slide data-mobile-only>
+          <ul class="hero__brandgrid">
+            {BRANDS.map((b) => (
+              <li><img src={b.logo} alt={b.name} width="120" height="32" loading="lazy" decoding="async" /></li>
+            ))}
+          </ul>
+        </div>
+        <div class="hero__captions">
+          {slides.map((s, i) => (
+            <a class:list={['hero__caption', i === 0 && 'is-active']} href={s.href} data-caption>
+              <span class="min-w-0">
+                <strong class="block font-display text-h3 font-extrabold leading-tight">{s.title}</strong>
+                <span class="mt-0.5 block text-caption leading-snug text-white/90">{s.blurb}</span>
+              </span>
+              <Icon name="arrow-right" size={20} class="shrink-0" />
+            </a>
+          ))}
+          <a class="hero__caption" href={brandsSlide.href} data-caption>
+            <span class="min-w-0">
+              <strong class="block font-display text-h3 font-extrabold leading-tight">{brandsSlide.title}</strong>
+              <span class="mt-0.5 block text-caption leading-snug text-white/90">{brandsSlide.blurb}</span>
+            </span>
+            <Icon name="arrow-right" size={20} class="shrink-0" />
+          </a>
+        </div>
+      </div>
+
+      <div class="hero__thumbs" data-controls role="group" aria-label={es ? 'Nuestros servicios en fotos' : 'Our services in photos'}>
+        {slides.map((s, i) => (
+          <button class:list={['hero__thumb', i === 0 && 'is-active']} type="button" data-thumb={i} aria-pressed={i === 0 ? 'true' : 'false'}>
             <img src={s.src} alt="" width="150" height="200" style={`object-position:${s.thumb}`} loading="lazy" decoding="async" />
+            <span class="hero__thumb-label">{s.title}</span>
           </button>
         ))}
+        <button class="hero__thumb hero__thumb--mobile" type="button" data-thumb={slides.length} aria-pressed="false">
+          <span class="hero__thumb-label">{brandsSlide.title}</span>
+        </button>
       </div>
     </div>
   </Container>
 
-  <Container class="relative z-10 pb-6">
+  <Container class="pb-6">
     <ul class="hero__bar">
       {bar.map((item) => (
         <li class="hero__bar-item">
@@ -127,8 +196,14 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
   if (hero) {
     const slides = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
     const thumbs = [...hero.querySelectorAll<HTMLButtonElement>('[data-thumb]')];
+    const captions = [...hero.querySelectorAll<HTMLElement>('[data-caption]')];
+    const media = hero.querySelector<HTMLElement>('[data-media]');
     const controls = hero.querySelector<HTMLElement>('[data-controls]');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // The brands slide exists on phones and tablets only.
+    const wide = matchMedia('(min-width: 1024px)');
+    const count = () => slides.filter((s) => !(wide.matches && s.hasAttribute('data-mobile-only'))).length;
 
     const INTERVAL = 6000;
     let current = 0;
@@ -137,12 +212,13 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
     let video: HTMLVideoElement | null = null;
 
     const show = (n: number) => {
-      current = (n + slides.length) % slides.length;
+      current = (n + count()) % count();
       slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
       thumbs.forEach((b, i) => {
         b.classList.toggle('is-active', i === current);
         b.setAttribute('aria-pressed', String(i === current));
       });
+      captions.forEach((c, i) => c.classList.toggle('is-active', i === current));
     };
 
     const sync = () => {
@@ -161,6 +237,25 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
         sync();
       }),
     );
+    // Phones: swipe the photo to change service. A swipe must not follow the link.
+    let startX = 0;
+    let swiped = false;
+    media?.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      swiped = false;
+    }, { passive: true });
+    media?.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) < 40) return;
+      swiped = true;
+      show(current + (dx < 0 ? 1 : -1));
+      sync();
+    }, { passive: true });
+    media?.addEventListener('click', (e) => {
+      if (swiped) e.preventDefault();
+      swiped = false;
+    });
+
     const hold = (value: boolean) => () => {
       held = value;
       sync();
@@ -170,6 +265,9 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
     controls?.addEventListener('focusin', hold(true));
     controls?.addEventListener('focusout', hold(false));
     document.addEventListener('visibilitychange', sync);
+    wide.addEventListener('change', () => {
+      if (current >= count()) show(0);
+    });
 
     const startVideo = () => {
       const src = hero.dataset.video;
@@ -198,10 +296,14 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
     background: var(--brand-900);
   }
 
+  /* Phones and tablets: the photo is a card under the headline, at full brightness. */
   .hero__media {
-    position: absolute;
-    inset: 0;
-    z-index: -3;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--brand-800);
+    box-shadow: var(--shadow-lg);
   }
   .hero__slide,
   .hero__media :global(.hero__video) {
@@ -210,6 +312,7 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--mpos, 50% 50%);
     opacity: 0;
     filter: saturate(1.18) brightness(1.06);
     transition: opacity 900ms ease-out;
@@ -227,17 +330,72 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
     to { transform: scale(1.06); }
   }
 
-  /* Phones: the photo sits behind a full navy veil so text always clears AA. */
-  .hero__shade {
+  /* Brands slide: logos on white, no photo treatment. */
+  .hero__slide--brands {
+    display: flex;
+    background: #fff;
+    filter: none;
+  }
+  .hero__slide--brands.is-active {
+    animation: none;
+  }
+  .hero__brandgrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    flex: 1;
+    align-items: center;
+    align-content: space-evenly;
+    gap: 0.5rem 1.25rem;
+    /* The bottom padding keeps the logos clear of the caption. */
+    padding: 0.75rem 1.5rem 8rem;
+  }
+  .hero__brandgrid img {
+    width: 100%;
+    height: clamp(1.5rem, 6.6vw, 2.1rem);
+    object-fit: contain;
+  }
+  /* The LG mark is drawn small inside its file. */
+  .hero__brandgrid img[alt='LG'] {
+    transform: scale(1.5);
+  }
+
+  /* The service shown, as a link to its page. Navy fades in only behind the text. */
+  .hero__captions {
     position: absolute;
-    inset: 0;
-    z-index: -2;
-    background: linear-gradient(180deg, rgb(17 48 92 / 0.8) 0%, rgb(17 48 92 / 0.72) 45%, rgb(17 48 92 / 0.92) 100%);
+    inset: auto 0 0 0;
+    display: grid;
+    padding-top: 3.5rem;
+    background: linear-gradient(180deg, rgb(17 48 92 / 0) 0%, rgb(17 48 92 / 0.78) 45%, rgb(17 48 92 / 0.94) 100%);
+  }
+  .hero__caption {
+    grid-area: 1 / 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0 1rem 0.9rem;
+    color: #fff;
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 400ms ease-out, visibility 0s 400ms;
+  }
+  .hero__caption.is-active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 400ms ease-out;
+  }
+
+  .hero__shade {
+    display: none;
   }
 
   .hero__grid {
     display: grid;
-    gap: 1.75rem;
+    gap: 1.25rem;
+  }
+  .hero__cta {
+    display: none;
   }
 
   .hero__place {
@@ -255,50 +413,63 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
     background: var(--brand-600);
     color: #fff;
   }
+  /* One row of six, whatever the column width. */
+  .hero__logos {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.5rem;
+    max-width: 36rem;
+  }
   .hero__chip {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 2.5rem;
-    padding: 0 0.875rem;
+    padding: 0 0.5rem;
     border-radius: var(--radius-md);
     background: #fff;
     box-shadow: var(--shadow-sm);
   }
   .hero__chip img {
+    width: 100%;
     height: 1.375rem;
-    width: auto;
-    max-width: 6rem;
+    object-fit: contain;
   }
 
+  /* Phones: one segment per slide under the photo. Desktop turns them into thumbnails. */
   .hero__thumbs {
-    display: flex;
-    align-items: flex-end;
-    gap: 0.625rem;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 0.375rem;
+    margin: -0.5rem 0 -0.75rem;
   }
   .hero__thumb {
-    flex: 1 1 0;
+    position: relative;
     min-width: 0;
-    height: 4.75rem;
+    height: 2.75rem; /* tap target; the visible part is the 4px line */
     padding: 0;
-    overflow: hidden;
     cursor: pointer;
-    border: 2px solid rgb(255 255 255 / 0.75);
-    border-radius: var(--radius-md);
-    background: var(--brand-800);
-    box-shadow: var(--shadow-md);
-    transition: border-color 200ms ease-out, transform 200ms ease-out;
+    border: 0;
+    border-top: 4px solid rgb(255 255 255 / 0.25);
+    background: none;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: #fff;
+    transition: border-color 200ms ease-out;
+  }
+  .hero__thumb-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .hero__thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .hero__thumb:hover {
-    transform: translateY(-2px);
+    display: none;
   }
   .hero__thumb.is-active {
-    border-color: #4cc9f0;
+    border-top-color: #4cc9f0;
   }
 
   .hero__bar {
@@ -321,11 +492,42 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
     grid-column: 1 / -1;
   }
 
+  @media (min-width: 640px) {
+    .hero__media {
+      aspect-ratio: 16 / 9;
+    }
+    .hero__brandgrid {
+      gap: 1rem 3rem;
+      padding: 1.5rem 3rem 8.5rem;
+    }
+    .hero__brandgrid img {
+      height: 2.75rem;
+    }
+  }
+
   @media (min-width: 1024px) {
     .hero__media {
-      left: 36%;
+      position: absolute;
+      inset: 0 0 0 36%;
+      z-index: -3;
+      aspect-ratio: auto;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .hero__slide,
+    .hero__media :global(.hero__video) {
+      object-position: var(--pos, 50% 50%);
+    }
+    .hero__captions,
+    .hero__slide--brands,
+    .hero__thumb--mobile {
+      display: none;
     }
     .hero__shade {
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: -2;
       background:
         linear-gradient(90deg, var(--brand-900) 38%, rgb(17 48 92 / 0.9) 50%, rgb(17 48 92 / 0.3) 64%, rgb(17 48 92 / 0) 76%),
         linear-gradient(0deg, rgb(17 48 92 / 0.5) 0%, rgb(17 48 92 / 0) 24%);
@@ -333,9 +535,53 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
     .hero__grid {
       grid-template-columns: minmax(0, 1fr) 24rem;
       align-items: end;
+      gap: 1.75rem;
+    }
+    .hero__cta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .hero__thumbs {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.625rem;
+      margin: 0;
     }
     .hero__thumb {
+      position: relative;
+      flex: 1 1 0;
       height: 7rem;
+      overflow: hidden;
+      border: 2px solid rgb(255 255 255 / 0.75);
+      border-radius: var(--radius-md);
+      background: var(--brand-800);
+      box-shadow: var(--shadow-md);
+      transition: border-color 200ms ease-out, transform 200ms ease-out;
+    }
+    .hero__thumb img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero__thumb:hover {
+      transform: translateY(-2px);
+    }
+    .hero__thumb.is-active {
+      border-color: #4cc9f0;
+    }
+    .hero__thumb-label {
+      inset: auto 0 0 0;
+      width: auto;
+      height: auto;
+      clip-path: none;
+      padding: 1.25rem 0.25rem 0.375rem;
+      font-size: 0.8125rem;
+      color: #fff;
+      background: linear-gradient(180deg, rgb(17 48 92 / 0) 0%, rgb(17 48 92 / 0.9) 70%);
     }
     .hero__bar {
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -355,7 +601,8 @@ const bar: { icon: 'clock' | 'shield-check' | 'star' | 'award' | 'ac-unit'; a: s
 
   @media (prefers-reduced-motion: reduce) {
     .hero__slide,
-    .hero__thumb {
+    .hero__thumb,
+    .hero__caption {
       transition: none;
     }
     .hero__slide.is-active {

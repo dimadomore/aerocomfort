@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+
+/**
+ * "View all …" link for a section header. Sits at the START of a block (next to
+ * the heading on desktop, right under it on phones), so the way through to the
+ * full page is visible before the content, not after it.
+ */
+interface Props {
+  href: string;
+  class?: string;
+}
+const { href, class: cls = '' } = Astro.props;
+---
+<a
+  href={href}
+  class:list={[
+    'more-link inline-flex min-h-11 shrink-0 items-center gap-2 rounded-[4px] border border-brand-900/30 px-4 font-display text-small font-bold text-brand-900 no-underline transition-colors duration-200 ease-out hover:border-brand-900 hover:bg-brand-900 hover:text-white',
+    cls,
+  ]}
+>
+  <slot />
+  <Icon name="arrow-right" size={18} />
+</a>
