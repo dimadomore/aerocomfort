@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import PromoBody from '../components/sections/PromoBody.astro';
+import { PROMO } from '../data/promo';
+import { hvacBusinessLd, breadcrumbLd, promoProductLd } from '../lib/schema';
+import { localizedPath } from '../i18n/utils';
+
+const locale = 'en' as const;
+const title = `Black Friday: ${PROMO.brand} ${PROMO.kw} kW Air Conditioning for €${PROMO.price} | Aerocomfort`;
+const description = `${PROMO.brand} ${PROMO.model}, ${PROMO.kw} kW, class ${PROMO.energyCool}, Wi-Fi included, for €${PROMO.price}${PROMO.installationIncluded ? ' with basic installation' : ''} on the Costa Blanca. Limited offer: call or message us.`;
+const crumbs = [
+  { name: 'Home', url: localizedPath('/', locale) },
+  { name: PROMO.label, url: localizedPath(PROMO.path, locale) },
+];
+---
+<Base
+  locale={locale}
+  path={PROMO.path}
+  title={title}
+  description={description}
+  image={PROMO.image}
+  noindex={!PROMO.active}
+  jsonLd={[hvacBusinessLd(), breadcrumbLd(crumbs), ...(PROMO.active ? [promoProductLd(locale)] : [])]}
+>
+  <PromoBody locale={locale} />
+</Base>

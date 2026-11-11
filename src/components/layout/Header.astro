@@ -2,6 +2,7 @@
 import { type Locale } from '../../config';
 import { useTranslations, getNav, localizedPath } from '../../i18n/utils';
 import { business } from '../../data';
+import { PROMO } from '../../data/promo';
 import Container from '../ui/Container.astro';
 import Logo from '../ui/Logo.astro';
 import Button from '../ui/Button.astro';
@@ -28,13 +29,22 @@ const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
 const waDigits = business.whatsapp.replace(/\D/g, '');
 const waHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(business.whatsappMessage[locale])}`;
 const contactHref = localizedPath('/contact', locale);
+// The running promotion gets a badge next to the logo on phones (src/data/promo.ts).
+const promoHref = PROMO.active && path !== PROMO.path ? localizedPath(PROMO.path, locale) : '';
 ---
 <header class="sticky top-0 z-40 border-b border-line bg-surface">
   <Container>
-    <div class="flex h-16 items-center justify-between gap-4 lg:h-20">
+    <div class="flex h-16 items-center justify-between gap-2 lg:h-20 lg:gap-4">
       <a href={homeHref} class="flex items-center gap-2.5 rounded-md" aria-label="Aerocomfort, home">
         <Logo height={38} color="brand-900" />
       </a>
+
+      {promoHref && (
+        <a href={promoHref} class="promo-badge" data-cta="promo-badge" aria-label={`${PROMO.label}: €${PROMO.price}`}>
+          <span>Black</span>
+          <span>Friday</span>
+        </a>
+      )}
 
       <nav class="hidden items-center gap-6 lg:flex xl:gap-7" aria-label="Primary">
         {
@@ -76,7 +86,7 @@ const contactHref = localizedPath('/contact', locale);
         <!-- Mobile cluster: Offers + one-tap contact straight from the header (docs/05 §2) -->
         <div class="flex items-center gap-1 lg:hidden">
           {offersItem && (
-            <a href={offersItem.href} class="offers-chip mr-1" aria-current={isActive(offersItem.en) ? 'page' : undefined}>
+            <a href={offersItem.href} class:list={['offers-chip', promoHref ? 'offers-chip--compact' : 'mr-1']} aria-current={isActive(offersItem.en) ? 'page' : undefined}>
               <Icon name="tag" size={15} />
               {offersItem.label}
             </a>
@@ -143,6 +153,52 @@ const contactHref = localizedPath('/contact', locale);
 </header>
 
 <style>
+  /* Promotion badge beside the logo on phones: a small black price tag, tilted a
+     touch so it reads as a sticker. Pushes itself left so it sits by the logo. */
+  .promo-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    margin-right: auto;
+    padding: 0.4rem 0.5rem;
+    border-radius: 4px;
+    background: #0a0c10;
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    line-height: 1;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    transform: rotate(-4deg);
+  }
+  .promo-badge span:last-child {
+    color: var(--warning);
+  }
+  /* Desktop shows the bar under the header instead (a scoped rule: `lg:hidden`
+     would lose to the display set above). */
+  @media (min-width: 1024px) {
+    .promo-badge {
+      display: none;
+    }
+  }
+  /* With the badge in the row the Offers chip drops its icon; on very narrow
+     phones it steps aside (Offers stays in the menu). */
+  .offers-chip--compact {
+    padding-inline: 0.55rem;
+  }
+  .offers-chip--compact :global(svg) {
+    display: none;
+  }
+  @media (max-width: 369px) {
+    .offers-chip--compact {
+      display: none;
+    }
+  }
+
   /* Language switch: two segments, the current one filled. */
   .lang {
     display: inline-flex;
@@ -260,6 +316,8 @@ const contactHref = localizedPath('/contact', locale);
     btn?.setAttribute('aria-expanded', String(open));
     btn?.setAttribute('aria-label', (open ? btn.dataset.closeLabel : btn.dataset.openLabel) ?? '');
     if (panel) panel.hidden = !open;
+    // The menu has its own contact buttons, so the bottom bar steps aside while it is open.
+    document.documentElement.classList.toggle('menu-open', open);
     const fn = open ? document.addEventListener : document.removeEventListener;
     fn.call(document, 'touchmove', blockScroll, { passive: false });
     fn.call(document, 'wheel', blockScroll, { passive: false });

@@ -33,6 +33,7 @@ export const ROUTES = [
   { en: '/services/maintenance', es: '/es/servicios/mantenimiento' },
   { en: '/services/cleaning', es: '/es/servicios/limpieza' },
   { en: '/offers', es: '/es/ofertas' },
+  { en: '/black-friday', es: '/es/black-friday' },
   { en: '/gallery', es: '/es/galeria' },
   { en: '/areas', es: '/es/zonas' },
   { en: '/brands', es: '/es/marcas' },

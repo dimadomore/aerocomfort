@@ -1,0 +1,92 @@
+---
+import { type Locale } from '../../config';
+import { PROMO } from '../../data/promo';
+import { localizedPath } from '../../i18n/utils';
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+
+/**
+ * Slim bar under the desktop header for the running promotion (src/data/promo.ts).
+ * Desktop only: phones get the badge in the header instead. Not shown on the
+ * promotion's own page.
+ */
+interface Props {
+  locale: Locale;
+  path: string;
+}
+const { locale, path } = Astro.props;
+const es = locale === 'es';
+const show = PROMO.active && path !== PROMO.path;
+const kw = es ? String(PROMO.kw).replace('.', ',') : String(PROMO.kw);
+---
+{
+  show && (
+    <a class="promobar" href={localizedPath(PROMO.path, locale)} data-cta="promo-bar">
+      <Container class="promobar__in">
+        <span class="promobar__tag"><span>Black</span><span>Friday</span></span>
+        <span class="promobar__text">
+          {`${PROMO.brand} ${PROMO.model}, ${kw} kW${PROMO.installationIncluded ? (es ? ', instalado' : ', installed') : ''}`}
+        </span>
+        <strong class="promobar__price">€{PROMO.price}</strong>
+        <span class="promobar__go">
+          {es ? 'Ver la oferta' : 'See the offer'}
+          <Icon name="arrow-right" size={16} />
+        </span>
+      </Container>
+    </a>
+  )
+}
+
+<style>
+  .promobar {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .promobar {
+      display: block;
+      background: #0a0c10;
+      color: #fff;
+      text-decoration: none;
+    }
+    .promobar :global(.promobar__in) {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      min-height: 2.75rem;
+    }
+    .promobar__tag {
+      display: inline-flex;
+      gap: 0.35em;
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .promobar__tag span:last-child {
+      color: var(--warning);
+    }
+    .promobar__text {
+      font-size: var(--text-caption);
+      color: rgb(255 255 255 / 0.85);
+    }
+    .promobar__price {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+    .promobar__go {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-left: auto;
+      font-family: var(--font-display);
+      font-size: var(--text-caption);
+      font-weight: 700;
+      transition: gap 0.2s ease-out;
+    }
+    .promobar:hover .promobar__go {
+      gap: 0.7rem;
+    }
+  }
+</style>

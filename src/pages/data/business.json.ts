@@ -4,6 +4,7 @@ import { business, offers } from '../../data';
 import { SERVICES } from '../../data/services';
 import { AREA_GROUPS } from '../../data/areas';
 import { BRANDS } from '../../data/brands';
+import { PROMO } from '../../data/promo';
 import { FAQ_GROUPS } from '../../data/faq';
 import { localizedPath } from '../../i18n/utils';
 
@@ -91,6 +92,21 @@ export const GET: APIRoute = () => {
     },
     services: SERVICES.map((s) => ({ id: s.slug, en: service(s, 'en'), es: service(s, 'es') })),
     towns,
+    promotion: PROMO.active
+      ? {
+          name: PROMO.label,
+          url: both(PROMO.path),
+          unit: `${PROMO.brand} ${PROMO.model}`,
+          modelCode: PROMO.code,
+          price: PROMO.price,
+          currency: 'EUR',
+          coolingKw: PROMO.kw,
+          energyClassCooling: PROMO.energyCool,
+          wifiIncluded: PROMO.wifi,
+          installation: PROMO.installationIncluded ? 'Basic installation included' : 'Not included',
+          note: 'Limited offer with no published end date. Ask Aerocomfort to confirm it is still available.',
+        }
+      : null,
     offers: {
       url: both('/offers'),
       validity: offers.season.label,
