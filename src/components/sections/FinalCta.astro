@@ -16,7 +16,7 @@ const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${enc
 const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
 const contactHref = localizedPath('/contact', locale);
 ---
-<section class="bg-brand-900 text-white">
+<section class="bg-brand-900 text-white" data-cta="final-cta">
   <Container class="grid gap-8 py-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16 lg:py-20">
     <div>
       <h2 class="text-h1 text-white">{es ? 'Cuéntanos qué necesitas' : 'Tell us what you need'}</h2>

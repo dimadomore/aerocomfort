@@ -30,6 +30,7 @@ const onContact = Astro.url.pathname.replace(/\/$/, '') === contactHref.replace(
   class:list={['stickybar', onContact && 'stickybar--two']}
   aria-label={es ? 'Contacto rápido' : 'Quick contact'}
   data-sticky-bar
+  data-cta="sticky-bar"
   aria-hidden="true"
   inert
 >

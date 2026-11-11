@@ -22,6 +22,9 @@ interface LegalDoc {
  * Everything else states what the site actually does — if data flows change
  * (new analytics, new processors), update BOTH languages here.
  */
+/** Date of the last change to the text below. Update it when you edit a document. */
+export const LEGAL_UPDATED = '2026-11-11';
+
 export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
   privacy: {
     en: {
@@ -32,7 +35,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Who is responsible for your data',
           p: [
-            '{NAME} is the trading name of Gregorio Camendo, a self-employed professional (autónomo) registered in Spain, NIE Y9274595C, providing air-conditioning, heat-pump and ventilation services on the Costa Blanca (province of Alicante) and nearby areas.',
+            '{NAME} is the trading name of Grigore Camendo, a self-employed professional (autónomo) registered in Spain, NIE Y9274595C, providing air-conditioning, heat-pump and ventilation services on the Costa Blanca (province of Alicante) and nearby areas.',
             'Contact for anything related to your data: {EMAIL} or {PHONE}.',
           ],
         },
@@ -41,8 +44,11 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
           p: ['We only collect what you give us or what is strictly needed to run the site securely:'],
           ul: [
             'Quote form: your name, phone number, whether that number uses WhatsApp, the service you are interested in and any message you write.',
-            'Technical data with each form submission: IP address, the page you sent it from and the time — used solely for security and spam prevention.',
+            'Technical data with each form submission: IP address and the time, used solely for security and spam prevention.',
+            'Where your request came from: the page of our site you were on before the form and the button you pressed. If you accepted analytics in the cookie banner, also the first page of your visit, the pages you viewed, and the website or advert that brought you. We use this to understand which pages and adverts work.',
+            'An anonymous count of clicks on our WhatsApp, phone and email links, by page. It holds no IP address and nothing that identifies you.',
             'If you call or WhatsApp us directly, we process the contact details you share there in order to reply.',
+            'That is all: identification and contact details. We never ask for sensitive data such as health, beliefs or ID numbers, so please don’t send any.',
             'Anonymous, cookie-less traffic statistics (Cloudflare Web Analytics), and — only if you accept them in the cookie banner — Google Analytics measurement data. See the Cookie Policy.',
           ],
         },
@@ -97,6 +103,17 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
           ],
         },
         {
+          p: [
+            'Tell us which right you want to use and how to reach you. We reply within one month. We don’t make automated decisions about you or build profiles.',
+          ],
+        },
+        {
+          h: 'Children',
+          p: [
+            'This site and our services are for adults. In Spain a person must be 14 or older to consent to the use of their data, so we don’t knowingly collect data from anyone younger: a parent or guardian should contact us instead.',
+          ],
+        },
+        {
           h: 'Complaints',
           p: [
             'If you believe we have mishandled your data, you can complain to the Spanish supervisory authority: Agencia Española de Protección de Datos (AEPD), C/ Jorge Juan 6, 28001 Madrid — www.aepd.es.',
@@ -105,13 +122,14 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Security',
           p: [
-            'The site is served exclusively over HTTPS. Form submissions are stored in access-restricted, password-protected systems and are only accessible to the business owner.',
+            'The site is served exclusively over HTTPS, so what you send is encrypted on the way. Form submissions are stored in access-restricted, password-protected systems and are only accessible to the business owner.',
+            'No system is perfectly safe. If a security incident ever put your data at risk, we would tell you and the supervisory authority without undue delay, as the law requires.',
           ],
         },
         {
           h: 'Changes',
           p: [
-            'We may update this policy if the site or our providers change; the current version is always the one published on this page.',
+            'We may update this policy if the site, our providers or the law change. The current version is always the one on this page, with the date of its last change at the top.',
           ],
         },
       ],
@@ -124,7 +142,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Responsable del tratamiento',
           p: [
-            '{NAME} es el nombre comercial de Gregorio Camendo, profesional autónomo registrado en España, NIE Y9274595C, que presta servicios de aire acondicionado y ventilación en la Costa Blanca (provincia de Alicante) y zonas cercanas.',
+            '{NAME} es el nombre comercial de Grigore Camendo, profesional autónomo registrado en España, NIE Y9274595C, que presta servicios de aire acondicionado y ventilación en la Costa Blanca (provincia de Alicante) y zonas cercanas.',
             'Contacto para cualquier cuestión sobre tus datos: {EMAIL} o {PHONE}.',
           ],
         },
@@ -133,8 +151,11 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
           p: ['Solo recogemos lo que tú nos facilitas o lo estrictamente necesario para que la web funcione con seguridad:'],
           ul: [
             'Formulario de presupuesto: tu nombre, tu teléfono, si ese número usa WhatsApp, el servicio que te interesa y el mensaje que escribas.',
-            'Datos técnicos con cada envío: dirección IP, página desde la que enviaste y hora — solo para seguridad y prevención de spam.',
+            'Datos técnicos con cada envío: dirección IP y hora, solo para seguridad y prevención de spam.',
+            'De dónde viene tu solicitud: la página de nuestra web en la que estabas antes del formulario y el botón que pulsaste. Si aceptaste la analítica en el banner de cookies, también la primera página de tu visita, las páginas que viste y la web o el anuncio que te trajo. Lo usamos para saber qué páginas y anuncios funcionan.',
+            'Un recuento anónimo de clics en nuestros enlaces de WhatsApp, teléfono y correo, por página. No guarda la dirección IP ni nada que te identifique.',
             'Si nos llamas o escribes por WhatsApp, tratamos los datos de contacto que compartas para poder responderte.',
+            'Nada más: datos identificativos y de contacto. Nunca pedimos datos sensibles como salud, creencias o números de documento, así que no nos los envíes.',
             'Estadísticas de tráfico anónimas y sin cookies (Cloudflare Web Analytics) y — solo si las aceptas en el banner — datos de medición de Google Analytics. Consulta la Política de Cookies.',
           ],
         },
@@ -189,6 +210,17 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
           ],
         },
         {
+          p: [
+            'Indícanos qué derecho quieres ejercer y cómo contactarte. Respondemos en el plazo de un mes. No tomamos decisiones automatizadas sobre ti ni elaboramos perfiles.',
+          ],
+        },
+        {
+          h: 'Menores',
+          p: [
+            'Esta web y nuestros servicios se dirigen a personas adultas. En España hay que tener 14 años o más para consentir el uso de los datos propios, por lo que no recogemos conscientemente datos de menores de esa edad: debe contactarnos su padre, madre o tutor.',
+          ],
+        },
+        {
           h: 'Reclamaciones',
           p: [
             'Si crees que hemos tratado mal tus datos, puedes reclamar ante la autoridad de control española: Agencia Española de Protección de Datos (AEPD), C/ Jorge Juan 6, 28001 Madrid — www.aepd.es.',
@@ -197,13 +229,14 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Seguridad',
           p: [
-            'La web se sirve exclusivamente por HTTPS. Los envíos del formulario se guardan en sistemas protegidos con contraseña y acceso restringido, accesibles solo al titular del negocio.',
+            'La web se sirve exclusivamente por HTTPS, de modo que lo que envías viaja cifrado. Los envíos del formulario se guardan en sistemas protegidos con contraseña y acceso restringido, accesibles solo al titular del negocio.',
+            'Ningún sistema es totalmente seguro. Si un incidente de seguridad pusiera en riesgo tus datos, te lo comunicaríamos a ti y a la autoridad de control sin dilación indebida, como exige la ley.',
           ],
         },
         {
           h: 'Cambios',
           p: [
-            'Podemos actualizar esta política si la web o nuestros proveedores cambian; la versión vigente es siempre la publicada en esta página.',
+            'Podemos actualizar esta política si cambian la web, nuestros proveedores o la ley. La versión vigente es siempre la de esta página, con la fecha del último cambio arriba.',
           ],
         },
       ],
@@ -234,18 +267,31 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
           ul: [
             'Google Analytics 4 — cookies such as <strong>_ga</strong> and <strong>_ga_*</strong> (up to 2 years) to measure visits anonymously.',
             'Google Ads conversion measurement — tells us that an ad led to an enquiry. No cookie is set until you accept this category.',
+            '<strong>aero-journey</strong> (session storage) — remembers the first page of your visit, the pages you viewed and the website or advert that brought you, so a quote request can show where it came from. Deleted when you close the tab.',
           ],
         },
         {
           h: 'Third-party content (only with your consent)',
           ul: [
-            'Google reviews widget (served via Elfsight) and the embedded Google Map — when loaded, Google may set its own cookies under its own policies. Until you accept, the widget stays blocked and the map is replaced by an external link.',
+            'Google reviews widget (served via Elfsight) and the embedded Google Map — when loaded, Google may set its own cookies under its own policies. Until you accept, the widget stays blocked and the map shows a button instead: it loads only if you press it.',
           ],
         },
         {
           h: 'Changing your mind',
           p: [
             'You can change or withdraw your consent at any time: reopen the banner via the "Cookie settings" link in the footer, or delete cookies and site data in your browser settings (look for "Clear browsing data" / "Site settings").',
+          ],
+        },
+        {
+          h: 'Blocking or deleting cookies in your browser',
+          p: [
+            'You can also block or delete cookies and site data in your browser. The steps differ by browser: <a href="https://support.google.com/chrome/answer/95647" rel="noopener" target="_blank">Chrome</a>, <a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" rel="noopener" target="_blank">Safari</a>, <a href="https://support.mozilla.org/kb/clear-cookies-and-site-data-firefox" rel="noopener" target="_blank">Firefox</a>, <a href="https://support.microsoft.com/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" rel="noopener" target="_blank">Edge</a>. The site keeps working without them; you will simply be asked about cookies again.',
+          ],
+        },
+        {
+          h: 'Social networks and outside links',
+          p: [
+            'Our links to Google, Instagram, Facebook and WhatsApp are plain links. Those services set nothing on your device from this site; once you open them, their own cookie and privacy policies apply.',
           ],
         },
         {
@@ -278,18 +324,31 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
           ul: [
             'Google Analytics 4 — cookies como <strong>_ga</strong> y <strong>_ga_*</strong> (hasta 2 años) para medir visitas de forma anónima.',
             'Medición de conversiones de Google Ads — nos indica que un anuncio generó una solicitud. No se instala ninguna cookie hasta que aceptes esta categoría.',
+            '<strong>aero-journey</strong> (almacenamiento de sesión) — recuerda la primera página de tu visita, las páginas que has visto y la web o el anuncio que te trajo, para que una solicitud de presupuesto indique de dónde viene. Se borra al cerrar la pestaña.',
           ],
         },
         {
           h: 'Contenido de terceros (solo con tu consentimiento)',
           ul: [
-            'El widget de reseñas de Google (servido por Elfsight) y el mapa de Google incrustado — al cargarse, Google puede instalar sus propias cookies según sus políticas. Hasta que aceptes, el widget queda bloqueado y el mapa se sustituye por un enlace externo.',
+            'El widget de reseñas de Google (servido por Elfsight) y el mapa de Google incrustado — al cargarse, Google puede instalar sus propias cookies según sus políticas. Hasta que aceptes, el widget queda bloqueado y el mapa muestra un botón: solo se carga si lo pulsas.',
           ],
         },
         {
           h: 'Cambiar de opinión',
           p: [
             'Puedes cambiar o retirar tu consentimiento en cualquier momento: reabre el banner desde el enlace «Configuración de cookies» del pie de página, o borra las cookies y datos del sitio en los ajustes de tu navegador («Borrar datos de navegación» / «Configuración de sitios»).',
+          ],
+        },
+        {
+          h: 'Bloquear o borrar cookies en tu navegador',
+          p: [
+            'También puedes bloquear o borrar las cookies y los datos del sitio desde tu navegador. Los pasos cambian según el navegador: <a href="https://support.google.com/chrome/answer/95647" rel="noopener" target="_blank">Chrome</a>, <a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" rel="noopener" target="_blank">Safari</a>, <a href="https://support.mozilla.org/kb/clear-cookies-and-site-data-firefox" rel="noopener" target="_blank">Firefox</a>, <a href="https://support.microsoft.com/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" rel="noopener" target="_blank">Edge</a>. La web sigue funcionando sin ellas; simplemente volveremos a preguntarte por las cookies.',
+          ],
+        },
+        {
+          h: 'Redes sociales y enlaces externos',
+          p: [
+            'Nuestros enlaces a Google, Instagram, Facebook y WhatsApp son enlaces normales. Esos servicios no instalan nada en tu dispositivo desde esta web; cuando los abres, se aplican sus propias políticas de cookies y privacidad.',
           ],
         },
         {
@@ -308,7 +367,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Identity of the owner',
           ul: [
-            'Owner: Gregorio Camendo, self-employed professional (autónomo).',
+            'Owner: Grigore Camendo, self-employed professional (autónomo).',
             'NIE: Y9274595C.',
             'Registered address: C. Zaragoza, 03190 Pilar de la Horadada, Alicante, Spain.',
             'Email: {EMAIL} · Phone / WhatsApp: {PHONE}.',
@@ -355,7 +414,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Identidad del titular',
           ul: [
-            'Titular: Gregorio Camendo, profesional autónomo.',
+            'Titular: Grigore Camendo, profesional autónomo.',
             'NIE: Y9274595C.',
             'Domicilio: C. Zaragoza, 03190 Pilar de la Horadada, Alicante, España.',
             'Correo: {EMAIL} · Teléfono / WhatsApp: {PHONE}.',

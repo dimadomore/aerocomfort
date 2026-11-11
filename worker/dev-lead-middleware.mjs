@@ -26,11 +26,13 @@ import {
   unauthorizedResponse,
   NOINDEX_HEADERS,
 } from './lead-core.mjs';
+import { handleEvent, EVENT_FIELDS } from './lead-source.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = join(root, 'data');
 const csvPath = join(dataDir, 'leads.csv');
 const ndjsonPath = join(dataDir, 'leads.ndjson');
+const eventsPath = join(dataDir, 'events.ndjson');
 
 /** Parse a minimal KEY=VALUE secrets file (wrangler's `.dev.vars` format). */
 function loadDevVars() {
@@ -64,10 +66,32 @@ async function persist(lead) {
   await fs.appendFile(ndjsonPath, JSON.stringify(lead) + '\n');
 }
 
+/** Append one contact click to data/events.ndjson (production writes to D1). */
+async function persistEvent(event) {
+  await fs.mkdir(dataDir, { recursive: true });
+  await fs.appendFile(eventsPath, JSON.stringify(event) + '\n');
+}
+
+/** Contact clicks of the last 30 days, grouped like the production query. */
+function readClickStats() {
+  const since = Date.now() - 30 * 24 * 60 * 60 * 1000;
+  const groups = new Map();
+  for (const e of readNdjson(eventsPath)) {
+    if (new Date(e.at).getTime() < since) continue;
+    const key = `${e.type}|${e.page}`;
+    groups.set(key, (groups.get(key) ?? 0) + 1);
+  }
+  return [...groups].map(([key, n]) => ({ type: key.split('|')[0], page: key.split('|')[1], n }));
+}
+
 /** Read all saved leads (newest first) from the NDJSON table. */
 function readLeads() {
-  if (!existsSync(ndjsonPath)) return [];
-  return readFileSync(ndjsonPath, 'utf8')
+  return readNdjson(ndjsonPath).reverse();
+}
+
+function readNdjson(file) {
+  if (!existsSync(file)) return [];
+  return readFileSync(file, 'utf8')
     .split('\n')
     .filter(Boolean)
     .map((line) => {
@@ -77,8 +101,7 @@ function readLeads() {
         return null;
       }
     })
-    .filter(Boolean)
-    .reverse();
+    .filter(Boolean);
 }
 
 /** Copy a Web Response (from the shared core) onto the Node response. */
@@ -113,7 +136,12 @@ export function devLeadApi() {
       'astro:server:setup': ({ server, logger }) => {
         server.middlewares.use(async (req, res, next) => {
           const path = (req.url || '').split('?')[0];
-          const isLeads = path === '/leads' || path === '/leads.csv';
+          const isLeads = path === '/leads' || path === '/leads.csv' || path === '/leads/clicks.csv';
+
+          // Anonymous click counter, same handler as production.
+          if (req.method === 'POST' && path === '/api/event') {
+            return sendWebResponse(res, await handleEvent(await toWebRequest(req), { persistEvent }));
+          }
 
           // Read-only CRM viewer + CSV — same Basic Auth + noindex as production.
           if (req.method === 'GET' && isLeads) {
@@ -126,15 +154,23 @@ export function devLeadApi() {
             }
             const leads = readLeads();
             for (const [k, v] of Object.entries(NOINDEX_HEADERS)) res.setHeader(k, v);
-            if (path === '/leads.csv') {
+            if (path === '/leads/clicks.csv') {
+              const csvCell = (v) => (/[",\n\r]/.test(String(v ?? '')) ? `"${String(v).replace(/"/g, '""')}"` : String(v ?? ''));
+              const rows = readNdjson(eventsPath).reverse();
+              res.statusCode = 200;
+              res.setHeader('content-type', 'text/csv; charset=utf-8');
+              res.setHeader('content-disposition', 'attachment; filename="clicks.csv"');
+              res.end([EVENT_FIELDS.join(','), ...rows.map((r) => EVENT_FIELDS.map((f) => csvCell(r[f])).join(','))].join('\n') + '\n');
+            } else if (path === '/leads.csv') {
               res.statusCode = 200;
               res.setHeader('content-type', 'text/csv; charset=utf-8');
               res.setHeader('content-disposition', 'attachment; filename="leads.csv"');
-              res.end(existsSync(csvPath) ? readFileSync(csvPath, 'utf8') : leadsToCsv(leads));
+              // Built from the NDJSON table, so rows saved before the source columns still line up.
+              res.end(leadsToCsv(leads));
             } else {
               res.statusCode = 200;
               res.setHeader('content-type', 'text/html; charset=utf-8');
-              res.end(renderLeadsPage(leads));
+              res.end(renderLeadsPage(leads, readClickStats()));
             }
             return;
           }

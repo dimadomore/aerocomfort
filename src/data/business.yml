@@ -11,7 +11,7 @@
 name: Aerocomfort
 # Autónomo. Legal name and address are shown on the legal pages only (src/data/legal.ts).
 legalForm: "autónomo"
-legalName: "Gregorio Camendo"
+legalName: "Grigore Camendo"       # as in his documents (owner, Nov 2026)
 taxId: "Y9274595C" # NIE
 
 # Contact channels — WhatsApp is the hero channel (docs/03 §2.1).
@@ -33,7 +33,7 @@ addressCountry: "ES"
 geo:
   lat: "37.8641807" # Google Business Profile pin
   lng: "-0.7887288"
-hours: "‹PLACEHOLDER: opening hours — C7›"
+hours: "‹not published›"           # owner, Nov 2026: opening hours are not shown; the marker keeps them hidden
 areasLead:
   - Torrevieja
   - Orihuela Costa
