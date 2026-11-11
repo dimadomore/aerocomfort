@@ -1,15 +1,17 @@
 ---
 import { type Locale } from '../../config';
-import { business, offers } from '../../data';
+import { offers } from '../../data';
 import { PROMO } from '../../data/promo';
 import { localizedPath } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
 
 /**
- * Landing page for the one temporary offer (src/data/promo.ts). One unit, one
- * price, and two ways to act: call or write. The price is the page: everything
- * else is there to back it up. Black stands in for the usual navy on this page only.
+ * Landing page for the one temporary offer (src/data/promo.ts). One unit and one
+ * price: the price is the page, everything else backs it up. Calling and WhatsApp
+ * are left to the header and the bottom bar (owner, Nov 2026: no extra buttons
+ * here); the closing block links to the quote form with the offer filled in.
+ * Black stands in for the usual navy on this page only.
  */
 interface Props {
   locale: Locale;
@@ -20,8 +22,6 @@ const p = PROMO;
 const name = `${p.brand} ${p.model}`;
 const num = (n: number) => (es ? String(n).replace('.', ',') : String(n));
 
-const telHref = `tel:+${business.phoneE164.replace(/\D/g, '')}`;
-const waHref = `https://wa.me/${business.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(p.whatsapp[locale])}`;
 const formHref = `${localizedPath('/contact', locale)}?unit=${encodeURIComponent(`${p.label}: ${name}, €${p.price}`)}&service=installation`;
 const offersHref = localizedPath('/offers', locale);
 
@@ -38,7 +38,6 @@ const copy = es
       title: `Aire acondicionado ${name} de ${num(p.kw)} kW`,
       terms: p.installationIncluded ? 'Con instalación básica incluida' : 'Precio del equipo',
       limited: 'Oferta limitada. Escríbenos o llámanos hoy para reservar el tuyo.',
-      whatsapp: 'Escribir por WhatsApp',
       form: 'Solicitar esta oferta',
       factsTitle: 'Lo que te llevas',
       includedTitle: 'Qué incluye la instalación',
@@ -52,7 +51,6 @@ const copy = es
       title: `${name} air conditioning, ${num(p.kw)} kW`,
       terms: p.installationIncluded ? 'Basic installation included' : 'Unit price',
       limited: 'Limited offer. Message or call us today to reserve yours.',
-      whatsapp: 'Message us on WhatsApp',
       form: 'Request this offer',
       factsTitle: 'What you get',
       includedTitle: 'What the installation includes',
@@ -90,17 +88,6 @@ const copy = es
             </p>
             <p class="bf__terms">{copy.terms}</p>
             <p class="bf__limited">{copy.limited}</p>
-
-            <div class="bf__cta">
-              <a class="bf__btn bf__btn--wa" href={waHref} target="_blank" rel="noopener">
-                <Icon name="whatsapp" size={22} />
-                {copy.whatsapp}
-              </a>
-              <a class="bf__btn bf__btn--call" href={telHref}>
-                <Icon name="phone" size={20} />
-                {business.phone}
-              </a>
-            </div>
           </div>
 
           <div class="bf__photo">
@@ -143,20 +130,10 @@ const copy = es
               </h2>
               <p class="mt-2 text-body text-white/85">{copy.closingText}</p>
             </div>
-            <div class="bf__cta bf__cta--closing">
-              <a class="bf__btn bf__btn--wa" href={waHref} target="_blank" rel="noopener">
-                <Icon name="whatsapp" size={22} />
-                {copy.whatsapp}
-              </a>
-              <a class="bf__btn bf__btn--call" href={telHref}>
-                <Icon name="phone" size={20} />
-                {business.phone}
-              </a>
-              <a class="bf__btn bf__btn--form" href={formHref}>
-                {copy.form}
-                <Icon name="arrow-right" size={20} />
-              </a>
-            </div>
+            <a class="bf__btn bf__btn--form" href={formHref}>
+              {copy.form}
+              <Icon name="arrow-right" size={20} />
+            </a>
           </div>
         </Container>
       </section>
@@ -229,11 +206,6 @@ const copy = es
     color: rgb(255 255 255 / 0.8);
   }
 
-  .bf__cta {
-    display: grid;
-    gap: 0.75rem;
-    margin-top: 1.75rem;
-  }
   .bf__btn {
     display: inline-flex;
     align-items: center;
@@ -248,22 +220,6 @@ const copy = es
     white-space: nowrap;
     text-decoration: none;
     transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
-  }
-  .bf__btn--wa {
-    background: var(--wa-600);
-    color: #fff;
-  }
-  .bf__btn--wa:hover {
-    background: var(--wa-500);
-  }
-  .bf__btn--call {
-    border: 1.5px solid rgb(255 255 255 / 0.55);
-    color: #fff;
-  }
-  .bf__btn--call:hover {
-    border-color: #fff;
-    background: #fff;
-    color: #0a0c10;
   }
   .bf__btn--form {
     background: var(--accent-600);
@@ -331,15 +287,8 @@ const copy = es
     color: var(--warning);
     white-space: nowrap;
   }
-  .bf__cta--closing {
-    margin-top: 0;
-  }
 
   @media (min-width: 640px) {
-    .bf__cta {
-      grid-auto-flow: column;
-      justify-content: start;
-    }
     .bf-facts {
       grid-template-columns: repeat(5, minmax(0, 1fr));
       border-bottom: 1px solid var(--line);
