@@ -16,6 +16,10 @@
 	// The custom domain is attached at the account level via the Workers Domains API,
 	// not declared here — the CI token has no zone-level Workers Routes permission.
 	"workers_dev": false,
+	// LEAD_EMAIL_FROM and LEAD_EMAIL_TO are plain variables set in the Cloudflare
+	// dashboard. Without this, every `wrangler deploy` deletes them and lead
+	// emails stop without any error.
+	"keep_vars": true,
 	// Preview URLs for `wrangler versions upload` (dev branch deploys)
 	"preview_urls": true,
 	// Lead storage (mini-CRM). The Worker writes each lead here and /leads reads
