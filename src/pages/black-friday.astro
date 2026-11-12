@@ -18,7 +18,8 @@ const crumbs = [
   path={PROMO.path}
   title={title}
   description={description}
-  image={PROMO.image}
+  image="/og/black-friday-en.jpg"
+  imageAlt={`Black Friday: ${PROMO.brand} ${PROMO.model} for €${PROMO.price}, basic installation included`}
   noindex={!PROMO.active}
   jsonLd={[hvacBusinessLd(), breadcrumbLd(crumbs), ...(PROMO.active ? [promoProductLd(locale)] : [])]}
 >

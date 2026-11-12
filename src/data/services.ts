@@ -126,7 +126,7 @@ export const SERVICES: Service[] = [
     slug: 'repair',
     esSlug: 'reparacion',
     icon: 'wrench',
-    image: '/gallery/work-05.webp',
+    image: '/gallery/work-01.webp',
     en: {
       title: 'Repair',
       blurb: 'Not cooling, leaking or noisy? We find the fault and fix it, on any brand.',
@@ -220,7 +220,7 @@ export const SERVICES: Service[] = [
     slug: 'maintenance',
     esSlug: 'mantenimiento',
     icon: 'shield-check',
-    image: '/gallery/work-01.webp',
+    image: '/gallery/work-55.webp',
     en: {
       title: 'Maintenance',
       blurb: 'A yearly service keeps your AC efficient and helps avoid summer breakdowns.',
