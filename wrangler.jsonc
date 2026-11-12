@@ -10,7 +10,11 @@
 		"binding": "ASSETS",
 		// Unknown addresses get the site's own 404 page (dist/404.html) with a 404
 		// status, instead of an empty response.
-		"not_found_handling": "404-page"
+		"not_found_handling": "404-page",
+		// With not_found_handling set, browser navigations (opening /leads, a no-JS
+		// form POST to /api/lead) are answered by the assets layer and never reach
+		// the Worker: 404 / 405. These routes must go to the Worker first.
+		"run_worker_first": ["/api/*", "/mcp", "/leads", "/leads/*", "/leads.csv"]
 	},
 	// Production domain: aero.dimadomore.com (temporary, until switching to aerocomfort.es).
 	// The custom domain is attached at the account level via the Workers Domains API,
