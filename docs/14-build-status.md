@@ -43,7 +43,7 @@ Home · Services overview + 4 service pages (installation/repair/maintenance/cle
 | Google Maps embed `src` | `MAP_EMBED_URL` | inline interactive map on /areas (Maps → place → Share → Embed a map → copy src) |
 | Elfsight widget id | `ELFSIGHT_ID` | ✅ already set & live |
 
-**Worker secrets (set in Cloudflare/CI, not in repo):** `RESEND_API_KEY`, `LEAD_EMAIL_TO`, `LEAD_EMAIL_FROM` (email); `LEADS_PASSWORD` (+ optional `LEADS_USER`) for the private `/leads` CRM login; `TURNSTILE_SECRET` + `PUBLIC_TURNSTILE_SITE_KEY` (anti-spam). Locally these live in `.dev.vars` (git-ignored), read by both `astro dev` and `wrangler dev`.
+**Worker secrets (set in Cloudflare/CI, not in repo):** `RESEND_API_KEY`, `LEAD_EMAIL_TO`, `LEAD_EMAIL_FROM` (email); `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (Telegram: bot token from @BotFather, chat id or several separated by commas; each channel is optional and they fail independently); `LEADS_PASSWORD` (+ optional `LEADS_USER`) for the private `/leads` CRM login; `TURNSTILE_SECRET` + `PUBLIC_TURNSTILE_SITE_KEY` (anti-spam). Locally these live in `.dev.vars` (git-ignored), read by both `astro dev` and `wrangler dev`.
 
 ## Remaining vs the plan
 

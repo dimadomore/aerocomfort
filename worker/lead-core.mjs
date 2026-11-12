@@ -25,9 +25,12 @@
  * @property {string} [RESEND_API_KEY]
  * @property {string} [LEAD_EMAIL_TO]
  * @property {string} [LEAD_EMAIL_FROM]
+ * @property {string} [TELEGRAM_BOT_TOKEN]  from @BotFather
+ * @property {string} [TELEGRAM_CHAT_ID]    one id, or several separated by commas
  * @property {string} [TURNSTILE_SECRET]
  */
 
+import { parsePhoneNumberFromString } from 'libphonenumber-js/min';
 import { SOURCE_FIELDS, parseSource, sourceLabel, visitLabel, journeyLabel, renderClickStats } from './lead-source.mjs';
 
 export { sourceLabel } from './lead-source.mjs';
@@ -163,7 +166,7 @@ export async function handleLead(request, env, hooks = {}) {
     console.error('lead persist failed', err);
   }
 
-  // 2) Notify by email (Resend). Also best-effort.
+  // 2) Notify by email (Resend) and Telegram. Also best-effort.
   try {
     await deliver(lead, env);
   } catch (err) {
@@ -194,45 +197,166 @@ async function verifyTurnstile(secret, token, ip) {
 }
 
 /**
- * Send the lead notification via Resend. If the secrets aren't set, log instead
- * so nothing is lost (visible in `wrangler tail` / the dev server console).
+ * Which notification channels are configured. Each one is optional.
+ * @param {LeadEnv} env
+ */
+export function notifyChannels(env) {
+  return {
+    email: Boolean(env.RESEND_API_KEY && env.LEAD_EMAIL_TO && env.LEAD_EMAIL_FROM),
+    telegram: Boolean(env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID),
+  };
+}
+
+/**
+ * Notify the team about a lead on every configured channel (email, Telegram).
+ * Channels run side by side and fail independently: a Telegram error never
+ * stops the email, and the other way round. With no channel configured, or
+ * when every channel fails, the lead is logged so nothing is lost (visible in
+ * `wrangler tail` / the dev server console).
  * @param {Lead} lead
  * @param {LeadEnv} env
  */
 export async function deliver(lead, env) {
-  if (env.RESEND_API_KEY && env.LEAD_EMAIL_TO && env.LEAD_EMAIL_FROM) {
-    const { subject, text, html } = buildEmail(lead);
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: env.LEAD_EMAIL_FROM,
-        to: env.LEAD_EMAIL_TO,
-        reply_to: lead.phone ? undefined : undefined, // (no email collected from the lead)
-        subject,
-        text,
-        html,
-      }),
-    });
-    if (!res.ok) {
-      const detail = await res.text().catch(() => '');
-      throw new Error(`Resend ${res.status}: ${detail}`);
-    }
+  const on = notifyChannels(env);
+  /** @type {[string, () => Promise<void>][]} */
+  const jobs = [];
+  if (on.email) jobs.push(['email', () => sendEmail(lead, env)]);
+  if (on.telegram) jobs.push(['telegram', () => sendTelegram(lead, env)]);
+
+  if (!jobs.length) {
+    console.log('LEAD (no notification channel configured):', JSON.stringify(lead));
     return;
   }
-  // No delivery channel configured yet — log so nothing is lost.
-  console.log('LEAD (no email channel configured):', JSON.stringify(lead));
+
+  const results = await Promise.allSettled(jobs.map(([, run]) => run()));
+  results.forEach((r, i) => {
+    if (r.status === 'rejected') console.error(`lead ${jobs[i][0]} delivery failed`, r.reason);
+  });
+  if (results.every((r) => r.status === 'rejected')) {
+    console.log('LEAD (every notification channel failed):', JSON.stringify(lead));
+  }
 }
 
 /**
- * Build the notification email (Russian — at the owner's request).
- * @param {Lead} l
- * @returns {{ subject: string, text: string, html: string }}
+ * Send the lead notification email via Resend.
+ * @param {Lead} lead
+ * @param {LeadEnv} env
  */
-export function buildEmail(l) {
+async function sendEmail(lead, env) {
+  const { subject, text, html } = buildEmail(lead);
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: env.LEAD_EMAIL_FROM,
+      to: env.LEAD_EMAIL_TO,
+      reply_to: lead.phone ? undefined : undefined, // (no email collected from the lead)
+      subject,
+      text,
+      html,
+    }),
+  });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => '');
+    throw new Error(`Resend ${res.status}: ${detail}`);
+  }
+}
+
+/**
+ * Send the lead to Telegram through a bot. TELEGRAM_CHAT_ID may list several
+ * chats separated by commas (people who pressed Start in the bot, or a group
+ * the bot was added to; group ids are negative). Throws if any chat failed,
+ * after trying all of them.
+ * @param {Lead} lead
+ * @param {LeadEnv} env
+ */
+async function sendTelegram(lead, env) {
+  const chats = String(env.TELEGRAM_CHAT_ID).split(',').map((s) => s.trim()).filter(Boolean);
+  const { text, reply_markup } = buildTelegram(lead);
+  const results = await Promise.allSettled(
+    chats.map(async (chat_id) => {
+      const res = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          chat_id,
+          text,
+          parse_mode: 'HTML',
+          link_preview_options: { is_disabled: true },
+          ...(reply_markup ? { reply_markup } : {}),
+        }),
+      });
+      if (!res.ok) {
+        const detail = await res.text().catch(() => '');
+        throw new Error(`Telegram ${res.status} for chat ${chat_id}: ${detail}`);
+      }
+    }),
+  );
+  const failed = results.filter((r) => r.status === 'rejected');
+  if (failed.length) throw new Error(failed.map((r) => String(r.reason?.message || r.reason)).join('; '));
+}
+
+/**
+ * Build the Telegram message (HTML parse mode). Telegram makes the phone number
+ * tappable on its own; buttons only accept https links, so WhatsApp gets a
+ * button and the call goes through the number in the text.
+ * @param {Lead} l
+ * @returns {{ text: string, reply_markup?: object }}
+ */
+export function buildTelegram(l) {
+  const { rows, viaAgent } = leadRows(l);
+  const head = `${viaAgent ? '🤖' : '🔔'} <b>Новая заявка</b>`;
+  const line = ([k, v]) => `<b>${escapeHtml(k)}:</b> ${v}`;
+  const MSG = 'Сообщение';
+  const others = rows.map(([k, v]) => [k, k === MSG ? '' : escapeHtml(String(v))]);
+  // Telegram's limit is 4096 characters. Escaping can make the visitor's message
+  // several times longer, so only that field is shortened, never through an
+  // entity like &quot; (a broken entity makes Telegram reject the whole message).
+  const room = 4096 - `${head}\n\n${others.map(line).join('\n')}`.length - 1;
+  let msg = escapeHtml(String(rows.find(([k]) => k === MSG)?.[1] ?? ''));
+  if (msg.length > room) msg = msg.slice(0, Math.max(0, room)).replace(/&[a-z]*$/, '') + '…';
+  const text = `${head}\n\n${others.map(([k, v]) => line([k, k === MSG ? msg : v])).join('\n')}`;
+  const wa = l.phone.replace(/[^\d]/g, '');
+  const reply_markup = l.whatsapp
+    ? { inline_keyboard: [[{ text: '💬 Написать в WhatsApp', url: `https://wa.me/${wa}` }]] }
+    : undefined;
+  return { text, reply_markup };
+}
+
+/**
+ * The country of a phone number by its calling code, as flag + Russian name:
+ * "+34 600…" → "🇪🇸 Испания (+34)". Empty when the number has no "+code" or the
+ * code is unknown. A number in a range the metadata doesn't know (common for
+ * new or fictional ranges) still gets the main country of its code.
+ * @param {string} phone
+ * @returns {string}
+ */
+export function phoneCountry(phone) {
+  try {
+    const p = parsePhoneNumberFromString(String(phone || ''));
+    if (!p) return '';
+    const code = p.country || p.getPossibleCountries()[0];
+    if (!code) return `+${p.countryCallingCode}`;
+    const flag = String.fromCodePoint(...[...code].map((c) => 0x1f1e6 + c.charCodeAt(0) - 65));
+    let name = code;
+    try {
+      name = new Intl.DisplayNames(['ru'], { type: 'region' }).of(code) || code;
+    } catch {}
+    return `${flag} ${name} (+${p.countryCallingCode})`;
+  } catch {
+    return '';
+  }
+}
+
+/**
+ * The lead as labelled rows (Russian — at the owner's request), shared by the
+ * email and the Telegram message.
+ * @param {Lead} l
+ */
+function leadRows(l) {
   const serviceLabels = {
     installation: 'Установка',
     repair: 'Ремонт',
@@ -243,11 +367,11 @@ export function buildEmail(l) {
   const service = serviceLabels[l.service] || l.service || '—';
   const when = new Date(l.at).toLocaleString('ru-RU', { timeZone: 'Europe/Madrid' });
   const viaAgent = l.channel === 'agent' || String(l.page || '').startsWith('agent: ');
-  const subject = `${viaAgent ? '🤖' : '🔔'} Новая заявка — ${l.name}${l.service ? ` (${service})` : ''}`;
 
   const rows = [
     ['Имя', l.name],
     ['Телефон', l.phone],
+    ...(phoneCountry(l.phone) ? [['Страна номера', phoneCountry(l.phone)]] : []),
     ['WhatsApp на этом номере', l.whatsapp ? 'Да' : 'Нет'],
     ['Услуга', service],
     ['Сообщение', l.message || '—'],
@@ -257,6 +381,17 @@ export function buildEmail(l) {
     ...(journeyLabel(l) ? [['Путь по сайту', journeyLabel(l)]] : []),
     ['Время', when],
   ];
+  return { rows, service, viaAgent };
+}
+
+/**
+ * Build the notification email (Russian — at the owner's request).
+ * @param {Lead} l
+ * @returns {{ subject: string, text: string, html: string }}
+ */
+export function buildEmail(l) {
+  const { rows, service, viaAgent } = leadRows(l);
+  const subject = `${viaAgent ? '🤖' : '🔔'} Новая заявка — ${l.name}${l.service ? ` (${service})` : ''}`;
 
   const text = rows.map(([k, v]) => `${k}: ${v}`).join('\n');
 

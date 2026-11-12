@@ -12,6 +12,7 @@
  *
  * Secrets (set in Cloudflare/CI, see README / docs/09 §7):
  *   RESEND_API_KEY, LEAD_EMAIL_TO, LEAD_EMAIL_FROM  — email notification
+ *   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID            — Telegram notification
  *   LEADS_PASSWORD  (+ optional LEADS_USER)         — /leads login
  *   TURNSTILE_SECRET                                — optional anti-spam
  */
@@ -52,6 +53,8 @@ interface Env {
   RESEND_API_KEY?: string;
   LEAD_EMAIL_TO?: string;
   LEAD_EMAIL_FROM?: string;
+  TELEGRAM_BOT_TOKEN?: string;
+  TELEGRAM_CHAT_ID?: string;
   LEADS_USER?: string;
   LEADS_PASSWORD?: string;
 }
@@ -106,7 +109,7 @@ async function route(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
   const path = url.pathname;
 
-  // Persist to D1 (when bound); email delivery runs when Resend secrets are set.
+  // Persist to D1 (when bound); email and Telegram notifications run when their secrets are set.
   // The same hooks serve the form, the JSON API and the MCP tool.
   const leadHooks = {
     persist: env.DB ? (lead: LeadRow) => insertLead(env.DB!, lead) : undefined,

@@ -25,6 +25,7 @@ import {
   checkLeadsAuth,
   unauthorizedResponse,
   NOINDEX_HEADERS,
+  notifyChannels,
 } from './lead-core.mjs';
 import { handleEvent, EVENT_FIELDS } from './lead-source.mjs';
 
@@ -182,10 +183,11 @@ export function devLeadApi() {
             const request = await toWebRequest(req);
             const response = await handleLead(request, env, { persist });
 
+            const on = notifyChannels(env);
             const channel =
-              env.RESEND_API_KEY && env.LEAD_EMAIL_TO && env.LEAD_EMAIL_FROM
-                ? `email → ${env.LEAD_EMAIL_TO}`
-                : 'logged (no RESEND_* set)';
+              [on.email && `email → ${env.LEAD_EMAIL_TO}`, on.telegram && 'telegram']
+                .filter(Boolean)
+                .join(' + ') || 'logged (no RESEND_* or TELEGRAM_* set)';
             logger.info(`lead received → saved to data/leads.csv · ${channel}`);
 
             res.statusCode = response.status;
