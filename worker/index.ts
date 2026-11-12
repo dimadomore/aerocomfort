@@ -134,6 +134,9 @@ async function route(request: Request, env: Env): Promise<Response> {
     });
   }
 
+  // Browsers often add a trailing slash; without this, /leads/ falls through to the 404 page.
+  if (path === '/leads/') return Response.redirect(new URL('/leads', url).toString(), 301);
+
   if ((path === '/leads' || path === '/leads.csv' || path === '/leads/clicks.csv') && request.method === 'GET') {
     return handleLeads(path, request, env);
   }
