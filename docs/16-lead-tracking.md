@@ -59,4 +59,4 @@ Deploy and migrate in either order. Until the migration is applied the Worker st
 
 ## Checking it
 
-Locally (`npm run dev`): clicks are appended to `data/events.ndjson`, leads to `data/leads.ndjson`, and `/leads` shows both. A local form submit sends a real email if `RESEND_API_KEY` is set in `.dev.vars`.
+Locally (`npm run dev`): clicks are appended to `data/events.ndjson`, leads to `data/leads.ndjson`, and `/leads` shows both. A local form submit sends a real email if `RESEND_API_KEY` is set in `.dev.vars`, and a real Telegram message if `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are set.
