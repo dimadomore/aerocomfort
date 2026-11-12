@@ -341,7 +341,14 @@ export function leadsToCsv(leads) {
 }
 
 /**
- * Render the leads table page. Leads must be newest-first already.
+ * Render the private CRM page: two tabs, "Заявки" (leads) and "Клики" (contact
+ * clicks of the last 30 days). Leads must be newest-first already.
+ *
+ * Every lead is rendered server-side with its filter values in data-attributes;
+ * a small inline script filters and pages them in the browser (at most 1000
+ * rows come from the query, so this stays instant). Without JS all rows show.
+ * Tab, filters and page live in the URL, so a reload keeps them.
+ *
  * @param {Lead[]} leads
  * @param {{ type: string, page: string, n: number }[]} [clicks] contact clicks of the last 30 days, grouped
  * @returns {string} HTML
@@ -354,66 +361,235 @@ export function renderLeadsPage(leads, clicks = []) {
       return String(iso || '');
     }
   };
+  const isAgent = (l) => l.channel === 'agent' || String(l.page || '').startsWith('agent: ');
+  const isAd = (l) => Boolean(l.utm_source || l.utm_medium || l.utm_campaign || l.click_id);
 
   const rows = leads
     .map((l) => {
       const tel = String(l.phone || '').replace(/[^\d+]/g, '');
       const wa = tel.replace(/[^\d]/g, '');
-      return `<tr>
-        <td class="muted nowrap">${escapeHtml(fmt(l.at))}</td>
-        <td><b>${escapeHtml(l.name)}</b></td>
-        <td class="nowrap">
+      const source = sourceLabel(l);
+      const search = [l.name, l.phone, tel, l.message, source, visitLabel(l)].join(' ').toLowerCase();
+      return `<tr class="lead" data-at="${escapeHtml(l.at)}" data-service="${escapeHtml(l.service || '')}" data-channel="${isAgent(l) ? 'agent' : 'form'}" data-ad="${isAd(l) ? 1 : 0}" data-locale="${l.locale === 'es' ? 'es' : 'en'}" data-q="${escapeHtml(search)}">
+        <td data-label="Время" class="muted nowrap">${escapeHtml(fmt(l.at))}</td>
+        <td data-label="Имя"><b>${escapeHtml(l.name)}</b></td>
+        <td data-label="Телефон" class="nowrap">
           <a href="tel:${escapeHtml(tel)}">${escapeHtml(l.phone)}</a>
           ${l.whatsapp ? `<a class="wa" href="https://wa.me/${escapeHtml(wa)}" title="WhatsApp">💬</a>` : ''}
         </td>
-        <td>${l.service ? `<span class="tag">${escapeHtml(SERVICE_RU[l.service] || l.service)}</span>` : '<span class="muted">—</span>'}</td>
-        <td>${escapeHtml(l.message) || '<span class="muted">—</span>'}</td>
-        <td><b class="src">${escapeHtml(sourceLabel(l))}</b>${visitLabel(l) ? `<span class="muted small">${escapeHtml(visitLabel(l))}</span>` : ''}${journeyLabel(l) ? `<span class="muted small" title="Путь по сайту">${escapeHtml(journeyLabel(l))}</span>` : ''}</td>
-        <td class="muted">${l.locale === 'es' ? 'ES' : 'EN'}</td>
+        <td data-label="Услуга"${l.service ? '' : ' class="blank"'}>${l.service ? `<span class="tag">${escapeHtml(SERVICE_RU[l.service] || l.service)}</span>` : '<span class="muted">—</span>'}</td>
+        <td data-label="Сообщение"${l.message ? '' : ' class="blank"'}>${escapeHtml(l.message) || '<span class="muted">—</span>'}</td>
+        <td data-label="Источник"><b class="src">${escapeHtml(source)}</b>${visitLabel(l) ? `<span class="muted small">${escapeHtml(visitLabel(l))}</span>` : ''}${journeyLabel(l) ? `<span class="muted small" title="Путь по сайту">${escapeHtml(journeyLabel(l))}</span>` : ''}</td>
+        <td data-label="Язык" class="muted">${l.locale === 'es' ? 'ES' : 'EN'}</td>
       </tr>`;
     })
     .join('');
+
+  const services = [...new Set(leads.map((l) => l.service).filter(Boolean))];
+  const clickTotal = clicks.reduce((sum, r) => sum + (Number(r.n) || 0), 0);
+  const option = (value, label) => `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`;
+
+  const leadsPanel = leads.length
+    ? `<form class="filters" id="filters" role="search" onsubmit="return false">
+        <input type="search" name="q" placeholder="Имя, телефон, текст" aria-label="Поиск по заявкам" autocomplete="off">
+        <select name="service" aria-label="Услуга">${option('', 'Все услуги')}${services.map((s) => option(s, SERVICE_RU[s] || s)).join('')}</select>
+        <select name="channel" aria-label="Источник">${option('', 'Все источники')}${option('form', 'Форма на сайте')}${option('agent', 'ИИ-агент')}${option('ad', 'С рекламы')}</select>
+        <select name="locale" aria-label="Язык">${option('', 'Все языки')}${option('en', 'Английский')}${option('es', 'Испанский')}</select>
+        <select name="period" aria-label="Период">${option('', 'Всё время')}${option('1', 'Сегодня')}${option('7', '7 дней')}${option('30', '30 дней')}</select>
+        <button type="reset" class="btn light">Сбросить</button>
+      </form>
+      <p class="summary muted" id="summary" aria-live="polite">Всего заявок: ${leads.length}</p>
+      <table class="leads"><thead><tr><th>Время</th><th>Имя</th><th>Телефон</th><th>Услуга</th><th>Сообщение</th><th>Источник</th><th>Язык</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="empty" id="no-match" hidden>Под эти фильтры заявок нет.</div>
+      <nav class="pager" id="pager" aria-label="Страницы" hidden>
+        <button type="button" class="btn light" data-step="-1">← Назад</button>
+        <span id="page-info"></span>
+        <button type="button" class="btn light" data-step="1">Вперёд →</button>
+      </nav>`
+    : `<div class="empty">Заявок пока нет.<br>Отправь форму на странице контактов — появится здесь.</div>`;
+
+  const clicksPanel =
+    renderClickStats(clicks) ||
+    `<div class="empty">За последние 30 дней кликов не было.<br>Здесь считаются нажатия на WhatsApp, телефон, email и переходы к форме.</div>`;
 
   return `<!doctype html><html lang="ru"><head><meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>CRM · заявки (${leads.length})</title>
   <style>
-    *{box-sizing:border-box} body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#0f172a;background:#f8fafc}
-    header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:20px 24px;border-bottom:1px solid #e2e8f0;background:#fff;position:sticky;top:0;z-index:5}
-    h1{margin:0;font-size:20px} .count{background:#1d4ed8;color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:600}
-    .spacer{flex:1} a.btn{font-size:13px;text-decoration:none;background:#0f172a;color:#fff;padding:7px 12px;border-radius:8px} a.btn.light{background:#e2e8f0;color:#0f172a}
-    .wrap{padding:16px 24px 60px} table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+    *{box-sizing:border-box} [hidden]{display:none!important}
+    body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#0f172a;background:#f8fafc}
+    header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #e2e8f0;padding:16px 24px 0}
+    .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    h1{margin:0;font-size:20px} .spacer{flex:1}
+    .btn{font:inherit;font-size:13px;line-height:1.2;text-decoration:none;background:#0f172a;color:#fff;padding:8px 12px;border-radius:8px;border:0;cursor:pointer;white-space:nowrap}
+    .btn.light{background:#e2e8f0;color:#0f172a} .btn:disabled{opacity:.4;cursor:default}
+    .tabs{display:flex;gap:4px;margin-top:12px}
+    .tab{font:inherit;font-weight:600;background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;color:#64748b;cursor:pointer;display:flex;align-items:center;gap:8px}
+    .tab[aria-selected="true"]{color:#0f172a;border-bottom-color:#1d4ed8}
+    .count{background:#e2e8f0;color:#0f172a;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600}
+    .tab[aria-selected="true"] .count{background:#1d4ed8;color:#fff}
+    .wrap{padding:16px 24px 60px}
+    .panel-head{display:flex;align-items:center;justify-content:flex-end;margin-bottom:12px}
+    .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+    .filters input,.filters select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#0f172a;min-width:0}
+    .filters input{flex:1 1 220px}
+    .summary{margin:0 0 12px;font-size:13px}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
     th,td{text-align:left;padding:11px 14px;border-bottom:1px solid #eef2f7;vertical-align:top} th{background:#f1f5f9;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:#475569}
-    tr:last-child td{border-bottom:0} tr:hover td{background:#f8fafc}
+    tr:last-child td{border-bottom:0} tbody tr:hover td{background:#f8fafc}
     a{color:#1d4ed8} a.wa{margin-left:6px;text-decoration:none} .muted{color:#94a3b8} .nowrap{white-space:nowrap}
     .tag{display:inline-block;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;border-radius:6px;padding:1px 8px;font-size:13px}
     .empty{padding:60px 24px;text-align:center;color:#94a3b8}
     .small{display:block;font-size:12.5px;line-height:1.4;margin-top:2px} .src{font-weight:600}
-    .stats{margin-bottom:28px} .stats h2{margin:0 0 4px;font-size:17px} .stats table{margin-top:14px}
+    .pager{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;font-size:14px;color:#475569}
+    .stats h2{margin:0 0 4px;font-size:17px} .stats table{margin-top:14px}
     .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px}
     .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px} .card b{display:block;font-size:24px} .card span{color:#475569;font-size:13px}
-    h2.sec{margin:0 0 12px;font-size:17px}
+    @media (max-width:720px){
+      header{padding:12px 16px 0} h1{font-size:18px} .wrap{padding:12px 16px 48px}
+      .tabs{margin-top:8px} .tab{flex:1;justify-content:center;padding:10px 6px}
+      .filters input{flex-basis:100%} .filters select{flex:1 1 calc(50% - 4px)} .filters .btn{flex:1 1 100%}
+      table.leads,table.leads tbody,table.leads tr,table.leads td{display:block;width:100%}
+      table.leads{background:none;border:0;border-radius:0}
+      table.leads thead{display:none}
+      table.leads tr{display:grid;grid-template-columns:1fr auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px 0;margin-bottom:10px}
+      table.leads td{grid-column:1 / -1}
+      table.leads td[data-label="Время"]{grid-column:1;grid-row:1;font-size:13px}
+      table.leads td[data-label="Язык"]{grid-column:2;grid-row:1;font-size:13px}
+      table.leads td[data-label="Время"]::before,table.leads td[data-label="Имя"]::before,table.leads td[data-label="Телефон"]::before,table.leads td[data-label="Язык"]::before{display:none}
+      table.leads td.blank{display:none}
+      table.leads td[data-label="Телефон"]{font-size:16px;padding-bottom:6px}
+      table.leads td{border:0;padding:4px 14px} tbody tr:hover td{background:none}
+      table.leads td::before{content:attr(data-label);display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#94a3b8}
+      table.leads td[data-label="Имя"] b{font-size:17px}
+      .cards{grid-template-columns:repeat(2,1fr)}
+      .stats{overflow-x:auto} .stats th{white-space:nowrap}
+      .pager{justify-content:space-between}
+    }
   </style></head><body>
   <header>
-    <h1>📋 Заявки</h1><span class="count">${leads.length}</span>
-    <span class="spacer"></span>
-    <a class="btn light" href="/leads" title="Обновить">↻ Обновить</a>
-    <a class="btn light" href="/leads/clicks.csv" download>⬇ Клики CSV</a>
-    <a class="btn" href="/leads.csv" download>⬇ Заявки CSV</a>
+    <div class="top">
+      <h1>📋 CRM</h1>
+      <span class="spacer"></span>
+      <a class="btn light" href="" id="refresh" title="Обновить">↻ Обновить</a>
+    </div>
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab" role="tab" id="tab-leads" data-tab="leads" aria-controls="panel-leads" aria-selected="true">Заявки <span class="count">${leads.length}</span></button>
+      <button type="button" class="tab" role="tab" id="tab-clicks" data-tab="clicks" aria-controls="panel-clicks" aria-selected="false">Клики <span class="count">${clickTotal}</span></button>
+    </div>
   </header>
   <div class="wrap">
-    ${renderClickStats(clicks)}
-    <h2 class="sec">Заявки с формы и от агентов</h2>
-    ${
-      leads.length
-        ? `<table><thead><tr><th>Время</th><th>Имя</th><th>Телефон</th><th>Услуга</th><th>Сообщение</th><th>Источник</th><th>Язык</th></tr></thead><tbody>${rows}</tbody></table>`
-        : `<div class="empty">Заявок пока нет.<br>Отправь форму на странице контактов — появится здесь.</div>`
-    }
+    <section id="panel-leads" role="tabpanel" aria-labelledby="tab-leads">
+      <div class="panel-head"><a class="btn" href="/leads.csv" download>⬇ Заявки CSV</a></div>
+      ${leadsPanel}
+    </section>
+    <section id="panel-clicks" role="tabpanel" aria-labelledby="tab-clicks" hidden>
+      <div class="panel-head"><a class="btn" href="/leads/clicks.csv" download>⬇ Клики CSV</a></div>
+      ${clicksPanel}
+    </section>
   </div>
-  <script>setTimeout(()=>location.reload(),15000)</script>
+  <script>${LEADS_PAGE_SCRIPT}</script>
   </body></html>`;
 }
+
+/** Tabs, filters, paging and auto-refresh for the /leads page (runs in the browser). */
+const LEADS_PAGE_SCRIPT = `(() => {
+  const PER_PAGE = 20;
+  const rows = [...document.querySelectorAll('tr.lead')];
+  const form = document.getElementById('filters');
+  const tabs = [...document.querySelectorAll('[role=tab]')];
+  const params = new URLSearchParams(location.search);
+  let page = Math.max(1, parseInt(params.get('page'), 10) || 1);
+  if (form) for (const el of form.elements) if (el.name && params.has(el.name)) el.value = params.get(el.name);
+
+  const url = () => {
+    const p = new URLSearchParams();
+    if (form) for (const [k, v] of new FormData(form)) if (v) p.set(k, String(v));
+    if (page > 1) p.set('page', String(page));
+    const q = p.toString();
+    return location.pathname + (q ? '?' + q : '') + location.hash;
+  };
+  const save = (hash = location.hash) => {
+    const next = url().split('#')[0] + hash;
+    try {
+      history.replaceState(null, '', next);
+    } catch {
+      /* a page opened from a file or data: URL cannot rewrite its address */
+    }
+    document.getElementById('refresh').href = next;
+  };
+
+  const showTab = (name) => {
+    for (const t of tabs) {
+      const on = t.dataset.tab === name;
+      t.setAttribute('aria-selected', String(on));
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    }
+  };
+  for (const t of tabs) {
+    t.addEventListener('click', () => {
+      showTab(t.dataset.tab);
+      save(t.dataset.tab === 'clicks' ? '#clicks' : '');
+    });
+  }
+  showTab(location.hash === '#clicks' ? 'clicks' : 'leads');
+
+  const apply = () => {
+    if (!form) return save();
+    const f = Object.fromEntries(new FormData(form));
+    const words = String(f.q || '').trim().toLowerCase().split(/\\s+/).filter(Boolean);
+    let since = 0;
+    if (f.period === '1') since = new Date().setHours(0, 0, 0, 0);
+    else if (f.period) since = Date.now() - Number(f.period) * 864e5;
+    const match = rows.filter((r) => {
+      const d = r.dataset;
+      if (f.service && d.service !== f.service) return false;
+      if (f.channel === 'ad' ? d.ad !== '1' : f.channel && d.channel !== f.channel) return false;
+      if (f.locale && d.locale !== f.locale) return false;
+      if (since && Date.parse(d.at) < since) return false;
+      return words.every((w) => d.q.includes(w));
+    });
+    const pages = Math.max(1, Math.ceil(match.length / PER_PAGE));
+    page = Math.min(Math.max(1, page), pages);
+    const from = (page - 1) * PER_PAGE;
+    const visible = new Set(match.slice(from, from + PER_PAGE));
+    for (const r of rows) r.hidden = !visible.has(r);
+
+    const filtered = match.length !== rows.length;
+    document.getElementById('summary').textContent = match.length
+      ? (filtered ? 'Найдено ' + match.length + ' из ' + rows.length : 'Всего заявок: ' + rows.length) +
+        (pages > 1 ? ' · показаны ' + (from + 1) + '–' + Math.min(from + PER_PAGE, match.length) : '')
+      : 'Найдено 0 из ' + rows.length;
+    document.getElementById('no-match').hidden = match.length > 0;
+    document.querySelector('table.leads').hidden = match.length === 0;
+    const pager = document.getElementById('pager');
+    pager.hidden = pages < 2;
+    document.getElementById('page-info').textContent = 'Стр. ' + page + ' из ' + pages;
+    pager.querySelector('[data-step="-1"]').disabled = page <= 1;
+    pager.querySelector('[data-step="1"]').disabled = page >= pages;
+    save();
+  };
+
+  if (form) {
+    form.addEventListener('input', () => { page = 1; apply(); });
+    form.addEventListener('reset', () => setTimeout(() => { page = 1; apply(); }));
+    document.getElementById('pager').addEventListener('click', (e) => {
+      const step = Number(e.target.closest('[data-step]')?.dataset.step);
+      if (!step) return;
+      page += step;
+      apply();
+      document.getElementById('panel-leads').scrollIntoView({ block: 'start' });
+    });
+  }
+  apply();
+
+  // New leads appear without a manual refresh; skipped while a filter is being edited.
+  setInterval(() => {
+    const busy = document.activeElement && document.activeElement.closest('#filters');
+    if (document.visibilityState === 'visible' && !busy) location.reload();
+  }, 60000);
+})();`;
 
 /* ------------------------------------------------------------------ *
  * Basic Auth gate for /leads — "type a password and you see it".
