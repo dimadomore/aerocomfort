@@ -12,6 +12,11 @@ import { devLeadApi } from './worker/dev-lead-middleware.mjs';
 export default defineConfig({
   site: 'https://aerocomfort.es',
 
+  // Pages are addressed without a trailing slash (/about, /es), like the
+  // canonical URLs and the old Tilda site. Keeps the sitemap in the same form;
+  // the Worker serves /about and redirects /about/ to it (wrangler.jsonc).
+  trailingSlash: 'never',
+
   // EN at root, ES under /es (docs/05 §1). Default locale has no prefix.
   i18n: {
     defaultLocale: 'en',

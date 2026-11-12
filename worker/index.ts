@@ -29,6 +29,22 @@ import {
 import { handleMcp } from './mcp.mjs';
 // @ts-expect-error: plain ESM module, not type-checked (worker/ is excluded in tsconfig)
 import { handleEvent, SOURCE_FIELDS, EVENT_FIELDS } from './lead-source.mjs';
+import { SITE_URL, SITE_INDEXABLE, STAGING_URL } from '../src/config';
+
+const CANONICAL_HOST = new URL(SITE_URL).hostname; // aerocomfort.es
+const STAGING_HOST = new URL(STAGING_URL).hostname; // aero.dimadomore.com
+
+/**
+ * Old Tilda addresses that Google may still know. Tilda answers every page at
+ * /page<id>.html too (ids from data-tilda-page-id); /es and /thank-you keep
+ * the same address on the new site, so they need no entry.
+ */
+const LEGACY_REDIRECTS: Record<string, string> = {
+  '/sitemap.xml': '/sitemap-index.xml',
+  '/page51904037.html': '/',
+  '/page56383113.html': '/es',
+  '/page58543935.html': '/thank-you',
+};
 
 interface LeadRow {
   at: string;
@@ -101,13 +117,44 @@ function withSiteHeaders(res: Response): Response {
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    return withSiteHeaders(await route(request, env));
+    const res = withSiteHeaders(await route(request, env));
+    // Only aerocomfort.es belongs in search results. Staging and preview copies
+    // serve the same pages, so they are kept out even when the build is indexable.
+    if (new URL(request.url).hostname !== CANONICAL_HOST && !res.headers.has('X-Robots-Tag')) {
+      res.headers.set('X-Robots-Tag', 'noindex');
+    }
+    return res;
   },
 };
+
+/** 301 for reads; 308 keeps the method and body of a POST. */
+function permanentRedirect(location: string, request: Request): Response {
+  const status = request.method === 'GET' || request.method === 'HEAD' ? 301 : 308;
+  return new Response(null, { status, headers: { Location: location } });
+}
+
+/**
+ * One address per page: www, plain http and (once the site is indexable) the
+ * staging host go to https://aerocomfort.es, and old Tilda addresses go to
+ * their new page. Path and query are kept, so ad click ids survive.
+ */
+function siteRedirect(request: Request, url: URL): Response | null {
+  const { hostname, pathname, search } = url;
+  const local = hostname === 'localhost' || hostname === '127.0.0.1';
+  let origin = url.origin;
+  if (hostname === `www.${CANONICAL_HOST}` || (SITE_INDEXABLE && hostname === STAGING_HOST)) origin = SITE_URL;
+  else if (url.protocol === 'http:' && !local) origin = `https://${url.host}`;
+  const path = LEGACY_REDIRECTS[pathname] ?? pathname;
+  if (origin === url.origin && path === pathname) return null;
+  return permanentRedirect(origin + path + search, request);
+}
 
 async function route(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
   const path = url.pathname;
+
+  const redirect = siteRedirect(request, url);
+  if (redirect) return redirect;
 
   // Persist to D1 (when bound); email and Telegram notifications run when their secrets are set.
   // The same hooks serve the form, the JSON API and the MCP tool.
@@ -145,7 +192,18 @@ async function route(request: Request, env: Env): Promise<Response> {
   }
 
   // Everything else → static assets (pages, css, js, 404).
-  return env.ASSETS.fetch(request);
+  const res = await env.ASSETS.fetch(request);
+  // The assets layer sends /about/ and /about/index.html to /about with a
+  // temporary 307. Search engines should drop the old form, so make it a 301.
+  if (res.status === 307 && (request.method === 'GET' || request.method === 'HEAD')) {
+    const location = res.headers.get('Location');
+    if (location) {
+      const target = new URL(location, url);
+      if (!target.search) target.search = url.search;
+      return permanentRedirect(target.origin === url.origin ? target.pathname + target.search : target.toString(), request);
+    }
+  }
+  return res;
 }
 
 const LEAD_CORS: Record<string, string> = {

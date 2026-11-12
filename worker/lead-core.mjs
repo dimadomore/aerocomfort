@@ -188,11 +188,21 @@ async function verifyTurnstile(secret, token, ip) {
   body.append('secret', secret);
   body.append('response', token);
   if (ip) body.append('remoteip', ip);
-  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    body,
-  });
-  const json = await res.json().catch(() => ({ success: false }));
+  // When Cloudflare's check itself is down, take the lead: losing a real customer
+  // costs more than letting one spam message through.
+  let json;
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body,
+    });
+    if (!res.ok) throw new Error(`siteverify ${res.status}`);
+    json = await res.json();
+  } catch (err) {
+    console.error('turnstile check unavailable, lead accepted', err);
+    return true;
+  }
+  if (!json.success) console.log('turnstile refused', JSON.stringify(json['error-codes'] ?? []));
   return Boolean(json.success);
 }
 

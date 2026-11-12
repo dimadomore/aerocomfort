@@ -76,8 +76,9 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
             'Your data is handled by a small set of providers, acting only on our instructions as data processors:',
           ],
           ul: [
-            'Cloudflare, Inc. — website hosting and secure storage of form submissions.',
+            'Cloudflare, Inc. — website hosting, the anti-spam check on the form (Turnstile) and secure storage of form submissions.',
             'Resend, Inc. — delivers the form submission to our inbox by email.',
+            'Telegram — delivers the form submission to our team as an instant message.',
             'Google Ireland Ltd. — analytics and advertising measurement, only if you consent to those cookies.',
             'If you contact us by WhatsApp, the conversation is subject to WhatsApp (Meta) terms and privacy policy.',
           ],
@@ -85,7 +86,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'International transfers',
           p: [
-            'Some providers (Cloudflare, Resend, Google) are US companies. Transfers are covered by the EU–US Data Privacy Framework and/or the European Commission’s Standard Contractual Clauses.',
+            'Some providers (Cloudflare, Resend, Google) are US companies. Transfers are covered by the EU–US Data Privacy Framework and/or the European Commission’s Standard Contractual Clauses. Telegram may process data outside the European Economic Area.',
           ],
         },
         {
@@ -183,8 +184,9 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
             'Tus datos los manejan unos pocos proveedores, que actúan únicamente según nuestras instrucciones como encargados del tratamiento:',
           ],
           ul: [
-            'Cloudflare, Inc. — alojamiento de la web y almacenamiento seguro de los envíos del formulario.',
+            'Cloudflare, Inc. — alojamiento de la web, verificación antispam del formulario (Turnstile) y almacenamiento seguro de los envíos del formulario.',
             'Resend, Inc. — entrega del formulario a nuestro correo electrónico.',
+            'Telegram — entrega del formulario a nuestro equipo como mensaje instantáneo.',
             'Google Ireland Ltd. — analítica y medición publicitaria, solo si consientes esas cookies.',
             'Si nos contactas por WhatsApp, la conversación se rige por las condiciones y la política de privacidad de WhatsApp (Meta).',
           ],
@@ -192,7 +194,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
         {
           h: 'Transferencias internacionales',
           p: [
-            'Algunos proveedores (Cloudflare, Resend, Google) son empresas estadounidenses. Las transferencias están amparadas por el Marco de Privacidad de Datos UE–EE. UU. y/o las Cláusulas Contractuales Tipo de la Comisión Europea.',
+            'Algunos proveedores (Cloudflare, Resend, Google) son empresas estadounidenses. Las transferencias están amparadas por el Marco de Privacidad de Datos UE–EE. UU. y/o las Cláusulas Contractuales Tipo de la Comisión Europea. Telegram puede tratar datos fuera del Espacio Económico Europeo.',
           ],
         },
         {

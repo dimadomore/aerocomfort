@@ -67,3 +67,10 @@ export const HERO_VIDEO = "/hero/lg-unit.mp4";
  *  aerocomfort.es at cutover: developer.chrome.com/origintrials. Empty = tools only
  *  appear in browsers with WebMCP switched on. */
 export const WEBMCP_ORIGIN_TRIAL = "";
+
+/** Cloudflare Turnstile site key (public) for the anti-spam check on the lead form.
+ *  Its secret is the Worker secret TURNSTILE_SECRET. Empty = no check.
+ *  Deploy the key BEFORE adding the secret: with the secret set and no widget on
+ *  the page, every form submission is refused. Local `astro dev` uses Cloudflare's
+ *  always-pass test key instead, since the real one only works on its own domains. */
+export const TURNSTILE_SITE_KEY = "";
