@@ -402,11 +402,13 @@ export function buildEmail(l) {
   <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
     <h2 style="margin:0 0 4px">🔔 Новая заявка</h2>
     <p style="margin:0 0 16px;color:#475569">Aerocomfort · форма на сайте</p>
-    <table style="border-collapse:collapse;width:100%">
+    <!-- Labels get a narrow, wrapping column so the values stay readable on a phone. -->
+    <table width="100%" style="border-collapse:collapse;width:100%;table-layout:fixed">
+      <colgroup><col width="30%" style="width:30%"><col style="width:70%"></colgroup>
       ${rows
         .map(
           ([k, v]) =>
-            `<tr><td style="padding:8px 12px;background:#f1f5f9;font-weight:600;border:1px solid #e2e8f0;white-space:nowrap">${k}</td><td style="padding:8px 12px;border:1px solid #e2e8f0">${escapeHtml(String(v))}</td></tr>`,
+            `<tr><td width="30%" style="width:30%;padding:8px 8px;background:#f1f5f9;border:1px solid #e2e8f0;vertical-align:top;font-size:12px;line-height:1.3;font-weight:600;color:#475569">${k}</td><td style="padding:8px 10px;border:1px solid #e2e8f0;vertical-align:top;font-size:15px;line-height:1.4;word-wrap:break-word;overflow-wrap:anywhere">${escapeHtml(String(v))}</td></tr>`,
         )
         .join('')}
     </table>
