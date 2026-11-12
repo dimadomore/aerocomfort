@@ -1,5 +1,5 @@
 ---
-import { type Locale } from '../../config';
+import { type Locale, TURNSTILE_SITE_KEY } from '../../config';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import Button from '../ui/Button.astro';
 import PhoneInput from './PhoneInput.astro';
@@ -17,7 +17,8 @@ const t = useTranslations(locale);
 
 const privacyHref = localizedPath('/privacy', locale);
 const thankYouHref = localizedPath('/thank-you', locale);
-const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+// Cloudflare's documented always-pass test key in `astro dev`, the real key in builds.
+const turnstileKey = TURNSTILE_SITE_KEY && (import.meta.env.DEV ? '1x00000000000000000000AA' : TURNSTILE_SITE_KEY);
 const services = ['installation', 'repair', 'maintenance', 'cleaning', 'other'] as const;
 
 // WebMCP declarative tool: an agent can fill this form, but it never submits
@@ -80,7 +81,25 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
       <span>{t('form.consentPre')} <a href={privacyHref}>{t('form.consentLink')}</a>.</span>
     </label>
 
-    {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="light"></div>}
+    {/* Runs in the background; it only shows itself when Cloudflare asks the visitor to tick a box. */}
+    {turnstileKey && (
+      <>
+        <script is:inline>
+          window.aeroTurnstileShow = () =>
+            document.querySelectorAll('[data-turnstile]').forEach((box) => (box.dataset.visible = 'true'));
+        </script>
+        <div
+          class="cf-turnstile"
+          data-turnstile
+          data-sitekey={turnstileKey}
+          data-theme="light"
+          data-appearance="interaction-only"
+          data-size="flexible"
+          data-language={locale}
+          data-before-interactive-callback="aeroTurnstileShow"
+        ></div>
+      </>
+    )}
 
     <p class="lead-status" data-status role="status" aria-live="polite" hidden></p>
 
@@ -96,6 +115,11 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
   .lead-form__grid {
     display: grid;
     gap: 1.1rem;
+  }
+  /* The anti-spam check is invisible until Cloudflare asks for a tick: until then
+     it stays out of the grid so it adds no row gap. aeroTurnstileShow sets data-visible. */
+  .lead-form__grid > [data-turnstile]:not([data-visible]) {
+    position: absolute;
   }
   .lead-hp {
     position: absolute;
@@ -155,6 +179,20 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
     const errorText = form.dataset.error ?? '';
     const redirect = form.dataset.redirect ?? '/thank-you';
 
+    // Turnstile (anti-spam) puts its one-time token in a hidden field once the
+    // visitor is checked. A quick visitor can press the button before that.
+    const turnstileBox = form.querySelector<HTMLElement>('[data-turnstile]');
+    if (turnstileBox && !turnstileBox.id) turnstileBox.id = `turnstile-${Math.random().toString(36).slice(2, 8)}`;
+    const turnstileToken = () => form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')?.value ?? '';
+    const waitForTurnstile = async () => {
+      for (let i = 0; turnstileBox && !turnstileToken() && i < 25; i++) await new Promise((r) => setTimeout(r, 200));
+    };
+    // A token works once; a failed attempt needs a fresh one for the next try.
+    const resetTurnstile = () => {
+      const api = (window as unknown as { turnstile?: { reset: (id: string) => void } }).turnstile;
+      if (turnstileBox && api) api.reset(`#${turnstileBox.id}`);
+    };
+
     const setStatus = (msg: string, state = '') => {
       if (!status) return;
       status.textContent = msg;
@@ -200,6 +238,8 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
       const srcField = form.querySelector<HTMLInputElement>('[data-lead-src]');
       if (srcField) srcField.value = JSON.stringify(source());
 
+      await waitForTurnstile();
+
       try {
         const res = await fetch(form.action, {
           method: 'POST',
@@ -213,6 +253,7 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
         });
         window.location.href = redirect;
       } catch {
+        resetTurnstile();
         if (submit) submit.disabled = false;
         if (label) label.textContent = labelDefault;
         setStatus(errorText, 'error');
