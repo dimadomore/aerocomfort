@@ -25,7 +25,7 @@ interface Props {
   noindex?: boolean;
   jsonLd?: Record<string, unknown>[];
 }
-const { locale, path, title, description, image, noindex, jsonLd } = Astro.props;
+const { locale, path, title, description, image, imageAlt, noindex, jsonLd } = Astro.props;
 const t = useTranslations(locale);
 ---
 <!doctype html>
@@ -46,6 +46,7 @@ const t = useTranslations(locale);
       title={title}
       description={description}
       image={image}
+      imageAlt={imageAlt}
       noindex={noindex}
       jsonLd={jsonLd}
     />

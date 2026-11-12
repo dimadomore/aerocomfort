@@ -10,12 +10,25 @@ export const SITE_URL = "https://aerocomfort.es";
  *  emits `noindex`. Flip to TRUE at cutover, after the redirect map is live. */
 export const SITE_INDEXABLE = false;
 
+/** Where the site is served until cutover. Link previews (Facebook, Instagram,
+ *  WhatsApp, Telegram, Viber) fetch og:url and og:image, so those must point at an
+ *  address that answers with this site; before launch aerocomfort.es is still the
+ *  old one. Canonical, sitemap and schema.org keep SITE_URL. */
+export const STAGING_URL = "https://aero.dimadomore.com";
+/** Origin used in og:url, og:image and twitter:image. Follows SITE_INDEXABLE. */
+export const SHARE_URL = SITE_INDEXABLE ? SITE_URL : STAGING_URL;
+
 export const DEFAULT_LOCALE = "en" as const;
 export const LOCALES = ["en", "es"] as const;
 export type Locale = (typeof LOCALES)[number];
 
-/** Default social-share image (generated OG template). */
+/** Social-share images, all 1200x630 JPEG (scripts/gen-assets.mjs). JPEG at this
+ *  size is the one format every messenger and social network shows. */
 export const DEFAULT_OG_IMAGE = "/og/aerocomfort-default.jpg";
+export const OG_IMAGE_ALT = {
+  en: "Aerocomfort: air conditioning on the Costa Blanca. Installation, repair, maintenance.",
+  es: "Aerocomfort: aire acondicionado en la Costa Blanca. Instalación, reparación, mantenimiento.",
+} as const;
 
 /**
  * Third-party integrations — public client-side IDs only (secrets stay in Worker).

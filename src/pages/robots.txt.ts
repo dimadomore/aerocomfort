@@ -3,7 +3,8 @@ import { SITE_URL, SITE_INDEXABLE } from '../config';
 
 /**
  * Generated at build. Tied to SITE_INDEXABLE so cutover flips robots with the
- * rest of the site (docs/07 §5). Staging fully disallows crawling.
+ * rest of the site (docs/07 §5). Staging disallows crawling,
+ * except for the link-preview fetchers below.
  *
  * AI crawlers (specification.website/spec/agent-readiness/robots-for-ai-crawlers/):
  * a local service business WANTS to be found by AI assistants, so every named
@@ -44,6 +45,21 @@ const AI_AGENTS = [
   'CCBot',
 ];
 
+/** Link-preview fetchers of the messengers and social networks. They build the card
+ *  shown when someone shares a link; they do not index. Facebook's (also used by
+ *  Instagram and Messenger) obeys robots.txt, so staging has to let it in by name. */
+const PREVIEW_AGENTS = [
+  'facebookexternalhit',
+  'Facebot',
+  'WhatsApp',
+  'TelegramBot',
+  'Viber',
+  'Twitterbot',
+  'LinkedInBot',
+  'Slackbot',
+  'Discordbot',
+];
+
 export const GET: APIRoute = () => {
   const disallows = EXCLUDE.map((p) => `Disallow: ${p}`);
 
@@ -64,7 +80,16 @@ export const GET: APIRoute = () => {
         `Sitemap: ${SITE_URL}/sitemap-index.xml`,
         '',
       ].join('\n')
-    : ['# Staging — not indexed until launch (docs/07)', 'User-agent: *', 'Disallow: /', ''].join('\n');
+    : [
+        '# Staging — not indexed until launch (docs/07). Link previews stay allowed.',
+        ...PREVIEW_AGENTS.map((agent) => `User-agent: ${agent}`),
+        'Allow: /',
+        ...disallows,
+        '',
+        'User-agent: *',
+        'Disallow: /',
+        '',
+      ].join('\n');
 
   return new Response(body, {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },

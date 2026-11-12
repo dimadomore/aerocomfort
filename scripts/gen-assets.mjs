@@ -49,6 +49,22 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"
   <text x="84" y="520" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="500" fill="#dcebfc">Installation · Repair · Maintenance · 5.0★ on Google</text>
 </svg>`;
 
+// --- Black Friday share image (1200x630), one per language. Price, unit name and
+// photo are copied from src/data/promo.ts: re-run after changing the promotion. ---
+const PROMO_OG = { price: 589, name: 'Giatsu Black Edition 3', kw: { en: '3.5 kW', es: '3,5 kW' } };
+const promoPhotoB64 = readFileSync('public/offers/giatsu-black-edition-3.webp');
+const promoSvg = (locale, photoB64) => `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0c10"/>
+  <clipPath id="r"><rect x="690" y="96" width="438" height="438" rx="10"/></clipPath>
+  <rect x="690" y="96" width="438" height="438" rx="10" fill="#c23030"/>
+  <image href="data:image/png;base64,${photoB64}" x="690" y="144" width="438" height="342" clip-path="url(#r)"/>
+  <image href="data:image/png;base64,${logoB64}" x="72" y="64" width="90" height="80"/>
+  <text x="72" y="226" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="800" letter-spacing="3" fill="#ffffff">BLACK <tspan fill="#f5b301">FRIDAY</tspan></text>
+  <text x="72" y="430" font-family="Helvetica, Arial, sans-serif" font-weight="800" fill="#ffffff"><tspan font-size="110" dy="-78" fill="#f5b301">€</tspan><tspan font-size="220" dy="78" letter-spacing="-8">${PROMO_OG.price}</tspan></text>
+  <text x="72" y="496" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700" fill="#ffffff">${PROMO_OG.name} · ${PROMO_OG.kw[locale]}</text>
+  <text x="72" y="544" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="500" fill="#d6d9de">${locale === 'es' ? 'Instalación básica incluida · Oferta limitada' : 'Basic installation included · Limited offer'}</text>
+</svg>`;
+
 mkdirSync('public/og', { recursive: true });
 
 writeFileSync('public/favicon.svg', faviconSvg);
@@ -59,6 +75,11 @@ const out = async () => {
   await sharp(Buffer.from(maskableSvg)).resize(192, 192).png().toFile('public/icon-192.png');
   await sharp(Buffer.from(maskableSvg)).resize(512, 512).png().toFile('public/icon-512.png');
   await sharp(Buffer.from(ogSvg)).jpeg({ quality: 86 }).toFile('public/og/aerocomfort-default.jpg');
+  // Flat JPEG at quality 86 stays far below the 300 KB some messengers allow.
+  const photoPng = (await sharp(promoPhotoB64).png().toBuffer()).toString('base64');
+  for (const locale of ['en', 'es']) {
+    await sharp(Buffer.from(promoSvg(locale, photoPng))).jpeg({ quality: 86, mozjpeg: true }).toFile(`public/og/black-friday-${locale}.jpg`);
+  }
   console.log('Assets generated → public/: favicon.svg, favicon-32.png, apple-touch-icon.png, icon-192.png, icon-512.png, og/aerocomfort-default.jpg');
 };
 out();
