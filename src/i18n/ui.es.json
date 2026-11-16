@@ -43,6 +43,8 @@
 
   "form.name": "Nombre",
   "form.namePh": "Tu nombre",
+  "form.email": "Correo electrónico",
+  "form.emailPh": "tu@correo.com",
   "form.phone": "Teléfono (móvil)",
   "form.phoneHint": "Te llamamos o te escribimos por WhatsApp.",
   "form.country": "Prefijo del país",

@@ -160,6 +160,7 @@ export const TOOLS = [
       type: 'object',
       properties: {
         name: { type: 'string', description: 'Full name of the person.' },
+        email: { type: 'string', format: 'email', description: 'Their email address, for a written reply and the quote.' },
         phone: {
           type: 'string',
           pattern: '^\\+[1-9][0-9]{6,14}$',
@@ -177,11 +178,12 @@ export const TOOLS = [
         agent: { type: 'string', description: 'Name of the assistant sending this, for example "ChatGPT" or "Claude".' },
         language: LANGUAGE,
       },
-      required: ['name', 'phone', 'consent'],
+      required: ['name', 'email', 'phone', 'consent'],
     },
     prepare: (data, args) => {
       const l = lang(args);
       const name = String(args?.name ?? '').trim();
+      const email = String(args?.email ?? '').trim();
       const phone = String(args?.phone ?? '').replace(/[\s().-]/g, '');
       if (args?.consent !== true) {
         return {
@@ -192,6 +194,9 @@ export const TOOLS = [
         };
       }
       if (!name) return { error: 'Name is required', code: 'invalid_name', retryable: true };
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return { error: 'A valid email address is required, for example name@example.com', code: 'invalid_email', retryable: true };
+      }
       if (!/^\+[1-9][0-9]{6,14}$/.test(phone)) {
         return { error: 'Phone must be in international format, for example +34612345678', code: 'invalid_phone', retryable: true };
       }
@@ -205,6 +210,7 @@ export const TOOLS = [
       return {
         body: {
           name,
+          email,
           phone_e164: phone,
           has_whatsapp: args?.has_whatsapp ? 'yes' : '',
           service: ['installation', 'repair', 'maintenance', 'cleaning', 'other'].includes(args?.service) ? args.service : '',
