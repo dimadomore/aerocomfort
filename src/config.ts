@@ -73,4 +73,4 @@ export const WEBMCP_ORIGIN_TRIAL = "";
  *  Deploy the key BEFORE adding the secret: with the secret set and no widget on
  *  the page, every form submission is refused. Local `astro dev` uses Cloudflare's
  *  always-pass test key instead, since the real one only works on its own domains. */
-export const TURNSTILE_SITE_KEY = "";
+export const TURNSTILE_SITE_KEY = "0x4AAAAAAF_VhGflmvX6RtWi";
