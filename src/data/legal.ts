@@ -43,7 +43,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
           h: 'What we collect',
           p: ['We only collect what you give us or what is strictly needed to run the site securely:'],
           ul: [
-            'Quote form: your name, phone number, whether that number uses WhatsApp, the service you are interested in and any message you write.',
+            'Quote form: your name, email address, phone number, whether that number uses WhatsApp, the service you are interested in and any message you write.',
             'Technical data with each form submission: IP address and the time, used solely for security and spam prevention.',
             'Where your request came from: the page of our site you were on before the form and the button you pressed. If you accepted analytics in the cookie banner, also the first page of your visit, the pages you viewed, and the website or advert that brought you. We use this to understand which pages and adverts work.',
             'An anonymous count of clicks on our WhatsApp, phone and email links, by page. It holds no IP address and nothing that identifies you.',
@@ -151,7 +151,7 @@ export const LEGAL: Record<LegalKey, Record<Locale, LegalDoc>> = {
           h: 'Qué datos recogemos',
           p: ['Solo recogemos lo que tú nos facilitas o lo estrictamente necesario para que la web funcione con seguridad:'],
           ul: [
-            'Formulario de presupuesto: tu nombre, tu teléfono, si ese número usa WhatsApp, el servicio que te interesa y el mensaje que escribas.',
+            'Formulario de presupuesto: tu nombre, tu correo electrónico, tu teléfono, si ese número usa WhatsApp, el servicio que te interesa y el mensaje que escribas.',
             'Datos técnicos con cada envío: dirección IP y hora, solo para seguridad y prevención de spam.',
             'De dónde viene tu solicitud: la página de nuestra web en la que estabas antes del formulario y el botón que pulsaste. Si aceptaste la analítica en el banner de cookies, también la primera página de tu visita, las páginas que viste y la web o el anuncio que te trajo. Lo usamos para saber qué páginas y anuncios funcionan.',
             'Un recuento anónimo de clics en nuestros enlaces de WhatsApp, teléfono y correo, por página. No guarda la dirección IP ni nada que te identifique.',

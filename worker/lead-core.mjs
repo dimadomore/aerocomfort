@@ -13,6 +13,7 @@
  * @typedef {Object} Lead
  * @property {string} name
  * @property {string} phone
+ * @property {string} email
  * @property {boolean} whatsapp
  * @property {string} service
  * @property {string} message
@@ -36,7 +37,7 @@ import { SOURCE_FIELDS, parseSource, sourceLabel, visitLabel, journeyLabel, rend
 export { sourceLabel } from './lead-source.mjs';
 
 /** CSV column order — keep in sync with leadToCsvRow(). */
-export const CSV_HEADER = ['at', 'name', 'phone', 'whatsapp', 'service', 'message', 'locale', 'page', 'ip', ...SOURCE_FIELDS];
+export const CSV_HEADER = ['at', 'name', 'phone', 'email', 'whatsapp', 'service', 'message', 'locale', 'page', 'ip', ...SOURCE_FIELDS];
 
 /**
  * Core request handler. Parses the lead, runs anti-spam, persists (via hook),
@@ -44,7 +45,7 @@ export const CSV_HEADER = ['at', 'name', 'phone', 'whatsapp', 'service', 'messag
  * and no-JS (303 redirect) clients.
  *
  * JSON clients (assistants and other agents) get a reason with every refusal:
- * `{ ok: false, error: 'consent_required' | 'invalid_name' | 'invalid_phone' |
+ * `{ ok: false, error: 'consent_required' | 'invalid_name' | 'invalid_phone' | 'invalid_email' |
  * 'rate_limited' | 'verification_failed', message }`. The API is described in
  * /openapi.json, which scripts/gen-agent-files.mjs writes.
  *
@@ -61,6 +62,7 @@ const REFUSALS = {
   consent_required: 'The person must agree to the privacy policy and to being contacted. Send consent: true once they have.',
   invalid_name: 'A name is required.',
   invalid_phone: 'A valid phone number is required, in international format, for example +34612345678.',
+  invalid_email: 'A valid email address is required, for example name@example.com.',
   rate_limited: 'Too many requests from this address. Try again in an hour, or use WhatsApp or the phone.',
   verification_failed: 'The anti-spam check failed.',
 };
@@ -128,7 +130,9 @@ export async function handleLead(request, env, hooks = {}) {
 
   const name = String(data.name || '').trim().slice(0, 120);
   const phone = String(data.phone_e164 || data.phone || '').trim();
+  const email = String(data.email || '').trim().toLowerCase().slice(0, 254);
   if (!name) return respond(false, 'invalid_name');
+  if (!isEmail(email)) return respond(false, 'invalid_email');
   const digits = phone.replace(/\D/g, '');
   if (digits.length < 7 || digits.length > 15 || !/^\+?[\d\s().-]+$/.test(phone)) return respond(false, 'invalid_phone');
 
@@ -144,6 +148,7 @@ export async function handleLead(request, env, hooks = {}) {
   const lead = {
     name,
     phone,
+    email,
     whatsapp: data.has_whatsapp === 'yes' || data.has_whatsapp === true,
     service: String(data.service || '').slice(0, 40),
     message: String(data.message || '').slice(0, 2000),
@@ -174,6 +179,16 @@ export async function handleLead(request, env, hooks = {}) {
   }
 
   return respond(true);
+}
+
+/**
+ * A plausible email address: one @, a dot in the domain, no spaces. Deliberately
+ * loose (the browser's type="email" check is the first line); the point is to
+ * refuse empty or obviously broken values, not to judge exotic but valid ones.
+ * @param {string} email
+ */
+export function isEmail(email) {
+  return email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 /**
@@ -263,7 +278,8 @@ async function sendEmail(lead, env) {
     body: JSON.stringify({
       from: env.LEAD_EMAIL_FROM,
       to: env.LEAD_EMAIL_TO,
-      reply_to: lead.phone ? undefined : undefined, // (no email collected from the lead)
+      // "Reply" in the inbox writes straight to the customer.
+      ...(lead.email ? { reply_to: lead.email } : {}),
       subject,
       text,
       html,
@@ -381,6 +397,7 @@ function leadRows(l) {
   const rows = [
     ['Имя', l.name],
     ['Телефон', l.phone],
+    ['Email', l.email || '—'],
     ...(phoneCountry(l.phone) ? [['Страна номера', phoneCountry(l.phone)]] : []),
     ['WhatsApp на этом номере', l.whatsapp ? 'Да' : 'Нет'],
     ['Услуга', service],
@@ -441,6 +458,7 @@ export function leadToCsvRow(l) {
     l.at,
     l.name,
     l.phone,
+    l.email ?? '',
     l.whatsapp ? 'yes' : 'no',
     l.service,
     l.message,
@@ -516,10 +534,10 @@ export function renderLeadsPage(leads, clicks = []) {
       const tel = String(l.phone || '').replace(/[^\d+]/g, '');
       const wa = tel.replace(/[^\d]/g, '');
       const source = sourceLabel(l);
-      const search = [l.name, l.phone, tel, l.message, source, visitLabel(l)].join(' ').toLowerCase();
+      const search = [l.name, l.phone, tel, l.email, l.message, source, visitLabel(l)].join(' ').toLowerCase();
       return `<tr class="lead" data-at="${escapeHtml(l.at)}" data-service="${escapeHtml(l.service || '')}" data-channel="${isAgent(l) ? 'agent' : 'form'}" data-ad="${isAd(l) ? 1 : 0}" data-locale="${l.locale === 'es' ? 'es' : 'en'}" data-q="${escapeHtml(search)}">
         <td data-label="Время" class="muted nowrap">${escapeHtml(fmt(l.at))}</td>
-        <td data-label="Имя"><b>${escapeHtml(l.name)}</b></td>
+        <td data-label="Имя"><b>${escapeHtml(l.name)}</b>${l.email ? `<a class="muted small" href="mailto:${escapeHtml(l.email)}">${escapeHtml(l.email)}</a>` : ''}</td>
         <td data-label="Телефон" class="nowrap">
           <a href="tel:${escapeHtml(tel)}">${escapeHtml(l.phone)}</a>
           ${l.whatsapp ? `<a class="wa" href="https://wa.me/${escapeHtml(wa)}" title="WhatsApp">💬</a>` : ''}
@@ -538,7 +556,7 @@ export function renderLeadsPage(leads, clicks = []) {
 
   const leadsPanel = leads.length
     ? `<form class="filters" id="filters" role="search" onsubmit="return false">
-        <input type="search" name="q" placeholder="Имя, телефон, текст" aria-label="Поиск по заявкам" autocomplete="off">
+        <input type="search" name="q" placeholder="Имя, телефон, email, текст" aria-label="Поиск по заявкам" autocomplete="off">
         <select name="service" aria-label="Услуга">${option('', 'Все услуги')}${services.map((s) => option(s, SERVICE_RU[s] || s)).join('')}</select>
         <select name="channel" aria-label="Источник">${option('', 'Все источники')}${option('form', 'Форма на сайте')}${option('agent', 'ИИ-агент')}${option('ad', 'С рекламы')}</select>
         <select name="locale" aria-label="Язык">${option('', 'Все языки')}${option('en', 'Английский')}${option('es', 'Испанский')}</select>

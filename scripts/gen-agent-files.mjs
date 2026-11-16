@@ -115,12 +115,12 @@ In a browser with WebMCP, the same tools are on every page, plus \`open_quote_fo
 
 You may leave a quote or callback request for the person you are helping. Aerocomfort then contacts them by phone or WhatsApp.
 
-1. Collect their name and mobile number in international format, plus what they need and the town if they know it.
+1. Collect their name, email address and mobile number in international format, plus what they need and the town if they know it.
 2. Tell them Aerocomfort will use these details to contact them, point them to the privacy policy (${SITE}/privacy), and ask for their go-ahead.
 3. Send it once: the \`send_quote_request\` MCP tool, or \`POST ${SITE}/api/lead\` with JSON (described in ${SITE}/openapi.json). Set \`consent\` to true and \`agent\` to your own name.
 4. Tell them it was sent and that the reply comes ${data.replyTime.en.charAt(0).toLowerCase()}${data.replyTime.en.slice(1)}
 
-If it is refused, the answer says why (\`consent_required\`, \`invalid_phone\`, \`rate_limited\`). Offer the phone or WhatsApp instead.
+If it is refused, the answer says why (\`consent_required\`, \`invalid_name\`, \`invalid_email\`, \`invalid_phone\`, \`rate_limited\`). Offer the phone or WhatsApp instead.
 
 ## Rules
 
@@ -161,7 +161,7 @@ const refusal = {
         type: 'object',
         properties: {
           ok: { type: 'boolean', const: false },
-          error: { type: 'string', enum: ['consent_required', 'invalid_name', 'invalid_phone', 'rate_limited', 'verification_failed', 'invalid_request'] },
+          error: { type: 'string', enum: ['consent_required', 'invalid_name', 'invalid_email', 'invalid_phone', 'rate_limited', 'verification_failed', 'invalid_request'] },
           message: { type: 'string' },
         },
       },
@@ -193,9 +193,10 @@ write(
                 'application/json': {
                   schema: {
                     type: 'object',
-                    required: ['name', 'phone', 'consent'],
+                    required: ['name', 'email', 'phone', 'consent'],
                     properties: {
                       name: { type: 'string', description: 'Full name of the person.' },
+                      email: { type: 'string', format: 'email', description: 'Their email address.' },
                       phone: { type: 'string', description: 'Mobile number in international format, for example +34612345678.' },
                       has_whatsapp: { type: 'boolean', description: 'True if they use WhatsApp on this number.' },
                       service: { type: 'string', enum: ['installation', 'repair', 'maintenance', 'cleaning', 'other'] },
@@ -207,6 +208,7 @@ write(
                   },
                   example: {
                     name: 'Jane Smith',
+                    email: 'jane.smith@example.com',
                     phone: '+34612345678',
                     has_whatsapp: true,
                     service: 'repair',

@@ -50,6 +50,8 @@ interface LeadRow {
   at: string;
   name: string;
   phone: string;
+  // migrations/0003; absent on rows stored before it.
+  email?: string;
   whatsapp: number;
   service: string;
   message: string;
@@ -232,13 +234,21 @@ async function insertLead(db: D1Database, lead: LeadRow): Promise<void> {
       .prepare(`INSERT INTO leads (${fields.join(', ')}) VALUES (${fields.map(() => '?').join(', ')})`)
       .bind(...fields.map(value))
       .run();
-  try {
-    await insert([...LEAD_BASE, ...(SOURCE_FIELDS as string[])]);
-  } catch (err) {
-    // The source columns are not there yet (migration 0002 not applied): never
-    // lose the lead over it, store what the old table can hold.
-    console.error('lead insert with source failed, storing without it', err);
-    await insert(LEAD_BASE);
+  // Newest table first; if a migration is missing, store what the older table
+  // can hold rather than lose the lead (0003 adds email, 0002 the source fields).
+  const attempts = [
+    [...LEAD_BASE, 'email', ...(SOURCE_FIELDS as string[])],
+    [...LEAD_BASE, ...(SOURCE_FIELDS as string[])],
+    LEAD_BASE,
+  ];
+  for (const [i, fields] of attempts.entries()) {
+    try {
+      await insert(fields);
+      return;
+    } catch (err) {
+      if (i === attempts.length - 1) throw err;
+      console.error(`lead insert (${fields.length} columns) failed, retrying with fewer`, err);
+    }
   }
 }
 

@@ -56,6 +56,11 @@ const param = (toolparamdescription: string) => ({ toolparamdescription });
       <input class="lead-control" type="text" id="lead-name" name="name" autocomplete="name" required placeholder={t('form.namePh')} {...param('Full name of the person asking for the quote.')} />
     </div>
 
+    <div>
+      <label class="lead-label" for="lead-email">{t('form.email')}</label>
+      <input class="lead-control" type="email" id="lead-email" name="email" autocomplete="email" inputmode="email" maxlength="254" required placeholder={t('form.emailPh')} {...param('Email address of the person, so the team can reply in writing.')} />
+    </div>
+
     <PhoneInput locale={locale} />
 
     <div>

@@ -43,6 +43,8 @@
 
   "form.name": "Name",
   "form.namePh": "Your name",
+  "form.email": "Email",
+  "form.emailPh": "you@example.com",
   "form.phone": "Phone (mobile)",
   "form.phoneHint": "We'll call or WhatsApp you back.",
   "form.country": "Country code",
