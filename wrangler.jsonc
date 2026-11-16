@@ -20,7 +20,8 @@
 		// addresses and (after launch) staging, and make redirects permanent.
 		"run_worker_first": ["/*", "!/_astro/*", "!/hero/*", "!/og/*"]
 	},
-	// Production domain: aero.dimadomore.com (temporary, until switching to aerocomfort.es).
+	// Production domain: aerocomfort.es (+ www, redirected by the Worker); aero.dimadomore.com
+	// stays attached and redirects to aerocomfort.es.
 	// The custom domain is attached at the account level via the Workers Domains API,
 	// not declared here — the CI token has no zone-level Workers Routes permission.
 	"workers_dev": false,

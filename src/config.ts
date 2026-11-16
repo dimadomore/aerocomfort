@@ -8,7 +8,7 @@ export const SITE_URL = "https://aerocomfort.es";
 
 /** Master indexing switch. FALSE on staging (aero.dimadomore.com) → every page
  *  emits `noindex`. Flip to TRUE at cutover, after the redirect map is live. */
-export const SITE_INDEXABLE = false;
+export const SITE_INDEXABLE = true;
 
 /** Where the site is served until cutover. Link previews (Facebook, Instagram,
  *  WhatsApp, Telegram, Viber) fetch og:url and og:image, so those must point at an
