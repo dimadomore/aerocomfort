@@ -37,7 +37,7 @@ export const OG_IMAGE_ALT = {
  */
 export const ANALYTICS = {
   /** GA4 Measurement ID, e.g. 'G-XXXXXXXXXX' */
-  gaId: "",
+  gaId: "G-X46G91PV72",
   /** Google Ads ID for conversion tracking, e.g. 'AW-XXXXXXXXX' (optional) */
   adsId: "",
   /** Cloudflare Web Analytics beacon token (cookieless — runs without consent) */
