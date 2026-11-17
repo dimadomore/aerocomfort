@@ -39,7 +39,9 @@ const groups = [
     countries: others.map(country),
   },
 ];
-const defaultIso = locale === 'es' ? 'ES' : 'GB';
+// Spain on both languages: 61% of visitors are in Spain, and many English
+// speakers on the coast use a Spanish number (owner, Nov 2026).
+const defaultIso = 'ES';
 ---
 <div
   class="lead-phone"
