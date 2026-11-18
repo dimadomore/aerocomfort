@@ -295,6 +295,16 @@ const categories = [
 
     let lastFocus: HTMLElement | null = null;
     let lockedY = 0;
+    // A link with an anchor (the Google Ads sitelink /#contacts) usually opens
+    // with this banner on a first visit. The banner locks the page before the
+    // browser jumps to the anchor, so the jump is lost: pin the page at the
+    // anchor instead, once, so it shows behind the banner and stays after closing.
+    let hashTarget: HTMLElement | null = null;
+    try {
+      if (location.hash.length > 1) hashTarget = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    } catch {
+      /* malformed hash */
+    }
 
     // iOS Safari ignores overflow:hidden for the document, so the page can
     // rubber-band behind the modal and stay scrolled after closing. Pin the body
@@ -305,6 +315,11 @@ const categories = [
       document.documentElement.classList.toggle('cc-open', on);
       if (on) {
         lockedY = window.scrollY;
+        if (hashTarget) {
+          const margin = parseFloat(getComputedStyle(hashTarget).scrollMarginTop) || 0;
+          lockedY = Math.max(0, Math.round(hashTarget.getBoundingClientRect().top + window.scrollY - margin));
+          hashTarget = null;
+        }
         b.style.position = 'fixed';
         b.style.top = `-${lockedY}px`;
         b.style.insetInline = '0';
@@ -314,7 +329,8 @@ const categories = [
         b.style.top = '';
         b.style.insetInline = '';
         b.style.width = '';
-        window.scrollTo(0, lockedY);
+        // instant: the page has scroll-behavior:smooth, which would animate from the top.
+        window.scrollTo({ top: lockedY, behavior: 'instant' });
       }
     };
 
