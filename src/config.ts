@@ -43,7 +43,7 @@ export const ANALYTICS = {
   /** Label of the Google Ads conversion action "Calls to a phone number on your
    *  website" (the part after the slash in 'AW-11218759092/AbC123'). Set it to switch
    *  on the Google forwarding number for visitors from ads; empty = no swap. */
-  adsCallLabel: "",
+  adsCallLabel: "pjgRCI3vjrsdELTbwuUp",
   /** Cloudflare Web Analytics beacon token (cookieless — runs without consent) */
   cfBeacon: "",
 };
