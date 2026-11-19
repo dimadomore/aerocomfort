@@ -209,41 +209,36 @@ export function breadcrumbLd(items: { name: string; url: string }[]) {
   };
 }
 
-/** Delivery is part of the installed price: we bring and fit the unit ourselves,
- *  so shipping costs nothing extra. Google only takes a country here. */
-const INSTALLED_SHIPPING = {
-  '@type': 'OfferShippingDetails',
-  shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: 'EUR' },
-  shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'ES' },
-};
-
-/** Product/Offer schema for the offers page (docs/06 §2 — honest prices only). */
-export function offerProductsLd(items: OfferItem[], priceValidUntil: string, offersUrl: string, validFrom?: string) {
+/**
+ * Offers page: each deal is an installation service with a fixed price (the unit
+ * plus basic fitting), not a product sold online. Described as Offer → Service, the
+ * same way as the business's own services, so Google does not treat the page as a
+ * shop and ask for shipping or a return policy (docs/06 §2 — honest prices only).
+ */
+export function offerServicesLd(items: OfferItem[], priceValidUntil: string, offersUrl: string, validFrom?: string) {
   return items.map((o) => {
-    const product: Record<string, unknown> = {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: `${o.brand} ${o.model}`,
-      brand: { '@type': 'Brand', name: o.brand },
-      category: 'Air conditioner',
+    const service: Record<string, unknown> = {
+      '@type': 'Service',
+      serviceType: 'Air conditioning installation',
+      name: `${o.brand} ${o.model} supplied and installed`,
       description: `${o.brand} ${o.model} air conditioner${
         o.energyCool ? `, ${o.energyCool} energy class in cooling` : ''
-      }${o.coolKw ? `, ${o.coolKw} kW` : ''}. Price includes basic installation by ${business.name}, with up to 3 m of pipework.`,
-      offers: {
-        '@type': 'Offer',
-        price: o.priceNew,
-        priceCurrency: 'EUR',
-        ...(validFrom ? { validFrom } : {}),
-        priceValidUntil,
-        itemCondition: 'https://schema.org/NewCondition',
-        availability: 'https://schema.org/InStock',
-        url: abs(offersUrl),
-        shippingDetails: INSTALLED_SHIPPING,
-        seller: { '@id': abs('/#business') },
-      },
+      }${o.coolKw ? `, ${o.coolKw} kW` : ''}. Price includes the unit and basic installation by ${business.name}, with up to 3 m of pipework.`,
+      provider: { '@id': abs('/#business') },
+      areaServed: 'Costa Blanca',
     };
-    if (o.image) product.image = abs(o.image);
-    return product;
+    if (o.image) service.image = abs(o.image);
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Offer',
+      itemOffered: service,
+      price: o.priceNew,
+      priceCurrency: 'EUR',
+      ...(validFrom ? { validFrom } : {}),
+      priceValidUntil,
+      url: abs(offersUrl),
+      offeredBy: { '@id': abs('/#business') },
+    };
   });
 }
 
@@ -268,29 +263,27 @@ export function imageGalleryLd(
   };
 }
 
-/** Product/Offer schema for the running promotion (src/data/promo.ts). */
-export function promoProductLd(locale: 'en' | 'es') {
+/** The running promotion (src/data/promo.ts), as an installation service with a
+ *  fixed price, like offerServicesLd. */
+export function promoOfferLd(locale: 'en' | 'es') {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: `${PROMO.brand} ${PROMO.model}`,
-    sku: PROMO.code,
-    brand: { '@type': 'Brand', name: PROMO.brand },
-    category: 'Air conditioner',
-    image: abs(PROMO.image),
-    description: `${PROMO.brand} ${PROMO.model} air conditioner, ${PROMO.kw} kW, ${PROMO.energyCool} energy class in cooling, Wi-Fi included.${
-      PROMO.installationIncluded ? ` Price includes basic installation by ${business.name}, with up to 3 m of pipework.` : ''
-    }`,
-    offers: {
-      '@type': 'Offer',
-      price: PROMO.price,
-      priceCurrency: 'EUR',
-      itemCondition: 'https://schema.org/NewCondition',
-      availability: 'https://schema.org/LimitedAvailability',
-      validFrom: PROMO.startDate,
-      url: abs(localizedPath(PROMO.path, locale)),
-      shippingDetails: INSTALLED_SHIPPING,
-      seller: { '@id': abs('/#business') },
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Service',
+      serviceType: 'Air conditioning installation',
+      name: `${PROMO.brand} ${PROMO.model} ${PROMO.installationIncluded ? 'supplied and installed' : 'air conditioner'}`,
+      image: abs(PROMO.image),
+      description: `${PROMO.brand} ${PROMO.model} air conditioner, ${PROMO.kw} kW, ${PROMO.energyCool} energy class in cooling, Wi-Fi included.${
+        PROMO.installationIncluded ? ` Price includes basic installation by ${business.name}, with up to 3 m of pipework.` : ''
+      }`,
+      provider: { '@id': abs('/#business') },
+      areaServed: 'Costa Blanca',
     },
+    price: PROMO.price,
+    priceCurrency: 'EUR',
+    validFrom: PROMO.startDate,
+    url: abs(localizedPath(PROMO.path, locale)),
+    offeredBy: { '@id': abs('/#business') },
   };
 }

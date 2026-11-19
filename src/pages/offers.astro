@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import OffersBody from '../components/sections/OffersBody.astro';
 import { offers } from '../data';
-import { hvacBusinessLd, breadcrumbLd, offerProductsLd } from '../lib/schema';
+import { hvacBusinessLd, breadcrumbLd, offerServicesLd } from '../lib/schema';
 import { localizedPath } from '../i18n/utils';
 
 const locale = 'en' as const;
@@ -25,7 +25,7 @@ const validFrom = `${year - 1}-10-01`;
 const jsonLd = [
   hvacBusinessLd(),
   breadcrumbLd(crumbs),
-  ...offerProductsLd(offers.items, priceValidUntil, '/offers', validFrom),
+  ...offerServicesLd(offers.items, priceValidUntil, '/offers', validFrom),
 ];
 ---
 <Base locale={locale} path="/offers" title={title} description={description} jsonLd={jsonLd}>
