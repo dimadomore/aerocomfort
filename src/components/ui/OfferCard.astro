@@ -1,7 +1,7 @@
 ---
 import { type Locale } from '../../config';
 import { business, offers, type OfferItem } from '../../data';
-import { localizedPath } from '../../i18n/utils';
+import { localizedPath, eur } from '../../i18n/utils';
 import Icon from './Icon.astro';
 
 /**
@@ -128,9 +128,9 @@ const inst = offers.installation;
 
     <div class="mt-auto pt-5">
       <p class="flex flex-wrap items-baseline gap-x-2.5">
-        <span class="font-display text-h2 font-extrabold text-brand-900">€{offer.priceNew}</span>
-        {offer.priceOld && <s class="text-small text-ink-500">€{offer.priceOld}</s>}
-        {saving > 0 && <span class="text-small font-semibold text-accent-700">{es ? `Ahorras €${saving}` : `Save €${saving}`}</span>}
+        <span class="font-display text-h2 font-extrabold text-brand-900">{eur(offer.priceNew, locale)}</span>
+        {offer.priceOld && <s class="text-small text-ink-500">{eur(offer.priceOld, locale)}</s>}
+        {saving > 0 && <span class="text-small font-semibold text-accent-700">{es ? `Ahorras ${eur(saving, locale)}` : `Save ${eur(saving, locale)}`}</span>}
       </p>
       <a
         href={contactHref}
