@@ -19,11 +19,13 @@ const now = new Date();
 const apr30 = new Date(now.getFullYear(), 3, 30);
 const year = now <= apr30 ? now.getFullYear() : now.getFullYear() + 1;
 const priceValidUntil = `${year}-04-30`;
+// Season start (1 Oct before that 30 Apr), for Offer validFrom.
+const validFrom = `${year - 1}-10-01`;
 
 const jsonLd = [
   hvacBusinessLd(),
   breadcrumbLd(crumbs),
-  ...offerProductsLd(offers.items, priceValidUntil, '/offers'),
+  ...offerProductsLd(offers.items, priceValidUntil, '/offers', validFrom),
 ];
 ---
 <Base locale={locale} path="/offers" title={title} description={description} jsonLd={jsonLd}>

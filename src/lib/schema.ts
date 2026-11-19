@@ -209,8 +209,16 @@ export function breadcrumbLd(items: { name: string; url: string }[]) {
   };
 }
 
+/** Delivery is part of the installed price: we bring and fit the unit ourselves,
+ *  so shipping costs nothing extra. Google only takes a country here. */
+const INSTALLED_SHIPPING = {
+  '@type': 'OfferShippingDetails',
+  shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: 'EUR' },
+  shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'ES' },
+};
+
 /** Product/Offer schema for the offers page (docs/06 §2 — honest prices only). */
-export function offerProductsLd(items: OfferItem[], priceValidUntil: string, offersUrl: string) {
+export function offerProductsLd(items: OfferItem[], priceValidUntil: string, offersUrl: string, validFrom?: string) {
   return items.map((o) => {
     const product: Record<string, unknown> = {
       '@context': 'https://schema.org',
@@ -225,10 +233,12 @@ export function offerProductsLd(items: OfferItem[], priceValidUntil: string, off
         '@type': 'Offer',
         price: o.priceNew,
         priceCurrency: 'EUR',
+        ...(validFrom ? { validFrom } : {}),
         priceValidUntil,
         itemCondition: 'https://schema.org/NewCondition',
         availability: 'https://schema.org/InStock',
         url: abs(offersUrl),
+        shippingDetails: INSTALLED_SHIPPING,
         seller: { '@id': abs('/#business') },
       },
     };
@@ -277,7 +287,9 @@ export function promoProductLd(locale: 'en' | 'es') {
       priceCurrency: 'EUR',
       itemCondition: 'https://schema.org/NewCondition',
       availability: 'https://schema.org/LimitedAvailability',
+      validFrom: PROMO.startDate,
       url: abs(localizedPath(PROMO.path, locale)),
+      shippingDetails: INSTALLED_SHIPPING,
       seller: { '@id': abs('/#business') },
     },
   };
