@@ -2,7 +2,7 @@
 import { type Locale } from '../../config';
 import { offers } from '../../data';
 import { PROMO } from '../../data/promo';
-import { localizedPath } from '../../i18n/utils';
+import { localizedPath, eur } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
 
@@ -84,7 +84,7 @@ const copy = es
             <h1 class="bf__title">{copy.title}</h1>
 
             <p class="bf__price">
-              <span class="bf__euro">€</span>{p.price}
+              {es ? <Fragment>{p.price}<span class="bf__euro bf__euro--after">€</span></Fragment> : <Fragment><span class="bf__euro">€</span>{p.price}</Fragment>}
             </p>
             <p class="bf__terms">{copy.terms}</p>
             <p class="bf__limited">{copy.limited}</p>
@@ -126,7 +126,7 @@ const copy = es
           <div class="bf__closing">
             <div>
               <h2 class="font-display text-h2 font-extrabold text-white">
-                {copy.closing} <span class="bf__closing-price">€{p.price}</span>
+                {copy.closing} <span class="bf__closing-price">{eur(p.price, locale)}</span>
               </h2>
               <p class="mt-2 text-body text-white/85">{copy.closingText}</p>
             </div>
@@ -192,6 +192,11 @@ const copy = es
     font-size: 0.5em;
     vertical-align: 0.62em;
     color: var(--warning);
+  }
+  /* Spanish writes the sign after the number. */
+  .bf__euro--after {
+    margin-right: 0;
+    margin-left: 0.06em;
   }
   .bf__terms {
     margin-top: 0.75rem;

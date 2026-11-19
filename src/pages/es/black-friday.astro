@@ -2,17 +2,12 @@
 import Base from '../../layouts/Base.astro';
 import PromoBody from '../../components/sections/PromoBody.astro';
 import { PROMO } from '../../data/promo';
-import { hvacBusinessLd, breadcrumbLd, promoOfferLd } from '../../lib/schema';
-import { localizedPath } from '../../i18n/utils';
+import { hvacBusinessLd, promoOfferLd } from '../../lib/schema';
 
 const locale = 'es' as const;
 const kw = String(PROMO.kw).replace('.', ',');
 const title = `Black Friday: Aire Acondicionado ${PROMO.brand} de ${kw} kW por ${PROMO.price} € | Aerocomfort`;
 const description = `${PROMO.brand} ${PROMO.model}, ${kw} kW, clase ${PROMO.energyCool}, Wi-Fi incluido, por ${PROMO.price} €${PROMO.installationIncluded ? ' con instalación básica' : ''} en la Costa Blanca. Oferta limitada: llámanos o escríbenos.`;
-const crumbs = [
-  { name: 'Inicio', url: localizedPath('/', locale) },
-  { name: PROMO.label, url: localizedPath(PROMO.path, locale) },
-];
 ---
 <Base
   locale={locale}
@@ -22,7 +17,7 @@ const crumbs = [
   image="/og/black-friday-es.jpg"
   imageAlt={`Black Friday: ${PROMO.brand} ${PROMO.model} por ${PROMO.price} €, instalación básica incluida`}
   noindex={!PROMO.active}
-  jsonLd={[hvacBusinessLd(), breadcrumbLd(crumbs), ...(PROMO.active ? [promoOfferLd(locale)] : [])]}
+  jsonLd={[hvacBusinessLd(), ...(PROMO.active ? [promoOfferLd(locale)] : [])]}
 >
   <PromoBody locale={locale} />
 </Base>

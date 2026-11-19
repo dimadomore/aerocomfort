@@ -1,7 +1,7 @@
 ---
 import { type Locale } from '../../config';
 import { PROMO } from '../../data/promo';
-import { localizedPath } from '../../i18n/utils';
+import { localizedPath, eur } from '../../i18n/utils';
 import Container from '../ui/Container.astro';
 import Icon from '../ui/Icon.astro';
 
@@ -27,7 +27,7 @@ const kw = es ? String(PROMO.kw).replace('.', ',') : String(PROMO.kw);
         <span class="promobar__text">
           {`${PROMO.brand} ${PROMO.model}, ${kw} kW${PROMO.installationIncluded ? (es ? ', instalado' : ', installed') : ''}`}
         </span>
-        <strong class="promobar__price">€{PROMO.price}</strong>
+        <strong class="promobar__price">{eur(PROMO.price, locale)}</strong>
         <span class="promobar__go">
           {es ? 'Ver la oferta' : 'See the offer'}
           <Icon name="arrow-right" size={16} />

@@ -88,3 +88,9 @@ export function getNav(locale: Locale) {
     highlight: i.key === 'nav.offers',
   }));
 }
+
+/** A price in euros as each language writes it: "€609" in English, "609 €" in
+ *  Spanish (number first, no-break space so it never wraps). */
+export function eur(n: number, locale: Locale): string {
+  return locale === 'es' ? `${n} €` : `€${n}`;
+}
