@@ -17,6 +17,8 @@ export const PROMO = {
   path: '/black-friday',
   label: 'Black Friday',
   price: 589,
+  /** First day the promotion was on the live site (launch, 16 Nov 2026); Offer validFrom. */
+  startDate: '2026-11-16',
   brand: 'Giatsu',
   model: 'Black Edition 3',
   code: 'GIA-S12BLED3',
