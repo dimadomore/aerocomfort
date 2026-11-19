@@ -39,7 +39,11 @@ export const ANALYTICS = {
   /** GA4 Measurement ID, e.g. 'G-XXXXXXXXXX' */
   gaId: "G-X46G91PV72",
   /** Google Ads ID for conversion tracking, e.g. 'AW-XXXXXXXXX' (optional) */
-  adsId: "",
+  adsId: "AW-11218759092",
+  /** Label of the Google Ads conversion action "Calls to a phone number on your
+   *  website" (the part after the slash in 'AW-11218759092/AbC123'). Set it to switch
+   *  on the Google forwarding number for visitors from ads; empty = no swap. */
+  adsCallLabel: "",
   /** Cloudflare Web Analytics beacon token (cookieless — runs without consent) */
   cfBeacon: "",
 };

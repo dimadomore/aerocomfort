@@ -1,14 +1,33 @@
 ---
 import { ANALYTICS } from '../../config';
+import { business } from '../../data';
 
 /**
  * Consent Mode v2 + analytics bootstrap (docs/06 §5, docs/09 §8). Emits nothing
  * until an id is set in src/config.ts, so staging stays clean. Consent defaults to
  * DENIED; CookieConsent flips it on accept. Cloudflare Web Analytics is cookieless
  * → runs without consent. Conversion events (form/WhatsApp/call) fire via lib later.
+ *
+ * One gtag.js serves both GA4 and Google Ads (no GTM, no second loader).
+ * Call tracking: with adsCallLabel set, Google swaps the phone number for a Google
+ * forwarding number for visitors from ads. The callback changes only call links
+ * (a[href^="tel:"]): their href, visible number and aria-label. WhatsApp links use
+ * the same real number and are never touched.
  */
-const { gaId, adsId, cfBeacon } = ANALYTICS;
+const { gaId, adsId, adsCallLabel, cfBeacon } = ANALYTICS;
 const tagId = gaId || adsId;
+const callConfig =
+  adsId && adsCallLabel
+    ? `gtag('config','${adsId}/${adsCallLabel}',{phone_conversion_number:${JSON.stringify(business.phone)},phone_conversion_callback:function(formatted,mobile){
+var shown=${JSON.stringify(business.phone)},tel='tel:'+String(mobile||formatted).replace(/[^\\d+]/g,'');
+var swap=function(){document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
+a.setAttribute('href',tel);
+var w=document.createTreeWalker(a,NodeFilter.SHOW_TEXT),n;while((n=w.nextNode()))if(n.nodeValue.indexOf(shown)>-1)n.nodeValue=n.nodeValue.split(shown).join(formatted);
+var l=a.getAttribute('aria-label');if(l&&l.indexOf(shown)>-1)a.setAttribute('aria-label',l.split(shown).join(formatted));
+});};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',swap);else swap();
+}});`
+    : '';
 
 const consentScript = `
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;
@@ -17,6 +36,7 @@ try{var _c=JSON.parse(localStorage.getItem('aero-consent')||'null');if(_c&&_c.an
 gtag('js',new Date());
 ${gaId ? `gtag('config','${gaId}',{anonymize_ip:true});` : ''}
 ${adsId ? `gtag('config','${adsId}');` : ''}
+${callConfig}
 `.trim();
 ---
 {tagId && <script is:inline set:html={consentScript} />}
